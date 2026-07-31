@@ -1,0 +1,18 @@
+-- local CurrentPanning = 0
+-- local PanDirection = -1
+-- local PanSpeed = 0.5
+
+-- RunnerService.Heartbeat:Connect(function(dt)
+--     CurrentPanning = CurrentPanning + (PanSpeed * PanDirection * dt)
+
+--     if CurrentPanning >= 1 then
+--         CurrentPanning = 1
+--         PanDirection = -1
+--     elseif CurrentPanning <= -1 then
+--         CurrentPanning = -1
+--         PanDirection = 1
+--     end
+
+--     print("PANNING VALUE:", tostring(CurrentPanning))
+--     BackgroundMusic:SetPan(CurrentPanning)
+-- end)

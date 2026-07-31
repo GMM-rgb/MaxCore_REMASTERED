@@ -1,0 +1,3 @@
+local PlayerConnectionManager = {}
+
+return PlayerConnectionManager

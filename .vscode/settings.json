@@ -1,0 +1,16 @@
+{
+    "Lua.workspace.library": ["${3rd}/love2d/library"],
+    "Lua.diagnostics.disable": [],
+    "Lua.diagnostics.globals": ["_ENV"],
+    "Lua.runtime.version": "Lua 5.5",
+    "Lua.workspace.checkThirdParty": false,
+    "Lua.diagnostics.enable": true,
+
+    /* --- LuaLS Hint Settings --- */
+    "Lua.hint.enable": true,
+    "Lua.hint.setType": true,
+    "Lua.hint.paramName": "Disable",
+    "Lua.hint.paramType": false,
+
+    "pixelbyte.love2d.path": "C:/Program Files/LOVE/love.exe"
+}
