@@ -7,7 +7,8 @@ local storage = core:LoadService("StorageService")
 local ext = (package.config:sub(1,1) == "\\") and "dll" or (jit and jit.os == "OSX" or package.cpath:find("%.dylib") and "dylib" or "so")
 package.cpath = package.cpath .. ";./build/?." .. ext .. ";./build/Release/?." .. ext .. ";./build/Debug/?." .. ext .. ";./build/bin/?." .. ext .. ";./build/bin/Release/?." .. ext .. ";./build/*/?/?." .. ext
 
--- pcall(require())
+local ImportSucess, StorageInterface = pcall(require, "storage_interface")
+
 
 local MainThread = runner.Stepped:Connect(function(deltaTime)
     io.stdout:write("\27[A\27[K"); io.stdout:setvbuf("line"); io.stdout:flush()

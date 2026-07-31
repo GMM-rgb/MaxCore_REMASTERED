@@ -481,47 +481,6 @@ build sound_native.dll libsound_native.dll.a: CXX_SHARED_LIBRARY_LINKER__sound_s
   TARGET_SUPPORT_DIR = CMakeFiles\sound_service_backend.dir
 
 # =============================================================================
-# Object build statements for SHARED_LIBRARY target storage_interface
-
-
-#############################################
-# Order-only phony target for storage_interface
-
-build cmake_object_order_depends_target_storage_interface: phony || cmake_object_order_depends_target_lua_shared
-
-build CMakeFiles/storage_interface.dir/backend/storage_interface.cpp.obj: CXX_COMPILER__storage_interface_unscanned_Debug C$:/Users/6041464/Documents/MaxCore_REMASTERED/backend/storage_interface.cpp || cmake_object_order_depends_target_storage_interface
-  CONFIG = Debug
-  DEFINES = -DLUA_BUILD_AS_DLL -Dstorage_interface_EXPORTS
-  DEP_FILE = CMakeFiles\storage_interface.dir\backend\storage_interface.cpp.obj.d
-  FLAGS = -g -std=gnu++17
-  INCLUDES = -IC:/Users/6041464/Documents/MaxCore_REMASTERED/lua-5.5.0/src
-  OBJECT_DIR = CMakeFiles\storage_interface.dir
-  OBJECT_FILE_DIR = CMakeFiles\storage_interface.dir\backend
-  TARGET_SUPPORT_DIR = CMakeFiles\storage_interface.dir
-
-
-# =============================================================================
-# Link build statements for SHARED_LIBRARY target storage_interface
-
-
-#############################################
-# Link the shared library storage_interface.dll
-
-build storage_interface.dll libstorage_interface.dll.a: CXX_SHARED_LIBRARY_LINKER__storage_interface_Debug CMakeFiles/storage_interface.dir/backend/storage_interface.cpp.obj | liblua55.dll.a || lua55.dll
-  CONFIG = Debug
-  LANGUAGE_COMPILE_FLAGS = -g
-  LINK_FLAGS = -shared
-  LINK_LIBRARIES = liblua55.dll.a  -lwinmm  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = CMakeFiles\storage_interface.dir
-  POST_BUILD = cd .
-  PRE_LINK = cd .
-  RESTAT = 1
-  TARGET_FILE = storage_interface.dll
-  TARGET_IMPLIB = libstorage_interface.dll.a
-  TARGET_PDB = storage_interface.dll.dbg
-  TARGET_SUPPORT_DIR = CMakeFiles\storage_interface.dir
-
-# =============================================================================
 # Object build statements for SHARED_LIBRARY target input_native
 
 
@@ -561,6 +520,47 @@ build input_native.dll libinput_native.dll.a: CXX_SHARED_LIBRARY_LINKER__input_n
   TARGET_IMPLIB = libinput_native.dll.a
   TARGET_PDB = input_native.dll.dbg
   TARGET_SUPPORT_DIR = CMakeFiles\input_native.dir
+
+# =============================================================================
+# Object build statements for SHARED_LIBRARY target storage_interface
+
+
+#############################################
+# Order-only phony target for storage_interface
+
+build cmake_object_order_depends_target_storage_interface: phony || cmake_object_order_depends_target_lua_shared
+
+build CMakeFiles/storage_interface.dir/backend/storage_interface.cpp.obj: CXX_COMPILER__storage_interface_unscanned_Debug C$:/Users/6041464/Documents/MaxCore_REMASTERED/backend/storage_interface.cpp || cmake_object_order_depends_target_storage_interface
+  CONFIG = Debug
+  DEFINES = -DLUA_BUILD_AS_DLL -Dstorage_interface_EXPORTS
+  DEP_FILE = CMakeFiles\storage_interface.dir\backend\storage_interface.cpp.obj.d
+  FLAGS = -g -std=gnu++17
+  INCLUDES = -IC:/Users/6041464/Documents/MaxCore_REMASTERED/lua-5.5.0/src
+  OBJECT_DIR = CMakeFiles\storage_interface.dir
+  OBJECT_FILE_DIR = CMakeFiles\storage_interface.dir\backend
+  TARGET_SUPPORT_DIR = CMakeFiles\storage_interface.dir
+
+
+# =============================================================================
+# Link build statements for SHARED_LIBRARY target storage_interface
+
+
+#############################################
+# Link the shared library storage_interface.dll
+
+build storage_interface.dll libstorage_interface.dll.a: CXX_SHARED_LIBRARY_LINKER__storage_interface_Debug CMakeFiles/storage_interface.dir/backend/storage_interface.cpp.obj | liblua55.dll.a || lua55.dll
+  CONFIG = Debug
+  LANGUAGE_COMPILE_FLAGS = -g
+  LINK_FLAGS = -shared
+  LINK_LIBRARIES = liblua55.dll.a  -lwinmm  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  OBJECT_DIR = CMakeFiles\storage_interface.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  RESTAT = 1
+  TARGET_FILE = storage_interface.dll
+  TARGET_IMPLIB = libstorage_interface.dll.a
+  TARGET_PDB = storage_interface.dll.dbg
+  TARGET_SUPPORT_DIR = CMakeFiles\storage_interface.dir
 
 
 #############################################
@@ -607,7 +607,7 @@ build storage_interface: phony storage_interface.dll
 #############################################
 # Folder: C:/Users/6041464/Documents/MaxCore_REMASTERED/build
 
-build all: phony lua55.dll lua.exe sound_native.dll storage_interface.dll input_native.dll
+build all: phony lua55.dll lua.exe sound_native.dll input_native.dll storage_interface.dll
 
 # =============================================================================
 # Built-in targets
