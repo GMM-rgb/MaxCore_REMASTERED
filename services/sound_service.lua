@@ -1,9 +1,6 @@
 -- #service
--- Cross-platform dynamic library extension search paths
--- local ext = (package.config:sub(1,1) == "\\") and "dll" or (jit and jit.os == "OSX" or package.cpath:find("%.dylib") and "dylib" or "so")
 local InstanceType = require("instance_type")
 
--- Force package.cpath to search for .dylib files on macOS
 package.cpath = package.cpath 
     .. ";./build/?.dylib" 
     .. ";./build/Release/?.dylib" 

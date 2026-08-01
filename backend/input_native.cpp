@@ -85,8 +85,6 @@ extern "C" int luaopen_input_native(lua_State* L) {
         {"is_key_released", l_is_key_released},
         {"get_mouse_position", l_get_mouse_position},
         {"get_mouse_delta", l_get_mouse_delta},
-        {nullptr, nullptr}
-    };
-    luaL_newlib(L, funcs);
-    return 1;
+        {nullptr, nullptr},
+    }; luaL_newlib(L, funcs); return 1;
 }

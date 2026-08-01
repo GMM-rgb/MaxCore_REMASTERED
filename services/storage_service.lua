@@ -1,37 +1,273 @@
 -- #service
 local InstanceTyping = require("instance_type")
---- =============================================
----           Storage Service Type Stubs
---- =============================================
 
----@class StorageService
----@field new fun(): StorageService
----@field GetFile fun(selfObj: StorageService)
----@field _CachedFiles StorageCache
+package.cpath = package.cpath 
+    .. ";./build/?.dylib" 
+    .. ";./build/Release/?.dylib" 
+    .. ";./build/Debug/?.dylib" 
+    .. ";./build/bin/?.dylib" 
+    .. ";./build/bin/Release/?.dylib"
+    .. ";./build/?/?.dylib"
+    .. ";./build/?.so"
+    .. ";./build/?.dll"
 
----@class FileObject
----@field _name string
----@field contents table
+local native_ok, storage_interface = pcall(require, "storage_interface")
 
----@class StorageCache
----@field _cache table<FileObject>
-
----@type StorageService
-local StorageService = setmetatable({}, nil)
-
----@return StorageService
-function StorageService.new()
-    ---@type StorageService
-    local self = setmetatable(StorageService, {})
-    InstanceTyping.SetType(self, "StorageService")
-    ---@type StorageCache
-    self._CachedFiles = {
-        _cache = {},
-    }; return self
+if not native_ok then
+    print("\27[33m[StorageService Warning]\27[0m Failed to load storage_interface: " .. tostring(storage_interface))
 end
 
-function StorageService:GetFile()
+-- =========================================================================
+-- TYPE DEFINITIONS & SCHEMA STRUCTS
+-- =========================================================================
 
+---@class StorageCache
+---@field _cache table<string, FileObject>
+
+---@class StorageService
+---@field _CachedFiles StorageCache
+local StorageService = {}
+StorageService.__index = StorageService
+InstanceTyping.SetType(StorageService, "StorageService")
+
+---@class CreateFileOptions
+---@field path? string
+---@field name? string
+---@field extension? string
+---@field directory? string
+---@field contents? string
+
+---@class FileObject
+---@field _path string
+---@field _name string
+---@field _extension string
+---@field _size number
+---@field _modifiedTime number
+---@field _isDirectory boolean
+---@field _contents string|nil
+---@field _service StorageService | nil
+local FileObject = {}
+FileObject.__index = FileObject
+InstanceTyping.SetType(FileObject, "FileObject")
+
+-- =========================================================================
+-- PATH RESOLUTION
+-- =========================================================================
+local function get_base_dir()
+    if arg and arg[0] then
+        local cleanArg = arg[0]:gsub("\\", "/")
+        local dir = cleanArg:match("^(.*[/\\])")
+        if dir then
+            return dir:gsub("[/\\]$", "")
+        end
+    end
+    return "."
+end
+
+local function resolve_path(filePath)
+    if not filePath or filePath == "" then
+        return get_base_dir()
+    end
+    if filePath:match("^%a:[/\\]") or filePath:match("^[/\\]") then
+        return filePath
+    end
+
+    local baseDir = get_base_dir()
+    filePath = filePath:gsub("^%./", "")
+
+    local baseFolderName = baseDir:match("([^/\\]+)$")
+    if baseFolderName and (filePath == baseFolderName or filePath:find("^" .. baseFolderName .. "[/\\]")) then
+        return filePath
+    end
+
+    if filePath == "." or filePath == "" then
+        return baseDir
+    end
+
+    return baseDir .. "/" .. filePath
+end
+
+-- =========================================================================
+-- FILE OBJECT CLASS IMPLEMENTATION
+-- =========================================================================
+
+function FileObject.new(filePath, serviceOwner)
+    local self = setmetatable({}, FileObject)
+    self._path = resolve_path(filePath)
+    self._service = serviceOwner
+    self._name = ""
+    self._extension = ""
+    self._size = 0
+    self._modifiedTime = 0
+    self._isDirectory = false
+    self._contents = nil
+
+    self:FetchMetaData(false)
+    return self
+end
+
+function FileObject:FetchMetaData(includeContents)
+    if native_ok and type(storage_interface.get_file_info) == "function" then
+        local info = storage_interface.get_file_info(self._path, includeContents or false)
+        if info then
+            self._name = info.name or ""
+            self._extension = info.extension or ""
+            self._size = info.size or 0
+            self._modifiedTime = info.modified_time or 0
+            self._isDirectory = info.is_directory or false
+            if includeContents then
+                self._contents = info.contents or ""
+            end
+        end
+    end
+end
+
+function FileObject:Read()
+    if self._isDirectory then
+        return nil, "Cannot read contents of a directory."
+    end
+    if native_ok and type(storage_interface.read_file) == "function" then
+        local content, err = storage_interface.read_file(self._path)
+        if content then
+            self._contents = content
+            self:FetchMetaData(false)
+            return content, nil
+        end
+        return nil, err
+    end
+    return nil, "Native storage module is unavailable."
+end
+
+function FileObject:Write(content)
+    if native_ok and type(storage_interface.write_file) == "function" then
+        local ok, err = storage_interface.write_file(self._path, content)
+        if ok then
+            self._contents = content
+            self:FetchMetaData(false)
+            return true, nil
+        end
+        return false, err
+    end
+    return false, "Native storage module is unavailable."
+end
+
+function FileObject:Delete()
+    if native_ok then
+        local ok, err
+        if self._isDirectory and type(storage_interface.remove_dir) == "function" then
+            ok, err = storage_interface.remove_dir(self._path)
+        elseif type(storage_interface.remove_file) == "function" then
+            ok, err = storage_interface.remove_file(self._path)
+        end
+
+        if ok and self._service then
+            self._service._CachedFiles._cache[self._path] = nil
+        end
+        return ok or false, err
+    end
+    return false, "Native storage module is unavailable."
+end
+
+function FileObject:GetPath() return self._path end
+function FileObject:GetName() return self._name end
+function FileObject:GetExtension() return self._extension end
+function FileObject:GetSize() return self._size end
+function FileObject:GetModifiedTime() return self._modifiedTime end
+function FileObject:IsDirectory() return self._isDirectory end
+function FileObject:GetContents() return self._contents or self:Read() end
+
+-- =========================================================================
+-- MAIN SERVICE CLASS IMPLEMENTATION
+-- =========================================================================
+
+function StorageService.new()
+    local self = setmetatable({}, StorageService)
+    self._CachedFiles = {
+        _cache = {}
+    }
+    return self
+end
+
+function StorageService:GetFile(filePath)
+    local resolvedPath = resolve_path(filePath)
+    if not self._CachedFiles._cache[resolvedPath] then
+        self._CachedFiles._cache[resolvedPath] = FileObject.new(resolvedPath, self)
+    end
+    return self._CachedFiles._cache[resolvedPath]
+end
+
+---Creates a file using explicit schema keys from the options table
+---@param options CreateFileOptions|string
+---@return FileObject|nil, string|nil
+function StorageService:CreateFile(options)
+    if type(options) == "string" then
+        options = { path = options }
+    end
+    
+    options = type(options) == "table" and options or {}
+    local targetPath = options.path
+
+    if not targetPath or targetPath == "" then
+        local dir = options.directory and resolve_path(options.directory) or get_base_dir()
+        local name = options.name or "untitled"
+        local ext = options.extension or ""
+        
+        if ext ~= "" and not ext:find("^%.") then
+            ext = "." .. ext
+        end
+
+        targetPath = dir .. "/" .. name .. ext
+    else
+        targetPath = resolve_path(targetPath)
+    end
+
+    local fileObj = self:GetFile(targetPath)
+    local initialContents = options.contents or ""
+    local ok, err = fileObj:Write(initialContents)
+
+    if ok then
+        return fileObj, nil
+    end
+    return nil, err
+end
+
+function StorageService:DeleteFile(filePath)
+    local fileObj = self:GetFile(filePath)
+    return fileObj:Delete()
+end
+
+function StorageService:DeleteDirectory(dirPath)
+    local resolvedDir = resolve_path(dirPath)
+    if native_ok and type(storage_interface.remove_dir) == "function" then
+        return storage_interface.remove_dir(resolvedDir)
+    end
+    return false, "Native storage module is unavailable."
+end
+
+function StorageService:CreateDirectory(dirPath)
+    local resolvedDir = resolve_path(dirPath)
+    if native_ok and type(storage_interface.create_dir) == "function" then
+        return storage_interface.create_dir(resolvedDir)
+    end
+    return false, "Native storage module is unavailable."
+end
+
+function StorageService:ListDirectory(dirPath)
+    local targetDir = resolve_path(dirPath or ".")
+    local items = {}
+    if native_ok and type(storage_interface.list_dir) == "function" then
+        local rawList = storage_interface.list_dir(targetDir)
+        for _, info in ipairs(rawList) do
+            local fileObj = self:GetFile(info.path)
+            fileObj._name = info.name or ""
+            fileObj._extension = info.extension or ""
+            fileObj._size = info.size or 0
+            fileObj._modifiedTime = info.modified_time or 0
+            fileObj._isDirectory = info.is_directory or false
+            table.insert(items, fileObj)
+        end
+    end
+    return items
 end
 
 return StorageService

@@ -11,14 +11,14 @@ file(GLOB LUA_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/lua-*/src")
 if(LUA_DIRS)
     list(GET LUA_DIRS 0 LUA_SRC_DIR)
 else()
-    set(LUA_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lua-5.5.0/src")
+    set(LUA_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lua-5.6.0/src")
 endif()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 
-# Enforce output directories for multi-config generators (like Xcode or Visual Studio)
+# Enforce output directories for multi-config generators
 foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
     string(TOUPPER ${OUTPUTCONFIG} CONFIG)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${CONFIG} "${CMAKE_BINARY_DIR}")
@@ -34,17 +34,16 @@ set(LUA_LIB_SOURCES ${LUA_SOURCES})
 list(REMOVE_ITEM LUA_LIB_SOURCES "${LUA_SRC_DIR}/lua.c" "${LUA_SRC_DIR}/luac.c")
 
 # Build shared Lua library (lua55)
-add_library(lua_shared SHARED ${LUA_LIB_SOURCES}
-    backend/storage_interface.cpp)
+add_library(lua_shared SHARED ${LUA_LIB_SOURCES})
 set_target_properties(lua_shared PROPERTIES PREFIX "" OUTPUT_NAME "lua55")
 
 # Build custom Lua executable linked to lua_shared
 add_executable(lua_runner "${LUA_SRC_DIR}/lua.c")
 target_link_libraries(lua_runner PRIVATE lua_shared)
-set_target_properties(lua_runner PROPERTIES OUTPUT_NAME "lua")
+set_target_properties(lua_runner PROPERTIES OUTPUT_NAME "max-core-lua")
 
 # =========================================================================
-# PLATFORM COMPILE DEFINITIONS FOR LUA (ENABLES io.popen & POSIX FEATURES)
+# PLATFORM COMPILE DEFINITIONS FOR LUA
 # =========================================================================
 if(WIN32)
     target_compile_definitions(lua_shared PRIVATE LUA_BUILD_AS_DLL)
@@ -85,20 +84,18 @@ endif()
 # =========================================================================
 # 3. COMPACT MODULE TARGET GENERATION
 # =========================================================================
-foreach(SOURCE_FILE ${NATIVE_SOURCES})
-    get_filename_component(TARGET_NAME ${SOURCE_FILE} NAME_WE)
-
-    add_library(${TARGET_NAME} SHARED ${SOURCE_FILE})
-    target_link_libraries(${TARGET_NAME} PRIVATE ${PLATFORM_LIBS})
-    
-    # Map sound_service_backend -> sound_native explicitly
-    if(TARGET_NAME STREQUAL "sound_service_backend")
-        set_target_properties(${TARGET_NAME} PROPERTIES PREFIX "" OUTPUT_NAME "sound_native")
-    else()
-        set_target_properties(${TARGET_NAME} PROPERTIES PREFIX "" OUTPUT_NAME ${TARGET_NAME})
-    endif()
+foreach(SOURCE_FILE IN LISTS NATIVE_SOURCES)
+    get_filename_component(TARGET_NAME "${SOURCE_FILE}" NAME_WE)
+    add_library("${TARGET_NAME}" SHARED "${SOURCE_FILE}")
+    target_link_libraries("${TARGET_NAME}" PRIVATE ${PLATFORM_LIBS})
     
     if(WIN32)
-        target_compile_definitions(${TARGET_NAME} PRIVATE LUA_BUILD_AS_DLL)
+        target_compile_definitions("${TARGET_NAME}" PRIVATE LUA_BUILD_AS_DLL)
+    endif()
+
+    if(TARGET_NAME STREQUAL "sound_service_backend")
+        set_target_properties("${TARGET_NAME}" PROPERTIES PREFIX "" OUTPUT_NAME "sound_native")
+    else()
+        set_target_properties("${TARGET_NAME}" PROPERTIES PREFIX "" OUTPUT_NAME "${TARGET_NAME}")
     endif()
 endforeach()
