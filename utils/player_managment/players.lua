@@ -11,6 +11,7 @@ PlayerManagment.core = nil
 
 ---@class PlayerObject 
 ---@field GetName fun(): string
+---@field GetSessionTime fun(FormatParams): integer
 ---@field _name string 
 
 -- ====================================================
@@ -39,13 +40,25 @@ function PlayerManagment.new(name, permissions, sandboxed)
     self["_name"] = name or "PlayerInstance"
     InstanceType.SetType(self, "PlayerObject")
 
-    print("INSTANCED PLAYER:\t" .. tostring(self._name or "<unkown>"))
-    print("PLAYER CLASSNAME:\t" .. InstanceType.GetType(self)) return self
+    -- print("INSTANCED PLAYER:\t" .. tostring(self._name or "<unkown>"))
+    -- print("PLAYER CLASSNAME:\t" .. tostring(InstanceType.GetType(self)))
+
+    coroutine.wrap(function()
+        
+    end)()
+
+    return self
 end
 
 ---@param self PlayerObject
 function PlayerManagment:GetName()
     if not self._name or type(self._name) ~= "string" then return string.char(0) end
+end
+
+---@param self PlayerObject
+---@param FormatParams table
+function PlayerManagment:GetSessionTime(FormatParams)
+
 end
 
 return PlayerManagment

@@ -329,7 +329,9 @@ end
 ---@param SourceName string
 ---@
 function StorageService.SplitFileName(SourceName)
-
+    if not SourceName or type(SourceName) ~= "string" then
+        return "<unkown>", "<unkown>"
+    end; return SourceName:match("^(.+)%.([^.]+)$")
 end
 
 return StorageService

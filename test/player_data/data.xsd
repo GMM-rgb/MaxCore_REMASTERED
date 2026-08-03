@@ -3,10 +3,19 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:group name="player-data">
         <xs:sequence>
-           <xs:element name="player-name" type="xs:string" maxOccurs="1" minOccurs="1"></xs:element>
-           <xs:element name="player-id" type="xs:integer" maxOccurs="1" minOccurs="1"></xs:element>
+            <xs:element name="player-id" type="xs:integer" maxOccurs="1" minOccurs="1"></xs:element>
+            <xs:element name="player-name" type="xs:string" maxOccurs="1" minOccurs="0"></xs:element>
+            <xs:choice>
+                <xs:element name="main-storage"></xs:element>
+            </xs:choice>
         </xs:sequence>
     </xs:group>
+
+    <xs:attribute type="xs:double" name="permissions"></xs:attribute>
+    <!-- ^ attribute grouping below & source attributes above ^ -->
+    <xs:attributeGroup name="player-component-attributes">
+        <xs:attribute ref="permissions"></xs:attribute>
+    </xs:attributeGroup>
 
     <xs:element name="data">
         <xs:complexType>
