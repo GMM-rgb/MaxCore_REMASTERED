@@ -53,6 +53,9 @@ InstanceTyping.SetType(FileObject, "FileObject")
 -- =========================================================================
 -- PATH RESOLUTION
 -- =========================================================================
+
+---Gets the base directory of the executing script
+---@return string
 local function get_base_dir()
     if arg and arg[0] then
         local cleanArg = arg[0]:gsub("\\", "/")
@@ -64,6 +67,9 @@ local function get_base_dir()
     return "."
 end
 
+---Resolves a given path to an absolute or script-relative path
+---@param filePath string|nil
+---@return string
 local function resolve_path(filePath)
     if not filePath or filePath == "" then
         return get_base_dir()
@@ -91,6 +97,10 @@ end
 -- FILE OBJECT CLASS IMPLEMENTATION
 -- =========================================================================
 
+---Creates a new FileObject instance
+---@param filePath string
+---@param serviceOwner StorageService|nil
+---@return FileObject
 function FileObject.new(filePath, serviceOwner)
     local self = setmetatable({}, FileObject)
     self._path = resolve_path(filePath)
@@ -106,6 +116,8 @@ function FileObject.new(filePath, serviceOwner)
     return self
 end
 
+---Fetches and updates internal metadata for the file
+---@param includeContents? boolean
 function FileObject:FetchMetaData(includeContents)
     if native_ok and type(storage_interface.get_file_info) == "function" then
         local info = storage_interface.get_file_info(self._path, includeContents or false)
@@ -122,6 +134,9 @@ function FileObject:FetchMetaData(includeContents)
     end
 end
 
+---Reads the file contents from disk
+---@return string|nil contents
+---@return string|nil err
 function FileObject:Read()
     if self._isDirectory then
         return nil, "Cannot read contents of a directory."
@@ -138,6 +153,10 @@ function FileObject:Read()
     return nil, "Native storage module is unavailable."
 end
 
+---Writes content to the file on disk
+---@param content string
+---@return boolean success
+---@return string|nil err
 function FileObject:Write(content)
     if native_ok and type(storage_interface.write_file) == "function" then
         local ok, err = storage_interface.write_file(self._path, content)
@@ -151,6 +170,9 @@ function FileObject:Write(content)
     return false, "Native storage module is unavailable."
 end
 
+---Deletes the file or directory from disk
+---@return boolean success
+---@return string|nil err
 function FileObject:Delete()
     if native_ok then
         local ok, err
@@ -168,18 +190,33 @@ function FileObject:Delete()
     return false, "Native storage module is unavailable."
 end
 
+---@return string
 function FileObject:GetPath() return self._path end
+
+---@return string
 function FileObject:GetName() return self._name end
+
+---@return string
 function FileObject:GetExtension() return self._extension end
+
+---@return number
 function FileObject:GetSize() return self._size end
+
+---@return number
 function FileObject:GetModifiedTime() return self._modifiedTime end
+
+---@return boolean
 function FileObject:IsDirectory() return self._isDirectory end
+
+---@return string|nil
 function FileObject:GetContents() return self._contents or self:Read() end
 
 -- =========================================================================
 -- MAIN SERVICE CLASS IMPLEMENTATION
 -- =========================================================================
 
+---Creates a new StorageService instance
+---@return StorageService
 function StorageService.new()
     local self = setmetatable({}, StorageService)
     self._CachedFiles = {
@@ -188,6 +225,9 @@ function StorageService.new()
     return self
 end
 
+---Gets or caches a FileObject from the given path
+---@param filePath string
+---@return FileObject
 function StorageService:GetFile(filePath)
     local resolvedPath = resolve_path(filePath)
     if not self._CachedFiles._cache[resolvedPath] then
@@ -198,7 +238,8 @@ end
 
 ---Creates a file using explicit schema keys from the options table
 ---@param options CreateFileOptions|string
----@return FileObject|nil, string|nil
+---@return FileObject|nil file
+---@return string|nil err
 function StorageService:CreateFile(options)
     if type(options) == "string" then
         options = { path = options }
@@ -231,11 +272,19 @@ function StorageService:CreateFile(options)
     return nil, err
 end
 
+---Deletes a file at the given path
+---@param filePath string
+---@return boolean success
+---@return string|nil err
 function StorageService:DeleteFile(filePath)
     local fileObj = self:GetFile(filePath)
     return fileObj:Delete()
 end
 
+---Deletes a directory at the given path
+---@param dirPath string
+---@return boolean success
+---@return string|nil err
 function StorageService:DeleteDirectory(dirPath)
     local resolvedDir = resolve_path(dirPath)
     if native_ok and type(storage_interface.remove_dir) == "function" then
@@ -244,6 +293,10 @@ function StorageService:DeleteDirectory(dirPath)
     return false, "Native storage module is unavailable."
 end
 
+---Creates a directory at the given path
+---@param dirPath string
+---@return boolean success
+---@return string|nil err
 function StorageService:CreateDirectory(dirPath)
     local resolvedDir = resolve_path(dirPath)
     if native_ok and type(storage_interface.create_dir) == "function" then
@@ -252,6 +305,9 @@ function StorageService:CreateDirectory(dirPath)
     return false, "Native storage module is unavailable."
 end
 
+---Lists the contents of a directory and returns an array of FileObjects
+---@param dirPath? string
+---@return FileObject[]
 function StorageService:ListDirectory(dirPath)
     local targetDir = resolve_path(dirPath or ".")
     local items = {}
@@ -268,6 +324,12 @@ function StorageService:ListDirectory(dirPath)
         end
     end
     return items
+end
+
+---@param SourceName string
+---@
+function StorageService.SplitFileName(SourceName)
+
 end
 
 return StorageService

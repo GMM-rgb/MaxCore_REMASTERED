@@ -3,7 +3,8 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:group name="player-data">
         <xs:sequence>
-
+           <xs:element name="player-name" type="xs:string" maxOccurs="1" minOccurs="1"></xs:element>
+           <xs:element name="player-id" type="xs:integer" maxOccurs="1" minOccurs="1"></xs:element>
         </xs:sequence>
     </xs:group>
 
@@ -12,7 +13,7 @@
             <xs:sequence>
                 <xs:element name="player-object" maxOccurs="unbounded" minOccurs="0">
                     <xs:complexType>
-                        <xs:sequence>
+                        <xs:sequence minOccurs="0">
                             <xs:group ref="player-data"></xs:group>
                         </xs:sequence>
                     </xs:complexType>
