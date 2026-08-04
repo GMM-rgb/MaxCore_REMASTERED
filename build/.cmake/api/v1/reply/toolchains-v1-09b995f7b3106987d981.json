@@ -38,7 +38,7 @@
 						"kernel32"
 					]
 				},
-				"path" : "C:/Users/6041464/_c_lang/bin/cc.exe",
+				"path" : "C:/Users/6041464/_c_lang/bin/ccache-gcc.exe",
 				"version" : "16.1.0"
 			},
 			"language" : "C",
@@ -88,7 +88,7 @@
 						"kernel32"
 					]
 				},
-				"path" : "C:/Users/6041464/_c_lang/bin/c++.exe",
+				"path" : "C:/Users/6041464/_c_lang/bin/ccache-g++.exe",
 				"version" : "16.1.0"
 			},
 			"language" : "CXX",
@@ -100,7 +100,6 @@
 				"cc",
 				"cpp",
 				"cxx",
-				"m",
 				"mm",
 				"mpp",
 				"CPP",

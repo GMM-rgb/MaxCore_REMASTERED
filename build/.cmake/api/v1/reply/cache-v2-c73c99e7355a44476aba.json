@@ -142,8 +142,8 @@
 					"value" : "CXX compiler"
 				}
 			],
-			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang/bin/c++.exe"
+			"type" : "STRING",
+			"value" : "C:/Users/6041464/_c_lang/bin/ccache-g++.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER_AR",
@@ -159,7 +159,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang/bin/gcc-ar.exe"
+			"value" : "CMAKE_CXX_COMPILER_AR-NOTFOUND"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER_RANLIB",
@@ -175,7 +175,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang/bin/gcc-ranlib.exe"
+			"value" : "CMAKE_CXX_COMPILER_RANLIB-NOTFOUND"
 		},
 		{
 			"name" : "CMAKE_CXX_FLAGS",
@@ -286,8 +286,8 @@
 					"value" : "C compiler"
 				}
 			],
-			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang/bin/cc.exe"
+			"type" : "STRING",
+			"value" : "C:/Users/6041464/_c_lang/bin/ccache-gcc.exe"
 		},
 		{
 			"name" : "CMAKE_C_COMPILER_AR",
@@ -303,7 +303,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang/bin/gcc-ar.exe"
+			"value" : "CMAKE_C_COMPILER_AR-NOTFOUND"
 		},
 		{
 			"name" : "CMAKE_C_COMPILER_RANLIB",
@@ -319,7 +319,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang/bin/gcc-ranlib.exe"
+			"value" : "CMAKE_C_COMPILER_RANLIB-NOTFOUND"
 		},
 		{
 			"name" : "CMAKE_C_FLAGS",
@@ -427,7 +427,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "CMD_AUTHOR=WARN;CMD_DEPRECATED=WARN;CMD_EXPERIMENTAL=WARN;CMD_INSTALL_ABSOLUTE_DESTINATION=IGNORE;CMD_POLICY=WARN;CMD_UNINITIALIZED=IGNORE;CMD_UNUSED_CLI=WARN"
+			"value" : "CMD_AUTHOR=WARN;CMD_DEPRECATED=WARN;CMD_EXPERIMENTAL=WARN;CMD_INSTALL_ABSOLUTE_DESTINATION=IGNORE;CMD_POLICY=WARN;CMD_UNINITIALIZED=IGNORE;CMD_UNUSED_CLI=IGNORE"
 		},
 		{
 			"name" : "CMAKE_DLLTOOL",

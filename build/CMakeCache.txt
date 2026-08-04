@@ -25,15 +25,15 @@ CMAKE_AR:FILEPATH=C:/Users/6041464/_c_lang/bin/ar.exe
 CMAKE_BUILD_TYPE:STRING=
 
 //CXX compiler
-CMAKE_CXX_COMPILER:FILEPATH=C:/Users/6041464/_c_lang/bin/c++.exe
+CMAKE_CXX_COMPILER:STRING=C:/Users/6041464/_c_lang/bin/ccache-g++.exe
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_CXX_COMPILER_AR:FILEPATH=C:/Users/6041464/_c_lang/bin/gcc-ar.exe
+CMAKE_CXX_COMPILER_AR:FILEPATH=CMAKE_CXX_COMPILER_AR-NOTFOUND
 
 //A wrapper around 'ranlib' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_CXX_COMPILER_RANLIB:FILEPATH=C:/Users/6041464/_c_lang/bin/gcc-ranlib.exe
+CMAKE_CXX_COMPILER_RANLIB:FILEPATH=CMAKE_CXX_COMPILER_RANLIB-NOTFOUND
 
 //Flags used by the CXX compiler during all build types.
 CMAKE_CXX_FLAGS:STRING=
@@ -54,15 +54,15 @@ CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 CMAKE_CXX_STANDARD_LIBRARIES:STRING=-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
 
 //C compiler
-CMAKE_C_COMPILER:FILEPATH=C:/Users/6041464/_c_lang/bin/cc.exe
+CMAKE_C_COMPILER:STRING=C:/Users/6041464/_c_lang/bin/ccache-gcc.exe
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_C_COMPILER_AR:FILEPATH=C:/Users/6041464/_c_lang/bin/gcc-ar.exe
+CMAKE_C_COMPILER_AR:FILEPATH=CMAKE_C_COMPILER_AR-NOTFOUND
 
 //A wrapper around 'ranlib' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_C_COMPILER_RANLIB:FILEPATH=C:/Users/6041464/_c_lang/bin/gcc-ranlib.exe
+CMAKE_C_COMPILER_RANLIB:FILEPATH=CMAKE_C_COMPILER_RANLIB-NOTFOUND
 
 //Flags used by the C compiler during all build types.
 CMAKE_C_FLAGS:STRING=
@@ -318,7 +318,7 @@ CMAKE_C_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 CMAKE_C_STANDARD_LIBRARIES-ADVANCED:INTERNAL=1
 //Set initial state for CMake diagnostics; used to persist state
 // set by command-line options across invocations.
-CMAKE_DIAGNOSTIC_INIT:INTERNAL=CMD_AUTHOR=WARN;CMD_DEPRECATED=WARN;CMD_EXPERIMENTAL=WARN;CMD_INSTALL_ABSOLUTE_DESTINATION=IGNORE;CMD_POLICY=WARN;CMD_UNINITIALIZED=IGNORE;CMD_UNUSED_CLI=WARN
+CMAKE_DIAGNOSTIC_INIT:INTERNAL=CMD_AUTHOR=WARN;CMD_DEPRECATED=WARN;CMD_EXPERIMENTAL=WARN;CMD_INSTALL_ABSOLUTE_DESTINATION=IGNORE;CMD_POLICY=WARN;CMD_UNINITIALIZED=IGNORE;CMD_UNUSED_CLI=IGNORE
 //ADVANCED property for variable: CMAKE_DLLTOOL
 CMAKE_DLLTOOL-ADVANCED:INTERNAL=1
 //Path to cache edit program executable.

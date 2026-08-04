@@ -1,6 +1,9 @@
 local runner = require("services.runner_service")
 local InstanceType = require("instance_type")
 local PlayerManagment = setmetatable({}, nil)
+---@type table<PlayerObject>
+PlayerManagment.ConnectedPlayers = {}
+---@type MaxCore?
 PlayerManagment.core = nil
 
 -- ====================================================
@@ -10,8 +13,8 @@ PlayerManagment.core = nil
 ---@class PlayerPermissions 
 
 ---@class PlayerObject 
----@field GetName fun(): string
----@field GetSessionTime fun(FormatParams): integer
+---@field GetName fun(selfObj: PlayerObject): string
+---@field GetSessionTime fun(selfObj: PlayerObject, FormatParams): integer
 ---@field _name string 
 
 -- ====================================================
@@ -59,6 +62,29 @@ end
 ---@param FormatParams table
 function PlayerManagment:GetSessionTime(FormatParams)
 
+end
+
+--- ====================================================
+---          PLAYER MANAGMENT OUTBOUND METHODS
+--- ====================================================
+
+---@param player PlayerObject|string
+---@return boolean
+function PlayerManagment.PlayerExists(player)
+    if not player or not InstanceType.IsA(player, "PlayerObject") or type(player) ~= "string" then return false end
+
+    ---@return boolean
+    local function ValidateConnectedPlayers()
+
+    end
+
+    if PlayerManagment.ConnectedPlayers ~= nil and type(PlayerManagment.ConnectedPlayers) == "table" then
+        if ValidateConnectedPlayers and type(ValidPlayerPermissions) == "function" and ValidateConnectedPlayers() then
+            
+        end
+    end
+
+    return false
 end
 
 return PlayerManagment
