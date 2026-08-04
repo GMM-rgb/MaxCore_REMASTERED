@@ -7,7 +7,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Threads::Threads::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Threads__Threads-46250961fff1ca13c985.json",
+					"jsonFile" : "target-Threads__Threads-Debug-5f1128eb5f8c70fa76ee.json",
 					"name" : "Threads::Threads",
 					"projectIndex" : 0
 				}
@@ -20,7 +20,7 @@
 						0
 					],
 					"build" : ".",
-					"jsonFile" : "directory-.-f040eec181a89de70dbe.json",
+					"jsonFile" : "directory-.-Debug-b5805d5c08fd3d92def4.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.15"
@@ -37,7 +37,7 @@
 					]
 				}
 			],
-			"name" : "",
+			"name" : "Debug",
 			"projects" : 
 			[
 				{
@@ -65,35 +65,35 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "input_native::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-input_native-9cdb3232121111f4873a.json",
+					"jsonFile" : "target-input_native-Debug-94881e832457e477100f.json",
 					"name" : "input_native",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "lua_runner::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-lua_runner-52c840f71a2126f3b96c.json",
+					"jsonFile" : "target-lua_runner-Debug-d0dc6e94554398efb956.json",
 					"name" : "lua_runner",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "lua_shared::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-lua_shared-5b774f4fe0889c547469.json",
+					"jsonFile" : "target-lua_shared-Debug-92d017c75d2c9742020f.json",
 					"name" : "lua_shared",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "sound_service_backend::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-sound_service_backend-7f25ed5b17ebb10b0568.json",
+					"jsonFile" : "target-sound_service_backend-Debug-aed4a8465c6bc147449e.json",
 					"name" : "sound_service_backend",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "storage_interface::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-storage_interface-184f4cf8db44d3071d95.json",
+					"jsonFile" : "target-storage_interface-Debug-c15075ea442947745a37.json",
 					"name" : "storage_interface",
 					"projectIndex" : 0
 				}
@@ -103,12 +103,12 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "D:/MaxCore_REMASTERED/build",
-		"source" : "D:/MaxCore_REMASTERED"
+		"build" : "C:/Users/6041464/Documents/MaxCore_REMASTERED/build",
+		"source" : "C:/Users/6041464/Documents/MaxCore_REMASTERED"
 	},
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 10
+		"minor" : 11
 	}
 }

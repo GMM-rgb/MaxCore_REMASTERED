@@ -75,11 +75,13 @@ function PlayerManagment.PlayerExists(player)
 
     ---@return boolean
     local function ValidateConnectedPlayers()
-
+        for _, player in ipairs(PlayerManagment.ConnectedPlayers) do
+            if player ~= nil and InstanceType.IsA(player, "PlayerObject") then return true end
+        end return false
     end
 
     if PlayerManagment.ConnectedPlayers ~= nil and type(PlayerManagment.ConnectedPlayers) == "table" then
-        if ValidateConnectedPlayers and type(ValidPlayerPermissions) == "function" and ValidateConnectedPlayers() then
+        if ValidateConnectedPlayers and type(ValidateConnectedPlayers) == "function" and ValidateConnectedPlayers() then
             
         end
     end
