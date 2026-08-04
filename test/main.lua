@@ -1,19 +1,10 @@
+local utf = require("utf8")
 local CoreLib = require("max_core").call()
 local RunnerService = CoreLib:LoadService("RunnerService")
 local StorageService = CoreLib:LoadService("StorageService")
 local SessionPlayer = CoreLib.PlayerDataModel.new("player123", nil, false)
 local FileListing = StorageService:GetFile("./file_mappings.json"):GetContents()
-
--- local utf8lib = require("utf8")
-
--- local combined = string.char(0)
-
--- for i, v in utf8lib.codes("My favorite B day class is English. I like it because of how my friends are in there with me as well; moreover the teacher is a really nice guy.") do
---     local CurrentSepperator = i > 1 and "-" or ""
---     combined = combined .. CurrentSepperator .. v
--- end
-
--- print(combined)
+local PlayerDataChange = CoreLib.Event.new("PlayerDataChanged")
 
 ---@class GameDataModel
 ---@field workspace table
@@ -31,11 +22,15 @@ local function LoadRequiredFiles(OptionalFiles)
     local TargetFiles = {}
 
     if OptionalFiles ~= nil and type(OptionalFiles) == "table" then
-        for _, file in ipairs(OptionalFiles) do
+        for _, file in pairs(OptionalFiles) do
             if CoreLib.IsA(file, "FileObject") then
                 TargetFiles[file:GetName()] = file
             end
         end
+    end
+
+    for _, LoadingFile in ipairs(TargetFiles or {}) do
+        table.insert(GameApplication.files, LoadingFile)
     end
 end
 
