@@ -1,5 +1,6 @@
 local utf = require("utf8")
 local CoreLib = require("max_core").call()
+local InputService = CoreLib:LoadService("InputService")
 local RunnerService = CoreLib:LoadService("RunnerService")
 local StorageService = CoreLib:LoadService("StorageService")
 local PlayerDataTemp = StorageService:GetFile("./player_data/player_data_template.json")
@@ -7,10 +8,17 @@ local SessionPlayer = CoreLib.PlayerDataModel.new("player123", nil, false)
 local PlayerDataChange = CoreLib.newEvent("PlayerDataChanged")
 local StartupApplication = CoreLib.newEvent("GameStartup")
 
+InputService:SetGlobalInput(true)
+
 for _, CharCode in utf.codes("A") do
     print("CHAR:", utf.char(CharCode))
     print("ASCII:", CharCode)
 end
+
+InputService:BindAction("testing", utf.char(65), function (actionName, state, keyName)
+    -- io.stdout:write("\r\27[A\27[K ACTION TRIGGERED:" .. " " .. actionName .. " " .. state .. keyName)
+    print("\nKEY:", keyName, "\nSTATUS:", state)
+end)
 
 ---@class GameDataModel
 ---@field workspace table
@@ -67,8 +75,7 @@ local function WritePlayerData(TargetPlayer, PlayerContents)
 end
 
 function TickGame(delta)
-    io.stdout:setvbuf("line", 128); io.stdout:flush()
-    io.stdout:write("\r" .. string.format("DELTA TIME: %G", delta))
+    InputService:Update()
 end
 
 StartupApplication:Connect(LoadRequiredFiles)

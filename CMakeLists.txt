@@ -72,13 +72,15 @@ set(PLATFORM_LIBS Threads::Threads lua_shared)
 
 if(WIN32)
     message(STATUS "[Engine] Target OS: Windows")
-    list(APPEND PLATFORM_LIBS winmm)
+    list(APPEND PLATFORM_LIBS winmm user32)
 elseif(APPLE)
     message(STATUS "[Engine] Target OS: macOS")
-    list(APPEND PLATFORM_LIBS "-framework CoreAudio" "-framework CoreFoundation" "-framework AudioToolbox")
+    list(APPEND PLATFORM_LIBS "-framework CoreAudio" "-framework CoreFoundation" "-framework AudioToolbox" "-framework ApplicationServices" "-framework Cocoa")
 elseif(NOT APPLE AND UNIX)
     message(STATUS "[Engine] Target OS: Linux / Unix")
-    list(APPEND PLATFORM_LIBS m dl)
+    find_package(X11 REQUIRED)
+    include_directories(${X11_INCLUDE_DIR})
+    list(APPEND PLATFORM_LIBS m dl ${X11_LIBRARIES})
 endif()
 
 # =========================================================================
