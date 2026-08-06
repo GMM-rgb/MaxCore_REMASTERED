@@ -7,16 +7,19 @@ local PlayerDataTemp = StorageService:GetFile("./player_data/player_data_templat
 local SessionPlayer = CoreLib.PlayerDataModel.new("player123", nil, false)
 local PlayerDataChange = CoreLib.newEvent("PlayerDataChanged")
 local StartupApplication = CoreLib.newEvent("GameStartup")
+local ClickValue = 0.0
 
 InputService:SetGlobalInput(true)
 
--- for _, CharCode in utf.codes("A") do
---     print("CHAR:", utf.char(CharCode))
---     print("ASCII:", CharCode)
--- end
+for _, CharCode in utf.codes("A") do
+    print("CHAR:", utf.char(CharCode))
+    print("ASCII:", CharCode)
+end
 
-InputService:BindAction("testing", "mouse1", function(actionName, state, keyName)
-    print("\nKEY:", keyName, "\nSTATUS:", state)
+InputService:BindAction("testing", "space", function(name, state, key)
+    if state ~= nil and type(state) == "string" and state == "Pressed" then
+        ClickValue = ClickValue + 1; io.stdout:write("\r" .. ClickValue)
+    end
 end)
 
 ---@class GameDataModel
@@ -68,9 +71,9 @@ local MappingBinaryFile = StorageService:CreateFile({
     extension = "json",
 });
 
-local MappingFileName = MappingBinaryFile and MappingBinaryFile:GetName()
-if not MappingFileName or MappingFileName == nil or type(MappingFileName) ~= "string" then return end
-print("MODIFIED WHEN:\t" .. os.date("%Y-%m-%d %H:%M:%S", StorageService:GetFile(MappingFileName):GetModifiedTime()))
+-- local MappingFileName = MappingBinaryFile and MappingBinaryFile:GetName()
+-- if not MappingFileName or MappingFileName == nil or type(MappingFileName) ~= "string" then return end
+-- print("MODIFIED WHEN:\t" .. os.date("%Y-%m-%d %H:%M:%S", StorageService:GetFile(MappingFileName):GetModifiedTime()))
 
 ---@param PlayerContents table
 ---@param TargetPlayer PlayerObject

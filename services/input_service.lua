@@ -46,13 +46,13 @@ local KEY_MAP = {
     ["0"] = 48, ["1"] = 49, ["2"] = 50, ["3"] = 51, ["4"] = 52,
     ["5"] = 53, ["6"] = 54, ["7"] = 55, ["8"] = 56, ["9"] = 57,
 
-    ["space"]  = 32, 
-    ["return"] = 13, 
-    ["enter"]  = 13, 
-    ["escape"] = 27, 
     ["tab"]    = 9,
-    ["shift"]  = 16, 
-    ["ctrl"]   = 17, 
+    ["space"]  = 32,
+    ["return"] = 13,
+    ["enter"]  = 13,
+    ["escape"] = 27,
+    ["shift"]  = 16,
+    ["ctrl"]   = 17,
     ["alt"]    = 18,
 
     ["super"]  = 91, ["win"]   = 91, ["cmd"]   = 91, ["meta"]  = 91,
@@ -61,13 +61,13 @@ local KEY_MAP = {
 
     ["left"]  = 37, ["up"]    = 38, ["right"] = 39, ["down"]  = 40,
     ["mouse1"] = 1, ["mouse2"] = 2, ["mouse3"] = 3
-}
+};
 
 local LOVE_KEY_MAP = {
     ["super"] = "lgui", ["win"] = "lgui", ["cmd"] = "lgui", ["meta"] = "lgui",
     ["lsuper"] = "lgui", ["lwin"] = "lgui", ["lcmd"] = "lgui", ["lmeta"] = "lgui",
     ["rsuper"] = "rgui", ["rwin"] = "rgui", ["rcmd"] = "rgui", ["rmeta"] = "rgui"
-}
+};
 
 ---@alias ActionCallback fun(actionName: string, state: "Pressed" | "Released", keyName: string)
 
@@ -120,7 +120,7 @@ end
 ---@param self InputService
 ---@param actionName string
 ---@param keyName string
----@param callback fun(name: string, state: string, key: string)
+---@param callback fun(name: string, state: "Pressed"|"Released", key: string)
 function InputService:BindAction(actionName, keyName, callback)
     self._actions[actionName] = {
         keyName = keyName:lower(),
