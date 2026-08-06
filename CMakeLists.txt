@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # =========================================================================
-# 1. LUA DYNAMIC DISCOVERY & BUILD
+# LUA DYNAMIC DISCOVERY & BUILD
 # =========================================================================
 file(GLOB LUA_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/lua-*/src")
 if(LUA_DIRS)
@@ -58,7 +58,7 @@ elseif(UNIX)
 endif()
 
 # =========================================================================
-# 2. NATIVE C++ MODULES CONFIGURATION
+# NATIVE C++ MODULES CONFIGURATION
 # =========================================================================
 set(NATIVE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/backend/sound_service_backend.cpp
@@ -84,7 +84,7 @@ elseif(NOT APPLE AND UNIX)
 endif()
 
 # =========================================================================
-# 3. COMPACT MODULE TARGET GENERATION
+# COMPACT MODULE TARGET GENERATION
 # =========================================================================
 foreach(SOURCE_FILE IN LISTS NATIVE_SOURCES)
     get_filename_component(TARGET_NAME "${SOURCE_FILE}" NAME_WE)

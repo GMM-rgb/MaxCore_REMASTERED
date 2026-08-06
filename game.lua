@@ -7,11 +7,11 @@ local QeuryingPlayer = CoreLib.Event.new("QeuryingPlayerDataModelEvent")
 local PlayerInstanced = CoreLib.Event.new("PlayerInstancedEvent")
 
 ---@class game
----@field objects table
+---@field _objects table
 
 ---@type game
 local game = {
-    objects = {},
+    _objects = {},
 };
 
 ---@param AppendingData table
