@@ -1,4 +1,4 @@
-local utf = require("utf8")
+local utf = require and require("utf8")
 local CoreLib = require("max_core").call()
 local InputService = CoreLib:LoadService("InputService")
 local RunnerService = CoreLib:LoadService("RunnerService")
@@ -11,12 +11,12 @@ local ClickValue = 0.0
 
 InputService:SetGlobalInput(true)
 
-for _, CharCode in utf.codes("A") do
-    print("CHAR:", utf.char(CharCode))
-    print("ASCII:", CharCode)
-end
+-- for _, CharCode in utf.codes("A") do
+--     print("CHAR:", utf.char(CharCode))
+--     print("ASCII:", CharCode)
+-- end
 
-InputService:BindAction("testing", "space", function(name, state, key)
+InputService:BindAction("click", "mouse1", function(name, state, key)
     if state ~= nil and type(state) == "string" and state == "Pressed" then
         ClickValue = ClickValue + 1; io.stdout:write("\r" .. ClickValue)
     end
@@ -90,13 +90,24 @@ local function WritePlayerData(TargetPlayer, PlayerContents)
     end
 end
 
-local function TickMainGame()
-
+---@param delta table<number>
+function MouseDeltaAverage(delta)
+    local _average = 0; for _, DeltaAxis in ipairs(delta) do
+        if DeltaAxis and type(DeltaAxis) == "number" then
+            _average = _average + DeltaAxis / 2
+        end
+    end; return _average
 end
 
+local function TickMainGame()
+    local x, y = InputService:GetMousePosition()
+    local xd, xy = InputService:GetMouseDelta()
+end
+
+---@param delta number
 function TickGame(delta)
     xpcall(TickMainGame, function(...)
-        
+        io.stdout:write("WARNING IN GAME THREAD:\t" .. tostring(...))
     end); InputService:Update()
 end
 

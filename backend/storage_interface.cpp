@@ -64,7 +64,7 @@ static void push_file_properties(lua_State* L, const path& filePath, bool includ
     bool isDir = is_directory(filePath);
     lua_pushboolean(L, isDir ? 1 : 0);
     lua_setfield(L, -2, "is_directory");
-
+    
     if (exists(filePath)) {
         if (!isDir) {
             std::error_code ec;
