@@ -15,8 +15,6 @@ InputService:SetGlobalInput(true)
 --     print("ASCII:", CharCode)
 -- end
 
----@param actionName string
----@
 InputService:BindAction("testing", "mouse1", function(actionName, state, keyName)
     print("\nKEY:", keyName, "\nSTATUS:", state)
 end)
