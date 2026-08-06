@@ -1,0 +1,114 @@
+{
+	"configurations" : 
+	[
+		{
+			"abstractTargets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Threads::Threads::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Threads__Threads-46250961fff1ca13c985.json",
+					"name" : "Threads::Threads",
+					"projectIndex" : 0
+				}
+			],
+			"directories" : 
+			[
+				{
+					"abstractTargetIndexes" : 
+					[
+						0
+					],
+					"build" : ".",
+					"jsonFile" : "directory-.-f040eec181a89de70dbe.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"abstractTargetIndexes" : 
+					[
+						0
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "lua_native_engine",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "input_native::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-input_native-190e5d5c6663a2ffcda7.json",
+					"name" : "input_native",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "lua_runner::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-lua_runner-52c840f71a2126f3b96c.json",
+					"name" : "lua_runner",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "lua_shared::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-lua_shared-5b774f4fe0889c547469.json",
+					"name" : "lua_shared",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "sound_service_backend::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-sound_service_backend-b909c18b77e994043d44.json",
+					"name" : "sound_service_backend",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "storage_interface::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-storage_interface-39a49b30f3f72ff374cf.json",
+					"name" : "storage_interface",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/MaxCore_REMASTERED/build",
+		"source" : "D:/MaxCore_REMASTERED"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 10
+	}
+}

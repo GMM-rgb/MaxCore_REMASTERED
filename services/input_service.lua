@@ -93,34 +93,50 @@ function InputService.new()
     return self
 end
 
+---@param self InputService
+---@param isGlobal boolean
 function InputService:SetGlobalInput(isGlobal)
-    self._isGlobal = isGlobal
+    if isGlobal == nil or type(isGlobal) ~= "boolean" then return end; self._isGlobal = isGlobal
     if native_ok and type(input_native) == "table" and type(input_native.set_global_input) == "function" then
         input_native.set_global_input(isGlobal)
     end
 end
 
+---@param self InputService
+---@return boolean
 function InputService:GetGlobalInput()
     return self._isGlobal
 end
 
+---@param self InputService
+---@param target string
+---@return string, integer
 function InputService:_ResolveTarget(target)
     local binding = self._actions[target]
     local keyName = binding and binding.keyName or target:lower()
     return keyName, KEY_MAP[keyName]
 end
 
+---@param self InputService
+---@param actionName string
+---@param keyName string
+---@param callback fun(name: string, state: string, key: string)
 function InputService:BindAction(actionName, keyName, callback)
     self._actions[actionName] = {
         keyName = keyName:lower(),
         callback = callback
-    }
+    };
 end
 
+---@param self InputService
+---@param actionName string
 function InputService:UnbindAction(actionName)
     self._actions[actionName] = nil
 end
 
+---@param self InputService
+---@param target string
+---@return boolean
 function InputService:IsKeyDown(target)
     local keyName, keyCode = self:_ResolveTarget(target)
     if native_ok and keyCode and type(input_native) == "table" and type(input_native.is_key_down) == "function" then
@@ -134,42 +150,48 @@ function InputService:IsKeyDown(target)
             ---@cast loveKey love.KeyConstant
             return love.keyboard.isDown(loveKey)
         end
-    end
-    return false
+    end return false
 end
 
+---@param self InputService
+---@param target string
+---@return boolean
 function InputService:IsKeyPressed(target)
     local _, keyCode = self:_ResolveTarget(target)
     if native_ok and keyCode and type(input_native) == "table" and type(input_native.is_key_pressed) == "function" then
         return input_native.is_key_pressed(keyCode)
-    end
-    return false
+    end return false
 end
 
+---@param self InputService
+---@param target string
+---@return boolean
 function InputService:IsKeyReleased(target)
     local _, keyCode = self:_ResolveTarget(target)
     if native_ok and keyCode and type(input_native) == "table" and type(input_native.is_key_released) == "function" then
         return input_native.is_key_released(keyCode)
-    end
-    return false
+    end return false
 end
 
+---@param self InputService
+---@return number, number
 function InputService:GetMousePosition()
     if native_ok and type(input_native) == "table" and type(input_native.get_mouse_position) == "function" then
         return input_native.get_mouse_position()
     elseif IS_LOVE then
         return love.mouse.getPosition()
-    end
-    return 0, 0
+    end return 0, 0
 end
 
+---@param self InputService
+---@return number, number
 function InputService:GetMouseDelta()
     if native_ok and type(input_native) == "table" and type(input_native.get_mouse_delta) == "function" then
         return input_native.get_mouse_delta()
-    end
-    return 0, 0
+    end return 0, 0
 end
 
+---@param self InputService
 function InputService:_ProcessCallbacks()
     for actionName, binding in pairs(self._actions) do
         if binding.callback then
@@ -182,17 +204,18 @@ function InputService:_ProcessCallbacks()
     end
 end
 
+---@param self InputService
 function InputService:Update()
     if native_ok and type(input_native) == "table" and type(input_native.update) == "function" then
         input_native.update()
-    end
-    self:_ProcessCallbacks()
+    end self:_ProcessCallbacks()
 end
 
 function InputService.UpdateAll()
     if native_ok and type(input_native) == "table" and type(input_native.update) == "function" then
         input_native.update()
     end
+
     for instance in pairs(active_instances) do
         instance:_ProcessCallbacks()
     end
@@ -201,6 +224,7 @@ end
 function InputService.HookLove()
     if not IS_LOVE then return end
     local prevUpdate = love.update
+
     love.update = function(dt)
         InputService.UpdateAll()
         if prevUpdate then
