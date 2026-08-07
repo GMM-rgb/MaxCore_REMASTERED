@@ -15,7 +15,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang_/bin/addr2line.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/addr2line.exe"
 		},
 		{
 			"name" : "CMAKE_AR",
@@ -31,7 +31,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang_/bin/ar.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/ar.exe"
 		},
 		{
 			"name" : "CMAKE_BUILD_TYPE",
@@ -103,7 +103,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/6041464/_c_lang_/bin/cmake.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/cmake.exe"
 		},
 		{
 			"name" : "CMAKE_CPACK_COMMAND",
@@ -115,7 +115,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/6041464/_c_lang_/bin/cpack.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/cpack.exe"
 		},
 		{
 			"name" : "CMAKE_CTEST_COMMAND",
@@ -127,7 +127,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/6041464/_c_lang_/bin/ctest.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/ctest.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER",
@@ -143,7 +143,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang_/bin/ccache-g++.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/ccache-g++.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER_AR",
@@ -287,7 +287,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang_/bin/ccache-gcc.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/ccache-gcc.exe"
 		},
 		{
 			"name" : "CMAKE_C_COMPILER_AR",
@@ -443,7 +443,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang_/bin/dlltool.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/dlltool.exe"
 		},
 		{
 			"name" : "CMAKE_EDIT_COMMAND",
@@ -455,7 +455,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/6041464/_c_lang_/bin/ccmake.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/ccmake.exe"
 		},
 		{
 			"name" : "CMAKE_ERROR_DEPRECATED",
@@ -727,7 +727,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang_/bin/ld.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/ld.exe"
 		},
 		{
 			"name" : "CMAKE_LIST_FILE_NAME",
@@ -755,7 +755,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang_/bin/ninja.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/ninja.exe"
 		},
 		{
 			"name" : "CMAKE_MODULE_LINKER_FLAGS",
@@ -851,7 +851,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang_/bin/nm.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/nm.exe"
 		},
 		{
 			"name" : "CMAKE_NUMBER_OF_MAKEFILES",
@@ -879,7 +879,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang_/bin/objcopy.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/objcopy.exe"
 		},
 		{
 			"name" : "CMAKE_OBJDUMP",
@@ -895,7 +895,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang_/bin/objdump.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/objdump.exe"
 		},
 		{
 			"name" : "CMAKE_PLATFORM_INFO_INITIALIZED",
@@ -983,7 +983,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang_/bin/ranlib.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/ranlib.exe"
 		},
 		{
 			"name" : "CMAKE_RC_COMPILER",
@@ -999,7 +999,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang_/bin/windres.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/windres.exe"
 		},
 		{
 			"name" : "CMAKE_RC_COMPILER_WORKS",
@@ -1119,7 +1119,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/6041464/_c_lang_/share/cmake-4.4"
+			"value" : "C:/Users/6041464/_c_lang/share/cmake-4.4"
 		},
 		{
 			"name" : "CMAKE_SHARED_LINKER_FLAGS",
@@ -1327,7 +1327,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang_/bin/strip.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/strip.exe"
 		},
 		{
 			"name" : "CMAKE_TAPI",

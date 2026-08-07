@@ -165,7 +165,7 @@ static int storage_write_file(lua_State* L) {
 
     try {
         path fp = resolve_path(filepath);
-        std::cout << "[C++ Debug] Writing file target: " << fp.string() << std::endl;
+        // std::cout << "[C++ Debug] Writing file target: " << fp.string() << std::endl;
 
         if (fp.has_parent_path() && !fp.parent_path().empty()) {
             std::error_code ec;

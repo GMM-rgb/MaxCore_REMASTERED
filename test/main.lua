@@ -16,7 +16,7 @@ InputService:SetGlobalInput(true)
 --     print("ASCII:", CharCode)
 -- end
 
-InputService:BindAction("click", "mouse1", function(name, state, key)
+InputService:BindAction("click", "1", function(name, state, key)
     if state ~= nil and type(state) == "string" and state == "Pressed" then
         ClickValue = ClickValue + 1; io.stdout:write("\r" .. ClickValue)
     end
