@@ -66,7 +66,7 @@ local function tick(dt)
 end
 
 InputListener:BindAction("binding", "mouse3", function(name, state, key)
-    print(state)
+    return
 end)
 
 InputListener:SetGlobalInput(true)
