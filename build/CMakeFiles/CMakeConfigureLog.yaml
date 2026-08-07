@@ -29,6 +29,7 @@ events:
       - "ninja"
       - "samu"
     candidate_directories:
+      - "C:/Users/6041464/_c_lang_/bin/"
       - "C:/Windows/System32/"
       - "C:/Windows/"
       - "C:/Windows/System32/wbem/"
@@ -38,89 +39,8 @@ events:
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
-      - "C:/Users/6041464/_c_lang_/bin/"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/"
     searched_directories:
-      - "C:/Windows/System32/ninja-build.com"
-      - "C:/Windows/System32/ninja-build.exe"
-      - "C:/Windows/System32/ninja-build"
-      - "C:/Windows/System32/ninja.com"
-      - "C:/Windows/System32/ninja.exe"
-      - "C:/Windows/System32/ninja"
-      - "C:/Windows/System32/samu.com"
-      - "C:/Windows/System32/samu.exe"
-      - "C:/Windows/System32/samu"
-      - "C:/Windows/ninja-build.com"
-      - "C:/Windows/ninja-build.exe"
-      - "C:/Windows/ninja-build"
-      - "C:/Windows/ninja.com"
-      - "C:/Windows/ninja.exe"
-      - "C:/Windows/ninja"
-      - "C:/Windows/samu.com"
-      - "C:/Windows/samu.exe"
-      - "C:/Windows/samu"
-      - "C:/Windows/System32/wbem/ninja-build.com"
-      - "C:/Windows/System32/wbem/ninja-build.exe"
-      - "C:/Windows/System32/wbem/ninja-build"
-      - "C:/Windows/System32/wbem/ninja.com"
-      - "C:/Windows/System32/wbem/ninja.exe"
-      - "C:/Windows/System32/wbem/ninja"
-      - "C:/Windows/System32/wbem/samu.com"
-      - "C:/Windows/System32/wbem/samu.exe"
-      - "C:/Windows/System32/wbem/samu"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/ninja-build.com"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/ninja-build.exe"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/ninja-build"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/ninja.com"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/ninja.exe"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/ninja"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/samu.com"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/samu.exe"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/samu"
-      - "C:/Windows/System32/OpenSSH/ninja-build.com"
-      - "C:/Windows/System32/OpenSSH/ninja-build.exe"
-      - "C:/Windows/System32/OpenSSH/ninja-build"
-      - "C:/Windows/System32/OpenSSH/ninja.com"
-      - "C:/Windows/System32/OpenSSH/ninja.exe"
-      - "C:/Windows/System32/OpenSSH/ninja"
-      - "C:/Windows/System32/OpenSSH/samu.com"
-      - "C:/Windows/System32/OpenSSH/samu.exe"
-      - "C:/Windows/System32/OpenSSH/samu"
-      - "C:/Program Files/dotnet/ninja-build.com"
-      - "C:/Program Files/dotnet/ninja-build.exe"
-      - "C:/Program Files/dotnet/ninja-build"
-      - "C:/Program Files/dotnet/ninja.com"
-      - "C:/Program Files/dotnet/ninja.exe"
-      - "C:/Program Files/dotnet/ninja"
-      - "C:/Program Files/dotnet/samu.com"
-      - "C:/Program Files/dotnet/samu.exe"
-      - "C:/Program Files/dotnet/samu"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ninja-build.com"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ninja-build.exe"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ninja-build"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ninja.com"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ninja.exe"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ninja"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/samu.com"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/samu.exe"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/samu"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ninja-build.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ninja-build.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ninja-build"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ninja.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ninja.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ninja"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/samu.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/samu.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/samu"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ninja-build.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ninja-build.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ninja-build"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ninja.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ninja.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ninja"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/samu.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/samu.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/samu"
       - "C:/Users/6041464/_c_lang_/bin/ninja-build.com"
       - "C:/Users/6041464/_c_lang_/bin/ninja-build.exe"
       - "C:/Users/6041464/_c_lang_/bin/ninja-build"
@@ -128,6 +48,7 @@ events:
     found: "C:/Users/6041464/_c_lang_/bin/ninja.exe"
     search_context:
       ENV{PATH}:
+        - "C:\\Users\\6041464\\_c_lang_\\bin"
         - "C:\\WINDOWS\\system32"
         - "C:\\WINDOWS"
         - "C:\\WINDOWS\\System32\\Wbem"
@@ -138,218 +59,7 @@ events:
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Git\\cmd"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
         - "C:\\Users\\6041464\\_c_lang_\\bin"
-  -
-    kind: "find-v1"
-    backtrace:
-      - "C:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeDetermineCompiler.cmake:63 (find_program)"
-      - "C:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeDetermineCXXCompiler.cmake:69 (_cmake_find_compiler)"
-      - "CMakeLists.txt:2 (project)"
-    mode: "program"
-    variable: "CMAKE_CXX_COMPILER"
-    description: "CXX compiler"
-    settings:
-      SearchFramework: "NEVER"
-      SearchAppBundle: "NEVER"
-      CMAKE_FIND_USE_CMAKE_PATH: false
-      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
-      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
-      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: false
-      CMAKE_FIND_USE_INSTALL_PREFIX: true
-    names:
-      - "c++"
-      - "g++"
-      - "cl"
-      - "bcc"
-      - "icx"
-      - "clang++"
-    candidate_directories:
-      - "C:/Windows/System32/"
-      - "C:/Windows/"
-      - "C:/Windows/System32/wbem/"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
-      - "C:/Windows/System32/OpenSSH/"
-      - "C:/Program Files/dotnet/"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
-      - "C:/Users/6041464/_c_lang_/bin/"
-    searched_directories:
-      - "C:/Windows/System32/c++.com"
-      - "C:/Windows/System32/c++.exe"
-      - "C:/Windows/System32/c++"
-      - "C:/Windows/System32/g++.com"
-      - "C:/Windows/System32/g++.exe"
-      - "C:/Windows/System32/g++"
-      - "C:/Windows/System32/cl.com"
-      - "C:/Windows/System32/cl.exe"
-      - "C:/Windows/System32/cl"
-      - "C:/Windows/System32/bcc.com"
-      - "C:/Windows/System32/bcc.exe"
-      - "C:/Windows/System32/bcc"
-      - "C:/Windows/System32/icx.com"
-      - "C:/Windows/System32/icx.exe"
-      - "C:/Windows/System32/icx"
-      - "C:/Windows/System32/clang++.com"
-      - "C:/Windows/System32/clang++.exe"
-      - "C:/Windows/System32/clang++"
-      - "C:/Windows/c++.com"
-      - "C:/Windows/c++.exe"
-      - "C:/Windows/c++"
-      - "C:/Windows/g++.com"
-      - "C:/Windows/g++.exe"
-      - "C:/Windows/g++"
-      - "C:/Windows/cl.com"
-      - "C:/Windows/cl.exe"
-      - "C:/Windows/cl"
-      - "C:/Windows/bcc.com"
-      - "C:/Windows/bcc.exe"
-      - "C:/Windows/bcc"
-      - "C:/Windows/icx.com"
-      - "C:/Windows/icx.exe"
-      - "C:/Windows/icx"
-      - "C:/Windows/clang++.com"
-      - "C:/Windows/clang++.exe"
-      - "C:/Windows/clang++"
-      - "C:/Windows/System32/wbem/c++.com"
-      - "C:/Windows/System32/wbem/c++.exe"
-      - "C:/Windows/System32/wbem/c++"
-      - "C:/Windows/System32/wbem/g++.com"
-      - "C:/Windows/System32/wbem/g++.exe"
-      - "C:/Windows/System32/wbem/g++"
-      - "C:/Windows/System32/wbem/cl.com"
-      - "C:/Windows/System32/wbem/cl.exe"
-      - "C:/Windows/System32/wbem/cl"
-      - "C:/Windows/System32/wbem/bcc.com"
-      - "C:/Windows/System32/wbem/bcc.exe"
-      - "C:/Windows/System32/wbem/bcc"
-      - "C:/Windows/System32/wbem/icx.com"
-      - "C:/Windows/System32/wbem/icx.exe"
-      - "C:/Windows/System32/wbem/icx"
-      - "C:/Windows/System32/wbem/clang++.com"
-      - "C:/Windows/System32/wbem/clang++.exe"
-      - "C:/Windows/System32/wbem/clang++"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/c++.com"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/c++.exe"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/c++"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/g++.com"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/g++.exe"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/g++"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/cl.com"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/cl.exe"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/cl"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/bcc.com"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/bcc.exe"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/bcc"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/icx.com"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/icx.exe"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/icx"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/clang++.com"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/clang++.exe"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/clang++"
-      - "C:/Windows/System32/OpenSSH/c++.com"
-      - "C:/Windows/System32/OpenSSH/c++.exe"
-      - "C:/Windows/System32/OpenSSH/c++"
-      - "C:/Windows/System32/OpenSSH/g++.com"
-      - "C:/Windows/System32/OpenSSH/g++.exe"
-      - "C:/Windows/System32/OpenSSH/g++"
-      - "C:/Windows/System32/OpenSSH/cl.com"
-      - "C:/Windows/System32/OpenSSH/cl.exe"
-      - "C:/Windows/System32/OpenSSH/cl"
-      - "C:/Windows/System32/OpenSSH/bcc.com"
-      - "C:/Windows/System32/OpenSSH/bcc.exe"
-      - "C:/Windows/System32/OpenSSH/bcc"
-      - "C:/Windows/System32/OpenSSH/icx.com"
-      - "C:/Windows/System32/OpenSSH/icx.exe"
-      - "C:/Windows/System32/OpenSSH/icx"
-      - "C:/Windows/System32/OpenSSH/clang++.com"
-      - "C:/Windows/System32/OpenSSH/clang++.exe"
-      - "C:/Windows/System32/OpenSSH/clang++"
-      - "C:/Program Files/dotnet/c++.com"
-      - "C:/Program Files/dotnet/c++.exe"
-      - "C:/Program Files/dotnet/c++"
-      - "C:/Program Files/dotnet/g++.com"
-      - "C:/Program Files/dotnet/g++.exe"
-      - "C:/Program Files/dotnet/g++"
-      - "C:/Program Files/dotnet/cl.com"
-      - "C:/Program Files/dotnet/cl.exe"
-      - "C:/Program Files/dotnet/cl"
-      - "C:/Program Files/dotnet/bcc.com"
-      - "C:/Program Files/dotnet/bcc.exe"
-      - "C:/Program Files/dotnet/bcc"
-      - "C:/Program Files/dotnet/icx.com"
-      - "C:/Program Files/dotnet/icx.exe"
-      - "C:/Program Files/dotnet/icx"
-      - "C:/Program Files/dotnet/clang++.com"
-      - "C:/Program Files/dotnet/clang++.exe"
-      - "C:/Program Files/dotnet/clang++"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/c++.com"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/c++.exe"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/c++"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/g++.com"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/g++.exe"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/g++"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/cl.com"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/cl.exe"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/cl"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/bcc.com"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/bcc.exe"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/bcc"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/icx.com"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/icx.exe"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/icx"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/clang++.com"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/clang++.exe"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/clang++"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/c++.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/c++.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/c++"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/g++.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/g++.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/g++"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/cl.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/cl.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/cl"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/bcc.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/bcc.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/bcc"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/icx.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/icx.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/icx"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/clang++.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/clang++.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/clang++"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/c++.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/c++.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/c++"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/g++.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/g++.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/g++"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/cl.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/cl.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/cl"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/bcc.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/bcc.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/bcc"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/icx.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/icx.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/icx"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/clang++.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/clang++.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/clang++"
-      - "C:/Users/6041464/_c_lang_/bin/c++.com"
-    found: "C:/Users/6041464/_c_lang_/bin/c++.exe"
-    search_context:
-      ENV{PATH}:
-        - "C:\\WINDOWS\\system32"
-        - "C:\\WINDOWS"
-        - "C:\\WINDOWS\\System32\\Wbem"
-        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
-        - "C:\\WINDOWS\\System32\\OpenSSH\\"
-        - "C:\\Program Files\\dotnet\\"
-        - "C:\\Users\\6041464\\AppData\\Local\\Microsoft\\WindowsApps"
-        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Git\\cmd"
-        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
-        - "C:\\Users\\6041464\\_c_lang_\\bin"
+        - "C:\\Users\\6041464\\Documents\\MaxCore_REMASTERED\\build\\"
   -
     kind: "find-v1"
     backtrace:
@@ -377,6 +87,7 @@ events:
     found: "C:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeCXXCompilerId.cpp.in"
     search_context:
       ENV{PATH}:
+        - "C:\\Users\\6041464\\_c_lang_\\bin"
         - "C:\\WINDOWS\\system32"
         - "C:\\WINDOWS"
         - "C:\\WINDOWS\\System32\\Wbem"
@@ -387,6 +98,7 @@ events:
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Git\\cmd"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
         - "C:\\Users\\6041464\\_c_lang_\\bin"
+        - "C:\\Users\\6041464\\Documents\\MaxCore_REMASTERED\\build\\"
   -
     kind: "message-v1"
     backtrace:
@@ -396,7 +108,7 @@ events:
       - "CMakeLists.txt:2 (project)"
     message: |
       Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
-      Compiler: C:/Users/6041464/_c_lang_/bin/c++.exe 
+      Compiler: C:/Users/6041464/_c_lang_/bin/ccache-g++.exe 
       Build flags: 
       Id flags:  
       
@@ -427,6 +139,7 @@ events:
       CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
       CMAKE_FIND_USE_INSTALL_PREFIX: true
     names:
+      - "ccache-ar"
       - "ar"
     candidate_directories:
       - "C:/Users/6041464/_c_lang_/bin/"
@@ -439,11 +152,46 @@ events:
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/"
     searched_directories:
+      - "C:/Users/6041464/_c_lang_/bin/ccache-ar.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-ar.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-ar"
+      - "C:/Windows/System32/ccache-ar.com"
+      - "C:/Windows/System32/ccache-ar.exe"
+      - "C:/Windows/System32/ccache-ar"
+      - "C:/Windows/ccache-ar.com"
+      - "C:/Windows/ccache-ar.exe"
+      - "C:/Windows/ccache-ar"
+      - "C:/Windows/System32/wbem/ccache-ar.com"
+      - "C:/Windows/System32/wbem/ccache-ar.exe"
+      - "C:/Windows/System32/wbem/ccache-ar"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-ar.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-ar.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-ar"
+      - "C:/Windows/System32/OpenSSH/ccache-ar.com"
+      - "C:/Windows/System32/OpenSSH/ccache-ar.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-ar"
+      - "C:/Program Files/dotnet/ccache-ar.com"
+      - "C:/Program Files/dotnet/ccache-ar.exe"
+      - "C:/Program Files/dotnet/ccache-ar"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-ar.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-ar.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-ar"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-ar.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-ar.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-ar"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-ar.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-ar.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-ar"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-ar.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-ar.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-ar"
       - "C:/Users/6041464/_c_lang_/bin/ar.com"
     found: "C:/Users/6041464/_c_lang_/bin/ar.exe"
     search_context:
       ENV{PATH}:
+        - "C:\\Users\\6041464\\_c_lang_\\bin"
         - "C:\\WINDOWS\\system32"
         - "C:\\WINDOWS"
         - "C:\\WINDOWS\\System32\\Wbem"
@@ -454,6 +202,7 @@ events:
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Git\\cmd"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
         - "C:\\Users\\6041464\\_c_lang_\\bin"
+        - "C:\\Users\\6041464\\Documents\\MaxCore_REMASTERED\\build\\"
   -
     kind: "find-v1"
     backtrace:
@@ -472,6 +221,7 @@ events:
       CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
       CMAKE_FIND_USE_INSTALL_PREFIX: true
     names:
+      - "ccache-ranlib"
       - "ranlib"
     candidate_directories:
       - "C:/Users/6041464/_c_lang_/bin/"
@@ -484,11 +234,46 @@ events:
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/"
     searched_directories:
+      - "C:/Users/6041464/_c_lang_/bin/ccache-ranlib.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-ranlib.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-ranlib"
+      - "C:/Windows/System32/ccache-ranlib.com"
+      - "C:/Windows/System32/ccache-ranlib.exe"
+      - "C:/Windows/System32/ccache-ranlib"
+      - "C:/Windows/ccache-ranlib.com"
+      - "C:/Windows/ccache-ranlib.exe"
+      - "C:/Windows/ccache-ranlib"
+      - "C:/Windows/System32/wbem/ccache-ranlib.com"
+      - "C:/Windows/System32/wbem/ccache-ranlib.exe"
+      - "C:/Windows/System32/wbem/ccache-ranlib"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-ranlib.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-ranlib.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-ranlib"
+      - "C:/Windows/System32/OpenSSH/ccache-ranlib.com"
+      - "C:/Windows/System32/OpenSSH/ccache-ranlib.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-ranlib"
+      - "C:/Program Files/dotnet/ccache-ranlib.com"
+      - "C:/Program Files/dotnet/ccache-ranlib.exe"
+      - "C:/Program Files/dotnet/ccache-ranlib"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-ranlib.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-ranlib.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-ranlib"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-ranlib.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-ranlib.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-ranlib"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-ranlib.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-ranlib.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-ranlib"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-ranlib.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-ranlib.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-ranlib"
       - "C:/Users/6041464/_c_lang_/bin/ranlib.com"
     found: "C:/Users/6041464/_c_lang_/bin/ranlib.exe"
     search_context:
       ENV{PATH}:
+        - "C:\\Users\\6041464\\_c_lang_\\bin"
         - "C:\\WINDOWS\\system32"
         - "C:\\WINDOWS"
         - "C:\\WINDOWS\\System32\\Wbem"
@@ -499,6 +284,7 @@ events:
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Git\\cmd"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
         - "C:\\Users\\6041464\\_c_lang_\\bin"
+        - "C:\\Users\\6041464\\Documents\\MaxCore_REMASTERED\\build\\"
   -
     kind: "find-v1"
     backtrace:
@@ -517,6 +303,7 @@ events:
       CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
       CMAKE_FIND_USE_INSTALL_PREFIX: true
     names:
+      - "ccache-strip"
       - "strip"
     candidate_directories:
       - "C:/Users/6041464/_c_lang_/bin/"
@@ -529,11 +316,46 @@ events:
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/"
     searched_directories:
+      - "C:/Users/6041464/_c_lang_/bin/ccache-strip.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-strip.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-strip"
+      - "C:/Windows/System32/ccache-strip.com"
+      - "C:/Windows/System32/ccache-strip.exe"
+      - "C:/Windows/System32/ccache-strip"
+      - "C:/Windows/ccache-strip.com"
+      - "C:/Windows/ccache-strip.exe"
+      - "C:/Windows/ccache-strip"
+      - "C:/Windows/System32/wbem/ccache-strip.com"
+      - "C:/Windows/System32/wbem/ccache-strip.exe"
+      - "C:/Windows/System32/wbem/ccache-strip"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-strip.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-strip.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-strip"
+      - "C:/Windows/System32/OpenSSH/ccache-strip.com"
+      - "C:/Windows/System32/OpenSSH/ccache-strip.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-strip"
+      - "C:/Program Files/dotnet/ccache-strip.com"
+      - "C:/Program Files/dotnet/ccache-strip.exe"
+      - "C:/Program Files/dotnet/ccache-strip"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-strip.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-strip.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-strip"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-strip.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-strip.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-strip"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-strip.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-strip.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-strip"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-strip.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-strip.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-strip"
       - "C:/Users/6041464/_c_lang_/bin/strip.com"
     found: "C:/Users/6041464/_c_lang_/bin/strip.exe"
     search_context:
       ENV{PATH}:
+        - "C:\\Users\\6041464\\_c_lang_\\bin"
         - "C:\\WINDOWS\\system32"
         - "C:\\WINDOWS"
         - "C:\\WINDOWS\\System32\\Wbem"
@@ -544,6 +366,7 @@ events:
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Git\\cmd"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
         - "C:\\Users\\6041464\\_c_lang_\\bin"
+        - "C:\\Users\\6041464\\Documents\\MaxCore_REMASTERED\\build\\"
   -
     kind: "find-v1"
     backtrace:
@@ -562,6 +385,7 @@ events:
       CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
       CMAKE_FIND_USE_INSTALL_PREFIX: true
     names:
+      - "ccache-ld"
       - "ld"
     candidate_directories:
       - "C:/Users/6041464/_c_lang_/bin/"
@@ -574,11 +398,46 @@ events:
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/"
     searched_directories:
+      - "C:/Users/6041464/_c_lang_/bin/ccache-ld.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-ld.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-ld"
+      - "C:/Windows/System32/ccache-ld.com"
+      - "C:/Windows/System32/ccache-ld.exe"
+      - "C:/Windows/System32/ccache-ld"
+      - "C:/Windows/ccache-ld.com"
+      - "C:/Windows/ccache-ld.exe"
+      - "C:/Windows/ccache-ld"
+      - "C:/Windows/System32/wbem/ccache-ld.com"
+      - "C:/Windows/System32/wbem/ccache-ld.exe"
+      - "C:/Windows/System32/wbem/ccache-ld"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-ld.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-ld.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-ld"
+      - "C:/Windows/System32/OpenSSH/ccache-ld.com"
+      - "C:/Windows/System32/OpenSSH/ccache-ld.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-ld"
+      - "C:/Program Files/dotnet/ccache-ld.com"
+      - "C:/Program Files/dotnet/ccache-ld.exe"
+      - "C:/Program Files/dotnet/ccache-ld"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-ld.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-ld.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-ld"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-ld.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-ld.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-ld"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-ld.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-ld.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-ld"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-ld.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-ld.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-ld"
       - "C:/Users/6041464/_c_lang_/bin/ld.com"
     found: "C:/Users/6041464/_c_lang_/bin/ld.exe"
     search_context:
       ENV{PATH}:
+        - "C:\\Users\\6041464\\_c_lang_\\bin"
         - "C:\\WINDOWS\\system32"
         - "C:\\WINDOWS"
         - "C:\\WINDOWS\\System32\\Wbem"
@@ -589,6 +448,7 @@ events:
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Git\\cmd"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
         - "C:\\Users\\6041464\\_c_lang_\\bin"
+        - "C:\\Users\\6041464\\Documents\\MaxCore_REMASTERED\\build\\"
   -
     kind: "find-v1"
     backtrace:
@@ -607,6 +467,7 @@ events:
       CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
       CMAKE_FIND_USE_INSTALL_PREFIX: true
     names:
+      - "ccache-nm"
       - "nm"
     candidate_directories:
       - "C:/Users/6041464/_c_lang_/bin/"
@@ -619,11 +480,46 @@ events:
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/"
     searched_directories:
+      - "C:/Users/6041464/_c_lang_/bin/ccache-nm.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-nm.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-nm"
+      - "C:/Windows/System32/ccache-nm.com"
+      - "C:/Windows/System32/ccache-nm.exe"
+      - "C:/Windows/System32/ccache-nm"
+      - "C:/Windows/ccache-nm.com"
+      - "C:/Windows/ccache-nm.exe"
+      - "C:/Windows/ccache-nm"
+      - "C:/Windows/System32/wbem/ccache-nm.com"
+      - "C:/Windows/System32/wbem/ccache-nm.exe"
+      - "C:/Windows/System32/wbem/ccache-nm"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-nm.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-nm.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-nm"
+      - "C:/Windows/System32/OpenSSH/ccache-nm.com"
+      - "C:/Windows/System32/OpenSSH/ccache-nm.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-nm"
+      - "C:/Program Files/dotnet/ccache-nm.com"
+      - "C:/Program Files/dotnet/ccache-nm.exe"
+      - "C:/Program Files/dotnet/ccache-nm"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-nm.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-nm.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-nm"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-nm.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-nm.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-nm"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-nm.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-nm.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-nm"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-nm.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-nm.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-nm"
       - "C:/Users/6041464/_c_lang_/bin/nm.com"
     found: "C:/Users/6041464/_c_lang_/bin/nm.exe"
     search_context:
       ENV{PATH}:
+        - "C:\\Users\\6041464\\_c_lang_\\bin"
         - "C:\\WINDOWS\\system32"
         - "C:\\WINDOWS"
         - "C:\\WINDOWS\\System32\\Wbem"
@@ -634,6 +530,7 @@ events:
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Git\\cmd"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
         - "C:\\Users\\6041464\\_c_lang_\\bin"
+        - "C:\\Users\\6041464\\Documents\\MaxCore_REMASTERED\\build\\"
   -
     kind: "find-v1"
     backtrace:
@@ -652,6 +549,7 @@ events:
       CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
       CMAKE_FIND_USE_INSTALL_PREFIX: true
     names:
+      - "ccache-objdump"
       - "objdump"
     candidate_directories:
       - "C:/Users/6041464/_c_lang_/bin/"
@@ -664,11 +562,46 @@ events:
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/"
     searched_directories:
+      - "C:/Users/6041464/_c_lang_/bin/ccache-objdump.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-objdump.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-objdump"
+      - "C:/Windows/System32/ccache-objdump.com"
+      - "C:/Windows/System32/ccache-objdump.exe"
+      - "C:/Windows/System32/ccache-objdump"
+      - "C:/Windows/ccache-objdump.com"
+      - "C:/Windows/ccache-objdump.exe"
+      - "C:/Windows/ccache-objdump"
+      - "C:/Windows/System32/wbem/ccache-objdump.com"
+      - "C:/Windows/System32/wbem/ccache-objdump.exe"
+      - "C:/Windows/System32/wbem/ccache-objdump"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-objdump.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-objdump.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-objdump"
+      - "C:/Windows/System32/OpenSSH/ccache-objdump.com"
+      - "C:/Windows/System32/OpenSSH/ccache-objdump.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-objdump"
+      - "C:/Program Files/dotnet/ccache-objdump.com"
+      - "C:/Program Files/dotnet/ccache-objdump.exe"
+      - "C:/Program Files/dotnet/ccache-objdump"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-objdump.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-objdump.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-objdump"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-objdump.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-objdump.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-objdump"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-objdump.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-objdump.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-objdump"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-objdump.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-objdump.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-objdump"
       - "C:/Users/6041464/_c_lang_/bin/objdump.com"
     found: "C:/Users/6041464/_c_lang_/bin/objdump.exe"
     search_context:
       ENV{PATH}:
+        - "C:\\Users\\6041464\\_c_lang_\\bin"
         - "C:\\WINDOWS\\system32"
         - "C:\\WINDOWS"
         - "C:\\WINDOWS\\System32\\Wbem"
@@ -679,6 +612,7 @@ events:
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Git\\cmd"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
         - "C:\\Users\\6041464\\_c_lang_\\bin"
+        - "C:\\Users\\6041464\\Documents\\MaxCore_REMASTERED\\build\\"
   -
     kind: "find-v1"
     backtrace:
@@ -697,6 +631,7 @@ events:
       CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
       CMAKE_FIND_USE_INSTALL_PREFIX: true
     names:
+      - "ccache-objcopy"
       - "objcopy"
     candidate_directories:
       - "C:/Users/6041464/_c_lang_/bin/"
@@ -709,11 +644,46 @@ events:
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/"
     searched_directories:
+      - "C:/Users/6041464/_c_lang_/bin/ccache-objcopy.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-objcopy.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-objcopy"
+      - "C:/Windows/System32/ccache-objcopy.com"
+      - "C:/Windows/System32/ccache-objcopy.exe"
+      - "C:/Windows/System32/ccache-objcopy"
+      - "C:/Windows/ccache-objcopy.com"
+      - "C:/Windows/ccache-objcopy.exe"
+      - "C:/Windows/ccache-objcopy"
+      - "C:/Windows/System32/wbem/ccache-objcopy.com"
+      - "C:/Windows/System32/wbem/ccache-objcopy.exe"
+      - "C:/Windows/System32/wbem/ccache-objcopy"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-objcopy.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-objcopy.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-objcopy"
+      - "C:/Windows/System32/OpenSSH/ccache-objcopy.com"
+      - "C:/Windows/System32/OpenSSH/ccache-objcopy.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-objcopy"
+      - "C:/Program Files/dotnet/ccache-objcopy.com"
+      - "C:/Program Files/dotnet/ccache-objcopy.exe"
+      - "C:/Program Files/dotnet/ccache-objcopy"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-objcopy.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-objcopy.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-objcopy"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-objcopy.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-objcopy.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-objcopy"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-objcopy.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-objcopy.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-objcopy"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-objcopy.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-objcopy.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-objcopy"
       - "C:/Users/6041464/_c_lang_/bin/objcopy.com"
     found: "C:/Users/6041464/_c_lang_/bin/objcopy.exe"
     search_context:
       ENV{PATH}:
+        - "C:\\Users\\6041464\\_c_lang_\\bin"
         - "C:\\WINDOWS\\system32"
         - "C:\\WINDOWS"
         - "C:\\WINDOWS\\System32\\Wbem"
@@ -724,6 +694,7 @@ events:
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Git\\cmd"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
         - "C:\\Users\\6041464\\_c_lang_\\bin"
+        - "C:\\Users\\6041464\\Documents\\MaxCore_REMASTERED\\build\\"
   -
     kind: "find-v1"
     backtrace:
@@ -742,6 +713,7 @@ events:
       CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
       CMAKE_FIND_USE_INSTALL_PREFIX: true
     names:
+      - "ccache-readelf"
       - "readelf"
     candidate_directories:
       - "C:/Users/6041464/_c_lang_/bin/"
@@ -754,7 +726,41 @@ events:
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/"
     searched_directories:
+      - "C:/Users/6041464/_c_lang_/bin/ccache-readelf.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-readelf.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-readelf"
+      - "C:/Windows/System32/ccache-readelf.com"
+      - "C:/Windows/System32/ccache-readelf.exe"
+      - "C:/Windows/System32/ccache-readelf"
+      - "C:/Windows/ccache-readelf.com"
+      - "C:/Windows/ccache-readelf.exe"
+      - "C:/Windows/ccache-readelf"
+      - "C:/Windows/System32/wbem/ccache-readelf.com"
+      - "C:/Windows/System32/wbem/ccache-readelf.exe"
+      - "C:/Windows/System32/wbem/ccache-readelf"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-readelf.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-readelf.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-readelf"
+      - "C:/Windows/System32/OpenSSH/ccache-readelf.com"
+      - "C:/Windows/System32/OpenSSH/ccache-readelf.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-readelf"
+      - "C:/Program Files/dotnet/ccache-readelf.com"
+      - "C:/Program Files/dotnet/ccache-readelf.exe"
+      - "C:/Program Files/dotnet/ccache-readelf"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-readelf.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-readelf.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-readelf"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-readelf.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-readelf.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-readelf"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-readelf.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-readelf.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-readelf"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-readelf.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-readelf.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-readelf"
       - "C:/Users/6041464/_c_lang_/bin/readelf.com"
       - "C:/Users/6041464/_c_lang_/bin/readelf.exe"
       - "C:/Users/6041464/_c_lang_/bin/readelf"
@@ -785,9 +791,13 @@ events:
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/readelf.com"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/readelf.exe"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/readelf"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/readelf.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/readelf.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/readelf"
     found: false
     search_context:
       ENV{PATH}:
+        - "C:\\Users\\6041464\\_c_lang_\\bin"
         - "C:\\WINDOWS\\system32"
         - "C:\\WINDOWS"
         - "C:\\WINDOWS\\System32\\Wbem"
@@ -798,6 +808,7 @@ events:
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Git\\cmd"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
         - "C:\\Users\\6041464\\_c_lang_\\bin"
+        - "C:\\Users\\6041464\\Documents\\MaxCore_REMASTERED\\build\\"
   -
     kind: "find-v1"
     backtrace:
@@ -816,6 +827,7 @@ events:
       CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
       CMAKE_FIND_USE_INSTALL_PREFIX: true
     names:
+      - "ccache-dlltool"
       - "dlltool"
     candidate_directories:
       - "C:/Users/6041464/_c_lang_/bin/"
@@ -828,11 +840,46 @@ events:
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/"
     searched_directories:
+      - "C:/Users/6041464/_c_lang_/bin/ccache-dlltool.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-dlltool.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-dlltool"
+      - "C:/Windows/System32/ccache-dlltool.com"
+      - "C:/Windows/System32/ccache-dlltool.exe"
+      - "C:/Windows/System32/ccache-dlltool"
+      - "C:/Windows/ccache-dlltool.com"
+      - "C:/Windows/ccache-dlltool.exe"
+      - "C:/Windows/ccache-dlltool"
+      - "C:/Windows/System32/wbem/ccache-dlltool.com"
+      - "C:/Windows/System32/wbem/ccache-dlltool.exe"
+      - "C:/Windows/System32/wbem/ccache-dlltool"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-dlltool.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-dlltool.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-dlltool"
+      - "C:/Windows/System32/OpenSSH/ccache-dlltool.com"
+      - "C:/Windows/System32/OpenSSH/ccache-dlltool.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-dlltool"
+      - "C:/Program Files/dotnet/ccache-dlltool.com"
+      - "C:/Program Files/dotnet/ccache-dlltool.exe"
+      - "C:/Program Files/dotnet/ccache-dlltool"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-dlltool.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-dlltool.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-dlltool"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-dlltool.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-dlltool.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-dlltool"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-dlltool.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-dlltool.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-dlltool"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-dlltool.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-dlltool.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-dlltool"
       - "C:/Users/6041464/_c_lang_/bin/dlltool.com"
     found: "C:/Users/6041464/_c_lang_/bin/dlltool.exe"
     search_context:
       ENV{PATH}:
+        - "C:\\Users\\6041464\\_c_lang_\\bin"
         - "C:\\WINDOWS\\system32"
         - "C:\\WINDOWS"
         - "C:\\WINDOWS\\System32\\Wbem"
@@ -843,6 +890,7 @@ events:
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Git\\cmd"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
         - "C:\\Users\\6041464\\_c_lang_\\bin"
+        - "C:\\Users\\6041464\\Documents\\MaxCore_REMASTERED\\build\\"
   -
     kind: "find-v1"
     backtrace:
@@ -861,6 +909,7 @@ events:
       CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
       CMAKE_FIND_USE_INSTALL_PREFIX: true
     names:
+      - "ccache-addr2line"
       - "addr2line"
     candidate_directories:
       - "C:/Users/6041464/_c_lang_/bin/"
@@ -873,11 +922,46 @@ events:
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/"
     searched_directories:
+      - "C:/Users/6041464/_c_lang_/bin/ccache-addr2line.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-addr2line.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-addr2line"
+      - "C:/Windows/System32/ccache-addr2line.com"
+      - "C:/Windows/System32/ccache-addr2line.exe"
+      - "C:/Windows/System32/ccache-addr2line"
+      - "C:/Windows/ccache-addr2line.com"
+      - "C:/Windows/ccache-addr2line.exe"
+      - "C:/Windows/ccache-addr2line"
+      - "C:/Windows/System32/wbem/ccache-addr2line.com"
+      - "C:/Windows/System32/wbem/ccache-addr2line.exe"
+      - "C:/Windows/System32/wbem/ccache-addr2line"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-addr2line.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-addr2line.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-addr2line"
+      - "C:/Windows/System32/OpenSSH/ccache-addr2line.com"
+      - "C:/Windows/System32/OpenSSH/ccache-addr2line.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-addr2line"
+      - "C:/Program Files/dotnet/ccache-addr2line.com"
+      - "C:/Program Files/dotnet/ccache-addr2line.exe"
+      - "C:/Program Files/dotnet/ccache-addr2line"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-addr2line.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-addr2line.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-addr2line"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-addr2line.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-addr2line.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-addr2line"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-addr2line.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-addr2line.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-addr2line"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-addr2line.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-addr2line.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-addr2line"
       - "C:/Users/6041464/_c_lang_/bin/addr2line.com"
     found: "C:/Users/6041464/_c_lang_/bin/addr2line.exe"
     search_context:
       ENV{PATH}:
+        - "C:\\Users\\6041464\\_c_lang_\\bin"
         - "C:\\WINDOWS\\system32"
         - "C:\\WINDOWS"
         - "C:\\WINDOWS\\System32\\Wbem"
@@ -888,6 +972,7 @@ events:
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Git\\cmd"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
         - "C:\\Users\\6041464\\_c_lang_\\bin"
+        - "C:\\Users\\6041464\\Documents\\MaxCore_REMASTERED\\build\\"
   -
     kind: "find-v1"
     backtrace:
@@ -906,6 +991,7 @@ events:
       CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
       CMAKE_FIND_USE_INSTALL_PREFIX: true
     names:
+      - "ccache-tapi"
       - "tapi"
     candidate_directories:
       - "C:/Users/6041464/_c_lang_/bin/"
@@ -918,7 +1004,41 @@ events:
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/"
     searched_directories:
+      - "C:/Users/6041464/_c_lang_/bin/ccache-tapi.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-tapi.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-tapi"
+      - "C:/Windows/System32/ccache-tapi.com"
+      - "C:/Windows/System32/ccache-tapi.exe"
+      - "C:/Windows/System32/ccache-tapi"
+      - "C:/Windows/ccache-tapi.com"
+      - "C:/Windows/ccache-tapi.exe"
+      - "C:/Windows/ccache-tapi"
+      - "C:/Windows/System32/wbem/ccache-tapi.com"
+      - "C:/Windows/System32/wbem/ccache-tapi.exe"
+      - "C:/Windows/System32/wbem/ccache-tapi"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-tapi.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-tapi.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-tapi"
+      - "C:/Windows/System32/OpenSSH/ccache-tapi.com"
+      - "C:/Windows/System32/OpenSSH/ccache-tapi.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-tapi"
+      - "C:/Program Files/dotnet/ccache-tapi.com"
+      - "C:/Program Files/dotnet/ccache-tapi.exe"
+      - "C:/Program Files/dotnet/ccache-tapi"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-tapi.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-tapi.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-tapi"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-tapi.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-tapi.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-tapi"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-tapi.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-tapi.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-tapi"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-tapi.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-tapi.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-tapi"
       - "C:/Users/6041464/_c_lang_/bin/tapi.com"
       - "C:/Users/6041464/_c_lang_/bin/tapi.exe"
       - "C:/Users/6041464/_c_lang_/bin/tapi"
@@ -949,9 +1069,13 @@ events:
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/tapi.com"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/tapi.exe"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/tapi"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/tapi.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/tapi.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/tapi"
     found: false
     search_context:
       ENV{PATH}:
+        - "C:\\Users\\6041464\\_c_lang_\\bin"
         - "C:\\WINDOWS\\system32"
         - "C:\\WINDOWS"
         - "C:\\WINDOWS\\System32\\Wbem"
@@ -962,6 +1086,7 @@ events:
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Git\\cmd"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
         - "C:\\Users\\6041464\\_c_lang_\\bin"
+        - "C:\\Users\\6041464\\Documents\\MaxCore_REMASTERED\\build\\"
   -
     kind: "find-v1"
     backtrace:
@@ -980,10 +1105,10 @@ events:
       CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
       CMAKE_FIND_USE_INSTALL_PREFIX: true
     names:
-      - "gcc-ar-16.1"
-      - "gcc-ar-16"
-      - "gcc-ar16"
-      - "gcc-ar"
+      - "ccache-gcc-ar-16.1"
+      - "ccache-gcc-ar-16"
+      - "ccache-gcc-ar16"
+      - "ccache-gcc-ar"
     candidate_directories:
       - "C:/Users/6041464/_c_lang_/bin/"
       - "C:/Windows/System32/"
@@ -995,101 +1120,144 @@ events:
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/"
     searched_directories:
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ar-16.1.com"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ar-16.1.exe"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ar-16.1"
-      - "C:/Windows/System32/gcc-ar-16.1.com"
-      - "C:/Windows/System32/gcc-ar-16.1.exe"
-      - "C:/Windows/System32/gcc-ar-16.1"
-      - "C:/Windows/gcc-ar-16.1.com"
-      - "C:/Windows/gcc-ar-16.1.exe"
-      - "C:/Windows/gcc-ar-16.1"
-      - "C:/Windows/System32/wbem/gcc-ar-16.1.com"
-      - "C:/Windows/System32/wbem/gcc-ar-16.1.exe"
-      - "C:/Windows/System32/wbem/gcc-ar-16.1"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ar-16.1.com"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ar-16.1.exe"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ar-16.1"
-      - "C:/Windows/System32/OpenSSH/gcc-ar-16.1.com"
-      - "C:/Windows/System32/OpenSSH/gcc-ar-16.1.exe"
-      - "C:/Windows/System32/OpenSSH/gcc-ar-16.1"
-      - "C:/Program Files/dotnet/gcc-ar-16.1.com"
-      - "C:/Program Files/dotnet/gcc-ar-16.1.exe"
-      - "C:/Program Files/dotnet/gcc-ar-16.1"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar-16.1.com"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar-16.1.exe"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar-16.1"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ar-16.1.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ar-16.1.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ar-16.1"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ar-16.1.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ar-16.1.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ar-16.1"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ar-16.com"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ar-16.exe"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ar-16"
-      - "C:/Windows/System32/gcc-ar-16.com"
-      - "C:/Windows/System32/gcc-ar-16.exe"
-      - "C:/Windows/System32/gcc-ar-16"
-      - "C:/Windows/gcc-ar-16.com"
-      - "C:/Windows/gcc-ar-16.exe"
-      - "C:/Windows/gcc-ar-16"
-      - "C:/Windows/System32/wbem/gcc-ar-16.com"
-      - "C:/Windows/System32/wbem/gcc-ar-16.exe"
-      - "C:/Windows/System32/wbem/gcc-ar-16"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ar-16.com"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ar-16.exe"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ar-16"
-      - "C:/Windows/System32/OpenSSH/gcc-ar-16.com"
-      - "C:/Windows/System32/OpenSSH/gcc-ar-16.exe"
-      - "C:/Windows/System32/OpenSSH/gcc-ar-16"
-      - "C:/Program Files/dotnet/gcc-ar-16.com"
-      - "C:/Program Files/dotnet/gcc-ar-16.exe"
-      - "C:/Program Files/dotnet/gcc-ar-16"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar-16.com"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar-16.exe"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar-16"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ar-16.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ar-16.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ar-16"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ar-16.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ar-16.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ar-16"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ar16.com"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ar16.exe"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ar16"
-      - "C:/Windows/System32/gcc-ar16.com"
-      - "C:/Windows/System32/gcc-ar16.exe"
-      - "C:/Windows/System32/gcc-ar16"
-      - "C:/Windows/gcc-ar16.com"
-      - "C:/Windows/gcc-ar16.exe"
-      - "C:/Windows/gcc-ar16"
-      - "C:/Windows/System32/wbem/gcc-ar16.com"
-      - "C:/Windows/System32/wbem/gcc-ar16.exe"
-      - "C:/Windows/System32/wbem/gcc-ar16"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ar16.com"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ar16.exe"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ar16"
-      - "C:/Windows/System32/OpenSSH/gcc-ar16.com"
-      - "C:/Windows/System32/OpenSSH/gcc-ar16.exe"
-      - "C:/Windows/System32/OpenSSH/gcc-ar16"
-      - "C:/Program Files/dotnet/gcc-ar16.com"
-      - "C:/Program Files/dotnet/gcc-ar16.exe"
-      - "C:/Program Files/dotnet/gcc-ar16"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar16.com"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar16.exe"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar16"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ar16.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ar16.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ar16"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ar16.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ar16.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ar16"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ar.com"
-    found: "C:/Users/6041464/_c_lang_/bin/gcc-ar.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ar-16.1.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ar-16.1.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ar-16.1"
+      - "C:/Windows/System32/ccache-gcc-ar-16.1.com"
+      - "C:/Windows/System32/ccache-gcc-ar-16.1.exe"
+      - "C:/Windows/System32/ccache-gcc-ar-16.1"
+      - "C:/Windows/ccache-gcc-ar-16.1.com"
+      - "C:/Windows/ccache-gcc-ar-16.1.exe"
+      - "C:/Windows/ccache-gcc-ar-16.1"
+      - "C:/Windows/System32/wbem/ccache-gcc-ar-16.1.com"
+      - "C:/Windows/System32/wbem/ccache-gcc-ar-16.1.exe"
+      - "C:/Windows/System32/wbem/ccache-gcc-ar-16.1"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ar-16.1.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ar-16.1.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ar-16.1"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ar-16.1.com"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ar-16.1.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ar-16.1"
+      - "C:/Program Files/dotnet/ccache-gcc-ar-16.1.com"
+      - "C:/Program Files/dotnet/ccache-gcc-ar-16.1.exe"
+      - "C:/Program Files/dotnet/ccache-gcc-ar-16.1"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ar-16.1.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ar-16.1.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ar-16.1"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ar-16.1.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ar-16.1.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ar-16.1"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ar-16.1.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ar-16.1.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ar-16.1"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ar-16.1.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ar-16.1.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ar-16.1"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ar-16.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ar-16.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ar-16"
+      - "C:/Windows/System32/ccache-gcc-ar-16.com"
+      - "C:/Windows/System32/ccache-gcc-ar-16.exe"
+      - "C:/Windows/System32/ccache-gcc-ar-16"
+      - "C:/Windows/ccache-gcc-ar-16.com"
+      - "C:/Windows/ccache-gcc-ar-16.exe"
+      - "C:/Windows/ccache-gcc-ar-16"
+      - "C:/Windows/System32/wbem/ccache-gcc-ar-16.com"
+      - "C:/Windows/System32/wbem/ccache-gcc-ar-16.exe"
+      - "C:/Windows/System32/wbem/ccache-gcc-ar-16"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ar-16.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ar-16.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ar-16"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ar-16.com"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ar-16.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ar-16"
+      - "C:/Program Files/dotnet/ccache-gcc-ar-16.com"
+      - "C:/Program Files/dotnet/ccache-gcc-ar-16.exe"
+      - "C:/Program Files/dotnet/ccache-gcc-ar-16"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ar-16.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ar-16.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ar-16"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ar-16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ar-16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ar-16"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ar-16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ar-16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ar-16"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ar-16.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ar-16.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ar-16"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ar16.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ar16.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ar16"
+      - "C:/Windows/System32/ccache-gcc-ar16.com"
+      - "C:/Windows/System32/ccache-gcc-ar16.exe"
+      - "C:/Windows/System32/ccache-gcc-ar16"
+      - "C:/Windows/ccache-gcc-ar16.com"
+      - "C:/Windows/ccache-gcc-ar16.exe"
+      - "C:/Windows/ccache-gcc-ar16"
+      - "C:/Windows/System32/wbem/ccache-gcc-ar16.com"
+      - "C:/Windows/System32/wbem/ccache-gcc-ar16.exe"
+      - "C:/Windows/System32/wbem/ccache-gcc-ar16"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ar16.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ar16.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ar16"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ar16.com"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ar16.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ar16"
+      - "C:/Program Files/dotnet/ccache-gcc-ar16.com"
+      - "C:/Program Files/dotnet/ccache-gcc-ar16.exe"
+      - "C:/Program Files/dotnet/ccache-gcc-ar16"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ar16.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ar16.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ar16"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ar16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ar16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ar16"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ar16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ar16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ar16"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ar16.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ar16.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ar16"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ar.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ar.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ar"
+      - "C:/Windows/System32/ccache-gcc-ar.com"
+      - "C:/Windows/System32/ccache-gcc-ar.exe"
+      - "C:/Windows/System32/ccache-gcc-ar"
+      - "C:/Windows/ccache-gcc-ar.com"
+      - "C:/Windows/ccache-gcc-ar.exe"
+      - "C:/Windows/ccache-gcc-ar"
+      - "C:/Windows/System32/wbem/ccache-gcc-ar.com"
+      - "C:/Windows/System32/wbem/ccache-gcc-ar.exe"
+      - "C:/Windows/System32/wbem/ccache-gcc-ar"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ar.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ar.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ar"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ar.com"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ar.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ar"
+      - "C:/Program Files/dotnet/ccache-gcc-ar.com"
+      - "C:/Program Files/dotnet/ccache-gcc-ar.exe"
+      - "C:/Program Files/dotnet/ccache-gcc-ar"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ar.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ar.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ar"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ar.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ar.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ar"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ar.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ar.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ar"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ar.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ar.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ar"
+    found: false
     search_context:
       ENV{PATH}:
+        - "C:\\Users\\6041464\\_c_lang_\\bin"
         - "C:\\WINDOWS\\system32"
         - "C:\\WINDOWS"
         - "C:\\WINDOWS\\System32\\Wbem"
@@ -1100,6 +1268,7 @@ events:
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Git\\cmd"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
         - "C:\\Users\\6041464\\_c_lang_\\bin"
+        - "C:\\Users\\6041464\\Documents\\MaxCore_REMASTERED\\build\\"
   -
     kind: "find-v1"
     backtrace:
@@ -1118,10 +1287,10 @@ events:
       CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
       CMAKE_FIND_USE_INSTALL_PREFIX: true
     names:
-      - "gcc-ranlib-16.1"
-      - "gcc-ranlib-16"
-      - "gcc-ranlib16"
-      - "gcc-ranlib"
+      - "ccache-gcc-ranlib-16.1"
+      - "ccache-gcc-ranlib-16"
+      - "ccache-gcc-ranlib16"
+      - "ccache-gcc-ranlib"
     candidate_directories:
       - "C:/Users/6041464/_c_lang_/bin/"
       - "C:/Windows/System32/"
@@ -1133,101 +1302,144 @@ events:
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/"
     searched_directories:
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ranlib-16.1.com"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ranlib-16.1.exe"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ranlib-16.1"
-      - "C:/Windows/System32/gcc-ranlib-16.1.com"
-      - "C:/Windows/System32/gcc-ranlib-16.1.exe"
-      - "C:/Windows/System32/gcc-ranlib-16.1"
-      - "C:/Windows/gcc-ranlib-16.1.com"
-      - "C:/Windows/gcc-ranlib-16.1.exe"
-      - "C:/Windows/gcc-ranlib-16.1"
-      - "C:/Windows/System32/wbem/gcc-ranlib-16.1.com"
-      - "C:/Windows/System32/wbem/gcc-ranlib-16.1.exe"
-      - "C:/Windows/System32/wbem/gcc-ranlib-16.1"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ranlib-16.1.com"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ranlib-16.1.exe"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ranlib-16.1"
-      - "C:/Windows/System32/OpenSSH/gcc-ranlib-16.1.com"
-      - "C:/Windows/System32/OpenSSH/gcc-ranlib-16.1.exe"
-      - "C:/Windows/System32/OpenSSH/gcc-ranlib-16.1"
-      - "C:/Program Files/dotnet/gcc-ranlib-16.1.com"
-      - "C:/Program Files/dotnet/gcc-ranlib-16.1.exe"
-      - "C:/Program Files/dotnet/gcc-ranlib-16.1"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib-16.1.com"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib-16.1.exe"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib-16.1"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ranlib-16.1.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ranlib-16.1.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ranlib-16.1"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ranlib-16.1.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ranlib-16.1.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ranlib-16.1"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ranlib-16.com"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ranlib-16.exe"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ranlib-16"
-      - "C:/Windows/System32/gcc-ranlib-16.com"
-      - "C:/Windows/System32/gcc-ranlib-16.exe"
-      - "C:/Windows/System32/gcc-ranlib-16"
-      - "C:/Windows/gcc-ranlib-16.com"
-      - "C:/Windows/gcc-ranlib-16.exe"
-      - "C:/Windows/gcc-ranlib-16"
-      - "C:/Windows/System32/wbem/gcc-ranlib-16.com"
-      - "C:/Windows/System32/wbem/gcc-ranlib-16.exe"
-      - "C:/Windows/System32/wbem/gcc-ranlib-16"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ranlib-16.com"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ranlib-16.exe"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ranlib-16"
-      - "C:/Windows/System32/OpenSSH/gcc-ranlib-16.com"
-      - "C:/Windows/System32/OpenSSH/gcc-ranlib-16.exe"
-      - "C:/Windows/System32/OpenSSH/gcc-ranlib-16"
-      - "C:/Program Files/dotnet/gcc-ranlib-16.com"
-      - "C:/Program Files/dotnet/gcc-ranlib-16.exe"
-      - "C:/Program Files/dotnet/gcc-ranlib-16"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib-16.com"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib-16.exe"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib-16"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ranlib-16.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ranlib-16.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ranlib-16"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ranlib-16.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ranlib-16.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ranlib-16"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ranlib16.com"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ranlib16.exe"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ranlib16"
-      - "C:/Windows/System32/gcc-ranlib16.com"
-      - "C:/Windows/System32/gcc-ranlib16.exe"
-      - "C:/Windows/System32/gcc-ranlib16"
-      - "C:/Windows/gcc-ranlib16.com"
-      - "C:/Windows/gcc-ranlib16.exe"
-      - "C:/Windows/gcc-ranlib16"
-      - "C:/Windows/System32/wbem/gcc-ranlib16.com"
-      - "C:/Windows/System32/wbem/gcc-ranlib16.exe"
-      - "C:/Windows/System32/wbem/gcc-ranlib16"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ranlib16.com"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ranlib16.exe"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ranlib16"
-      - "C:/Windows/System32/OpenSSH/gcc-ranlib16.com"
-      - "C:/Windows/System32/OpenSSH/gcc-ranlib16.exe"
-      - "C:/Windows/System32/OpenSSH/gcc-ranlib16"
-      - "C:/Program Files/dotnet/gcc-ranlib16.com"
-      - "C:/Program Files/dotnet/gcc-ranlib16.exe"
-      - "C:/Program Files/dotnet/gcc-ranlib16"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib16.com"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib16.exe"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib16"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ranlib16.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ranlib16.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ranlib16"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ranlib16.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ranlib16.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ranlib16"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ranlib.com"
-    found: "C:/Users/6041464/_c_lang_/bin/gcc-ranlib.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ranlib-16.1.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ranlib-16.1.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ranlib-16.1"
+      - "C:/Windows/System32/ccache-gcc-ranlib-16.1.com"
+      - "C:/Windows/System32/ccache-gcc-ranlib-16.1.exe"
+      - "C:/Windows/System32/ccache-gcc-ranlib-16.1"
+      - "C:/Windows/ccache-gcc-ranlib-16.1.com"
+      - "C:/Windows/ccache-gcc-ranlib-16.1.exe"
+      - "C:/Windows/ccache-gcc-ranlib-16.1"
+      - "C:/Windows/System32/wbem/ccache-gcc-ranlib-16.1.com"
+      - "C:/Windows/System32/wbem/ccache-gcc-ranlib-16.1.exe"
+      - "C:/Windows/System32/wbem/ccache-gcc-ranlib-16.1"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ranlib-16.1.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ranlib-16.1.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ranlib-16.1"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ranlib-16.1.com"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ranlib-16.1.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ranlib-16.1"
+      - "C:/Program Files/dotnet/ccache-gcc-ranlib-16.1.com"
+      - "C:/Program Files/dotnet/ccache-gcc-ranlib-16.1.exe"
+      - "C:/Program Files/dotnet/ccache-gcc-ranlib-16.1"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ranlib-16.1.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ranlib-16.1.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ranlib-16.1"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ranlib-16.1.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ranlib-16.1.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ranlib-16.1"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ranlib-16.1.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ranlib-16.1.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ranlib-16.1"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ranlib-16.1.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ranlib-16.1.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ranlib-16.1"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ranlib-16.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ranlib-16.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ranlib-16"
+      - "C:/Windows/System32/ccache-gcc-ranlib-16.com"
+      - "C:/Windows/System32/ccache-gcc-ranlib-16.exe"
+      - "C:/Windows/System32/ccache-gcc-ranlib-16"
+      - "C:/Windows/ccache-gcc-ranlib-16.com"
+      - "C:/Windows/ccache-gcc-ranlib-16.exe"
+      - "C:/Windows/ccache-gcc-ranlib-16"
+      - "C:/Windows/System32/wbem/ccache-gcc-ranlib-16.com"
+      - "C:/Windows/System32/wbem/ccache-gcc-ranlib-16.exe"
+      - "C:/Windows/System32/wbem/ccache-gcc-ranlib-16"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ranlib-16.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ranlib-16.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ranlib-16"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ranlib-16.com"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ranlib-16.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ranlib-16"
+      - "C:/Program Files/dotnet/ccache-gcc-ranlib-16.com"
+      - "C:/Program Files/dotnet/ccache-gcc-ranlib-16.exe"
+      - "C:/Program Files/dotnet/ccache-gcc-ranlib-16"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ranlib-16.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ranlib-16.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ranlib-16"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ranlib-16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ranlib-16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ranlib-16"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ranlib-16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ranlib-16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ranlib-16"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ranlib-16.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ranlib-16.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ranlib-16"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ranlib16.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ranlib16.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ranlib16"
+      - "C:/Windows/System32/ccache-gcc-ranlib16.com"
+      - "C:/Windows/System32/ccache-gcc-ranlib16.exe"
+      - "C:/Windows/System32/ccache-gcc-ranlib16"
+      - "C:/Windows/ccache-gcc-ranlib16.com"
+      - "C:/Windows/ccache-gcc-ranlib16.exe"
+      - "C:/Windows/ccache-gcc-ranlib16"
+      - "C:/Windows/System32/wbem/ccache-gcc-ranlib16.com"
+      - "C:/Windows/System32/wbem/ccache-gcc-ranlib16.exe"
+      - "C:/Windows/System32/wbem/ccache-gcc-ranlib16"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ranlib16.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ranlib16.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ranlib16"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ranlib16.com"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ranlib16.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ranlib16"
+      - "C:/Program Files/dotnet/ccache-gcc-ranlib16.com"
+      - "C:/Program Files/dotnet/ccache-gcc-ranlib16.exe"
+      - "C:/Program Files/dotnet/ccache-gcc-ranlib16"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ranlib16.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ranlib16.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ranlib16"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ranlib16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ranlib16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ranlib16"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ranlib16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ranlib16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ranlib16"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ranlib16.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ranlib16.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ranlib16"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ranlib.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ranlib.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ranlib"
+      - "C:/Windows/System32/ccache-gcc-ranlib.com"
+      - "C:/Windows/System32/ccache-gcc-ranlib.exe"
+      - "C:/Windows/System32/ccache-gcc-ranlib"
+      - "C:/Windows/ccache-gcc-ranlib.com"
+      - "C:/Windows/ccache-gcc-ranlib.exe"
+      - "C:/Windows/ccache-gcc-ranlib"
+      - "C:/Windows/System32/wbem/ccache-gcc-ranlib.com"
+      - "C:/Windows/System32/wbem/ccache-gcc-ranlib.exe"
+      - "C:/Windows/System32/wbem/ccache-gcc-ranlib"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ranlib.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ranlib.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ranlib"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ranlib.com"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ranlib.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ranlib"
+      - "C:/Program Files/dotnet/ccache-gcc-ranlib.com"
+      - "C:/Program Files/dotnet/ccache-gcc-ranlib.exe"
+      - "C:/Program Files/dotnet/ccache-gcc-ranlib"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ranlib.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ranlib.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ranlib"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ranlib.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ranlib.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ranlib"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ranlib.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ranlib.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ranlib"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ranlib.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ranlib.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ranlib"
+    found: false
     search_context:
       ENV{PATH}:
+        - "C:\\Users\\6041464\\_c_lang_\\bin"
         - "C:\\WINDOWS\\system32"
         - "C:\\WINDOWS"
         - "C:\\WINDOWS\\System32\\Wbem"
@@ -1238,48 +1450,7 @@ events:
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Git\\cmd"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
         - "C:\\Users\\6041464\\_c_lang_\\bin"
-  -
-    kind: "find-v1"
-    backtrace:
-      - "C:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeDetermineCompiler.cmake:54 (find_program)"
-      - "C:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeDetermineCCompiler.cmake:64 (_cmake_find_compiler)"
-      - "CMakeLists.txt:2 (project)"
-    mode: "program"
-    variable: "CMAKE_C_COMPILER"
-    description: "C compiler"
-    settings:
-      SearchFramework: "NEVER"
-      SearchAppBundle: "NEVER"
-      CMAKE_FIND_USE_CMAKE_PATH: true
-      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
-      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
-      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
-      CMAKE_FIND_USE_INSTALL_PREFIX: true
-    names:
-      - "cc"
-      - "gcc"
-      - "cl"
-      - "bcc"
-      - "xlc"
-      - "icx"
-      - "clang"
-    candidate_directories:
-      - "C:/Users/6041464/_c_lang_/bin/"
-    searched_directories:
-      - "C:/Users/6041464/_c_lang_/bin/cc.com"
-    found: "C:/Users/6041464/_c_lang_/bin/cc.exe"
-    search_context:
-      ENV{PATH}:
-        - "C:\\WINDOWS\\system32"
-        - "C:\\WINDOWS"
-        - "C:\\WINDOWS\\System32\\Wbem"
-        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
-        - "C:\\WINDOWS\\System32\\OpenSSH\\"
-        - "C:\\Program Files\\dotnet\\"
-        - "C:\\Users\\6041464\\AppData\\Local\\Microsoft\\WindowsApps"
-        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Git\\cmd"
-        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
-        - "C:\\Users\\6041464\\_c_lang_\\bin"
+        - "C:\\Users\\6041464\\Documents\\MaxCore_REMASTERED\\build\\"
   -
     kind: "find-v1"
     backtrace:
@@ -1307,6 +1478,7 @@ events:
     found: "C:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeCCompilerId.c.in"
     search_context:
       ENV{PATH}:
+        - "C:\\Users\\6041464\\_c_lang_\\bin"
         - "C:\\WINDOWS\\system32"
         - "C:\\WINDOWS"
         - "C:\\WINDOWS\\System32\\Wbem"
@@ -1317,6 +1489,7 @@ events:
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Git\\cmd"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
         - "C:\\Users\\6041464\\_c_lang_\\bin"
+        - "C:\\Users\\6041464\\Documents\\MaxCore_REMASTERED\\build\\"
   -
     kind: "message-v1"
     backtrace:
@@ -1326,7 +1499,7 @@ events:
       - "CMakeLists.txt:2 (project)"
     message: |
       Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
-      Compiler: C:/Users/6041464/_c_lang_/bin/cc.exe 
+      Compiler: C:/Users/6041464/_c_lang_/bin/ccache-gcc.exe 
       Build flags: 
       Id flags:  
       
@@ -1357,10 +1530,10 @@ events:
       CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
       CMAKE_FIND_USE_INSTALL_PREFIX: true
     names:
-      - "gcc-ar-16.1"
-      - "gcc-ar-16"
-      - "gcc-ar16"
-      - "gcc-ar"
+      - "ccache-gcc-ar-16.1"
+      - "ccache-gcc-ar-16"
+      - "ccache-gcc-ar16"
+      - "ccache-gcc-ar"
     candidate_directories:
       - "C:/Users/6041464/_c_lang_/bin/"
       - "C:/Windows/System32/"
@@ -1372,101 +1545,144 @@ events:
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/"
     searched_directories:
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ar-16.1.com"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ar-16.1.exe"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ar-16.1"
-      - "C:/Windows/System32/gcc-ar-16.1.com"
-      - "C:/Windows/System32/gcc-ar-16.1.exe"
-      - "C:/Windows/System32/gcc-ar-16.1"
-      - "C:/Windows/gcc-ar-16.1.com"
-      - "C:/Windows/gcc-ar-16.1.exe"
-      - "C:/Windows/gcc-ar-16.1"
-      - "C:/Windows/System32/wbem/gcc-ar-16.1.com"
-      - "C:/Windows/System32/wbem/gcc-ar-16.1.exe"
-      - "C:/Windows/System32/wbem/gcc-ar-16.1"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ar-16.1.com"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ar-16.1.exe"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ar-16.1"
-      - "C:/Windows/System32/OpenSSH/gcc-ar-16.1.com"
-      - "C:/Windows/System32/OpenSSH/gcc-ar-16.1.exe"
-      - "C:/Windows/System32/OpenSSH/gcc-ar-16.1"
-      - "C:/Program Files/dotnet/gcc-ar-16.1.com"
-      - "C:/Program Files/dotnet/gcc-ar-16.1.exe"
-      - "C:/Program Files/dotnet/gcc-ar-16.1"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar-16.1.com"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar-16.1.exe"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar-16.1"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ar-16.1.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ar-16.1.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ar-16.1"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ar-16.1.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ar-16.1.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ar-16.1"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ar-16.com"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ar-16.exe"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ar-16"
-      - "C:/Windows/System32/gcc-ar-16.com"
-      - "C:/Windows/System32/gcc-ar-16.exe"
-      - "C:/Windows/System32/gcc-ar-16"
-      - "C:/Windows/gcc-ar-16.com"
-      - "C:/Windows/gcc-ar-16.exe"
-      - "C:/Windows/gcc-ar-16"
-      - "C:/Windows/System32/wbem/gcc-ar-16.com"
-      - "C:/Windows/System32/wbem/gcc-ar-16.exe"
-      - "C:/Windows/System32/wbem/gcc-ar-16"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ar-16.com"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ar-16.exe"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ar-16"
-      - "C:/Windows/System32/OpenSSH/gcc-ar-16.com"
-      - "C:/Windows/System32/OpenSSH/gcc-ar-16.exe"
-      - "C:/Windows/System32/OpenSSH/gcc-ar-16"
-      - "C:/Program Files/dotnet/gcc-ar-16.com"
-      - "C:/Program Files/dotnet/gcc-ar-16.exe"
-      - "C:/Program Files/dotnet/gcc-ar-16"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar-16.com"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar-16.exe"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar-16"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ar-16.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ar-16.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ar-16"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ar-16.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ar-16.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ar-16"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ar16.com"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ar16.exe"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ar16"
-      - "C:/Windows/System32/gcc-ar16.com"
-      - "C:/Windows/System32/gcc-ar16.exe"
-      - "C:/Windows/System32/gcc-ar16"
-      - "C:/Windows/gcc-ar16.com"
-      - "C:/Windows/gcc-ar16.exe"
-      - "C:/Windows/gcc-ar16"
-      - "C:/Windows/System32/wbem/gcc-ar16.com"
-      - "C:/Windows/System32/wbem/gcc-ar16.exe"
-      - "C:/Windows/System32/wbem/gcc-ar16"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ar16.com"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ar16.exe"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ar16"
-      - "C:/Windows/System32/OpenSSH/gcc-ar16.com"
-      - "C:/Windows/System32/OpenSSH/gcc-ar16.exe"
-      - "C:/Windows/System32/OpenSSH/gcc-ar16"
-      - "C:/Program Files/dotnet/gcc-ar16.com"
-      - "C:/Program Files/dotnet/gcc-ar16.exe"
-      - "C:/Program Files/dotnet/gcc-ar16"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar16.com"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar16.exe"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar16"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ar16.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ar16.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ar16"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ar16.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ar16.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ar16"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ar.com"
-    found: "C:/Users/6041464/_c_lang_/bin/gcc-ar.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ar-16.1.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ar-16.1.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ar-16.1"
+      - "C:/Windows/System32/ccache-gcc-ar-16.1.com"
+      - "C:/Windows/System32/ccache-gcc-ar-16.1.exe"
+      - "C:/Windows/System32/ccache-gcc-ar-16.1"
+      - "C:/Windows/ccache-gcc-ar-16.1.com"
+      - "C:/Windows/ccache-gcc-ar-16.1.exe"
+      - "C:/Windows/ccache-gcc-ar-16.1"
+      - "C:/Windows/System32/wbem/ccache-gcc-ar-16.1.com"
+      - "C:/Windows/System32/wbem/ccache-gcc-ar-16.1.exe"
+      - "C:/Windows/System32/wbem/ccache-gcc-ar-16.1"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ar-16.1.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ar-16.1.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ar-16.1"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ar-16.1.com"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ar-16.1.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ar-16.1"
+      - "C:/Program Files/dotnet/ccache-gcc-ar-16.1.com"
+      - "C:/Program Files/dotnet/ccache-gcc-ar-16.1.exe"
+      - "C:/Program Files/dotnet/ccache-gcc-ar-16.1"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ar-16.1.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ar-16.1.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ar-16.1"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ar-16.1.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ar-16.1.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ar-16.1"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ar-16.1.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ar-16.1.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ar-16.1"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ar-16.1.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ar-16.1.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ar-16.1"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ar-16.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ar-16.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ar-16"
+      - "C:/Windows/System32/ccache-gcc-ar-16.com"
+      - "C:/Windows/System32/ccache-gcc-ar-16.exe"
+      - "C:/Windows/System32/ccache-gcc-ar-16"
+      - "C:/Windows/ccache-gcc-ar-16.com"
+      - "C:/Windows/ccache-gcc-ar-16.exe"
+      - "C:/Windows/ccache-gcc-ar-16"
+      - "C:/Windows/System32/wbem/ccache-gcc-ar-16.com"
+      - "C:/Windows/System32/wbem/ccache-gcc-ar-16.exe"
+      - "C:/Windows/System32/wbem/ccache-gcc-ar-16"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ar-16.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ar-16.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ar-16"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ar-16.com"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ar-16.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ar-16"
+      - "C:/Program Files/dotnet/ccache-gcc-ar-16.com"
+      - "C:/Program Files/dotnet/ccache-gcc-ar-16.exe"
+      - "C:/Program Files/dotnet/ccache-gcc-ar-16"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ar-16.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ar-16.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ar-16"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ar-16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ar-16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ar-16"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ar-16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ar-16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ar-16"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ar-16.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ar-16.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ar-16"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ar16.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ar16.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ar16"
+      - "C:/Windows/System32/ccache-gcc-ar16.com"
+      - "C:/Windows/System32/ccache-gcc-ar16.exe"
+      - "C:/Windows/System32/ccache-gcc-ar16"
+      - "C:/Windows/ccache-gcc-ar16.com"
+      - "C:/Windows/ccache-gcc-ar16.exe"
+      - "C:/Windows/ccache-gcc-ar16"
+      - "C:/Windows/System32/wbem/ccache-gcc-ar16.com"
+      - "C:/Windows/System32/wbem/ccache-gcc-ar16.exe"
+      - "C:/Windows/System32/wbem/ccache-gcc-ar16"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ar16.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ar16.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ar16"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ar16.com"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ar16.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ar16"
+      - "C:/Program Files/dotnet/ccache-gcc-ar16.com"
+      - "C:/Program Files/dotnet/ccache-gcc-ar16.exe"
+      - "C:/Program Files/dotnet/ccache-gcc-ar16"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ar16.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ar16.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ar16"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ar16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ar16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ar16"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ar16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ar16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ar16"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ar16.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ar16.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ar16"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ar.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ar.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ar"
+      - "C:/Windows/System32/ccache-gcc-ar.com"
+      - "C:/Windows/System32/ccache-gcc-ar.exe"
+      - "C:/Windows/System32/ccache-gcc-ar"
+      - "C:/Windows/ccache-gcc-ar.com"
+      - "C:/Windows/ccache-gcc-ar.exe"
+      - "C:/Windows/ccache-gcc-ar"
+      - "C:/Windows/System32/wbem/ccache-gcc-ar.com"
+      - "C:/Windows/System32/wbem/ccache-gcc-ar.exe"
+      - "C:/Windows/System32/wbem/ccache-gcc-ar"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ar.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ar.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ar"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ar.com"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ar.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ar"
+      - "C:/Program Files/dotnet/ccache-gcc-ar.com"
+      - "C:/Program Files/dotnet/ccache-gcc-ar.exe"
+      - "C:/Program Files/dotnet/ccache-gcc-ar"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ar.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ar.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ar"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ar.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ar.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ar"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ar.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ar.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ar"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ar.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ar.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ar"
+    found: false
     search_context:
       ENV{PATH}:
+        - "C:\\Users\\6041464\\_c_lang_\\bin"
         - "C:\\WINDOWS\\system32"
         - "C:\\WINDOWS"
         - "C:\\WINDOWS\\System32\\Wbem"
@@ -1477,6 +1693,7 @@ events:
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Git\\cmd"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
         - "C:\\Users\\6041464\\_c_lang_\\bin"
+        - "C:\\Users\\6041464\\Documents\\MaxCore_REMASTERED\\build\\"
   -
     kind: "find-v1"
     backtrace:
@@ -1495,10 +1712,10 @@ events:
       CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
       CMAKE_FIND_USE_INSTALL_PREFIX: true
     names:
-      - "gcc-ranlib-16.1"
-      - "gcc-ranlib-16"
-      - "gcc-ranlib16"
-      - "gcc-ranlib"
+      - "ccache-gcc-ranlib-16.1"
+      - "ccache-gcc-ranlib-16"
+      - "ccache-gcc-ranlib16"
+      - "ccache-gcc-ranlib"
     candidate_directories:
       - "C:/Users/6041464/_c_lang_/bin/"
       - "C:/Windows/System32/"
@@ -1510,101 +1727,144 @@ events:
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/"
     searched_directories:
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ranlib-16.1.com"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ranlib-16.1.exe"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ranlib-16.1"
-      - "C:/Windows/System32/gcc-ranlib-16.1.com"
-      - "C:/Windows/System32/gcc-ranlib-16.1.exe"
-      - "C:/Windows/System32/gcc-ranlib-16.1"
-      - "C:/Windows/gcc-ranlib-16.1.com"
-      - "C:/Windows/gcc-ranlib-16.1.exe"
-      - "C:/Windows/gcc-ranlib-16.1"
-      - "C:/Windows/System32/wbem/gcc-ranlib-16.1.com"
-      - "C:/Windows/System32/wbem/gcc-ranlib-16.1.exe"
-      - "C:/Windows/System32/wbem/gcc-ranlib-16.1"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ranlib-16.1.com"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ranlib-16.1.exe"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ranlib-16.1"
-      - "C:/Windows/System32/OpenSSH/gcc-ranlib-16.1.com"
-      - "C:/Windows/System32/OpenSSH/gcc-ranlib-16.1.exe"
-      - "C:/Windows/System32/OpenSSH/gcc-ranlib-16.1"
-      - "C:/Program Files/dotnet/gcc-ranlib-16.1.com"
-      - "C:/Program Files/dotnet/gcc-ranlib-16.1.exe"
-      - "C:/Program Files/dotnet/gcc-ranlib-16.1"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib-16.1.com"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib-16.1.exe"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib-16.1"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ranlib-16.1.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ranlib-16.1.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ranlib-16.1"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ranlib-16.1.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ranlib-16.1.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ranlib-16.1"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ranlib-16.com"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ranlib-16.exe"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ranlib-16"
-      - "C:/Windows/System32/gcc-ranlib-16.com"
-      - "C:/Windows/System32/gcc-ranlib-16.exe"
-      - "C:/Windows/System32/gcc-ranlib-16"
-      - "C:/Windows/gcc-ranlib-16.com"
-      - "C:/Windows/gcc-ranlib-16.exe"
-      - "C:/Windows/gcc-ranlib-16"
-      - "C:/Windows/System32/wbem/gcc-ranlib-16.com"
-      - "C:/Windows/System32/wbem/gcc-ranlib-16.exe"
-      - "C:/Windows/System32/wbem/gcc-ranlib-16"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ranlib-16.com"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ranlib-16.exe"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ranlib-16"
-      - "C:/Windows/System32/OpenSSH/gcc-ranlib-16.com"
-      - "C:/Windows/System32/OpenSSH/gcc-ranlib-16.exe"
-      - "C:/Windows/System32/OpenSSH/gcc-ranlib-16"
-      - "C:/Program Files/dotnet/gcc-ranlib-16.com"
-      - "C:/Program Files/dotnet/gcc-ranlib-16.exe"
-      - "C:/Program Files/dotnet/gcc-ranlib-16"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib-16.com"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib-16.exe"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib-16"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ranlib-16.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ranlib-16.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ranlib-16"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ranlib-16.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ranlib-16.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ranlib-16"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ranlib16.com"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ranlib16.exe"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ranlib16"
-      - "C:/Windows/System32/gcc-ranlib16.com"
-      - "C:/Windows/System32/gcc-ranlib16.exe"
-      - "C:/Windows/System32/gcc-ranlib16"
-      - "C:/Windows/gcc-ranlib16.com"
-      - "C:/Windows/gcc-ranlib16.exe"
-      - "C:/Windows/gcc-ranlib16"
-      - "C:/Windows/System32/wbem/gcc-ranlib16.com"
-      - "C:/Windows/System32/wbem/gcc-ranlib16.exe"
-      - "C:/Windows/System32/wbem/gcc-ranlib16"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ranlib16.com"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ranlib16.exe"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/gcc-ranlib16"
-      - "C:/Windows/System32/OpenSSH/gcc-ranlib16.com"
-      - "C:/Windows/System32/OpenSSH/gcc-ranlib16.exe"
-      - "C:/Windows/System32/OpenSSH/gcc-ranlib16"
-      - "C:/Program Files/dotnet/gcc-ranlib16.com"
-      - "C:/Program Files/dotnet/gcc-ranlib16.exe"
-      - "C:/Program Files/dotnet/gcc-ranlib16"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib16.com"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib16.exe"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib16"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ranlib16.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ranlib16.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/gcc-ranlib16"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ranlib16.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ranlib16.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/gcc-ranlib16"
-      - "C:/Users/6041464/_c_lang_/bin/gcc-ranlib.com"
-    found: "C:/Users/6041464/_c_lang_/bin/gcc-ranlib.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ranlib-16.1.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ranlib-16.1.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ranlib-16.1"
+      - "C:/Windows/System32/ccache-gcc-ranlib-16.1.com"
+      - "C:/Windows/System32/ccache-gcc-ranlib-16.1.exe"
+      - "C:/Windows/System32/ccache-gcc-ranlib-16.1"
+      - "C:/Windows/ccache-gcc-ranlib-16.1.com"
+      - "C:/Windows/ccache-gcc-ranlib-16.1.exe"
+      - "C:/Windows/ccache-gcc-ranlib-16.1"
+      - "C:/Windows/System32/wbem/ccache-gcc-ranlib-16.1.com"
+      - "C:/Windows/System32/wbem/ccache-gcc-ranlib-16.1.exe"
+      - "C:/Windows/System32/wbem/ccache-gcc-ranlib-16.1"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ranlib-16.1.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ranlib-16.1.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ranlib-16.1"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ranlib-16.1.com"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ranlib-16.1.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ranlib-16.1"
+      - "C:/Program Files/dotnet/ccache-gcc-ranlib-16.1.com"
+      - "C:/Program Files/dotnet/ccache-gcc-ranlib-16.1.exe"
+      - "C:/Program Files/dotnet/ccache-gcc-ranlib-16.1"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ranlib-16.1.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ranlib-16.1.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ranlib-16.1"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ranlib-16.1.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ranlib-16.1.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ranlib-16.1"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ranlib-16.1.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ranlib-16.1.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ranlib-16.1"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ranlib-16.1.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ranlib-16.1.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ranlib-16.1"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ranlib-16.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ranlib-16.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ranlib-16"
+      - "C:/Windows/System32/ccache-gcc-ranlib-16.com"
+      - "C:/Windows/System32/ccache-gcc-ranlib-16.exe"
+      - "C:/Windows/System32/ccache-gcc-ranlib-16"
+      - "C:/Windows/ccache-gcc-ranlib-16.com"
+      - "C:/Windows/ccache-gcc-ranlib-16.exe"
+      - "C:/Windows/ccache-gcc-ranlib-16"
+      - "C:/Windows/System32/wbem/ccache-gcc-ranlib-16.com"
+      - "C:/Windows/System32/wbem/ccache-gcc-ranlib-16.exe"
+      - "C:/Windows/System32/wbem/ccache-gcc-ranlib-16"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ranlib-16.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ranlib-16.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ranlib-16"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ranlib-16.com"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ranlib-16.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ranlib-16"
+      - "C:/Program Files/dotnet/ccache-gcc-ranlib-16.com"
+      - "C:/Program Files/dotnet/ccache-gcc-ranlib-16.exe"
+      - "C:/Program Files/dotnet/ccache-gcc-ranlib-16"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ranlib-16.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ranlib-16.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ranlib-16"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ranlib-16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ranlib-16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ranlib-16"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ranlib-16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ranlib-16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ranlib-16"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ranlib-16.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ranlib-16.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ranlib-16"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ranlib16.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ranlib16.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ranlib16"
+      - "C:/Windows/System32/ccache-gcc-ranlib16.com"
+      - "C:/Windows/System32/ccache-gcc-ranlib16.exe"
+      - "C:/Windows/System32/ccache-gcc-ranlib16"
+      - "C:/Windows/ccache-gcc-ranlib16.com"
+      - "C:/Windows/ccache-gcc-ranlib16.exe"
+      - "C:/Windows/ccache-gcc-ranlib16"
+      - "C:/Windows/System32/wbem/ccache-gcc-ranlib16.com"
+      - "C:/Windows/System32/wbem/ccache-gcc-ranlib16.exe"
+      - "C:/Windows/System32/wbem/ccache-gcc-ranlib16"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ranlib16.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ranlib16.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ranlib16"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ranlib16.com"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ranlib16.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ranlib16"
+      - "C:/Program Files/dotnet/ccache-gcc-ranlib16.com"
+      - "C:/Program Files/dotnet/ccache-gcc-ranlib16.exe"
+      - "C:/Program Files/dotnet/ccache-gcc-ranlib16"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ranlib16.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ranlib16.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ranlib16"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ranlib16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ranlib16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ranlib16"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ranlib16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ranlib16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ranlib16"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ranlib16.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ranlib16.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ranlib16"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ranlib.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ranlib.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-gcc-ranlib"
+      - "C:/Windows/System32/ccache-gcc-ranlib.com"
+      - "C:/Windows/System32/ccache-gcc-ranlib.exe"
+      - "C:/Windows/System32/ccache-gcc-ranlib"
+      - "C:/Windows/ccache-gcc-ranlib.com"
+      - "C:/Windows/ccache-gcc-ranlib.exe"
+      - "C:/Windows/ccache-gcc-ranlib"
+      - "C:/Windows/System32/wbem/ccache-gcc-ranlib.com"
+      - "C:/Windows/System32/wbem/ccache-gcc-ranlib.exe"
+      - "C:/Windows/System32/wbem/ccache-gcc-ranlib"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ranlib.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ranlib.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-gcc-ranlib"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ranlib.com"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ranlib.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-gcc-ranlib"
+      - "C:/Program Files/dotnet/ccache-gcc-ranlib.com"
+      - "C:/Program Files/dotnet/ccache-gcc-ranlib.exe"
+      - "C:/Program Files/dotnet/ccache-gcc-ranlib"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ranlib.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ranlib.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-gcc-ranlib"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ranlib.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ranlib.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-gcc-ranlib"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ranlib.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ranlib.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-gcc-ranlib"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ranlib.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ranlib.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-gcc-ranlib"
+    found: false
     search_context:
       ENV{PATH}:
+        - "C:\\Users\\6041464\\_c_lang_\\bin"
         - "C:\\WINDOWS\\system32"
         - "C:\\WINDOWS"
         - "C:\\WINDOWS\\System32\\Wbem"
@@ -1615,6 +1875,7 @@ events:
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Git\\cmd"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
         - "C:\\Users\\6041464\\_c_lang_\\bin"
+        - "C:\\Users\\6041464\\Documents\\MaxCore_REMASTERED\\build\\"
   -
     kind: "find-v1"
     backtrace:
@@ -1635,9 +1896,10 @@ events:
       CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
       CMAKE_FIND_USE_INSTALL_PREFIX: true
     names:
-      - "windres"
+      - "ccache-windres"
       - "windres"
     candidate_directories:
+      - "C:/Users/6041464/_c_lang_/bin/"
       - "C:/Windows/System32/"
       - "C:/Windows/"
       - "C:/Windows/System32/wbem/"
@@ -1647,7 +1909,7 @@ events:
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
-      - "C:/Users/6041464/_c_lang_/bin/"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/"
       - "C:/Program Files/bin/"
       - "C:/Program Files/sbin/"
       - "C:/Program Files/"
@@ -1661,37 +1923,80 @@ events:
       - "C:/Program Files (x86)/lua_native_engine/sbin/"
       - "C:/Program Files (x86)/lua_native_engine/"
     searched_directories:
-      - "C:/Windows/System32/windres.com"
-      - "C:/Windows/System32/windres.exe"
-      - "C:/Windows/System32/windres"
-      - "C:/Windows/windres.com"
-      - "C:/Windows/windres.exe"
-      - "C:/Windows/windres"
-      - "C:/Windows/System32/wbem/windres.com"
-      - "C:/Windows/System32/wbem/windres.exe"
-      - "C:/Windows/System32/wbem/windres"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/windres.com"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/windres.exe"
-      - "C:/Windows/System32/WindowsPowerShell/v1.0/windres"
-      - "C:/Windows/System32/OpenSSH/windres.com"
-      - "C:/Windows/System32/OpenSSH/windres.exe"
-      - "C:/Windows/System32/OpenSSH/windres"
-      - "C:/Program Files/dotnet/windres.com"
-      - "C:/Program Files/dotnet/windres.exe"
-      - "C:/Program Files/dotnet/windres"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/windres.com"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/windres.exe"
-      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/windres"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/windres.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/windres.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/windres"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/windres.com"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/windres.exe"
-      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/windres"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-windres.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-windres.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-windres"
+      - "C:/Windows/System32/ccache-windres.com"
+      - "C:/Windows/System32/ccache-windres.exe"
+      - "C:/Windows/System32/ccache-windres"
+      - "C:/Windows/ccache-windres.com"
+      - "C:/Windows/ccache-windres.exe"
+      - "C:/Windows/ccache-windres"
+      - "C:/Windows/System32/wbem/ccache-windres.com"
+      - "C:/Windows/System32/wbem/ccache-windres.exe"
+      - "C:/Windows/System32/wbem/ccache-windres"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-windres.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-windres.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/ccache-windres"
+      - "C:/Windows/System32/OpenSSH/ccache-windres.com"
+      - "C:/Windows/System32/OpenSSH/ccache-windres.exe"
+      - "C:/Windows/System32/OpenSSH/ccache-windres"
+      - "C:/Program Files/dotnet/ccache-windres.com"
+      - "C:/Program Files/dotnet/ccache-windres.exe"
+      - "C:/Program Files/dotnet/ccache-windres"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-windres.com"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-windres.exe"
+      - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ccache-windres"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-windres.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-windres.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Git/cmd/ccache-windres"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-windres.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-windres.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/ccache-windres"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-windres.com"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-windres.exe"
+      - "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/ccache-windres"
+      - "C:/Program Files/bin/ccache-windres.com"
+      - "C:/Program Files/bin/ccache-windres.exe"
+      - "C:/Program Files/bin/ccache-windres"
+      - "C:/Program Files/sbin/ccache-windres.com"
+      - "C:/Program Files/sbin/ccache-windres.exe"
+      - "C:/Program Files/sbin/ccache-windres"
+      - "C:/Program Files/ccache-windres.com"
+      - "C:/Program Files/ccache-windres.exe"
+      - "C:/Program Files/ccache-windres"
+      - "C:/Program Files (x86)/bin/ccache-windres.com"
+      - "C:/Program Files (x86)/bin/ccache-windres.exe"
+      - "C:/Program Files (x86)/bin/ccache-windres"
+      - "C:/Program Files (x86)/sbin/ccache-windres.com"
+      - "C:/Program Files (x86)/sbin/ccache-windres.exe"
+      - "C:/Program Files (x86)/sbin/ccache-windres"
+      - "C:/Program Files (x86)/ccache-windres.com"
+      - "C:/Program Files (x86)/ccache-windres.exe"
+      - "C:/Program Files (x86)/ccache-windres"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-windres.com"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-windres.exe"
+      - "C:/Users/6041464/_c_lang_/bin/ccache-windres"
+      - "C:/Users/6041464/_c_lang_/sbin/ccache-windres.com"
+      - "C:/Users/6041464/_c_lang_/sbin/ccache-windres.exe"
+      - "C:/Users/6041464/_c_lang_/sbin/ccache-windres"
+      - "C:/Users/6041464/_c_lang_/ccache-windres.com"
+      - "C:/Users/6041464/_c_lang_/ccache-windres.exe"
+      - "C:/Users/6041464/_c_lang_/ccache-windres"
+      - "C:/Program Files (x86)/lua_native_engine/bin/ccache-windres.com"
+      - "C:/Program Files (x86)/lua_native_engine/bin/ccache-windres.exe"
+      - "C:/Program Files (x86)/lua_native_engine/bin/ccache-windres"
+      - "C:/Program Files (x86)/lua_native_engine/sbin/ccache-windres.com"
+      - "C:/Program Files (x86)/lua_native_engine/sbin/ccache-windres.exe"
+      - "C:/Program Files (x86)/lua_native_engine/sbin/ccache-windres"
+      - "C:/Program Files (x86)/lua_native_engine/ccache-windres.com"
+      - "C:/Program Files (x86)/lua_native_engine/ccache-windres.exe"
+      - "C:/Program Files (x86)/lua_native_engine/ccache-windres"
       - "C:/Users/6041464/_c_lang_/bin/windres.com"
     found: "C:/Users/6041464/_c_lang_/bin/windres.exe"
     search_context:
       ENV{PATH}:
+        - "C:\\Users\\6041464\\_c_lang_\\bin"
         - "C:\\WINDOWS\\system32"
         - "C:\\WINDOWS"
         - "C:\\WINDOWS\\System32\\Wbem"
@@ -1702,6 +2007,7 @@ events:
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Git\\cmd"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
         - "C:\\Users\\6041464\\_c_lang_\\bin"
+        - "C:\\Users\\6041464\\Documents\\MaxCore_REMASTERED\\build\\"
       CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/lua_native_engine"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "C:/Program Files"
@@ -1717,8 +2023,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-327r87"
-      binary: "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-327r87"
+      source: "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-27sfek"
+      binary: "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-27sfek"
     cmakeVariables:
       CMAKE_CXX_FLAGS: ""
       CMAKE_CXX_FLAGS_DEBUG: "-g"
@@ -1729,19 +2035,19 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: false
       stdout: |
-        Change Dir: 'C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-327r87'
+        Change Dir: 'C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-27sfek'
         
-        Run Build Command(s): C:/Users/6041464/_c_lang_/bin/ninja.exe -v cmTC_10618
-        [1/2] C:\\Users\\6041464\\_c_lang_\\bin\\c++.exe   -v -o CMakeFiles/cmTC_10618.dir/CMakeCXXCompilerABI.cpp.obj -c C:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeCXXCompilerABI.cpp
+        Run Build Command(s): C:/Users/6041464/_c_lang_/bin/ninja.exe -v cmTC_07893
+        [1/2] C:\\Users\\6041464\\_c_lang_\\bin\\ccache-g++.exe   -v -o CMakeFiles/cmTC_07893.dir/CMakeCXXCompilerABI.cpp.obj -c C:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeCXXCompilerABI.cpp
         Using built-in specs.
-        COLLECT_GCC=c++
+        COLLECT_GCC=C:\\Users\\6041464\\_c_lang_\\bin\\g++.exe
         Target: x86_64-w64-mingw32
         Configured with: /dl/gcc/configure --prefix=/w64devkit --with-sysroot=/w64devkit --with-native-system-header-dir=/include --target=x86_64-w64-mingw32 --host=x86_64-w64-mingw32 --enable-static --disable-shared --with-pic --with-gmp=/deps --with-mpc=/deps --with-mpfr=/deps --enable-languages=c,c++,fortran --enable-libgomp --enable-threads=posix --enable-tls --enable-version-specific-runtime-libs --disable-libstdcxx-verbose --disable-dependency-tracking --disable-lto --disable-multilib --disable-nls --disable-win32-registry --enable-mingw-wildcard CFLAGS_FOR_TARGET=-O2 CXXFLAGS_FOR_TARGET=-O2 LDFLAGS_FOR_TARGET=-s CFLAGS=-O2 CXXFLAGS=-O2 LDFLAGS=-s
         Thread model: posix
         Supported LTO compression algorithms: zlib
         gcc version 16.1.0 (GCC) 
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_10618.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_10618.dir/'
-         C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1plus.exe -quiet -v -iprefix C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_10618.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -o C:\\Users\\6041464\\AppData\\Local\\Temp\\ccwngZTB.s
+        COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_07893.dir/CMakeCXXCompilerABI.cpp.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_07893.dir/'
+         C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1plus.exe -quiet -v -iprefix C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_07893.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -fdiagnostics-color=always -o C:\\Users\\6041464\\AppData\\Local\\Temp\\ccSkdQ54.s
         GNU C++20 (GCC) version 16.1.0 (x86_64-w64-mingw32)
         	compiled by GNU C version 16.1.0, GMP version 6.3.0, MPFR version 4.2.2, MPC version 1.4.1, isl version none
         GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
@@ -1762,15 +2068,15 @@ events:
          C:/Users/6041464/_c_lang_/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../include
         End of search list.
         Compiler executable checksum: cc52f8f630e75099ce2e7405fa00ab01
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_10618.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_10618.dir/'
-         as -v -o CMakeFiles/cmTC_10618.dir/CMakeCXXCompilerABI.cpp.obj C:\\Users\\6041464\\AppData\\Local\\Temp\\ccwngZTB.s
+        COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_07893.dir/CMakeCXXCompilerABI.cpp.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_07893.dir/'
+         as -v -o CMakeFiles/cmTC_07893.dir/CMakeCXXCompilerABI.cpp.obj C:\\Users\\6041464\\AppData\\Local\\Temp\\ccSkdQ54.s
         GNU assembler version 2.47 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.47.20260726
         COMPILER_PATH=C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/6041464/_c_lang_/bin/../libexec/gcc/
         LIBRARY_PATH=C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/6041464/_c_lang_/bin/../lib/gcc/;C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/;C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_10618.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_10618.dir/CMakeCXXCompilerABI.cpp.'
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\6041464\\_c_lang_\\bin\\c++.exe  -v -Wl,-v CMakeFiles/cmTC_10618.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_10618.exe -Wl,--out-implib,libcmTC_10618.dll.a -Wl,--major-image-version,0,--minor-image-version,0   && cd ."
+        COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_07893.dir/CMakeCXXCompilerABI.cpp.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_07893.dir/CMakeCXXCompilerABI.cpp.'
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\6041464\\_c_lang_\\bin\\ccache-g++.exe  -v -Wl,-v CMakeFiles/cmTC_07893.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_07893.exe -Wl,--out-implib,libcmTC_07893.dll.a -Wl,--major-image-version,0,--minor-image-version,0   && cd ."
         Using built-in specs.
-        COLLECT_GCC=c++
+        COLLECT_GCC=C:\\Users\\6041464\\_c_lang_\\bin\\g++.exe
         COLLECT_LTO_WRAPPER=C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/lto-wrapper.exe
         Target: x86_64-w64-mingw32
         Configured with: /dl/gcc/configure --prefix=/w64devkit --with-sysroot=/w64devkit --with-native-system-header-dir=/include --target=x86_64-w64-mingw32 --host=x86_64-w64-mingw32 --enable-static --disable-shared --with-pic --with-gmp=/deps --with-mpc=/deps --with-mpfr=/deps --enable-languages=c,c++,fortran --enable-libgomp --enable-threads=posix --enable-tls --enable-version-specific-runtime-libs --disable-libstdcxx-verbose --disable-dependency-tracking --disable-lto --disable-multilib --disable-nls --disable-win32-registry --enable-mingw-wildcard CFLAGS_FOR_TARGET=-O2 CXXFLAGS_FOR_TARGET=-O2 LDFLAGS_FOR_TARGET=-s CFLAGS=-O2 CXXFLAGS=-O2 LDFLAGS=-s
@@ -1779,12 +2085,12 @@ events:
         gcc version 16.1.0 (GCC) 
         COMPILER_PATH=C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/6041464/_c_lang_/bin/../libexec/gcc/
         LIBRARY_PATH=C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/6041464/_c_lang_/bin/../lib/gcc/;C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/;C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_10618.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_10618.'
-         C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_10618.exe C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang_/bin/../lib/gcc -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_10618.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_10618.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_07893.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_07893.'
+         C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_07893.exe C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang_/bin/../lib/gcc -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_07893.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_07893.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
         collect2 version 16.1.0
-        C:\\Users\\6041464\\_c_lang_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_10618.exe C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang_/bin/../lib/gcc -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_10618.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_10618.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
+        C:\\Users\\6041464\\_c_lang_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_07893.exe C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang_/bin/../lib/gcc -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_07893.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_07893.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
         GNU ld (GNU Binutils) 2.47.20260726
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_10618.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_10618.'
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_07893.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_07893.'
         
       exitCode: 0
   -
@@ -1823,19 +2129,19 @@ events:
       Parsed CXX implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|wild|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|wild))("|,| |$)]
-        ignore line: [Change Dir: 'C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-327r87']
+        ignore line: [Change Dir: 'C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-27sfek']
         ignore line: []
-        ignore line: [Run Build Command(s): C:/Users/6041464/_c_lang_/bin/ninja.exe -v cmTC_10618]
-        ignore line: [[1/2] C:\\Users\\6041464\\_c_lang_\\bin\\c++.exe   -v -o CMakeFiles/cmTC_10618.dir/CMakeCXXCompilerABI.cpp.obj -c C:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Run Build Command(s): C:/Users/6041464/_c_lang_/bin/ninja.exe -v cmTC_07893]
+        ignore line: [[1/2] C:\\Users\\6041464\\_c_lang_\\bin\\ccache-g++.exe   -v -o CMakeFiles/cmTC_07893.dir/CMakeCXXCompilerABI.cpp.obj -c C:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [Using built-in specs.]
-        ignore line: [COLLECT_GCC=c++]
+        ignore line: [COLLECT_GCC=C:\\Users\\6041464\\_c_lang_\\bin\\g++.exe]
         ignore line: [Target: x86_64-w64-mingw32]
         ignore line: [Configured with: /dl/gcc/configure --prefix=/w64devkit --with-sysroot=/w64devkit --with-native-system-header-dir=/include --target=x86_64-w64-mingw32 --host=x86_64-w64-mingw32 --enable-static --disable-shared --with-pic --with-gmp=/deps --with-mpc=/deps --with-mpfr=/deps --enable-languages=c c++ fortran --enable-libgomp --enable-threads=posix --enable-tls --enable-version-specific-runtime-libs --disable-libstdcxx-verbose --disable-dependency-tracking --disable-lto --disable-multilib --disable-nls --disable-win32-registry --enable-mingw-wildcard CFLAGS_FOR_TARGET=-O2 CXXFLAGS_FOR_TARGET=-O2 LDFLAGS_FOR_TARGET=-s CFLAGS=-O2 CXXFLAGS=-O2 LDFLAGS=-s]
         ignore line: [Thread model: posix]
         ignore line: [Supported LTO compression algorithms: zlib]
         ignore line: [gcc version 16.1.0 (GCC) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_10618.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_10618.dir/']
-        ignore line: [ C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1plus.exe -quiet -v -iprefix C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_10618.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -o C:\\Users\\6041464\\AppData\\Local\\Temp\\ccwngZTB.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_07893.dir/CMakeCXXCompilerABI.cpp.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_07893.dir/']
+        ignore line: [ C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1plus.exe -quiet -v -iprefix C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_07893.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -fdiagnostics-color=always -o C:\\Users\\6041464\\AppData\\Local\\Temp\\ccSkdQ54.s]
         ignore line: [GNU C++20 (GCC) version 16.1.0 (x86_64-w64-mingw32)]
         ignore line: [	compiled by GNU C version 16.1.0  GMP version 6.3.0  MPFR version 4.2.2  MPC version 1.4.1  isl version none]
         ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
@@ -1856,8 +2162,8 @@ events:
         ignore line: [ C:/Users/6041464/_c_lang_/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../include]
         ignore line: [End of search list.]
         ignore line: [Compiler executable checksum: cc52f8f630e75099ce2e7405fa00ab01]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_10618.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_10618.dir/']
-        ignore line: [ as -v -o CMakeFiles/cmTC_10618.dir/CMakeCXXCompilerABI.cpp.obj C:\\Users\\6041464\\AppData\\Local\\Temp\\ccwngZTB.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_07893.dir/CMakeCXXCompilerABI.cpp.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_07893.dir/']
+        ignore line: [ as -v -o CMakeFiles/cmTC_07893.dir/CMakeCXXCompilerABI.cpp.obj C:\\Users\\6041464\\AppData\\Local\\Temp\\ccSkdQ54.s]
         ignore line: [GNU assembler version 2.47 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.47.20260726]
         ignore line: [COMPILER_PATH=C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/]
         ignore line: [C:/Users/6041464/_c_lang_/bin/../libexec/gcc/]
@@ -1865,10 +2171,10 @@ events:
         ignore line: [C:/Users/6041464/_c_lang_/bin/../lib/gcc/]
         ignore line: [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/]
         ignore line: [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_10618.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_10618.dir/CMakeCXXCompilerABI.cpp.']
-        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\6041464\\_c_lang_\\bin\\c++.exe  -v -Wl -v CMakeFiles/cmTC_10618.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_10618.exe -Wl --out-implib libcmTC_10618.dll.a -Wl --major-image-version 0 --minor-image-version 0   && cd ."]
+        ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_07893.dir/CMakeCXXCompilerABI.cpp.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_07893.dir/CMakeCXXCompilerABI.cpp.']
+        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\6041464\\_c_lang_\\bin\\ccache-g++.exe  -v -Wl -v CMakeFiles/cmTC_07893.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_07893.exe -Wl --out-implib libcmTC_07893.dll.a -Wl --major-image-version 0 --minor-image-version 0   && cd ."]
         ignore line: [Using built-in specs.]
-        ignore line: [COLLECT_GCC=c++]
+        ignore line: [COLLECT_GCC=C:\\Users\\6041464\\_c_lang_\\bin\\g++.exe]
         ignore line: [COLLECT_LTO_WRAPPER=C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/lto-wrapper.exe]
         ignore line: [Target: x86_64-w64-mingw32]
         ignore line: [Configured with: /dl/gcc/configure --prefix=/w64devkit --with-sysroot=/w64devkit --with-native-system-header-dir=/include --target=x86_64-w64-mingw32 --host=x86_64-w64-mingw32 --enable-static --disable-shared --with-pic --with-gmp=/deps --with-mpc=/deps --with-mpfr=/deps --enable-languages=c c++ fortran --enable-libgomp --enable-threads=posix --enable-tls --enable-version-specific-runtime-libs --disable-libstdcxx-verbose --disable-dependency-tracking --disable-lto --disable-multilib --disable-nls --disable-win32-registry --enable-mingw-wildcard CFLAGS_FOR_TARGET=-O2 CXXFLAGS_FOR_TARGET=-O2 LDFLAGS_FOR_TARGET=-s CFLAGS=-O2 CXXFLAGS=-O2 LDFLAGS=-s]
@@ -1881,15 +2187,15 @@ events:
         ignore line: [C:/Users/6041464/_c_lang_/bin/../lib/gcc/]
         ignore line: [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/]
         ignore line: [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_10618.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_10618.']
-        link line: [ C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_10618.exe C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang_/bin/../lib/gcc -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_10618.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_10618.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_07893.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_07893.']
+        link line: [ C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_07893.exe C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang_/bin/../lib/gcc -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_07893.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_07893.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
           arg [C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe] ==> ignore
           arg [--sysroot=/w64devkit] ==> ignore
           arg [-m] ==> ignore
           arg [i386pep] ==> ignore
           arg [-Bdynamic] ==> search dynamic
           arg [-o] ==> ignore
-          arg [cmTC_10618.exe] ==> ignore
+          arg [cmTC_07893.exe] ==> ignore
           arg [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o] ==> obj [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o]
           arg [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o] ==> obj [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o]
           arg [-LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0] ==> dir [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0]
@@ -1897,9 +2203,9 @@ events:
           arg [-LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib] ==> dir [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib]
           arg [-LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../..] ==> dir [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../..]
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_10618.dir/CMakeCXXCompilerABI.cpp.obj] ==> ignore
+          arg [CMakeFiles/cmTC_07893.dir/CMakeCXXCompilerABI.cpp.obj] ==> ignore
           arg [--out-implib] ==> ignore
-          arg [libcmTC_10618.dll.a] ==> ignore
+          arg [libcmTC_07893.dll.a] ==> ignore
           arg [--major-image-version] ==> ignore
           arg [0] ==> ignore
           arg [--minor-image-version] ==> ignore
@@ -1922,9 +2228,9 @@ events:
           arg [-lkernel32] ==> lib [kernel32]
           arg [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> obj [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
         ignore line: [collect2 version 16.1.0]
-        link line: [C:\\Users\\6041464\\_c_lang_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_10618.exe C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang_/bin/../lib/gcc -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_10618.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_10618.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> linker [C:\\Users\\6041464\\_c_lang_\\bin/ld.exe]
-        link line: [C:\\Users\\6041464\\_c_lang_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_10618.exe C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang_/bin/../lib/gcc -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_10618.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_10618.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> linker architecture flags [-m;i386pep]
-        ignore line: [C:\\Users\\6041464\\_c_lang_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_10618.exe C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang_/bin/../lib/gcc -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_10618.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_10618.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
+        link line: [C:\\Users\\6041464\\_c_lang_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_07893.exe C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang_/bin/../lib/gcc -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_07893.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_07893.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> linker [C:\\Users\\6041464\\_c_lang_\\bin/ld.exe]
+        link line: [C:\\Users\\6041464\\_c_lang_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_07893.exe C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang_/bin/../lib/gcc -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_07893.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_07893.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> linker architecture flags [-m;i386pep]
+        ignore line: [C:\\Users\\6041464\\_c_lang_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_07893.exe C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang_/bin/../lib/gcc -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_07893.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_07893.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
         linker tool for 'CXX': C:/Users/6041464/_c_lang_/bin/ld.exe -m;i386pep
         remove lib [msvcrt]
         remove lib [msvcrt]
@@ -1960,8 +2266,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-t8ozjj"
-      binary: "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-t8ozjj"
+      source: "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-w687hv"
+      binary: "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-w687hv"
     cmakeVariables:
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
       CMAKE_C_FLAGS: ""
@@ -1971,19 +2277,19 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: false
       stdout: |
-        Change Dir: 'C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-t8ozjj'
+        Change Dir: 'C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-w687hv'
         
-        Run Build Command(s): C:/Users/6041464/_c_lang_/bin/ninja.exe -v cmTC_63245
-        [1/2] C:\\Users\\6041464\\_c_lang_\\bin\\cc.exe   -v -o CMakeFiles/cmTC_63245.dir/CMakeCCompilerABI.c.obj -c C:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeCCompilerABI.c
+        Run Build Command(s): C:/Users/6041464/_c_lang_/bin/ninja.exe -v cmTC_53694
+        [1/2] C:\\Users\\6041464\\_c_lang_\\bin\\ccache-gcc.exe   -v -o CMakeFiles/cmTC_53694.dir/CMakeCCompilerABI.c.obj -c C:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeCCompilerABI.c
         Using built-in specs.
-        COLLECT_GCC=cc
+        COLLECT_GCC=C:\\Users\\6041464\\_c_lang_\\bin\\gcc.exe
         Target: x86_64-w64-mingw32
         Configured with: /dl/gcc/configure --prefix=/w64devkit --with-sysroot=/w64devkit --with-native-system-header-dir=/include --target=x86_64-w64-mingw32 --host=x86_64-w64-mingw32 --enable-static --disable-shared --with-pic --with-gmp=/deps --with-mpc=/deps --with-mpfr=/deps --enable-languages=c,c++,fortran --enable-libgomp --enable-threads=posix --enable-tls --enable-version-specific-runtime-libs --disable-libstdcxx-verbose --disable-dependency-tracking --disable-lto --disable-multilib --disable-nls --disable-win32-registry --enable-mingw-wildcard CFLAGS_FOR_TARGET=-O2 CXXFLAGS_FOR_TARGET=-O2 LDFLAGS_FOR_TARGET=-s CFLAGS=-O2 CXXFLAGS=-O2 LDFLAGS=-s
         Thread model: posix
         Supported LTO compression algorithms: zlib
         gcc version 16.1.0 (GCC) 
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_63245.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_63245.dir/'
-         C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1.exe -quiet -v -iprefix C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_63245.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -o C:\\Users\\6041464\\AppData\\Local\\Temp\\ccdTK0TK.s
+        COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_53694.dir/CMakeCCompilerABI.c.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_53694.dir/'
+         C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1.exe -quiet -v -iprefix C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_53694.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -fdiagnostics-color=always -o C:\\Users\\6041464\\AppData\\Local\\Temp\\ccsuMyfP.s
         GNU C23 (GCC) version 16.1.0 (x86_64-w64-mingw32)
         	compiled by GNU C version 16.1.0, GMP version 6.3.0, MPFR version 4.2.2, MPC version 1.4.1, isl version none
         GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
@@ -1998,15 +2304,15 @@ events:
          C:/Users/6041464/_c_lang_/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../include
         End of search list.
         Compiler executable checksum: 83d802a575b4e5aa95c0ab1da3c058b4
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_63245.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_63245.dir/'
-         as -v -o CMakeFiles/cmTC_63245.dir/CMakeCCompilerABI.c.obj C:\\Users\\6041464\\AppData\\Local\\Temp\\ccdTK0TK.s
+        COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_53694.dir/CMakeCCompilerABI.c.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_53694.dir/'
+         as -v -o CMakeFiles/cmTC_53694.dir/CMakeCCompilerABI.c.obj C:\\Users\\6041464\\AppData\\Local\\Temp\\ccsuMyfP.s
         GNU assembler version 2.47 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.47.20260726
         COMPILER_PATH=C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/6041464/_c_lang_/bin/../libexec/gcc/
         LIBRARY_PATH=C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/6041464/_c_lang_/bin/../lib/gcc/;C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/;C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_63245.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_63245.dir/CMakeCCompilerABI.c.'
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\6041464\\_c_lang_\\bin\\cc.exe  -v -Wl,-v CMakeFiles/cmTC_63245.dir/CMakeCCompilerABI.c.obj -o cmTC_63245.exe -Wl,--out-implib,libcmTC_63245.dll.a -Wl,--major-image-version,0,--minor-image-version,0   && cd ."
+        COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_53694.dir/CMakeCCompilerABI.c.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_53694.dir/CMakeCCompilerABI.c.'
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\6041464\\_c_lang_\\bin\\ccache-gcc.exe  -v -Wl,-v CMakeFiles/cmTC_53694.dir/CMakeCCompilerABI.c.obj -o cmTC_53694.exe -Wl,--out-implib,libcmTC_53694.dll.a -Wl,--major-image-version,0,--minor-image-version,0   && cd ."
         Using built-in specs.
-        COLLECT_GCC=cc
+        COLLECT_GCC=C:\\Users\\6041464\\_c_lang_\\bin\\gcc.exe
         COLLECT_LTO_WRAPPER=C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/lto-wrapper.exe
         Target: x86_64-w64-mingw32
         Configured with: /dl/gcc/configure --prefix=/w64devkit --with-sysroot=/w64devkit --with-native-system-header-dir=/include --target=x86_64-w64-mingw32 --host=x86_64-w64-mingw32 --enable-static --disable-shared --with-pic --with-gmp=/deps --with-mpc=/deps --with-mpfr=/deps --enable-languages=c,c++,fortran --enable-libgomp --enable-threads=posix --enable-tls --enable-version-specific-runtime-libs --disable-libstdcxx-verbose --disable-dependency-tracking --disable-lto --disable-multilib --disable-nls --disable-win32-registry --enable-mingw-wildcard CFLAGS_FOR_TARGET=-O2 CXXFLAGS_FOR_TARGET=-O2 LDFLAGS_FOR_TARGET=-s CFLAGS=-O2 CXXFLAGS=-O2 LDFLAGS=-s
@@ -2015,12 +2321,12 @@ events:
         gcc version 16.1.0 (GCC) 
         COMPILER_PATH=C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/6041464/_c_lang_/bin/../libexec/gcc/
         LIBRARY_PATH=C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/6041464/_c_lang_/bin/../lib/gcc/;C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/;C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_63245.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_63245.'
-         C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_63245.exe C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang_/bin/../lib/gcc -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_63245.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_63245.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_53694.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_53694.'
+         C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_53694.exe C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang_/bin/../lib/gcc -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_53694.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_53694.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
         collect2 version 16.1.0
-        C:\\Users\\6041464\\_c_lang_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_63245.exe C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang_/bin/../lib/gcc -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_63245.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_63245.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
+        C:\\Users\\6041464\\_c_lang_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_53694.exe C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang_/bin/../lib/gcc -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_53694.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_53694.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
         GNU ld (GNU Binutils) 2.47.20260726
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_63245.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_63245.'
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_53694.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_53694.'
         
       exitCode: 0
   -
@@ -2053,19 +2359,19 @@ events:
       Parsed C implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|wild|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|wild))("|,| |$)]
-        ignore line: [Change Dir: 'C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-t8ozjj']
+        ignore line: [Change Dir: 'C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-w687hv']
         ignore line: []
-        ignore line: [Run Build Command(s): C:/Users/6041464/_c_lang_/bin/ninja.exe -v cmTC_63245]
-        ignore line: [[1/2] C:\\Users\\6041464\\_c_lang_\\bin\\cc.exe   -v -o CMakeFiles/cmTC_63245.dir/CMakeCCompilerABI.c.obj -c C:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeCCompilerABI.c]
+        ignore line: [Run Build Command(s): C:/Users/6041464/_c_lang_/bin/ninja.exe -v cmTC_53694]
+        ignore line: [[1/2] C:\\Users\\6041464\\_c_lang_\\bin\\ccache-gcc.exe   -v -o CMakeFiles/cmTC_53694.dir/CMakeCCompilerABI.c.obj -c C:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeCCompilerABI.c]
         ignore line: [Using built-in specs.]
-        ignore line: [COLLECT_GCC=cc]
+        ignore line: [COLLECT_GCC=C:\\Users\\6041464\\_c_lang_\\bin\\gcc.exe]
         ignore line: [Target: x86_64-w64-mingw32]
         ignore line: [Configured with: /dl/gcc/configure --prefix=/w64devkit --with-sysroot=/w64devkit --with-native-system-header-dir=/include --target=x86_64-w64-mingw32 --host=x86_64-w64-mingw32 --enable-static --disable-shared --with-pic --with-gmp=/deps --with-mpc=/deps --with-mpfr=/deps --enable-languages=c c++ fortran --enable-libgomp --enable-threads=posix --enable-tls --enable-version-specific-runtime-libs --disable-libstdcxx-verbose --disable-dependency-tracking --disable-lto --disable-multilib --disable-nls --disable-win32-registry --enable-mingw-wildcard CFLAGS_FOR_TARGET=-O2 CXXFLAGS_FOR_TARGET=-O2 LDFLAGS_FOR_TARGET=-s CFLAGS=-O2 CXXFLAGS=-O2 LDFLAGS=-s]
         ignore line: [Thread model: posix]
         ignore line: [Supported LTO compression algorithms: zlib]
         ignore line: [gcc version 16.1.0 (GCC) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_63245.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_63245.dir/']
-        ignore line: [ C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1.exe -quiet -v -iprefix C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_63245.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -o C:\\Users\\6041464\\AppData\\Local\\Temp\\ccdTK0TK.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_53694.dir/CMakeCCompilerABI.c.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_53694.dir/']
+        ignore line: [ C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1.exe -quiet -v -iprefix C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_53694.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -fdiagnostics-color=always -o C:\\Users\\6041464\\AppData\\Local\\Temp\\ccsuMyfP.s]
         ignore line: [GNU C23 (GCC) version 16.1.0 (x86_64-w64-mingw32)]
         ignore line: [	compiled by GNU C version 16.1.0  GMP version 6.3.0  MPFR version 4.2.2  MPC version 1.4.1  isl version none]
         ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
@@ -2080,8 +2386,8 @@ events:
         ignore line: [ C:/Users/6041464/_c_lang_/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../include]
         ignore line: [End of search list.]
         ignore line: [Compiler executable checksum: 83d802a575b4e5aa95c0ab1da3c058b4]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_63245.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_63245.dir/']
-        ignore line: [ as -v -o CMakeFiles/cmTC_63245.dir/CMakeCCompilerABI.c.obj C:\\Users\\6041464\\AppData\\Local\\Temp\\ccdTK0TK.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_53694.dir/CMakeCCompilerABI.c.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_53694.dir/']
+        ignore line: [ as -v -o CMakeFiles/cmTC_53694.dir/CMakeCCompilerABI.c.obj C:\\Users\\6041464\\AppData\\Local\\Temp\\ccsuMyfP.s]
         ignore line: [GNU assembler version 2.47 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.47.20260726]
         ignore line: [COMPILER_PATH=C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/]
         ignore line: [C:/Users/6041464/_c_lang_/bin/../libexec/gcc/]
@@ -2089,10 +2395,10 @@ events:
         ignore line: [C:/Users/6041464/_c_lang_/bin/../lib/gcc/]
         ignore line: [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/]
         ignore line: [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_63245.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_63245.dir/CMakeCCompilerABI.c.']
-        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\6041464\\_c_lang_\\bin\\cc.exe  -v -Wl -v CMakeFiles/cmTC_63245.dir/CMakeCCompilerABI.c.obj -o cmTC_63245.exe -Wl --out-implib libcmTC_63245.dll.a -Wl --major-image-version 0 --minor-image-version 0   && cd ."]
+        ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_53694.dir/CMakeCCompilerABI.c.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_53694.dir/CMakeCCompilerABI.c.']
+        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\6041464\\_c_lang_\\bin\\ccache-gcc.exe  -v -Wl -v CMakeFiles/cmTC_53694.dir/CMakeCCompilerABI.c.obj -o cmTC_53694.exe -Wl --out-implib libcmTC_53694.dll.a -Wl --major-image-version 0 --minor-image-version 0   && cd ."]
         ignore line: [Using built-in specs.]
-        ignore line: [COLLECT_GCC=cc]
+        ignore line: [COLLECT_GCC=C:\\Users\\6041464\\_c_lang_\\bin\\gcc.exe]
         ignore line: [COLLECT_LTO_WRAPPER=C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/lto-wrapper.exe]
         ignore line: [Target: x86_64-w64-mingw32]
         ignore line: [Configured with: /dl/gcc/configure --prefix=/w64devkit --with-sysroot=/w64devkit --with-native-system-header-dir=/include --target=x86_64-w64-mingw32 --host=x86_64-w64-mingw32 --enable-static --disable-shared --with-pic --with-gmp=/deps --with-mpc=/deps --with-mpfr=/deps --enable-languages=c c++ fortran --enable-libgomp --enable-threads=posix --enable-tls --enable-version-specific-runtime-libs --disable-libstdcxx-verbose --disable-dependency-tracking --disable-lto --disable-multilib --disable-nls --disable-win32-registry --enable-mingw-wildcard CFLAGS_FOR_TARGET=-O2 CXXFLAGS_FOR_TARGET=-O2 LDFLAGS_FOR_TARGET=-s CFLAGS=-O2 CXXFLAGS=-O2 LDFLAGS=-s]
@@ -2105,15 +2411,15 @@ events:
         ignore line: [C:/Users/6041464/_c_lang_/bin/../lib/gcc/]
         ignore line: [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/]
         ignore line: [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_63245.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_63245.']
-        link line: [ C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_63245.exe C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang_/bin/../lib/gcc -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_63245.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_63245.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_53694.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_53694.']
+        link line: [ C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_53694.exe C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang_/bin/../lib/gcc -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_53694.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_53694.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
           arg [C:/Users/6041464/_c_lang_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe] ==> ignore
           arg [--sysroot=/w64devkit] ==> ignore
           arg [-m] ==> ignore
           arg [i386pep] ==> ignore
           arg [-Bdynamic] ==> search dynamic
           arg [-o] ==> ignore
-          arg [cmTC_63245.exe] ==> ignore
+          arg [cmTC_53694.exe] ==> ignore
           arg [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o] ==> obj [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o]
           arg [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o] ==> obj [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o]
           arg [-LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0] ==> dir [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0]
@@ -2121,9 +2427,9 @@ events:
           arg [-LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib] ==> dir [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib]
           arg [-LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../..] ==> dir [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../..]
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_63245.dir/CMakeCCompilerABI.c.obj] ==> ignore
+          arg [CMakeFiles/cmTC_53694.dir/CMakeCCompilerABI.c.obj] ==> ignore
           arg [--out-implib] ==> ignore
-          arg [libcmTC_63245.dll.a] ==> ignore
+          arg [libcmTC_53694.dll.a] ==> ignore
           arg [--major-image-version] ==> ignore
           arg [0] ==> ignore
           arg [--minor-image-version] ==> ignore
@@ -2145,9 +2451,9 @@ events:
           arg [-lkernel32] ==> lib [kernel32]
           arg [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> obj [C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
         ignore line: [collect2 version 16.1.0]
-        link line: [C:\\Users\\6041464\\_c_lang_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_63245.exe C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang_/bin/../lib/gcc -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_63245.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_63245.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> linker [C:\\Users\\6041464\\_c_lang_\\bin/ld.exe]
-        link line: [C:\\Users\\6041464\\_c_lang_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_63245.exe C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang_/bin/../lib/gcc -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_63245.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_63245.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> linker architecture flags [-m;i386pep]
-        ignore line: [C:\\Users\\6041464\\_c_lang_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_63245.exe C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang_/bin/../lib/gcc -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_63245.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_63245.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
+        link line: [C:\\Users\\6041464\\_c_lang_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_53694.exe C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang_/bin/../lib/gcc -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_53694.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_53694.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> linker [C:\\Users\\6041464\\_c_lang_\\bin/ld.exe]
+        link line: [C:\\Users\\6041464\\_c_lang_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_53694.exe C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang_/bin/../lib/gcc -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_53694.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_53694.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> linker architecture flags [-m;i386pep]
+        ignore line: [C:\\Users\\6041464\\_c_lang_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_53694.exe C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang_/bin/../lib/gcc -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_53694.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_53694.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
         linker tool for 'C': C:/Users/6041464/_c_lang_/bin/ld.exe -m;i386pep
         remove lib [msvcrt]
         remove lib [msvcrt]
@@ -2185,8 +2491,8 @@ events:
     checks:
       - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
     directories:
-      source: "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-f7yr4a"
-      binary: "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-f7yr4a"
+      source: "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-tpfhs1"
+      binary: "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-tpfhs1"
     cmakeVariables:
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
       CMAKE_C_FLAGS: ""
@@ -2196,11 +2502,11 @@ events:
       variable: "CMAKE_HAVE_LIBC_PTHREAD"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-f7yr4a'
+        Change Dir: 'C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-tpfhs1'
         
-        Run Build Command(s): C:/Users/6041464/_c_lang_/bin/ninja.exe -v cmTC_7fcc8
-        [1/2] C:\\Users\\6041464\\_c_lang_\\bin\\cc.exe -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_7fcc8.dir/src.c.obj -c C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-f7yr4a/src.c
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\6041464\\_c_lang_\\bin\\cc.exe   CMakeFiles/cmTC_7fcc8.dir/src.c.obj -o cmTC_7fcc8.exe -Wl,--out-implib,libcmTC_7fcc8.dll.a -Wl,--major-image-version,0,--minor-image-version,0  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 && cd ."
+        Run Build Command(s): C:/Users/6041464/_c_lang_/bin/ninja.exe -v cmTC_d496b
+        [1/2] C:\\Users\\6041464\\_c_lang_\\bin\\ccache-gcc.exe -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_d496b.dir/src.c.obj -c C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-tpfhs1/src.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\6041464\\_c_lang_\\bin\\ccache-gcc.exe   CMakeFiles/cmTC_d496b.dir/src.c.obj -o cmTC_d496b.exe -Wl,--out-implib,libcmTC_d496b.dll.a -Wl,--major-image-version,0,--minor-image-version,0  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 && cd ."
         
       exitCode: 0
 ...
