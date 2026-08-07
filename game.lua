@@ -65,7 +65,7 @@ local function tick(dt)
     for _ = 1, 2 do io.stdout:write("\27[1A\27[2K"); collectgarbage("collect") end
 end
 
-InputListener:BindAction("binding", "mouse3", function(name, state, key)
+InputListener:BindAction("binding", "enter", function(name, state, key)
     return
 end)
 
