@@ -1,4 +1,5 @@
 local CoreLib <const> = require("max_core").call(); CoreLib.MainKit:Load()
+local SoundService = CoreLib:LoadService("SoundService")
 local StorageManager = CoreLib:LoadService("StorageService")
 local RuntimeService = CoreLib:LoadService("RunnerService")
 local InputListener = CoreLib:LoadService("InputService")
@@ -58,7 +59,7 @@ if CoreLib.IsA(QeuryingPlayer, "Event") and not QeuryingPlayer:IsConnected() the
 end
 
 ---@param dt number
-local function tick(dt) 
+local function tick(dt)
     InputListener:Update(); io.stdout:flush(); io.stdout:setvbuf("line")
     local FormatedPosition = string.format("X:\t%G\nY:\t%G", InputListener:GetMousePosition()); print(FormatedPosition)
     StorageManager:CreateFile({ name = "mouse_logging", path = "./logs", extension = "log", contents = FormatedPosition })

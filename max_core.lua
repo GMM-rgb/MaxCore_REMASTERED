@@ -26,10 +26,12 @@
 ---@field InputService InputService
 ---@field input_service InputService
 
+--- =========================================================================
+
 ---@class MainKit
 ---@field Load fun(selfObj: table)
 ---@field destroy fun(indentifier, scope)
----@field ResolveService fun(selfObj: table, name: any)
+---@field ResolveService fun(selfObj: table, name: CoreServices)
 ---@field clampDt fun(dt, maxDt)
 ---@field new fun(): MainKit
 ---@field debugMode boolean
@@ -37,11 +39,23 @@
 ---@field __index table
 ---@field _cache table
 
+---@class task
+---@field seed fun(src: function, ...: any)
+---@field wait fun(duration: number|integer)
+
 ---@class MaxCore
+---@field Event Event
 ---@field MainKit MainKit
+---@field PlayerDataModel PlayerDataModel
+---@field wait fun(duration: number|integer)
+---@field colorPrint fun(level: LogLevel, message: string)
+---@field sleep fun(time: number)
+---@field lenum table
+---@field task task
 
 local debugMode = true
 local PlayerManager = require("utils.player_managment.players")
+local InstanceBuilding = require("utils.instance_creator.instancer")
 local InstanceType = require("instance_type")
 
 -- =========================================================================
