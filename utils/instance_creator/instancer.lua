@@ -3,6 +3,8 @@ local InstanceBuilder = setmetatable({}, nil)
 ---@private
 ---@type MaxCore?
 InstanceBuilder.CoreLib = nil
+---@type table<EventConnection>
+InstanceBuilder.InstanceEventListeners = {}
 
 ---@class Instance
 ---@field Parent Instance
@@ -31,6 +33,11 @@ end
 ---@param self Instance
 function InstanceBuilder:GetParent()
     return self and self.Parent
+end
+
+---@param self Instance
+function InstanceBuilder:SetInstanceInherent()
+
 end
 
 return InstanceBuilder

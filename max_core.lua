@@ -307,14 +307,23 @@ end
 -- =========================================================================
 --                                EVENT ENGINE
 -- =========================================================================
+---@class EventConnection
+---@field disconnect fun(selfObj: Event)
+
 ---@class Event
+---@field new fun(name: string): Event
+---@field Fire fun(selfObj: Event, ...: any)
+---@field Connect fun(selfObj: Event, func: function, ...: any): EventConnection
+---@field IsConnected fun(selfObj: Event): boolean
 ---@field _listeners table<integer, function>
 ---@field _connected boolean
 ---@field _nextId integer
 ---@field _name string
+
 local Event = {}; Event.__index = Event
 InstanceType.SetType(Event, "Event")
 
+---@nodiscard
 ---@param EventName string|nil
 ---@return Event
 function Event.new(EventName)
@@ -336,14 +345,16 @@ function Event:Connect(fn, ...)
 
     if not self._connected then
         self._connected = true
-    end return {
+    end
+
+    return {
         disconnect = function()
             self._listeners[id] = nil
             if #self._listeners <= 0 then
                 self._connected = false
             end
         end
-    }
+    };
 end
 
 ---@param TargetNameSelection string
@@ -355,7 +366,7 @@ function Event:RenameEvent(TargetNameSelection)
     self._name = tostring(TargetNameSelection) or "EventObject"
 
     local RenamingSucess = MainKit:WaitForCondition(function()
-       return TargetNameSelection == self._name 
+       return TargetNameSelection == self._name
     end, 10)
 
     if RenamingSucess ~= nil and type(RenamingSucess) == "boolean" and RenamingSucess then
