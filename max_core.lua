@@ -43,12 +43,21 @@
 ---@field seed fun(src: function, ...: any)
 ---@field wait fun(duration: number|integer)
 
+---@generic ServiceFetcher
+
 ---@class MaxCore
 ---@field Event Event
 ---@field MainKit MainKit
 ---@field PlayerDataModel PlayerDataModel
 ---@field wait fun(duration: number|integer)
 ---@field colorPrint fun(level: LogLevel, message: string)
+---@overload fun(selfObj: table, serviceName: "StorageService"): StorageService
+---@overload fun(selfObj: table, serviceName: "RunnerService"): RunnerService
+---@overload fun(selfObj: table, serviceName: "SoundService"): SoundService
+---@overload fun(selfObj: table, serviceName: "InputService"): InputService
+---@overload fun(selfObj: table, serviceName: string): any
+---@field LoadService fun(selfObj: table, serviceName: string): unknown
+---@field Load fun(selfObj: table)
 ---@field sleep fun(time: number)
 ---@field lenum table
 ---@field task task
