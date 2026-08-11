@@ -1,26 +1,41 @@
 local InstanceTyper = require("instance_type")
 local InstanceBuilder = setmetatable({}, nil)
----@private
----@type MaxCore?
-InstanceBuilder.CoreLib = nil
 ---@type table<EventConnection>
 InstanceBuilder.InstanceEventListeners = {}
+---@type MaxCore?
+InstanceBuilder.CoreLib = nil
 
----@private
----@class RequiredServices
----@field ImportedStorageService StorageService
+--- ====================================================
+---    Core Library Importer; Recursive Stuff Removed
+--- ====================================================
 
----@return RequiredServices
-local function LoadNeccessaryServices()
-    if InstanceBuilder.CoreLib ~= nil and type(InstanceBuilder.CoreLib) == "table" then
-        ---@type RequiredServices
-        return {
-            ImportedStorageService = InstanceBuilder.CoreLib:LoadService("StorageService")
-        };
+---@param LibraryModule MaxCore
+function InstanceBuilder.ImportCoreLibrary(LibraryModule)
+    if LibraryModule and type(LibraryModule) == "table" then
+        InstanceBuilder.CoreLib = LibraryModule
     end
 end
 
+---@class __InstancerRequiredServices
+---@field ImportedStorageService StorageService
+
+---@return __InstancerRequiredServices?
+local function LoadRequiredServices()
+    if InstanceBuilder.CoreLib ~= nil and type(InstanceBuilder.CoreLib) == "table" then
+        local FetchedServices <const> = {
+            ImportedStorageService = InstanceBuilder.CoreLib:LoadService("StorageService"),
+        }; return FetchedServices
+    end
+end
+
+---@class InstanceBuilder
+---@field new fun(): Instance
+---@field ImportCoreLibrary fun(src: MaxCore)
+---@field InstanceEventListeners table<EventConnection>
+---@field CoreLib MaxCore?
+
 ---@class Instance
+---@field Name string
 ---@field Parent Instance
 ---@field ParentChanged Event
 ---@field __max_type string
@@ -47,14 +62,10 @@ end
 
 ---@param self Instance
 ---@return Instance
-function InstanceBuilder:GetParent()
-    return self and self.Parent
-end
-
+function InstanceBuilder:GetParent() return self and self.Parent end
+---@param self Instance
 ---@return string
-function InstanceBuilder:GetName()
-    return 
-end
+function InstanceBuilder:GetName() return tostring(self.Name) or "Instance" end
 
 ---@generic InstanceCombiner(InstanceCombination)
 ---@alias InstanceCombination Instance
@@ -65,4 +76,5 @@ function InstanceBuilder:SetInstanceInherent(SourceInherit)
     
 end
 
+xpcall(LoadRequiredServices, error)
 return InstanceBuilder

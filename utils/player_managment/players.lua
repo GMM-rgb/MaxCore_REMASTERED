@@ -17,16 +17,25 @@ PlayerManagment.core = nil
 ---@field GetSessionTime fun(selfObj: PlayerObject, FormatParams): integer
 ---@field _name string 
 
+---@class PlayerDataModel
+---@field new fun(name: string, perms: PlayerPermissions, sandboxed: boolean): PlayerObject
+---@field ConnectedPlayers table<PlayerObject>
+---@field core MaxCore?
+
 -- ====================================================
 --               PLAYER MANAGMENT METHODS
 -- ====================================================
 
-local ValidPlayerPermissions <const> = {
+local PlayerPermissionTemplate <const> = {
     ---@type Event
     ["_IdleEvent"] = nil,
+    ---@type boolean
     ["PlayerProcessTerminated"] = false,
+    ---@type boolean
     ["PlayerConnectionIdle"] = false,
+    ---@type boolean
     ["PlayerDataWrite"] = true,
+    ---@type boolean
     ["PlayerDataRead"] = true,
 };
 
@@ -36,7 +45,7 @@ local ValidPlayerPermissions <const> = {
 ---@return PlayerObject
 function PlayerManagment.new(name, permissions, sandboxed)
     if sandboxed == nil or type(sandboxed) ~= "boolean" then sandboxed = false end
-    if not permissions then permissions = ValidPlayerPermissions end
+    if not permissions then permissions = PlayerPermissionTemplate end
 
     ---@type PlayerObject
     local self = setmetatable(PlayerManagment, {})

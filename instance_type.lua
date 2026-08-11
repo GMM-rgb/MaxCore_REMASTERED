@@ -1,5 +1,12 @@
+---@generic T
+---@alias IsFn fun(obj: any, target: string): boolean
+---@alias SetTypeFn fun(target: T, typeName: string): T
+---@alias GetTypeFn fun(obj: any): string
 ---@class InstanceType
-local InstanceType = {}
+---@field IsA IsFn
+---@field SetType SetTypeFn
+---@field GetType GetTypeFn
+local InstanceType = setmetatable({}, nil)
 InstanceType.__index = InstanceType
 
 -- Internal symbol key to prevent type spoofing

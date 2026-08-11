@@ -43,26 +43,36 @@
 ---@field seed fun(src: function, ...: any)
 ---@field wait fun(duration: number|integer)
 
----@generic ServiceFetcher
+---@class ServiceMap
+---@field StorageService StorageService
+---@field RunnerService RunnerService
+---@field SoundService SoundService
+---@field InputService InputService
+
+---@alias LoadServiceFn
+---| fun(self: MaxCore, serviceName: "StorageService"): StorageService
+---| fun(self: MaxCore, serviceName: "RunnerService"): RunnerService
+---| fun(self: MaxCore, serviceName: "SoundService"): SoundService
+---| fun(self: MaxCore, serviceName: "InputService"): InputService
+---| fun(self: MaxCore, serviceName: string): any
 
 ---@class MaxCore
+---@field task task
+---@field lenum table
 ---@field Event Event
 ---@field MainKit MainKit
+---@field InstanceType InstanceType
+---@field InstanceBuilding InstanceBuilder
 ---@field PlayerDataModel PlayerDataModel
----@field wait fun(duration: number|integer)
+---@field wait fun(duration: number | integer)
 ---@field colorPrint fun(level: LogLevel, message: string)
----@overload fun(selfObj: table, serviceName: "StorageService"): StorageService
----@overload fun(selfObj: table, serviceName: "RunnerService"): RunnerService
----@overload fun(selfObj: table, serviceName: "SoundService"): SoundService
----@overload fun(selfObj: table, serviceName: "InputService"): InputService
----@overload fun(selfObj: table, serviceName: string): any
----@field LoadService fun(selfObj: table, serviceName: string): unknown
----@field Load fun(selfObj: table)
+---@field LoadService LoadServiceFn
+---@field Load fun(self: MaxCore)
 ---@field sleep fun(time: number)
----@field lenum table
----@field task task
+---@field typeof GetTypeFn
+---@field IsA IsFn
 
-local debugMode = true
+local debugMode <const> = true
 local PlayerManager = require("utils.player_managment.players")
 local InstanceBuilding = require("utils.instance_creator.instancer")
 local InstanceType = require("instance_type")
@@ -316,6 +326,7 @@ end
 -- =========================================================================
 --                                EVENT ENGINE
 -- =========================================================================
+
 ---@class EventConnection
 ---@field disconnect fun(selfObj: Event)
 
@@ -347,6 +358,7 @@ function Event:IsConnected()
     return self._connected
 end
 
+---@return EventConnection
 function Event:Connect(fn, ...)
     local id = self._nextId
     self._nextId = self._nextId + 1
@@ -491,12 +503,11 @@ setmetatable(MainKit, {
     end
 });
 
-local function UploadTypeData()
-    InstanceType.SetType(Event, "Event")
-end
-
+---@param _ any?
+---@param env table?
+---@return MaxCore
 local function call(_, env)
-    UploadTypeData(); return {
+    return {
         MainKit = MainKit,
         Event = Event,
         task = task,
@@ -504,6 +515,8 @@ local function call(_, env)
         sleep = sleep,
         colorPrint = colorPrint,
         PlayerDataModel = PlayerManager,
+        InstanceBuilding = InstanceBuilding,
+        _env = env and env or nil,
 
         ---@overload fun(selfObj: table, serviceName: "StorageService"): StorageService
         ---@overload fun(selfObj: table, serviceName: "RunnerService"): RunnerService
@@ -533,5 +546,6 @@ local function call(_, env)
     };
 end
 
+InstanceBuilding.ImportCoreLibrary(call())
 PlayerManager.core = call()
-return { call = call }
+return { call = call };

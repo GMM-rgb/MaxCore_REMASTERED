@@ -67,7 +67,7 @@ local function tick(dt)
 end
 
 InputListener:BindAction("binding", "enter", function(name, state, key)
-    return
+    print(name .. ":", state, key)
 end)
 
 InputListener:SetGlobalInput(true)
