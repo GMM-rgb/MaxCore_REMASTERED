@@ -1,3 +1,0 @@
-local PlayerConnectionManager = {}
-
-return PlayerConnectionManager

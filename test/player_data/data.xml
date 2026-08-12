@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<data xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="data.xsd">
-    <player-object>
-        <player-id>0</player-id>
-        <player-name>PlayerInstance</player-name>
-        <main-storage></main-storage>
-    </player-object>
-</data>

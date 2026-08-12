@@ -61,8 +61,8 @@
 ---@field lenum table
 ---@field Event Event
 ---@field MainKit MainKit
+---@field Instance InstanceBuilder
 ---@field InstanceType InstanceType
----@field InstanceBuilding InstanceBuilder
 ---@field PlayerDataModel PlayerDataModel
 ---@field wait fun(duration: number | integer)
 ---@field colorPrint fun(level: LogLevel, message: string)
@@ -72,7 +72,7 @@
 ---@field typeof GetTypeFn
 ---@field IsA IsFn
 
-local debugMode <const> = true
+local debugMode <const> = false
 local PlayerManager = require("utils.player_managment.players")
 local InstanceBuilding = require("utils.instance_creator.instancer")
 local InstanceType = require("instance_type")
@@ -514,8 +514,8 @@ local function call(_, env)
         lenum = lenum,
         sleep = sleep,
         colorPrint = colorPrint,
+        Instance = InstanceBuilding,
         PlayerDataModel = PlayerManager,
-        InstanceBuilding = InstanceBuilding,
         _env = env and env or nil,
 
         ---@overload fun(selfObj: table, serviceName: "StorageService"): StorageService
