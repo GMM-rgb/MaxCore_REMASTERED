@@ -97,7 +97,7 @@ elseif(NOT APPLE AND UNIX)
 endif()
 
 # =========================================================================
-# COMPACT MODULE TARGET GENERATION
+# MODULE TARGET GENERATION
 # =========================================================================
 foreach(SOURCE_FILE IN LISTS NATIVE_SOURCES)
     get_filename_component(TARGET_NAME "${SOURCE_FILE}" NAME_WE)
