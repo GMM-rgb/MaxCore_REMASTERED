@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -shared -Wl,-soname,sound_native.so -o sound_native.so CMakeFiles/sound_service_backend.dir/backend/sound_service_backend.cpp.o  -Wl,-rpath,/mnt/d/MaxCore_REMASTERED/build lua55.so -lm -ldl /usr/lib/x86_64-linux-gnu/libX11.so 

@@ -42,7 +42,7 @@ local function tick(dt)
     for _ = 1, 2 do io.stdout:write("\27[1A\27[2K"); collectgarbage("collect") end
 end
 
-InputListener:BindAction("binding", "enter", function(name, state, key)
+InputListener:BindAction("binding", "mouse2", function(name, state, key)
     print(name .. ":", state, key)
 end)
 
@@ -50,21 +50,21 @@ InputListener:SetGlobalInput(true)
 RuntimeService.Stepped:Connect(tick)
 RuntimeService:KeepAlive()
 
--- for _, file in pairs(StorageManager:ListDirectory("./") or {}) do
---     if file and CoreLib.IsA(file, "FileObject") and file:IsDirectory() then
---         if file._name and type(file._name) == "string" and file:GetName() == "logs" then
---             if not (#StorageManager:ListDirectory(file._path) >= 1) then
---                 StorageManager:DeleteDirectory(file._path)
---             end
---         end
---     end
--- end
+for _, file in pairs(StorageManager:ListDirectory("./") or {}) do
+    if file and CoreLib.IsA(file, "FileObject") and file:IsDirectory() then
+        if file._name and type(file._name) == "string" and file:GetName() == "logs" then
+            if not (math.ceil(#StorageManager:ListDirectory(file._path)) >= 1) then
+                StorageManager:DeleteDirectory(file._path)
+            end
+        end
+    end
+end
 
--- if CoreLib.IsA(StorageManager, "StorageService") then
---     StorageManager:CreateDirectory("./logs")
--- end
+if CoreLib.IsA(StorageManager, "StorageService") then
+    StorageManager:CreateDirectory("./logs")
+end
 
 local x, y = InputListener:GetMousePosition()
 local WriteSuccess = StorageManager:CreateFile({
-    name = "mouse_logging", extension = "log",
+    path = "./logs/mouse_logging.log",
 }):Write(string.format("X:\t%G\nY:\t%G", x, y))
