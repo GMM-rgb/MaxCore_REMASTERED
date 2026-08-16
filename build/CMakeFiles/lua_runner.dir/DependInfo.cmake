@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/lua-5.6.0/src/lua.c" "CMakeFiles/lua_runner.dir/lua-5.6.0/src/lua.c.o" "gcc" "CMakeFiles/lua_runner.dir/lua-5.6.0/src/lua.c.o.d"
+  "/mnt/d/MaxCore_REMASTERED/lua-5.6.0/src/lua.c" "CMakeFiles/lua_runner.dir/lua-5.6.0/src/lua.c.o" "gcc" "CMakeFiles/lua_runner.dir/lua-5.6.0/src/lua.c.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

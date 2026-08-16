@@ -63,8 +63,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/lua_shared.dir/lua-5.6.0/src/lvm.c.o.d"
   "CMakeFiles/lua_shared.dir/lua-5.6.0/src/lzio.c.o"
   "CMakeFiles/lua_shared.dir/lua-5.6.0/src/lzio.c.o.d"
-  "lua55.dylib"
   "lua55.pdb"
+  "lua55.so"
 )
 
 # Per-language clean rules from dependency scanning.

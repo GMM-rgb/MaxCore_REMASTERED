@@ -37,6 +37,11 @@ list(REMOVE_ITEM LUA_LIB_SOURCES "${LUA_SRC_DIR}/lua.c" "${LUA_SRC_DIR}/luac.c")
 add_library(lua_shared SHARED ${LUA_LIB_SOURCES})
 set_target_properties(lua_shared PROPERTIES PREFIX "" OUTPUT_NAME "lua55")
 
+# FIX: Link C math and dynamic loading library explicitly to Lua on Unix
+if(UNIX AND NOT APPLE)
+    target_link_libraries(lua_shared PRIVATE m dl)
+endif()
+
 # Build custom Lua executable linked to lua_shared
 add_executable(lua_runner "${LUA_SRC_DIR}/lua.c")
 target_link_libraries(lua_runner PRIVATE lua_shared)
@@ -78,9 +83,17 @@ elseif(APPLE)
     list(APPEND PLATFORM_LIBS "-framework CoreAudio" "-framework CoreFoundation" "-framework AudioToolbox" "-framework ApplicationServices" "-framework Cocoa")
 elseif(NOT APPLE AND UNIX)
     message(STATUS "[Engine] Target OS: Linux / Unix")
-    find_package(X11 REQUIRED)
-    include_directories(${X11_INCLUDE_DIR})
-    list(APPEND PLATFORM_LIBS m dl ${X11_LIBRARIES})
+    find_package(X11)
+    if(NOT X11_FOUND)
+        message(FATAL_ERROR 
+            "\n[Engine Error] X11 development headers missing!\n"
+            "Please install them using your system package manager:\n"
+            "  Ubuntu/Debian: sudo apt install libx11-dev\n"
+            "  Fedora/RHEL:   sudo dnf install libX11-devel\n"
+            "  Arch Linux:    sudo pacman -S libx11\n"
+        )
+    endif()
+    list(APPEND PLATFORM_LIBS m dl X11::X11)
 endif()
 
 # =========================================================================

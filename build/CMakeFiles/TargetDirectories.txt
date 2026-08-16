@@ -1,7 +1,7 @@
-/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/lua_shared.dir
-/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/lua_runner.dir
-/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/sound_service_backend.dir
-/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/input_native.dir
-/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/storage_interface.dir
-/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/edit_cache.dir
-/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/rebuild_cache.dir
+/mnt/d/MaxCore_REMASTERED/build/CMakeFiles/lua_shared.dir
+/mnt/d/MaxCore_REMASTERED/build/CMakeFiles/lua_runner.dir
+/mnt/d/MaxCore_REMASTERED/build/CMakeFiles/sound_service_backend.dir
+/mnt/d/MaxCore_REMASTERED/build/CMakeFiles/input_native.dir
+/mnt/d/MaxCore_REMASTERED/build/CMakeFiles/storage_interface.dir
+/mnt/d/MaxCore_REMASTERED/build/CMakeFiles/edit_cache.dir
+/mnt/d/MaxCore_REMASTERED/build/CMakeFiles/rebuild_cache.dir

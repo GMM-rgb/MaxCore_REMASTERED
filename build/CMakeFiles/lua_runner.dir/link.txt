@@ -1,1 +1,1 @@
-/usr/bin/clang -g -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names "CMakeFiles/lua_runner.dir/lua-5.6.0/src/lua.c.o" -o max-core-lua  -Wl,-rpath,/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build lua55.dylib
+/usr/bin/cc "CMakeFiles/lua_runner.dir/lua-5.6.0/src/lua.c.o" -o max-core-lua  -Wl,-rpath,/mnt/d/MaxCore_REMASTERED/build lua55.so 
