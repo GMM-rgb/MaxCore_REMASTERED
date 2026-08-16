@@ -54,43 +54,72 @@ InstanceTyping.SetType(FileObject, "FileObject")
 -- PATH RESOLUTION
 -- =========================================================================
 
----Gets the base directory of the executing script
+local cached_base_dir = nil
+
+---Gets the absolute base directory of the executing script
 ---@return string
 local function get_base_dir()
+    if cached_base_dir then
+        return cached_base_dir
+    end
+
+    local scriptPath = "."
     if arg and arg[0] then
         local cleanArg = arg[0]:gsub("\\", "/")
         local dir = cleanArg:match("^(.*[/\\])")
         if dir then
-            return dir:gsub("[/\\]$", "")
+            scriptPath = dir:gsub("[/\\]$", "")
         end
     end
-    return "."
+
+    -- Convert scriptPath into an absolute path via C++ native layer
+    if native_ok and type(storage_interface.get_file_info) == "function" then
+        local info = storage_interface.get_file_info(scriptPath, false)
+        if info and info.path and info.path ~= "" then
+            local absPath = info.path:gsub("\\", "/")
+            if not info.is_directory then
+                absPath = absPath:match("^(.*/)") or absPath
+                absPath = absPath:gsub("/$", "")
+            end
+            cached_base_dir = absPath
+            return cached_base_dir
+        end
+    end
+
+    cached_base_dir = scriptPath
+    return cached_base_dir
 end
 
 ---Resolves a given path to an absolute or script-relative path
 ---@param filePath string|nil
 ---@return string
 local function resolve_path(filePath)
-    if not filePath or filePath == "" then
-        return get_base_dir()
-    end
-    if filePath:match("^%a:[/\\]") or filePath:match("^[/\\]") then
-        return filePath
-    end
-
     local baseDir = get_base_dir()
-    filePath = filePath:gsub("^%./", "")
 
-    local baseFolderName = baseDir:match("([^/\\]+)$")
-    if baseFolderName and (filePath == baseFolderName or filePath:find("^" .. baseFolderName .. "[/\\]")) then
-        return filePath
-    end
-
-    if filePath == "." or filePath == "" then
+    if not filePath or filePath == "" or filePath == "." then
         return baseDir
     end
 
-    return baseDir .. "/" .. filePath
+    filePath = filePath:gsub("\\", "/")
+
+    -- Check if path is absolute (Windows drive letter C:/ or Unix /)
+    if filePath:match("^%a:/") or filePath:match("^/") then
+        return filePath
+    end
+
+    local cleanBase = baseDir:gsub("/$", "")
+
+    -- Prevent path duplication if filePath already starts with baseDir
+    if filePath == cleanBase then
+        return filePath
+    end
+
+    if filePath:sub(1, #cleanBase + 1) == (cleanBase .. "/") then
+        return filePath
+    end
+
+    filePath = filePath:gsub("^%./", "")
+    return cleanBase .. "/" .. filePath
 end
 
 -- =========================================================================
@@ -327,11 +356,12 @@ function StorageService:ListDirectory(dirPath)
 end
 
 ---@param SourceName string
----@
+---@return string, string
 function StorageService.SplitFileName(SourceName)
     if not SourceName or type(SourceName) ~= "string" then
-        return "<unkown>", "<unkown>"
-    end; return SourceName:match("^(.+)%.([^.]+)$")
+        return "<unknown>", "<unknown>"
+    end
+    return SourceName:match("^(.+)%.([^.]+)$")
 end
 
 return StorageService

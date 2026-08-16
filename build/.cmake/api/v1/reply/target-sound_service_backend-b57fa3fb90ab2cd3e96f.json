@@ -2,13 +2,13 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "input_native.dll"
+			"path" : "sound_native.dll"
 		},
 		{
-			"path" : "libinput_native.dll.a"
+			"path" : "libsound_native.dll.a"
 		},
 		{
-			"path" : "input_native.pdb"
+			"path" : "sound_native.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -78,7 +78,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -std=gnu++17"
+					"fragment" : "-std=gnu++17"
 				}
 			],
 			"defines" : 
@@ -88,7 +88,7 @@
 					"define" : "LUA_BUILD_AS_DLL"
 				},
 				{
-					"define" : "input_native_EXPORTS"
+					"define" : "sound_service_backend_EXPORTS"
 				}
 			],
 			"includes" : 
@@ -120,7 +120,7 @@
 			"id" : "lua_shared::@6890427a1f51a3e7e1df"
 		}
 	],
-	"id" : "input_native::@6890427a1f51a3e7e1df",
+	"id" : "sound_service_backend::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -170,8 +170,8 @@
 			"fragment" : "user32"
 		}
 	],
-	"name" : "input_native",
-	"nameOnDisk" : "input_native.dll",
+	"name" : "sound_service_backend",
+	"nameOnDisk" : "sound_native.dll",
 	"paths" : 
 	{
 		"build" : ".",
@@ -192,7 +192,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "backend/input_native.cpp",
+			"path" : "backend/sound_service_backend.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

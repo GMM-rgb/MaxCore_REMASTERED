@@ -55,6 +55,7 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.2.0/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/nodejs/"
+      - "D:/MaxCore_REMASTERED/build/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-17.0.16.8-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
@@ -104,6 +105,7 @@ events:
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.2.0\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\nodejs\\"
+        - "D:\\MaxCore_REMASTERED\\build\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-21.0.8.9-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-17.0.16.8-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
@@ -174,6 +176,7 @@ events:
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.2.0\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\nodejs\\"
+        - "D:\\MaxCore_REMASTERED\\build\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-21.0.8.9-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-17.0.16.8-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
@@ -260,6 +263,7 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.2.0/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/nodejs/"
+      - "D:/MaxCore_REMASTERED/build/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-17.0.16.8-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
@@ -354,6 +358,9 @@ events:
       - "C:/Program Files/nodejs/ccache-ar.com"
       - "C:/Program Files/nodejs/ccache-ar.exe"
       - "C:/Program Files/nodejs/ccache-ar"
+      - "D:/MaxCore_REMASTERED/build/ccache-ar.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-ar.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-ar"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-ar.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-ar.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-ar"
@@ -429,6 +436,7 @@ events:
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.2.0\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\nodejs\\"
+        - "D:\\MaxCore_REMASTERED\\build\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-21.0.8.9-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-17.0.16.8-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
@@ -493,6 +501,7 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.2.0/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/nodejs/"
+      - "D:/MaxCore_REMASTERED/build/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-17.0.16.8-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
@@ -587,6 +596,9 @@ events:
       - "C:/Program Files/nodejs/ccache-ranlib.com"
       - "C:/Program Files/nodejs/ccache-ranlib.exe"
       - "C:/Program Files/nodejs/ccache-ranlib"
+      - "D:/MaxCore_REMASTERED/build/ccache-ranlib.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-ranlib.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-ranlib"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-ranlib.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-ranlib.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-ranlib"
@@ -662,6 +674,7 @@ events:
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.2.0\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\nodejs\\"
+        - "D:\\MaxCore_REMASTERED\\build\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-21.0.8.9-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-17.0.16.8-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
@@ -726,6 +739,7 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.2.0/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/nodejs/"
+      - "D:/MaxCore_REMASTERED/build/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-17.0.16.8-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
@@ -820,6 +834,9 @@ events:
       - "C:/Program Files/nodejs/ccache-strip.com"
       - "C:/Program Files/nodejs/ccache-strip.exe"
       - "C:/Program Files/nodejs/ccache-strip"
+      - "D:/MaxCore_REMASTERED/build/ccache-strip.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-strip.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-strip"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-strip.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-strip.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-strip"
@@ -895,6 +912,7 @@ events:
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.2.0\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\nodejs\\"
+        - "D:\\MaxCore_REMASTERED\\build\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-21.0.8.9-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-17.0.16.8-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
@@ -959,6 +977,7 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.2.0/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/nodejs/"
+      - "D:/MaxCore_REMASTERED/build/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-17.0.16.8-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
@@ -1053,6 +1072,9 @@ events:
       - "C:/Program Files/nodejs/ccache-ld.com"
       - "C:/Program Files/nodejs/ccache-ld.exe"
       - "C:/Program Files/nodejs/ccache-ld"
+      - "D:/MaxCore_REMASTERED/build/ccache-ld.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-ld.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-ld"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-ld.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-ld.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-ld"
@@ -1128,6 +1150,7 @@ events:
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.2.0\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\nodejs\\"
+        - "D:\\MaxCore_REMASTERED\\build\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-21.0.8.9-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-17.0.16.8-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
@@ -1192,6 +1215,7 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.2.0/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/nodejs/"
+      - "D:/MaxCore_REMASTERED/build/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-17.0.16.8-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
@@ -1286,6 +1310,9 @@ events:
       - "C:/Program Files/nodejs/ccache-nm.com"
       - "C:/Program Files/nodejs/ccache-nm.exe"
       - "C:/Program Files/nodejs/ccache-nm"
+      - "D:/MaxCore_REMASTERED/build/ccache-nm.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-nm.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-nm"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-nm.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-nm.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-nm"
@@ -1361,6 +1388,7 @@ events:
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.2.0\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\nodejs\\"
+        - "D:\\MaxCore_REMASTERED\\build\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-21.0.8.9-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-17.0.16.8-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
@@ -1425,6 +1453,7 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.2.0/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/nodejs/"
+      - "D:/MaxCore_REMASTERED/build/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-17.0.16.8-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
@@ -1519,6 +1548,9 @@ events:
       - "C:/Program Files/nodejs/ccache-objdump.com"
       - "C:/Program Files/nodejs/ccache-objdump.exe"
       - "C:/Program Files/nodejs/ccache-objdump"
+      - "D:/MaxCore_REMASTERED/build/ccache-objdump.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-objdump.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-objdump"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-objdump.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-objdump.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-objdump"
@@ -1594,6 +1626,7 @@ events:
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.2.0\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\nodejs\\"
+        - "D:\\MaxCore_REMASTERED\\build\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-21.0.8.9-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-17.0.16.8-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
@@ -1658,6 +1691,7 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.2.0/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/nodejs/"
+      - "D:/MaxCore_REMASTERED/build/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-17.0.16.8-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
@@ -1752,6 +1786,9 @@ events:
       - "C:/Program Files/nodejs/ccache-objcopy.com"
       - "C:/Program Files/nodejs/ccache-objcopy.exe"
       - "C:/Program Files/nodejs/ccache-objcopy"
+      - "D:/MaxCore_REMASTERED/build/ccache-objcopy.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-objcopy.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-objcopy"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-objcopy.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-objcopy.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-objcopy"
@@ -1827,6 +1864,7 @@ events:
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.2.0\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\nodejs\\"
+        - "D:\\MaxCore_REMASTERED\\build\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-21.0.8.9-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-17.0.16.8-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
@@ -1891,6 +1929,7 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.2.0/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/nodejs/"
+      - "D:/MaxCore_REMASTERED/build/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-17.0.16.8-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
@@ -1985,6 +2024,9 @@ events:
       - "C:/Program Files/nodejs/ccache-readelf.com"
       - "C:/Program Files/nodejs/ccache-readelf.exe"
       - "C:/Program Files/nodejs/ccache-readelf"
+      - "D:/MaxCore_REMASTERED/build/ccache-readelf.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-readelf.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-readelf"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-readelf.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-readelf.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-readelf"
@@ -2108,6 +2150,9 @@ events:
       - "C:/Program Files/nodejs/readelf.com"
       - "C:/Program Files/nodejs/readelf.exe"
       - "C:/Program Files/nodejs/readelf"
+      - "D:/MaxCore_REMASTERED/build/readelf.com"
+      - "D:/MaxCore_REMASTERED/build/readelf.exe"
+      - "D:/MaxCore_REMASTERED/build/readelf"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/readelf.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/readelf.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/readelf"
@@ -2182,6 +2227,7 @@ events:
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.2.0\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\nodejs\\"
+        - "D:\\MaxCore_REMASTERED\\build\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-21.0.8.9-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-17.0.16.8-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
@@ -2246,6 +2292,7 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.2.0/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/nodejs/"
+      - "D:/MaxCore_REMASTERED/build/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-17.0.16.8-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
@@ -2340,6 +2387,9 @@ events:
       - "C:/Program Files/nodejs/ccache-dlltool.com"
       - "C:/Program Files/nodejs/ccache-dlltool.exe"
       - "C:/Program Files/nodejs/ccache-dlltool"
+      - "D:/MaxCore_REMASTERED/build/ccache-dlltool.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-dlltool.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-dlltool"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-dlltool.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-dlltool.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-dlltool"
@@ -2415,6 +2465,7 @@ events:
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.2.0\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\nodejs\\"
+        - "D:\\MaxCore_REMASTERED\\build\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-21.0.8.9-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-17.0.16.8-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
@@ -2479,6 +2530,7 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.2.0/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/nodejs/"
+      - "D:/MaxCore_REMASTERED/build/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-17.0.16.8-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
@@ -2573,6 +2625,9 @@ events:
       - "C:/Program Files/nodejs/ccache-addr2line.com"
       - "C:/Program Files/nodejs/ccache-addr2line.exe"
       - "C:/Program Files/nodejs/ccache-addr2line"
+      - "D:/MaxCore_REMASTERED/build/ccache-addr2line.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-addr2line.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-addr2line"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-addr2line.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-addr2line.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-addr2line"
@@ -2648,6 +2703,7 @@ events:
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.2.0\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\nodejs\\"
+        - "D:\\MaxCore_REMASTERED\\build\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-21.0.8.9-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-17.0.16.8-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
@@ -2712,6 +2768,7 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.2.0/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/nodejs/"
+      - "D:/MaxCore_REMASTERED/build/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-17.0.16.8-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
@@ -2806,6 +2863,9 @@ events:
       - "C:/Program Files/nodejs/ccache-tapi.com"
       - "C:/Program Files/nodejs/ccache-tapi.exe"
       - "C:/Program Files/nodejs/ccache-tapi"
+      - "D:/MaxCore_REMASTERED/build/ccache-tapi.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-tapi.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-tapi"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-tapi.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-tapi.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-tapi"
@@ -2929,6 +2989,9 @@ events:
       - "C:/Program Files/nodejs/tapi.com"
       - "C:/Program Files/nodejs/tapi.exe"
       - "C:/Program Files/nodejs/tapi"
+      - "D:/MaxCore_REMASTERED/build/tapi.com"
+      - "D:/MaxCore_REMASTERED/build/tapi.exe"
+      - "D:/MaxCore_REMASTERED/build/tapi"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/tapi.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/tapi.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/tapi"
@@ -3003,6 +3066,7 @@ events:
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.2.0\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\nodejs\\"
+        - "D:\\MaxCore_REMASTERED\\build\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-21.0.8.9-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-17.0.16.8-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
@@ -3069,6 +3133,7 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.2.0/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/nodejs/"
+      - "D:/MaxCore_REMASTERED/build/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-17.0.16.8-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
@@ -3163,6 +3228,9 @@ events:
       - "C:/Program Files/nodejs/ccache-gcc-ar-16.1.com"
       - "C:/Program Files/nodejs/ccache-gcc-ar-16.1.exe"
       - "C:/Program Files/nodejs/ccache-gcc-ar-16.1"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ar-16.1.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ar-16.1.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ar-16.1"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ar-16.1.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ar-16.1.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ar-16.1"
@@ -3286,6 +3354,9 @@ events:
       - "C:/Program Files/nodejs/ccache-gcc-ar-16.com"
       - "C:/Program Files/nodejs/ccache-gcc-ar-16.exe"
       - "C:/Program Files/nodejs/ccache-gcc-ar-16"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ar-16.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ar-16.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ar-16"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ar-16.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ar-16.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ar-16"
@@ -3409,6 +3480,9 @@ events:
       - "C:/Program Files/nodejs/ccache-gcc-ar16.com"
       - "C:/Program Files/nodejs/ccache-gcc-ar16.exe"
       - "C:/Program Files/nodejs/ccache-gcc-ar16"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ar16.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ar16.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ar16"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ar16.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ar16.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ar16"
@@ -3532,6 +3606,9 @@ events:
       - "C:/Program Files/nodejs/ccache-gcc-ar.com"
       - "C:/Program Files/nodejs/ccache-gcc-ar.exe"
       - "C:/Program Files/nodejs/ccache-gcc-ar"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ar.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ar.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ar"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ar.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ar.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ar"
@@ -3606,6 +3683,7 @@ events:
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.2.0\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\nodejs\\"
+        - "D:\\MaxCore_REMASTERED\\build\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-21.0.8.9-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-17.0.16.8-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
@@ -3672,6 +3750,7 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.2.0/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/nodejs/"
+      - "D:/MaxCore_REMASTERED/build/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-17.0.16.8-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
@@ -3766,6 +3845,9 @@ events:
       - "C:/Program Files/nodejs/ccache-gcc-ranlib-16.1.com"
       - "C:/Program Files/nodejs/ccache-gcc-ranlib-16.1.exe"
       - "C:/Program Files/nodejs/ccache-gcc-ranlib-16.1"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ranlib-16.1.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ranlib-16.1.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ranlib-16.1"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ranlib-16.1.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ranlib-16.1.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ranlib-16.1"
@@ -3889,6 +3971,9 @@ events:
       - "C:/Program Files/nodejs/ccache-gcc-ranlib-16.com"
       - "C:/Program Files/nodejs/ccache-gcc-ranlib-16.exe"
       - "C:/Program Files/nodejs/ccache-gcc-ranlib-16"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ranlib-16.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ranlib-16.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ranlib-16"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ranlib-16.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ranlib-16.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ranlib-16"
@@ -4012,6 +4097,9 @@ events:
       - "C:/Program Files/nodejs/ccache-gcc-ranlib16.com"
       - "C:/Program Files/nodejs/ccache-gcc-ranlib16.exe"
       - "C:/Program Files/nodejs/ccache-gcc-ranlib16"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ranlib16.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ranlib16.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ranlib16"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ranlib16.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ranlib16.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ranlib16"
@@ -4135,6 +4223,9 @@ events:
       - "C:/Program Files/nodejs/ccache-gcc-ranlib.com"
       - "C:/Program Files/nodejs/ccache-gcc-ranlib.exe"
       - "C:/Program Files/nodejs/ccache-gcc-ranlib"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ranlib.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ranlib.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ranlib"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ranlib.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ranlib.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ranlib"
@@ -4209,6 +4300,7 @@ events:
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.2.0\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\nodejs\\"
+        - "D:\\MaxCore_REMASTERED\\build\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-21.0.8.9-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-17.0.16.8-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
@@ -4279,6 +4371,7 @@ events:
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.2.0\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\nodejs\\"
+        - "D:\\MaxCore_REMASTERED\\build\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-21.0.8.9-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-17.0.16.8-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
@@ -4367,6 +4460,7 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.2.0/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/nodejs/"
+      - "D:/MaxCore_REMASTERED/build/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-17.0.16.8-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
@@ -4461,6 +4555,9 @@ events:
       - "C:/Program Files/nodejs/ccache-gcc-ar-16.1.com"
       - "C:/Program Files/nodejs/ccache-gcc-ar-16.1.exe"
       - "C:/Program Files/nodejs/ccache-gcc-ar-16.1"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ar-16.1.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ar-16.1.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ar-16.1"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ar-16.1.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ar-16.1.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ar-16.1"
@@ -4584,6 +4681,9 @@ events:
       - "C:/Program Files/nodejs/ccache-gcc-ar-16.com"
       - "C:/Program Files/nodejs/ccache-gcc-ar-16.exe"
       - "C:/Program Files/nodejs/ccache-gcc-ar-16"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ar-16.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ar-16.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ar-16"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ar-16.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ar-16.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ar-16"
@@ -4707,6 +4807,9 @@ events:
       - "C:/Program Files/nodejs/ccache-gcc-ar16.com"
       - "C:/Program Files/nodejs/ccache-gcc-ar16.exe"
       - "C:/Program Files/nodejs/ccache-gcc-ar16"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ar16.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ar16.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ar16"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ar16.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ar16.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ar16"
@@ -4830,6 +4933,9 @@ events:
       - "C:/Program Files/nodejs/ccache-gcc-ar.com"
       - "C:/Program Files/nodejs/ccache-gcc-ar.exe"
       - "C:/Program Files/nodejs/ccache-gcc-ar"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ar.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ar.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ar"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ar.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ar.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ar"
@@ -4904,6 +5010,7 @@ events:
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.2.0\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\nodejs\\"
+        - "D:\\MaxCore_REMASTERED\\build\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-21.0.8.9-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-17.0.16.8-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
@@ -4970,6 +5077,7 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.2.0/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/nodejs/"
+      - "D:/MaxCore_REMASTERED/build/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-17.0.16.8-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
@@ -5064,6 +5172,9 @@ events:
       - "C:/Program Files/nodejs/ccache-gcc-ranlib-16.1.com"
       - "C:/Program Files/nodejs/ccache-gcc-ranlib-16.1.exe"
       - "C:/Program Files/nodejs/ccache-gcc-ranlib-16.1"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ranlib-16.1.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ranlib-16.1.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ranlib-16.1"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ranlib-16.1.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ranlib-16.1.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ranlib-16.1"
@@ -5187,6 +5298,9 @@ events:
       - "C:/Program Files/nodejs/ccache-gcc-ranlib-16.com"
       - "C:/Program Files/nodejs/ccache-gcc-ranlib-16.exe"
       - "C:/Program Files/nodejs/ccache-gcc-ranlib-16"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ranlib-16.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ranlib-16.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ranlib-16"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ranlib-16.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ranlib-16.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ranlib-16"
@@ -5310,6 +5424,9 @@ events:
       - "C:/Program Files/nodejs/ccache-gcc-ranlib16.com"
       - "C:/Program Files/nodejs/ccache-gcc-ranlib16.exe"
       - "C:/Program Files/nodejs/ccache-gcc-ranlib16"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ranlib16.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ranlib16.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ranlib16"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ranlib16.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ranlib16.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ranlib16"
@@ -5433,6 +5550,9 @@ events:
       - "C:/Program Files/nodejs/ccache-gcc-ranlib.com"
       - "C:/Program Files/nodejs/ccache-gcc-ranlib.exe"
       - "C:/Program Files/nodejs/ccache-gcc-ranlib"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ranlib.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ranlib.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-gcc-ranlib"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ranlib.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ranlib.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-gcc-ranlib"
@@ -5507,6 +5627,7 @@ events:
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.2.0\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\nodejs\\"
+        - "D:\\MaxCore_REMASTERED\\build\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-21.0.8.9-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-17.0.16.8-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
@@ -5573,6 +5694,7 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.2.0/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/nodejs/"
+      - "D:/MaxCore_REMASTERED/build/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-17.0.16.8-hotspot/bin/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
@@ -5679,6 +5801,9 @@ events:
       - "C:/Program Files/nodejs/ccache-windres.com"
       - "C:/Program Files/nodejs/ccache-windres.exe"
       - "C:/Program Files/nodejs/ccache-windres"
+      - "D:/MaxCore_REMASTERED/build/ccache-windres.com"
+      - "D:/MaxCore_REMASTERED/build/ccache-windres.exe"
+      - "D:/MaxCore_REMASTERED/build/ccache-windres"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-windres.com"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-windres.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Eclipse Adoptium/jdk-21.0.8.9-hotspot/bin/ccache-windres"
@@ -5790,6 +5915,7 @@ events:
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.2.0\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\nodejs\\"
+        - "D:\\MaxCore_REMASTERED\\build\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-21.0.8.9-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-17.0.16.8-hotspot\\bin"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
@@ -5822,8 +5948,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-kzf1a0"
-      binary: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-kzf1a0"
+      source: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-3ck4gy"
+      binary: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-3ck4gy"
     cmakeVariables:
       CMAKE_CXX_FLAGS: ""
       CMAKE_CXX_FLAGS_DEBUG: "-g"
@@ -5834,10 +5960,10 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-kzf1a0'
+        Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-3ck4gy'
         
-        Run Build Command(s): C:/Users/maxim/_C_/bin/ninja.exe -v cmTC_bc8a2
-        [1/2] C:\\Users\\maxim\\_C_\\bin\\ccache-g++.exe   -v -o CMakeFiles/cmTC_bc8a2.dir/CMakeCXXCompilerABI.cpp.obj -c C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp
+        Run Build Command(s): C:/Users/maxim/_C_/bin/ninja.exe -v cmTC_0a5b6
+        [1/2] C:\\Users\\maxim\\_C_\\bin\\ccache-g++.exe   -v -o CMakeFiles/cmTC_0a5b6.dir/CMakeCXXCompilerABI.cpp.obj -c C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp
         Using built-in specs.
         COLLECT_GCC=C:\\Users\\maxim\\_C_\\bin\\g++.exe
         Target: x86_64-w64-mingw32
@@ -5873,7 +5999,7 @@ events:
         COMPILER_PATH=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../libexec/gcc/
         LIBRARY_PATH=C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../lib/gcc/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../
         COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_8130a.dir/CMakeCXXCompilerABI.cpp.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_8130a.dir/CMakeCXXCompilerABI.cpp.'
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\ccache-g++.exe  -v -Wl,-v CMakeFiles/cmTC_bc8a2.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_bc8a2.exe -Wl,--out-implib,libcmTC_bc8a2.dll.a -Wl,--major-image-version,0,--minor-image-version,0   && cd ."
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\ccache-g++.exe  -v -Wl,-v CMakeFiles/cmTC_0a5b6.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_0a5b6.exe -Wl,--out-implib,libcmTC_0a5b6.dll.a -Wl,--major-image-version,0,--minor-image-version,0   && cd ."
         Using built-in specs.
         COLLECT_GCC=C:\\Users\\maxim\\_C_\\bin\\g++.exe
         COLLECT_LTO_WRAPPER=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/lto-wrapper.exe
@@ -5884,12 +6010,12 @@ events:
         gcc version 16.1.0 (GCC) 
         COMPILER_PATH=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../libexec/gcc/
         LIBRARY_PATH=C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../lib/gcc/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_bc8a2.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_bc8a2.'
-         C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_bc8a2.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_bc8a2.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_bc8a2.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_0a5b6.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_0a5b6.'
+         C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_0a5b6.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_0a5b6.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_0a5b6.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
         collect2 version 16.1.0
-        C:\\Users\\maxim\\_C_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_bc8a2.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_bc8a2.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_bc8a2.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
+        C:\\Users\\maxim\\_C_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_0a5b6.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_0a5b6.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_0a5b6.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
         GNU ld (GNU Binutils) 2.46.0.20260210
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_bc8a2.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_bc8a2.'
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_0a5b6.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_0a5b6.'
         
       exitCode: 0
   -
@@ -5928,10 +6054,10 @@ events:
       Parsed CXX implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
-        ignore line: [Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-kzf1a0']
+        ignore line: [Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-3ck4gy']
         ignore line: []
-        ignore line: [Run Build Command(s): C:/Users/maxim/_C_/bin/ninja.exe -v cmTC_bc8a2]
-        ignore line: [[1/2] C:\\Users\\maxim\\_C_\\bin\\ccache-g++.exe   -v -o CMakeFiles/cmTC_bc8a2.dir/CMakeCXXCompilerABI.cpp.obj -c C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Run Build Command(s): C:/Users/maxim/_C_/bin/ninja.exe -v cmTC_0a5b6]
+        ignore line: [[1/2] C:\\Users\\maxim\\_C_\\bin\\ccache-g++.exe   -v -o CMakeFiles/cmTC_0a5b6.dir/CMakeCXXCompilerABI.cpp.obj -c C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=C:\\Users\\maxim\\_C_\\bin\\g++.exe]
         ignore line: [Target: x86_64-w64-mingw32]
@@ -5971,7 +6097,7 @@ events:
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/]
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../]
         ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_8130a.dir/CMakeCXXCompilerABI.cpp.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_8130a.dir/CMakeCXXCompilerABI.cpp.']
-        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\ccache-g++.exe  -v -Wl -v CMakeFiles/cmTC_bc8a2.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_bc8a2.exe -Wl --out-implib libcmTC_bc8a2.dll.a -Wl --major-image-version 0 --minor-image-version 0   && cd ."]
+        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\ccache-g++.exe  -v -Wl -v CMakeFiles/cmTC_0a5b6.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_0a5b6.exe -Wl --out-implib libcmTC_0a5b6.dll.a -Wl --major-image-version 0 --minor-image-version 0   && cd ."]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=C:\\Users\\maxim\\_C_\\bin\\g++.exe]
         ignore line: [COLLECT_LTO_WRAPPER=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/lto-wrapper.exe]
@@ -5986,15 +6112,15 @@ events:
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/]
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/]
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_bc8a2.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_bc8a2.']
-        link line: [ C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_bc8a2.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_bc8a2.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_bc8a2.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_0a5b6.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_0a5b6.']
+        link line: [ C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_0a5b6.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_0a5b6.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_0a5b6.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
           arg [C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe] ==> ignore
           arg [--sysroot=/w64devkit] ==> ignore
           arg [-m] ==> ignore
           arg [i386pep] ==> ignore
           arg [-Bdynamic] ==> search dynamic
           arg [-o] ==> ignore
-          arg [cmTC_bc8a2.exe] ==> ignore
+          arg [cmTC_0a5b6.exe] ==> ignore
           arg [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o] ==> obj [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o]
           arg [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o] ==> obj [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o]
           arg [-LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0] ==> dir [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0]
@@ -6002,9 +6128,9 @@ events:
           arg [-LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib] ==> dir [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib]
           arg [-LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../..] ==> dir [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../..]
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_bc8a2.dir/CMakeCXXCompilerABI.cpp.obj] ==> ignore
+          arg [CMakeFiles/cmTC_0a5b6.dir/CMakeCXXCompilerABI.cpp.obj] ==> ignore
           arg [--out-implib] ==> ignore
-          arg [libcmTC_bc8a2.dll.a] ==> ignore
+          arg [libcmTC_0a5b6.dll.a] ==> ignore
           arg [--major-image-version] ==> ignore
           arg [0] ==> ignore
           arg [--minor-image-version] ==> ignore
@@ -6027,7 +6153,7 @@ events:
           arg [-lkernel32] ==> lib [kernel32]
           arg [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> obj [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
         ignore line: [collect2 version 16.1.0]
-        ignore line: [C:\\Users\\maxim\\_C_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_bc8a2.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_bc8a2.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_bc8a2.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
+        ignore line: [C:\\Users\\maxim\\_C_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_0a5b6.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_0a5b6.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_0a5b6.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
         linker tool for 'CXX': C:/Users/maxim/_C_/bin/ld.exe
         remove lib [msvcrt]
         remove lib [msvcrt]
@@ -6063,8 +6189,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-bjkfwv"
-      binary: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-bjkfwv"
+      source: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-7miksv"
+      binary: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-7miksv"
     cmakeVariables:
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
       CMAKE_C_FLAGS: ""
@@ -6074,10 +6200,10 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-bjkfwv'
+        Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-7miksv'
         
-        Run Build Command(s): C:/Users/maxim/_C_/bin/ninja.exe -v cmTC_f6f50
-        [1/2] C:\\Users\\maxim\\_C_\\bin\\ccache-gcc.exe   -v -o CMakeFiles/cmTC_f6f50.dir/CMakeCCompilerABI.c.obj -c C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCCompilerABI.c
+        Run Build Command(s): C:/Users/maxim/_C_/bin/ninja.exe -v cmTC_3fac8
+        [1/2] C:\\Users\\maxim\\_C_\\bin\\ccache-gcc.exe   -v -o CMakeFiles/cmTC_3fac8.dir/CMakeCCompilerABI.c.obj -c C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCCompilerABI.c
         Using built-in specs.
         COLLECT_GCC=C:\\Users\\maxim\\_C_\\bin\\gcc.exe
         Target: x86_64-w64-mingw32
@@ -6107,7 +6233,7 @@ events:
         COMPILER_PATH=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../libexec/gcc/
         LIBRARY_PATH=C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../lib/gcc/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../
         COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_7c5ed.dir/CMakeCCompilerABI.c.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_7c5ed.dir/CMakeCCompilerABI.c.'
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\ccache-gcc.exe  -v -Wl,-v CMakeFiles/cmTC_f6f50.dir/CMakeCCompilerABI.c.obj -o cmTC_f6f50.exe -Wl,--out-implib,libcmTC_f6f50.dll.a -Wl,--major-image-version,0,--minor-image-version,0   && cd ."
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\ccache-gcc.exe  -v -Wl,-v CMakeFiles/cmTC_3fac8.dir/CMakeCCompilerABI.c.obj -o cmTC_3fac8.exe -Wl,--out-implib,libcmTC_3fac8.dll.a -Wl,--major-image-version,0,--minor-image-version,0   && cd ."
         Using built-in specs.
         COLLECT_GCC=C:\\Users\\maxim\\_C_\\bin\\gcc.exe
         COLLECT_LTO_WRAPPER=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/lto-wrapper.exe
@@ -6118,12 +6244,12 @@ events:
         gcc version 16.1.0 (GCC) 
         COMPILER_PATH=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../libexec/gcc/
         LIBRARY_PATH=C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../lib/gcc/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_f6f50.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_f6f50.'
-         C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_f6f50.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_f6f50.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_f6f50.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_3fac8.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_3fac8.'
+         C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_3fac8.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_3fac8.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_3fac8.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
         collect2 version 16.1.0
-        C:\\Users\\maxim\\_C_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_f6f50.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_f6f50.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_f6f50.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
+        C:\\Users\\maxim\\_C_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_3fac8.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_3fac8.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_3fac8.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
         GNU ld (GNU Binutils) 2.46.0.20260210
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_f6f50.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_f6f50.'
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_3fac8.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_3fac8.'
         
       exitCode: 0
   -
@@ -6156,10 +6282,10 @@ events:
       Parsed C implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
-        ignore line: [Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-bjkfwv']
+        ignore line: [Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-7miksv']
         ignore line: []
-        ignore line: [Run Build Command(s): C:/Users/maxim/_C_/bin/ninja.exe -v cmTC_f6f50]
-        ignore line: [[1/2] C:\\Users\\maxim\\_C_\\bin\\ccache-gcc.exe   -v -o CMakeFiles/cmTC_f6f50.dir/CMakeCCompilerABI.c.obj -c C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCCompilerABI.c]
+        ignore line: [Run Build Command(s): C:/Users/maxim/_C_/bin/ninja.exe -v cmTC_3fac8]
+        ignore line: [[1/2] C:\\Users\\maxim\\_C_\\bin\\ccache-gcc.exe   -v -o CMakeFiles/cmTC_3fac8.dir/CMakeCCompilerABI.c.obj -c C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCCompilerABI.c]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=C:\\Users\\maxim\\_C_\\bin\\gcc.exe]
         ignore line: [Target: x86_64-w64-mingw32]
@@ -6193,7 +6319,7 @@ events:
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/]
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../]
         ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_7c5ed.dir/CMakeCCompilerABI.c.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_7c5ed.dir/CMakeCCompilerABI.c.']
-        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\ccache-gcc.exe  -v -Wl -v CMakeFiles/cmTC_f6f50.dir/CMakeCCompilerABI.c.obj -o cmTC_f6f50.exe -Wl --out-implib libcmTC_f6f50.dll.a -Wl --major-image-version 0 --minor-image-version 0   && cd ."]
+        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\ccache-gcc.exe  -v -Wl -v CMakeFiles/cmTC_3fac8.dir/CMakeCCompilerABI.c.obj -o cmTC_3fac8.exe -Wl --out-implib libcmTC_3fac8.dll.a -Wl --major-image-version 0 --minor-image-version 0   && cd ."]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=C:\\Users\\maxim\\_C_\\bin\\gcc.exe]
         ignore line: [COLLECT_LTO_WRAPPER=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/lto-wrapper.exe]
@@ -6208,15 +6334,15 @@ events:
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/]
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/]
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_f6f50.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_f6f50.']
-        link line: [ C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_f6f50.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_f6f50.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_f6f50.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_3fac8.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_3fac8.']
+        link line: [ C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_3fac8.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_3fac8.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_3fac8.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
           arg [C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe] ==> ignore
           arg [--sysroot=/w64devkit] ==> ignore
           arg [-m] ==> ignore
           arg [i386pep] ==> ignore
           arg [-Bdynamic] ==> search dynamic
           arg [-o] ==> ignore
-          arg [cmTC_f6f50.exe] ==> ignore
+          arg [cmTC_3fac8.exe] ==> ignore
           arg [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o] ==> obj [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o]
           arg [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o] ==> obj [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o]
           arg [-LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0] ==> dir [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0]
@@ -6224,9 +6350,9 @@ events:
           arg [-LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib] ==> dir [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib]
           arg [-LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../..] ==> dir [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../..]
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_f6f50.dir/CMakeCCompilerABI.c.obj] ==> ignore
+          arg [CMakeFiles/cmTC_3fac8.dir/CMakeCCompilerABI.c.obj] ==> ignore
           arg [--out-implib] ==> ignore
-          arg [libcmTC_f6f50.dll.a] ==> ignore
+          arg [libcmTC_3fac8.dll.a] ==> ignore
           arg [--major-image-version] ==> ignore
           arg [0] ==> ignore
           arg [--minor-image-version] ==> ignore
@@ -6248,7 +6374,7 @@ events:
           arg [-lkernel32] ==> lib [kernel32]
           arg [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> obj [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
         ignore line: [collect2 version 16.1.0]
-        ignore line: [C:\\Users\\maxim\\_C_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_f6f50.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_f6f50.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_f6f50.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
+        ignore line: [C:\\Users\\maxim\\_C_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_3fac8.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_3fac8.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_3fac8.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
         linker tool for 'C': C:/Users/maxim/_C_/bin/ld.exe
         remove lib [msvcrt]
         remove lib [msvcrt]
@@ -6286,8 +6412,8 @@ events:
     checks:
       - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
     directories:
-      source: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-b4vjbk"
-      binary: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-b4vjbk"
+      source: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-4boky7"
+      binary: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-4boky7"
     cmakeVariables:
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
       CMAKE_C_FLAGS: ""
@@ -6297,11 +6423,11 @@ events:
       variable: "CMAKE_HAVE_LIBC_PTHREAD"
       cached: true
       stdout: |
-        Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-b4vjbk'
+        Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-4boky7'
         
-        Run Build Command(s): C:/Users/maxim/_C_/bin/ninja.exe -v cmTC_0a022
-        [1/2] C:\\Users\\maxim\\_C_\\bin\\ccache-gcc.exe -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_0a022.dir/src.c.obj -c D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-b4vjbk/src.c
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\ccache-gcc.exe   CMakeFiles/cmTC_0a022.dir/src.c.obj -o cmTC_0a022.exe -Wl,--out-implib,libcmTC_0a022.dll.a -Wl,--major-image-version,0,--minor-image-version,0  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 && cd ."
+        Run Build Command(s): C:/Users/maxim/_C_/bin/ninja.exe -v cmTC_e179c
+        [1/2] C:\\Users\\maxim\\_C_\\bin\\ccache-gcc.exe -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_e179c.dir/src.c.obj -c D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-4boky7/src.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\ccache-gcc.exe   CMakeFiles/cmTC_e179c.dir/src.c.obj -o cmTC_e179c.exe -Wl,--out-implib,libcmTC_e179c.dll.a -Wl,--major-image-version,0,--minor-image-version,0  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 && cd ."
         
       exitCode: 0
 ...

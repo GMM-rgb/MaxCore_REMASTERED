@@ -50,8 +50,21 @@ InputListener:SetGlobalInput(true)
 RuntimeService.Stepped:Connect(tick)
 RuntimeService:KeepAlive()
 
-local x, y = InputListener:GetMousePosition(); StorageManager:CreateFile({
-    name = "mouse_logging",
-    directory = "../logs",
-    extension = "log",
-}):Write(string.format("X:\t%G\nY:\t%G", x, y));
+-- for _, file in pairs(StorageManager:ListDirectory("./") or {}) do
+--     if file and CoreLib.IsA(file, "FileObject") and file:IsDirectory() then
+--         if file._name and type(file._name) == "string" and file:GetName() == "logs" then
+--             if not (#StorageManager:ListDirectory(file._path) >= 1) then
+--                 StorageManager:DeleteDirectory(file._path)
+--             end
+--         end
+--     end
+-- end
+
+-- if CoreLib.IsA(StorageManager, "StorageService") then
+--     StorageManager:CreateDirectory("./logs")
+-- end
+
+local x, y = InputListener:GetMousePosition()
+local WriteSuccess = StorageManager:CreateFile({
+    name = "mouse_logging", extension = "log",
+}):Write(string.format("X:\t%G\nY:\t%G", x, y))

@@ -7,7 +7,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Threads::Threads::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Threads__Threads-Debug-cb0d70a7c93ea5968e8f.json",
+					"jsonFile" : "target-Threads__Threads-cb0d70a7c93ea5968e8f.json",
 					"name" : "Threads::Threads",
 					"projectIndex" : 0
 				}
@@ -20,7 +20,7 @@
 						0
 					],
 					"build" : ".",
-					"jsonFile" : "directory-.-Debug-f040eec181a89de70dbe.json",
+					"jsonFile" : "directory-.-f040eec181a89de70dbe.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.15"
@@ -37,7 +37,7 @@
 					]
 				}
 			],
-			"name" : "Debug",
+			"name" : "",
 			"projects" : 
 			[
 				{
@@ -65,35 +65,35 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "input_native::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-input_native-Debug-b2259aac2aa7ea09c906.json",
+					"jsonFile" : "target-input_native-cb8c2db3d18f916d673e.json",
 					"name" : "input_native",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "lua_runner::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-lua_runner-Debug-fb43f448d98dd9129bfa.json",
+					"jsonFile" : "target-lua_runner-48b5ae2acac5d348f6a0.json",
 					"name" : "lua_runner",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "lua_shared::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-lua_shared-Debug-93e88f9b1546b8602bf9.json",
+					"jsonFile" : "target-lua_shared-f0987567746431e338e6.json",
 					"name" : "lua_shared",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "sound_service_backend::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-sound_service_backend-Debug-7f4fa13b0c541f1d19ba.json",
+					"jsonFile" : "target-sound_service_backend-b57fa3fb90ab2cd3e96f.json",
 					"name" : "sound_service_backend",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "storage_interface::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-storage_interface-Debug-9c4d4598e174d40f8d17.json",
+					"jsonFile" : "target-storage_interface-d93a71aa383d75ba2bd9.json",
 					"name" : "storage_interface",
 					"projectIndex" : 0
 				}
