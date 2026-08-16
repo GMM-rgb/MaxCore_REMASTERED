@@ -26,6 +26,7 @@ end
 
 ---@class StorageService
 ---@field _CachedFiles StorageCache
+---@field _debug boolean
 local StorageService = {}
 StorageService.__index = StorageService
 InstanceTyping.SetType(StorageService, "StorageService")
@@ -36,6 +37,7 @@ InstanceTyping.SetType(StorageService, "StorageService")
 ---@field extension? string
 ---@field directory? string
 ---@field contents? string
+---@field debug? boolean
 
 ---@class FileObject
 ---@field _path string
@@ -251,7 +253,14 @@ function StorageService.new()
     self._CachedFiles = {
         _cache = {}
     }
+    self._debug = false
     return self
+end
+
+---Enables or disables global debug logging for the service
+---@param enabled boolean
+function StorageService:SetDebug(enabled)
+    self._debug = enabled == true
 end
 
 ---Gets or caches a FileObject from the given path
@@ -289,6 +298,11 @@ function StorageService:CreateFile(options)
         targetPath = dir .. "/" .. name .. ext
     else
         targetPath = resolve_path(targetPath)
+    end
+
+    local isDebug = (options.debug == true) or (self._debug == true)
+    if isDebug then
+        print(string.format("\27[36m[StorageService Debug]\27[0m Creating file at resolved path: '%s'", targetPath))
     end
 
     local fileObj = self:GetFile(targetPath)
