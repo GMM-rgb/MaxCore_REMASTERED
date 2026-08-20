@@ -30,22 +30,33 @@ if CoreLib.IsA(QeuryingPlayer, "Event") and not QeuryingPlayer:IsConnected() the
     end);
 end
 
----@param dt number
-local function tick(dt)
-    InputListener:Update(); io.stdout:flush(); io.stdout:setvbuf("line")
-    local FormatedPosition = string.format("X:\t%G\nY:\t%G", InputListener:GetMousePosition())
-    CoreLib.colorPrint("INFO", tostring(FormatedPosition))
-    for _ = 1, 2 do io.stdout:write("\27[1A\27[2K"); collectgarbage("collect") end
+local function InputListeningTick()
+    local PreviousMouseLocation <const>, FileReadingStatus = StorageManager:GetFile("./logs/mouse_logging.log"):Read()
+    
+    if PreviousMouseLocation ~= nil and type(PreviousMouseLocation) == "string" then
+        local FormtttedPreviousLocation = PreviousMouseLocation.dump(function()
+            
+        end)
+    end
 end
 
-print(CoreLib.MainKit:Load())
+---@param dt number
+local function GameTickUpdate(dt)
+    InputListener:Update(); io.stdout:flush(); io.stdout:setvbuf("line"); local FormatedPosition = string.format("X:\t%G\nY:\t%G", InputListener:GetMousePosition())
+    CoreLib.colorPrint("INFO", tostring(FormatedPosition)); for _ = 1, 2 do io.stdout:write("\27[1A\27[2K"); collectgarbage("collect") end
+end
+
+PlayerInstanced:Connect(function()
+    
+end)
 
 InputListener:BindAction("binding", "mouse2", function(name, state, key)
     print(name .. ":", state, key)
 end)
 
 InputListener:SetGlobalInput(true)
-RuntimeService.Stepped:Connect(tick)
+RuntimeService.Stepped:Connect(GameTickUpdate)
+RuntimeService.Stepped:Connect(InputListeningTick)
 RuntimeService:KeepAlive()
 
 for _, file in pairs(StorageManager:ListDirectory("./") or {}) do
