@@ -1,4 +1,9 @@
 local InstanceTyper = require("instance_type")
+---@class InstanceBuilder : Instance
+---@field new fun(TempDirectory: string): Instance
+---@field ImportCoreLibrary fun(src: MaxCore)
+---@field InstanceEventListeners table<EventConnection>
+---@field CoreLib MaxCore?
 local InstanceBuilder = setmetatable({}, nil)
 ---@type table<EventConnection>
 InstanceBuilder.InstanceEventListeners = {}
@@ -16,12 +21,6 @@ function InstanceBuilder.ImportCoreLibrary(LibraryModule)
     end
 end
 
----@class InstanceBuilder
----@field new fun(TempDirectory: string): Instance
----@field ImportCoreLibrary fun(src: MaxCore)
----@field InstanceEventListeners table<EventConnection>
----@field CoreLib MaxCore?
-
 ---@class Instance
 ---@field Name string
 ---@field Parent Instance
@@ -32,29 +31,17 @@ end
 ---@field SetParent fun(selfObj: Instance, TargetParent: Instance)
 ---@field __max_type string
 
----@param TempDirectory string
 ---@return Instance
-function InstanceBuilder.new(TempDirectory)
-    local HasTemporaryCacheDirectory = true
+function InstanceBuilder.new()
     local self = setmetatable(InstanceBuilder, InstanceBuilder)
-    if not TempDirectory or type(TempDirectory) ~= "string" then assert(false, "no value supplied for TempDirectory input argument #1") end
+    assert(not self.CoreLib, "CoreLib in instance builder wasn't loaded!")
     ---@type StorageService
     local StorageService = self.CoreLib:LoadService("StorageService")
     self.ParentChanged = self.CoreLib.Event.new("ParentChanged")
     self.NameChanged = self.CoreLib.Event.new("NameChanged")
-    InstanceTyper.SetType(self, "Instance")
 
-    if StorageService and InstanceTyper.IsA(StorageService, "StorageService") then
-        for _, FileInstance in pairs(StorageService:ListDirectory(string.gsub(TempDirectory, "[^../]+", ""))) do
-            if FileInstance:GetName() ~= "temp" and not FileInstance:IsDirectory() then goto continue end
-            if HasTemporaryCacheDirectory == true then HasTemporaryCacheDirectory = not HasTemporaryCacheDirectory end
-            print(HasTemporaryCacheDirectory)
-            ::continue::
-        end
-
-        if type(HasTemporaryCacheDirectory) == "boolean" and not HasTemporaryCacheDirectory then
-            StorageService:CreateDirectory(TempDirectory)
-        end
+    if self[InstanceTyper.TYPE_KEY] ~= "Instance" then
+        InstanceTyper.SetType(self, "Instance")
     end
 
     ---@param SubjectParent Instance

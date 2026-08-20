@@ -14,8 +14,6 @@ local game = {
     _events = {},
 };
 
-CoreLib.Instance.new("../temp")
-
 ---@param AppendingData table
 ---@param TargetPlayerObject PlayerObject
 local function ApplyPlayerDataField(TargetPlayerObject, AppendingData)

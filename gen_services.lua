@@ -9,7 +9,7 @@ local function getServiceFiles()
     local isWindows = (package.config:sub(1,1) == "\\")
     -- Target the services directory directly or fallback to root recursive search
     local cmd = isWindows and "dir /s /b services\\*.lua 2>nul" or "find ./services -name '*.lua' 2>/dev/null"
-    
+
     local p = io.popen(cmd)
     if p then
         for line in p:lines() do
@@ -34,11 +34,8 @@ local function GenerateMetaStubs()
 
             if content:find("%-%-%s*#service") then
                 -- Match a class ending in Service, or fallback to converting snake_case filename
-                local className = content:match("---@class%s+([%w_]+Service)") 
-                               or snakeToPascal(fileData.name)
-                
-                table.insert(services, className)
-                print(string.format("  [Found] %s -> %s", fileData.name, className))
+                local className = content:match("---@class%s+([%w_]+Service)") or snakeToPascal(fileData.name)
+                table.insert(services, className); print(string.format("  [Found] %s -> %s", fileData.name, className))
             end
         end
     end

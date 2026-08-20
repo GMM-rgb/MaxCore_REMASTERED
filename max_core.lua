@@ -34,7 +34,7 @@
 ---@field ResolveService fun(selfObj: table, name: CoreServices)
 ---@field clampDt fun(dt, maxDt)
 ---@field new fun(): MainKit
----@field debugMode boolean
+---@field isDebugMode boolean
 ---@field _aliases table
 ---@field __index table
 ---@field _cache table
@@ -43,22 +43,14 @@
 ---@field seed fun(src: function, ...: any)
 ---@field wait fun(duration: number|integer)
 
----@meta
----@class LoadServiceFunction
----@field LoadService fun(self: MaxCore, serviceName: "StorageService"): StorageService
----@field LoadService fun(self: MaxCore, serviceName: "RunnerService"): RunnerService
----@field LoadService fun(self: MaxCore, serviceName: "SoundService"): SoundService
----@field LoadService fun(self: MaxCore, serviceName: "InputService"): InputService
----@field LoadService fun(self: MaxCore, serviceName: string): any
-
 ---@class MaxCore : LoadServiceFunction
----@field Instance InstanceBuilder
----@field InstanceType InstanceType
 ---@field PlayerDataModel PlayerDataModel
 ---@field wait fun(duration: number | integer)
 ---@field colorPrint fun(level: LogLevel, message: string)
 ---@field Load fun(self: MaxCore)
 ---@field sleep fun(time: number)
+---@field Instance InstanceBuilder
+---@field InstanceType InstanceType
 ---@field typeof GetTypeFn
 ---@field MainKit MainKit
 ---@field lenum table
@@ -66,19 +58,11 @@
 ---@field task task
 ---@field IsA IsFn
 
-local debugMode <const> = false
+local isDeveloper = false
+local isDebugMode <const> = false
 local PlayerManager = require("utils.player_managment.players")
 local InstanceBuilding = require("utils.instance_creator.instancer")
 local InstanceType = require("instance_type")
-
--- =========================================================================
---      EMMYLUA STUB TYPE CONFIGURATION (IDE Autocomplete Definitions)
--- =========================================================================
----@alias ServiceName
----| '"RunnerService"'
----| '"LoggerService"'
----| '"runner_service"'
----| '"logger_service"'
 
 -- =========================================================================
 --      SYSTEM PATH BOOTSTRAPPER (Auto-inject environment folders)
@@ -94,8 +78,21 @@ local pathInjections = {
 if not package.path:find("luarocks") then
     package.path = package.path .. ";" .. pathInjections.share .. "./?.lua"
 end
+
 if not package.cpath:find("luarocks") then
     package.cpath = package.cpath .. ";" .. pathInjections.lib
+end
+
+if _G.arg ~= nil and type(arg) == "table" and #arg > 0 then
+    for ArgumentIndex, ArgumentName in pairs(arg or {}) do
+        if ArgumentName and ArgumentName == "-dev" then
+            isDeveloper = true; break
+        end
+    end
+end
+
+if type(isDeveloper) == "boolean" and isDeveloper then
+    xpcall(dofile, print, "./gen_services.lua")
 end
 
 -- =========================================================================
@@ -169,7 +166,7 @@ MainKit.clampDt = function(dt, maxDt)
     return math.min(dt, maxDt or 0.1)
 end
 
-MainKit.debugMode = debugMode
+MainKit.debugMode = isDebugMode
 
 -- =========================================================================
 -- CLI FLAG ENGINE
@@ -511,7 +508,7 @@ local function call(_, env)
         Instance = InstanceBuilding,
         PlayerDataModel = PlayerManager,
         _env = env and env or nil,
-
+        
         ---@overload fun(selfObj: table, serviceName: "StorageService"): StorageService
         ---@overload fun(selfObj: table, serviceName: "RunnerService"): RunnerService
         ---@overload fun(selfObj: table, serviceName: "SoundService"): SoundService
@@ -541,5 +538,5 @@ local function call(_, env)
 end
 
 InstanceBuilding.ImportCoreLibrary(call())
-PlayerManager.core = call()
+_, PlayerManager.core = xpcall(call, error)
 return { call = call };
