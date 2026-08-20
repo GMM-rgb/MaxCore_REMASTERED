@@ -9,8 +9,6 @@ local PlayerInstanced = CoreLib.Event.new("PlayerInstancedEvent")
 ---@class game
 ---@field _objects table<any>
 ---@field _events table<Event>
-
----@type game
 local game = {
     _objects = {},
     _events = {},
@@ -41,6 +39,8 @@ local function tick(dt)
     CoreLib.colorPrint("INFO", tostring(FormatedPosition))
     for _ = 1, 2 do io.stdout:write("\27[1A\27[2K"); collectgarbage("collect") end
 end
+
+print(CoreLib.MainKit:Load())
 
 InputListener:BindAction("binding", "mouse2", function(name, state, key)
     print(name .. ":", state, key)

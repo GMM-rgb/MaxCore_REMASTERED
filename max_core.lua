@@ -43,33 +43,27 @@
 ---@field seed fun(src: function, ...: any)
 ---@field wait fun(duration: number|integer)
 
----@class ServiceMap
----@field StorageService StorageService
----@field RunnerService RunnerService
----@field SoundService SoundService
----@field InputService InputService
+---@meta
+---@class LoadServiceFunction
+---@field LoadService fun(self: MaxCore, serviceName: "StorageService"): StorageService
+---@field LoadService fun(self: MaxCore, serviceName: "RunnerService"): RunnerService
+---@field LoadService fun(self: MaxCore, serviceName: "SoundService"): SoundService
+---@field LoadService fun(self: MaxCore, serviceName: "InputService"): InputService
+---@field LoadService fun(self: MaxCore, serviceName: string): any
 
----@alias LoadServiceFn
----| fun(self: MaxCore, serviceName: "StorageService"): StorageService
----| fun(self: MaxCore, serviceName: "RunnerService"): RunnerService
----| fun(self: MaxCore, serviceName: "SoundService"): SoundService
----| fun(self: MaxCore, serviceName: "InputService"): InputService
----| fun(self: MaxCore, serviceName: string): any
-
----@class MaxCore
----@field task task
----@field lenum table
----@field Event Event
----@field MainKit MainKit
+---@class MaxCore : LoadServiceFunction
 ---@field Instance InstanceBuilder
 ---@field InstanceType InstanceType
 ---@field PlayerDataModel PlayerDataModel
 ---@field wait fun(duration: number | integer)
 ---@field colorPrint fun(level: LogLevel, message: string)
----@field LoadService LoadServiceFn
 ---@field Load fun(self: MaxCore)
 ---@field sleep fun(time: number)
 ---@field typeof GetTypeFn
+---@field MainKit MainKit
+---@field lenum table
+---@field Event Event
+---@field task task
 ---@field IsA IsFn
 
 local debugMode <const> = false

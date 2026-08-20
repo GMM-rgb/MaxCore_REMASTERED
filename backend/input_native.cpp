@@ -18,6 +18,7 @@
 #elif defined(__linux__)
     #include <X11/Xlib.h>
     #include <X11/keysym.h>
+    #include <X11/extensions/XTest.h>
     #include <unistd.h>
     #define INPUT_EXPORT __attribute__((visibility("default")))
 #else
@@ -84,12 +85,15 @@ static CGKeyCode WinVKToMacVK(int vk) {
         case 16: return 0x38; // Left Shift
         case 17: return 0x3B; // Left Control
         case 18: return 0x3A; // Left Option/Alt
+        case 20: return 0x39; // Caps Lock
         case 91: return 0x37; // Left Command
         case 92: return 0x36; // Right Command
         case 37: return 0x7B; // Left
         case 38: return 0x7E; // Up
         case 39: return 0x7C; // Right
         case 40: return 0x7D; // Down
+        case 144: return 0x47; // Num Lock (Mac Clear)
+        case 145: return 0x6B; // Scroll Lock (Mac F14)
         default: return 0xFFFF;
     }
 }
@@ -110,19 +114,117 @@ static KeySym WinVKToX11Keysym(int vk) {
         case 16: return XK_Shift_L;
         case 17: return XK_Control_L;
         case 18: return XK_Alt_L;
+        case 20: return XK_Caps_Lock;
         case 91: return XK_Super_L;
         case 92: return XK_Super_R;
         case 37: return XK_Left;
         case 38: return XK_Up;
         case 39: return XK_Right;
         case 40: return XK_Down;
+        case 144: return XK_Num_Lock;
+        case 145: return XK_Scroll_Lock;
         default: return NoSymbol;
     }
 }
 #endif
 
 // =========================================================================
-// LUA BINDINGS
+// INPUT INJECTION & SIMULATION LOGIC
+// =========================================================================
+
+static int l_simulate_key(lua_State* L) {
+    int vk = (int)luaL_checkinteger(L, 1);
+    bool down = lua_toboolean(L, 2);
+
+#ifdef _WIN32
+    INPUT input = {0};
+    input.type = INPUT_KEYBOARD;
+    input.ki.wVk = (WORD)vk;
+    if (!down) input.ki.dwFlags = KEYEVENTF_KEYUP;
+    SendInput(1, &input, sizeof(INPUT));
+#elif defined(__APPLE__)
+    CGKeyCode macCode = WinVKToMacVK(vk);
+    if (macCode != 0xFFFF) {
+        CGEventRef ev = CGEventCreateKeyboardEvent(NULL, macCode, down);
+        if (ev) {
+            CGEventPost(kCGHIDEventTap, ev);
+            CFRelease(ev);
+        }
+    }
+#elif defined(__linux__)
+    Display* display = XOpenDisplay(NULL);
+    if (display) {
+        KeySym sym = WinVKToX11Keysym(vk);
+        if (sym != NoSymbol) {
+            KeyCode kc = XKeysymToKeycode(display, sym);
+            if (kc != 0) {
+                XTestFakeKeyEvent(display, kc, down ? True : False, CurrentTime);
+                XFlush(display);
+            }
+        }
+        XCloseDisplay(display);
+    }
+#endif
+    return 0;
+}
+
+static int l_simulate_mouse_move(lua_State* L) {
+    float x = (float)luaL_checknumber(L, 1);
+    float y = (float)luaL_checknumber(L, 2);
+    bool absolute = lua_isboolean(L, 3) ? lua_toboolean(L, 3) : true;
+
+#ifdef _WIN32
+    INPUT input = {0};
+    input.type = INPUT_MOUSE;
+    if (absolute) {
+        int screenW = GetSystemMetrics(SM_CXSCREEN);
+        int screenH = GetSystemMetrics(SM_CYSCREEN);
+        input.mi.dx = (LONG)((x * 65535.0f) / screenW);
+        input.mi.dy = (LONG)((y * 65535.0f) / screenH);
+        input.mi.dwFlags = MOUSEEVENTF_MOVE | MOUSEEVENTF_ABSOLUTE;
+    } else {
+        input.mi.dx = (LONG)x;
+        input.mi.dy = (LONG)y;
+        input.mi.dwFlags = MOUSEEVENTF_MOVE;
+    }
+    SendInput(1, &input, sizeof(INPUT));
+#elif defined(__APPLE__)
+    CGPoint pt = absolute ? CGPointMake(x, y) : CGPointMake(g_mouseX + x, g_mouseY + y);
+    CGEventRef ev = CGEventCreateMouseEvent(NULL, kCGEventMouseMoved, pt, kCGMouseButtonLeft);
+    if (ev) {
+        CGEventPost(kCGHIDEventTap, ev);
+        CFRelease(ev);
+    }
+#elif defined(__linux__)
+    Display* display = XOpenDisplay(NULL);
+    if (display) {
+        if (absolute) {
+            XTestFakeMotionEvent(display, -1, (int)x, (int)y, CurrentTime);
+        } else {
+            XWarpPointer(display, None, None, 0, 0, 0, 0, (int)x, (int)y);
+        }
+        XFlush(display);
+        XCloseDisplay(display);
+    }
+#endif
+    return 0;
+}
+
+static int l_toggle_lock_key(lua_State* L) {
+    int vk = (int)luaL_checkinteger(L, 1);
+
+    lua_pushinteger(L, vk);
+    lua_pushboolean(L, true);
+    l_simulate_key(L);
+
+    lua_pushinteger(L, vk);
+    lua_pushboolean(L, false);
+    l_simulate_key(L);
+    return 0;
+}
+
+// =========================================================================
+// LUA READ BINDINGS
 // =========================================================================
 
 static int l_is_key_down(lua_State* L) {
@@ -200,7 +302,7 @@ static int l_update(lua_State* L) {
     }
 
 // -------------------------------------------------------------------------
-// MACOS POLLING (Includes terminal parent process check)
+// MACOS POLLING
 // -------------------------------------------------------------------------
 #elif defined(__APPLE__)
     bool shouldPoll = g_globalInput;
@@ -216,10 +318,10 @@ static int l_update(lua_State* L) {
                 if (frontmostApp) {
                     SEL pidSel = sel_registerName("processIdentifier");
                     pid_t frontPid = ((pid_t (*)(id, SEL))objc_msgSend)(frontmostApp, pidSel);
-                    
+
                     pid_t myPid = getpid();
-                    pid_t parentPid = getppid(); // Terminal process ID
-                    
+                    pid_t parentPid = getppid();
+
                     shouldPoll = (frontPid == myPid || frontPid == parentPid);
                 }
             }
@@ -312,8 +414,11 @@ extern "C" INPUT_EXPORT int luaopen_input_native(lua_State* L) {
         {"get_mouse_delta", l_get_mouse_delta},
         {"set_global_input", l_set_global_input},
         {"update", l_update},
+        {"simulate_key", l_simulate_key},
+        {"simulate_mouse_move", l_simulate_mouse_move},
+        {"toggle_lock_key", l_toggle_lock_key},
         {nullptr, nullptr},
-    }; 
-    luaL_newlib(L, funcs); 
+    };
+    luaL_newlib(L, funcs);
     return 1;
-}
+};

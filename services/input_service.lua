@@ -1,5 +1,3 @@
--- #service
-
 local InstanceType = require("instance_type")
 
 local cpath_patterns = {
@@ -14,6 +12,7 @@ local cpath_patterns = {
 
 package.cpath = package.cpath .. ";" .. table.concat(cpath_patterns, ";")
 
+-- #service
 ---@class InputNativeLib
 ---@field is_key_down fun(keyCode: integer): boolean
 ---@field is_key_pressed fun(keyCode: integer): boolean
@@ -22,6 +21,19 @@ package.cpath = package.cpath .. ";" .. table.concat(cpath_patterns, ";")
 ---@field get_mouse_delta fun(): number, number
 ---@field set_global_input fun(isGlobal: boolean)
 ---@field update fun()
+---@field simulate_key fun(keyCode: integer, isDown: boolean)
+---@field simulate_mouse_move fun(x: number, y: number, absolute?: boolean)
+---@field toggle_lock_key fun(keyCode: integer)
+---
+---@alias KeyName 
+---| "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m"
+---| "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z"
+---| "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+---| "tab" | "space" | "return" | "enter" | "escape" | "shift" | "ctrl" | "alt"
+---| "capslock" | "numlock" | "scrolllock"
+---| "super" | "win" | "cmd" | "meta" | "lsuper" | "lwin" | "lcmd" | "lmeta" | "rsuper" | "rwin" | "rcmd" | "rmeta"
+---| "left" | "up" | "right" | "down"
+---| "mouse1" | "mouse2" | "mouse3"
 
 ---@type boolean, InputNativeLib|string
 local native_ok, input_native = pcall(require, "input_native")
@@ -46,21 +58,24 @@ local KEY_MAP = {
     ["0"] = 48, ["1"] = 49, ["2"] = 50, ["3"] = 51, ["4"] = 52,
     ["5"] = 53, ["6"] = 54, ["7"] = 55, ["8"] = 56, ["9"] = 57,
 
-    ["tab"]    = 9,
-    ["space"]  = 32,
-    ["return"] = 13,
-    ["enter"]  = 13,
-    ["escape"] = 27,
-    ["shift"]  = 16,
-    ["ctrl"]   = 17,
-    ["alt"]    = 18,
+    ["tab"]        = 9,
+    ["space"]      = 32,
+    ["return"]     = 13,
+    ["enter"]      = 13,
+    ["escape"]     = 27,
+    ["shift"]      = 16,
+    ["ctrl"]       = 17,
+    ["alt"]        = 18,
+    ["capslock"]   = 20,
+    ["numlock"]    = 144,
+    ["scrolllock"] = 145,
 
     ["super"]  = 91, ["win"]   = 91, ["cmd"]   = 91, ["meta"]  = 91,
     ["lsuper"] = 91, ["lwin"]  = 91, ["lcmd"]  = 91, ["lmeta"] = 91,
     ["rsuper"] = 92, ["rwin"]  = 92, ["rcmd"]  = 92, ["rmeta"] = 92,
 
-    ["left"]  = 37, ["up"]    = 38, ["right"] = 39, ["down"]  = 40,
-    ["mouse1"] = 1, ["mouse2"] = 2, ["mouse3"] = 3
+    ["left"]   = 37, ["up"]    = 38, ["right"] = 39, ["down"]  = 40,
+    ["mouse1"] = 1,  ["mouse2"] = 2, ["mouse3"] = 3
 };
 
 local LOVE_KEY_MAP = {
@@ -189,6 +204,42 @@ function InputService:GetMouseDelta()
     if native_ok and type(input_native) == "table" and type(input_native.get_mouse_delta) == "function" then
         return input_native.get_mouse_delta()
     end return 0, 0
+end
+
+--- Simulates a key press or release event at the OS level.
+---@overload fun(self: InputService, target: KeyName, isDown: boolean)
+---@overload fun(self: InputService, target: integer, isDown: boolean)
+---@param self InputService
+---@param target KeyName | string | integer
+---@param isDown boolean
+function InputService:SimulateKey(target, isDown)
+    local _, keyCode = self:_ResolveTarget(type(target) == "string" and target or tostring(target))
+    if type(target) == "number" then keyCode = target end
+    if native_ok and keyCode and type(input_native) == "table" and type(input_native.simulate_key) == "function" then
+        input_native.simulate_key(keyCode, isDown)
+    end
+end
+
+--- Moves mouse cursor globally across screen coordinates.
+---@param self InputService
+---@param x number
+---@param y number
+---@param absolute? boolean
+function InputService:SimulateMouseMove(x, y, absolute)
+    if absolute == nil then absolute = true end
+    if native_ok and type(input_native) == "table" and type(input_native.simulate_mouse_move) == "function" then
+        input_native.simulate_mouse_move(x, y, absolute)
+    end
+end
+
+--- Toggles Caps Lock, Num Lock, or Scroll Lock hardware status globally.
+---@param self InputService
+---@param lockKeyName "capslock" | "numlock" | "scrolllock" | string
+function InputService:ToggleLockKey(lockKeyName)
+    local _, keyCode = self:_ResolveTarget(lockKeyName)
+    if native_ok and keyCode and type(input_native) == "table" and type(input_native.toggle_lock_key) == "function" then
+        input_native.toggle_lock_key(keyCode)
+    end
 end
 
 ---@param self InputService
