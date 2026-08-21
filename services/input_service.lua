@@ -192,7 +192,7 @@ end
 
 ---@param self InputService
 ---@param actionName string
----@param keyName string
+---@param keyName KeyName
 ---@param callback fun(name: string, state: "Pressed"|"Released", key: string)
 function InputService:BindAction(actionName, keyName, callback)
     self._actions[actionName] = {
