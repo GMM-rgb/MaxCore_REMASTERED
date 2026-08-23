@@ -3,13 +3,12 @@
 // =========================================================================
 // MINIAUDIO STRIPPING CONFIGURATION
 // =========================================================================
-// #define MA_NO_DEVICE_IO              // Disable raw device callbacks
-#define MA_NO_ENCODING                  // Disables audio recording/saving capabilities
-#define MA_NO_GENERATION                // Disables synth generators (sine wave, noise, etc.)
-#define MA_NO_DSOUND                    // Disable legacy DirectSound (forces modern WASAPI on Windows)
-#define MA_NO_WINMM                     // Disable legacy WinMM backend
-#define MA_NO_JACK                      // Disable JACK audio backend
-#define MA_NO_NULL                      // Disable Null audio backend
+#define MA_NO_ENCODING                     
+#define MA_NO_GENERATION                 
+#define MA_NO_DSOUND                    
+#define MA_NO_WINMM                     
+#define MA_NO_JACK                       
+#define MA_NO_NULL                       
 
 #define MINIAUDIO_IMPLEMENTATION
 #include "inline_headers/mini_audio.hpp"
@@ -27,6 +26,12 @@
 #include <unordered_map>
 #include <mutex>
 #include <algorithm>
+#include <filesystem>
+#include <iostream>
+
+#include "inline_headers/youtube_extractor.hpp"
+
+namespace fs = std::filesystem;
 
 struct SoundHandle {
     ma_sound sound;
@@ -41,7 +46,21 @@ static ma_engine g_engine;
 static bool g_engineInitialized = false;
 static std::unordered_map<std::string, SoundHandle*> g_sounds;
 static std::mutex g_soundMutex;
+
+// Default directly to project-relative "TempAudio" if not configured
+static fs::path g_customCacheDir = "TempAudio"; 
 static float g_masterVolume = 1.0f;
+
+// Consolidated cache directory resolver that properly respects absolute and relative roots
+static fs::path getCacheDirectory() {
+    fs::path target = g_customCacheDir.empty() ? fs::path("TempAudio") : g_customCacheDir;
+    fs::path absoluteTarget = fs::absolute(target);
+    std::error_code ec;
+    if (!fs::exists(absoluteTarget)) {
+        fs::create_directories(absoluteTarget, ec);
+    }
+    return absoluteTarget;
+}
 
 static bool ensureEngine() {
     if (!g_engineInitialized) {
@@ -52,42 +71,73 @@ static bool ensureEngine() {
     return g_engineInitialized;
 }
 
+// Unload & release file handles to prevent OS file locks during cleanup
+static void unloadSoundHandle(SoundHandle* handle) {
+    if (handle) {
+        if (handle->isLoaded) {
+            ma_sound_stop(&handle->sound);
+            ma_sound_uninit(&handle->sound);
+            handle->isLoaded = false;
+        }
+        delete handle;
+    }
+}
+
 static SoundHandle* getOrCreateSound(const std::string& path) {
-    if (!ensureEngine()) return nullptr;
+    std::cout << "[Engine Debug] Requested sound load: " << path << std::endl;
+
+    if (!ensureEngine()) {
+        std::cout << "[Engine Debug] ERROR: miniaudio engine failed to initialize!" << std::endl;
+        return nullptr;
+    }
 
     auto it = g_sounds.find(path);
     if (it != g_sounds.end()) {
+        std::cout << "[Engine Debug] Sound handle found in memory cache." << std::endl;
         return it->second;
     }
+
+    std::string localFilePath = YouTubeExtractor::ResolveToLocalFile(path, getCacheDirectory());
+    if (localFilePath.empty()) {
+        std::cout << "[Engine Debug] ERROR: Resolving local file path failed!" << std::endl;
+        return nullptr;
+    }
+
+    std::cout << "[Engine Debug] Passing local file to miniaudio: " << localFilePath << std::endl;
 
     SoundHandle* handle = new SoundHandle();
     ma_result result = ma_sound_init_from_file(
         &g_engine, 
-        path.c_str(), // Fixed: using path.c_str()
-        MA_SOUND_FLAG_DECODE, // Decodes into memory instantly for immediate duration access
+        localFilePath.c_str(), 
+        MA_SOUND_FLAG_DECODE, 
         NULL, 
         NULL, 
         &handle->sound
     );
 
     if (result != MA_SUCCESS) {
+        std::cout << "[Engine Debug] ERROR: ma_sound_init_from_file failed with error code: " << result << std::endl;
         delete handle;
         return nullptr;
     }
 
+    std::cout << "[Engine Debug] Sound loaded and ready for playback." << std::endl;
     handle->isLoaded = true;
     g_sounds[path] = handle;
     return handle;
 }
 
-// sound_native.play(path, volume, pitch, loop, pan, startTime)
+// =========================================================================
+// LUA BINDINGS
+// =========================================================================
+
 static int l_play(lua_State* L) {
     const char* path = luaL_checkstring(L, 1);
     float volume = (float)luaL_optnumber(L, 2, 1.0);
     float pitch = (float)luaL_optnumber(L, 3, 1.0);
     bool loop = lua_toboolean(L, 4);
     float pan = (float)luaL_optnumber(L, 5, 0.0);
-    float startTime = (float)luaL_optnumber(L, 6, -1.0); // Default to -1.0 (do not overwrite position)
+    float startTime = (float)luaL_optnumber(L, 6, -1.0);
 
     std::lock_guard<std::mutex> lock(g_soundMutex);
     SoundHandle* handle = getOrCreateSound(path);
@@ -103,7 +153,6 @@ static int l_play(lua_State* L) {
     ma_sound_set_looping(&handle->sound, loop ? MA_TRUE : MA_FALSE);
     ma_sound_set_pan(&handle->sound, pan);
 
-    // Only seek if a valid timestamp (>= 0.0) was explicitly provided
     if (startTime >= 0.0f) {
         ma_uint32 sampleRate = 0;
         ma_sound_get_data_format(&handle->sound, NULL, NULL, &sampleRate, NULL, 0);
@@ -114,7 +163,6 @@ static int l_play(lua_State* L) {
     }
 
     ma_sound_start(&handle->sound);
-
     return 0;
 }
 
@@ -198,7 +246,6 @@ static int l_set_pan(lua_State* L) {
     std::lock_guard<std::mutex> lock(g_soundMutex);
     auto it = g_sounds.find(path);
     if (it != g_sounds.end()) {
-        // Wrapped in extra parens to bypass any macro expansion
         it->second->pan = (std::max)(-1.0f, (std::min)(1.0f, pan));
         ma_sound_set_pan(&it->second->sound, it->second->pan);
     }
@@ -232,15 +279,24 @@ static int l_is_playing(lua_State* L) {
 static int l_stop_all(lua_State* L) {
     std::lock_guard<std::mutex> lock(g_soundMutex);
     for (auto& pair : g_sounds) {
-        ma_sound_stop(&pair.second->sound);
-        ma_sound_uninit(&pair.second->sound);
-        delete pair.second;
+        unloadSoundHandle(pair.second);
     }
     g_sounds.clear();
     return 0;
 }
 
-// sound_native.set_time_position(path, seconds)
+static int l_unload_sound(lua_State* L) {
+    const char* path = luaL_checkstring(L, 1);
+    std::lock_guard<std::mutex> lock(g_soundMutex);
+
+    auto it = g_sounds.find(path);
+    if (it != g_sounds.end()) {
+        unloadSoundHandle(it->second);
+        g_sounds.erase(it);
+    }
+    return 0;
+}
+
 static int l_set_time_position(lua_State* L) {
     const char* path = luaL_checkstring(L, 1);
     float seconds = (float)luaL_checknumber(L, 2);
@@ -258,7 +314,6 @@ static int l_set_time_position(lua_State* L) {
     return 0;
 }
 
-// sound_native.get_time_position(path) -> number
 static int l_get_time_position(lua_State* L) {
     const char* path = luaL_checkstring(L, 1);
 
@@ -275,7 +330,6 @@ static int l_get_time_position(lua_State* L) {
     return 1;
 }
 
-// sound_native.get_duration(path) -> number
 static int l_get_duration(lua_State* L) {
     const char* path = luaL_checkstring(L, 1);
 
@@ -289,6 +343,37 @@ static int l_get_duration(lua_State* L) {
         }
     }
     lua_pushnumber(L, 0.0);
+    return 1;
+}
+
+static int l_set_cache_dir(lua_State* L) {
+    const char* dirPath = luaL_checkstring(L, 1);
+    std::lock_guard<std::mutex> lock(g_soundMutex);
+    g_customCacheDir = fs::path(dirPath);
+
+    std::error_code ec;
+    fs::create_directories(fs::absolute(g_customCacheDir), ec);
+    return 0;
+}
+
+static int l_clear_cache(lua_State* L) {
+    std::lock_guard<std::mutex> lock(g_soundMutex);
+
+    // Unload all active handles to release file locks on Windows
+    for (auto& pair : g_sounds) {
+        unloadSoundHandle(pair.second);
+    }
+    g_sounds.clear();
+
+    fs::path targetDir = getCacheDirectory();
+    std::error_code ec;
+    if (fs::exists(targetDir)) {
+        for (auto& entry : fs::directory_iterator(targetDir, ec)) {
+            fs::remove_all(entry.path(), ec);
+        }
+    }
+
+    lua_pushboolean(L, true);
     return 1;
 }
 
@@ -314,6 +399,9 @@ extern "C" EXPORT_FN int luaopen_sound_native(lua_State* L) {
         {"get_duration", l_get_duration},
         {"is_playing", l_is_playing},
         {"stop_all", l_stop_all},
+        {"unload", l_unload_sound},
+        {"set_cache_dir", l_set_cache_dir},
+        {"clear_cache", l_clear_cache},
         {nullptr, nullptr}
     };
 

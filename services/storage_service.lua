@@ -263,6 +263,12 @@ function StorageService:SetDebug(enabled)
     self._debug = enabled == true
 end
 
+---Gets the absolute base directory of the executing script
+---@return string
+function StorageService:GetBaseDirectory()
+    return get_base_dir()
+end
+
 ---Gets or caches a FileObject from the given path
 ---@param filePath string
 ---@return FileObject
