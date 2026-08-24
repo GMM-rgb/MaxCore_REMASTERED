@@ -1,5 +1,7 @@
 local options <const> = {"YOU WON ${BV}!", "you lost, womp womp!"}
 
+-- AUTHOR: Jones H.
+
 while true do
     math.randomseed(math.ceil(os.time() / math.random(os.time())))
     io.stdout:write("BET VALUE:\t")
