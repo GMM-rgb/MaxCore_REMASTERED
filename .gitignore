@@ -1,3 +1,6 @@
 ffmpeg.exe
 yt-dlp.exe
+ffmpeg
+yt-dlp
+app/audio/*
 audio/*

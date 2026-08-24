@@ -1,11 +1,11 @@
--- #service SoundService.lua
+-- #service sound_service.lua
 local InstanceType = require("instance_type")
 
-package.cpath = package.cpath 
-    .. ";./build/?.dylib" 
-    .. ";./build/Release/?.dylib" 
-    .. ";./build/Debug/?.dylib" 
-    .. ";./build/bin/?.dylib" 
+package.cpath = package.cpath
+    .. ";./build/?.dylib"
+    .. ";./build/Release/?.dylib"
+    .. ";./build/Debug/?.dylib"
+    .. ";./build/bin/?.dylib"
     .. ";./build/bin/Release/?.dylib"
     .. ";./build/?/?.dylib"
     .. ";./build/?.so"
@@ -60,11 +60,15 @@ function SoundObject.new(filePath, serviceOwner)
     return self
 end
 
+---@param self SoundObject
+---@return number
 function SoundObject:_GetEffectiveVolume()
     local masterVol = self._service and self._service:GetMasterVolume() or 1.0
     return self._volume * masterVol
 end
 
+---@param self SoundObject
+---@param startTime number?
 function SoundObject:Play(startTime)
     self._isPaused = false
 
@@ -86,6 +90,7 @@ function SoundObject:Play(startTime)
     end
 end
 
+---@param self SoundObject
 function SoundObject:Pause()
     self._isPaused = true
     if IS_LOVE and self._loveSource then
@@ -95,6 +100,7 @@ function SoundObject:Pause()
     end
 end
 
+---@param self SoundObject
 function SoundObject:Resume()
     if not self._isPaused then return end
     self._isPaused = false
@@ -110,6 +116,7 @@ function SoundObject:Resume()
     end
 end
 
+---@param self SoundObject
 function SoundObject:Stop()
     self._isPaused = false
     if IS_LOVE and self._loveSource then
@@ -119,6 +126,8 @@ function SoundObject:Stop()
     end
 end
 
+---@param self SoundObject
+---@param vol number
 function SoundObject:SetVolume(vol)
     self._volume = math.max(0, vol)
 
@@ -129,10 +138,14 @@ function SoundObject:SetVolume(vol)
     end
 end
 
+---@param self SoundObject
+---@return number
 function SoundObject:GetVolume()
     return self._volume
 end
 
+---@param self SoundObject
+---@param pitch number
 function SoundObject:SetPitch(pitch)
     self._pitch = math.max(0.01, pitch)
 
@@ -143,10 +156,14 @@ function SoundObject:SetPitch(pitch)
     end
 end
 
+---@param self SoundObject
+---@return number
 function SoundObject:GetPitch()
     return self._pitch
 end
 
+---@param self SoundObject
+---@param shouldLoop boolean
 function SoundObject:SetLooping(shouldLoop)
     self._loop = not not shouldLoop
 
@@ -157,10 +174,14 @@ function SoundObject:SetLooping(shouldLoop)
     end
 end
 
+---@param self SoundObject
+---@return boolean
 function SoundObject:IsLooping()
     return self._loop
 end
 
+---@param self SoundObject
+---@param pan number
 function SoundObject:SetPan(pan)
     self._panning = math.max(-1.0, math.min(1.0, pan))
 
@@ -173,6 +194,8 @@ function SoundObject:SetPan(pan)
     end
 end
 
+---@param self SoundObject
+---@return boolean
 function SoundObject:IsPlaying()
     if IS_LOVE and self._loveSource then
         return self._loveSource:isPlaying()
@@ -182,6 +205,8 @@ function SoundObject:IsPlaying()
     return false
 end
 
+---@param self SoundObject
+---@return SoundObject
 function SoundObject:Clone()
     local clone = SoundObject.new(self._path, self._service)
     clone:SetVolume(self._volume)
@@ -191,6 +216,8 @@ function SoundObject:Clone()
     return clone
 end
 
+---@param self SoundObject
+---@param seconds number
 function SoundObject:SetTimePosition(seconds)
     local targetTime = math.max(0, seconds)
 
@@ -203,6 +230,8 @@ function SoundObject:SetTimePosition(seconds)
     end
 end
 
+---@param self SoundObject
+---@return number|unknown
 function SoundObject:GetTimePosition()
     if IS_LOVE and self._loveSource then
         if self._loveSource.tell then
@@ -214,6 +243,7 @@ function SoundObject:GetTimePosition()
     return 0.0
 end
 
+---@param self SoundObject
 function SoundObject:GetDuration()
     if IS_LOVE and self._loveSource then
         if self._loveSource.getDuration then
@@ -254,6 +284,8 @@ function SoundService:SetStorageService(storageService)
 end
 
 --- Manually updates the cache folder path and pushes it directly to the C++ backend
+---@param self SoundService
+---@param subfolder string
 function SoundService:SetCacheFolder(subfolder)
     assert(type(subfolder) == "string" and subfolder ~= "", "Cache folder path must be a non-empty string")
     self._cacheSubFolder = subfolder
@@ -276,6 +308,7 @@ function SoundService:SetCacheFolder(subfolder)
     end
 end
 
+---@return string
 function SoundService:GetCachePath()
     if self._storageStorage then
         local base = type(self._storageStorage.GetBaseDirectory) == "function"
@@ -287,6 +320,7 @@ function SoundService:GetCachePath()
     return self._cacheSubFolder
 end
 
+---@return integer
 function SoundService:GetCacheSize()
     if not self._storageStorage or type(self._storageStorage.ListDirectory) ~= "function" then return 0 end
 
@@ -302,6 +336,12 @@ function SoundService:GetCacheSize()
     return totalSize
 end
 
+--[=[
+    Import audio files for program playback.  
+    **VALID:** local-file-path / youtube URL.
+]=]
+---@param self SoundService
+---@param filePath string
 function SoundService:LoadSound(filePath)
     if not self._cachedSounds[filePath] then
         self._cachedSounds[filePath] = SoundObject.new(filePath, self)
@@ -309,6 +349,8 @@ function SoundService:LoadSound(filePath)
     return self._cachedSounds[filePath]
 end
 
+---@param self SoundService
+---@param vol number
 function SoundService:SetMasterVolume(vol)
     self._masterVolume = math.max(0, vol)
 
@@ -323,6 +365,7 @@ function SoundService:SetMasterVolume(vol)
     end
 end
 
+---@return number
 function SoundService:GetMasterVolume()
     return self._masterVolume
 end
