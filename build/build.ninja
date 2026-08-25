@@ -552,12 +552,53 @@ build storage_interface.dll libstorage_interface.dll.a: CXX_SHARED_LIBRARY_LINKE
   TARGET_PDB = storage_interface.dll.dbg
   TARGET_SUPPORT_DIR = CMakeFiles\storage_interface.dir
 
+# =============================================================================
+# Object build statements for SHARED_LIBRARY target window_managment
+
+
+#############################################
+# Order-only phony target for window_managment
+
+build cmake_object_order_depends_target_window_managment: phony || cmake_object_order_depends_target_lua_shared
+
+build CMakeFiles/window_managment.dir/backend/window_managment.cpp.obj: CXX_COMPILER__window_managment_unscanned_Debug C$:/Users/6041464/Documents/MaxCore_REMASTERED/backend/window_managment.cpp || cmake_object_order_depends_target_window_managment
+  CONFIG = Debug
+  DEFINES = -DLUA_BUILD_AS_DLL -Dwindow_managment_EXPORTS
+  DEP_FILE = CMakeFiles\window_managment.dir\backend\window_managment.cpp.obj.d
+  FLAGS = -g -std=gnu++17
+  INCLUDES = -IC:/Users/6041464/Documents/MaxCore_REMASTERED/lua-5.6.0/src
+  OBJECT_DIR = CMakeFiles\window_managment.dir
+  OBJECT_FILE_DIR = CMakeFiles\window_managment.dir\backend
+  TARGET_SUPPORT_DIR = CMakeFiles\window_managment.dir
+
+
+# =============================================================================
+# Link build statements for SHARED_LIBRARY target window_managment
+
+
+#############################################
+# Link the shared library window_managment.dll
+
+build window_managment.dll libwindow_managment.dll.a: CXX_SHARED_LIBRARY_LINKER__window_managment_Debug CMakeFiles/window_managment.dir/backend/window_managment.cpp.obj | liblua55.dll.a || lua55.dll
+  CONFIG = Debug
+  LANGUAGE_COMPILE_FLAGS = -g
+  LINK_FLAGS = -shared
+  LINK_LIBRARIES = liblua55.dll.a  -lwinmm  -luser32  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  OBJECT_DIR = CMakeFiles\window_managment.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  RESTAT = 1
+  TARGET_FILE = window_managment.dll
+  TARGET_IMPLIB = libwindow_managment.dll.a
+  TARGET_PDB = window_managment.dll.dbg
+  TARGET_SUPPORT_DIR = CMakeFiles\window_managment.dir
+
 
 #############################################
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\6041464\Documents\MaxCore_REMASTERED\build && C:\Users\6041464\_c_lang\bin\ccmake.exe -SC:\Users\6041464\Documents\MaxCore_REMASTERED -BC:\Users\6041464\Documents\MaxCore_REMASTERED\build"
+  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\6041464\Documents\MaxCore_REMASTERED\build && C:\Users\6041464\_c_lang_\bin\ccmake.exe -SC:\Users\6041464\Documents\MaxCore_REMASTERED -BC:\Users\6041464\Documents\MaxCore_REMASTERED\build"
   DESC = Running CMake cache editor...
   pool = console
   restat = 1
@@ -569,7 +610,7 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\6041464\Documents\MaxCore_REMASTERED\build && C:\Users\6041464\_c_lang\bin\cmake.exe --regenerate-during-build -SC:\Users\6041464\Documents\MaxCore_REMASTERED -BC:\Users\6041464\Documents\MaxCore_REMASTERED\build"
+  COMMAND = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\6041464\Documents\MaxCore_REMASTERED\build && C:\Users\6041464\_c_lang_\bin\cmake.exe --regenerate-during-build -SC:\Users\6041464\Documents\MaxCore_REMASTERED -BC:\Users\6041464\Documents\MaxCore_REMASTERED\build"
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -589,6 +630,8 @@ build sound_service_backend: phony sound_native.dll
 
 build storage_interface: phony storage_interface.dll
 
+build window_managment: phony window_managment.dll
+
 # =============================================================================
 # Folder targets.
 
@@ -597,7 +640,7 @@ build storage_interface: phony storage_interface.dll
 #############################################
 # Folder: C:/Users/6041464/Documents/MaxCore_REMASTERED/build
 
-build all: phony lua55.dll max-core-lua.exe sound_native.dll input_native.dll storage_interface.dll
+build all: phony lua55.dll max-core-lua.exe sound_native.dll input_native.dll storage_interface.dll window_managment.dll
 
 # =============================================================================
 # Built-in targets
@@ -606,14 +649,14 @@ build all: phony lua55.dll max-core-lua.exe sound_native.dll input_native.dll st
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja C$:/Users/6041464/Documents/MaxCore_REMASTERED/build/cmake_install.cmake: RERUN_CMAKE | C$:/Users/6041464/Documents/MaxCore_REMASTERED/CMakeLists.txt C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeCInformation.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeCXXInformation.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeCommonLanguageInclude.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeGenericSystem.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeInitializeConfigs.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeLanguageInformation.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeRCInformation.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeSystemSpecificInformation.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeSystemSpecificInitialize.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CheckCSourceCompiles.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CheckIncludeFile.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CheckLibraryExists.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Compiler/GNU-C.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Compiler/GNU-CXX.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Compiler/GNU.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/FindPackageHandleStandardArgs.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/FindPackageMessage.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/FindThreads.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Internal/CMakeCLinkerInformation.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Internal/CMakeCXXLinkerInformation.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Internal/CMakeCommonLinkerInformation.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Internal/CheckSourceCompiles.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Linker/GNU-C.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Linker/GNU-CXX.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Linker/GNU.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/Linker/GNU.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/Linker/Windows-GNU-C.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/Linker/Windows-GNU-CXX.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/Linker/Windows-GNU.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/Windows-GNU-C.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/Windows-GNU-CXX.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/Windows-GNU.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/Windows-Initialize.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/Windows-windres.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/Windows.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/WindowsPaths.cmake CMakeCache.txt CMakeFiles/4.4.0/CMakeCCompiler.cmake CMakeFiles/4.4.0/CMakeCXXCompiler.cmake CMakeFiles/4.4.0/CMakeRCCompiler.cmake CMakeFiles/4.4.0/CMakeSystem.cmake
+build build.ninja C$:/Users/6041464/Documents/MaxCore_REMASTERED/build/cmake_install.cmake: RERUN_CMAKE | C$:/Users/6041464/Documents/MaxCore_REMASTERED/CMakeLists.txt C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeCInformation.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeCXXInformation.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeCommonLanguageInclude.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeGenericSystem.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeInitializeConfigs.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeLanguageInformation.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeRCInformation.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeSystemSpecificInformation.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeSystemSpecificInitialize.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CheckCSourceCompiles.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CheckIncludeFile.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CheckLibraryExists.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Compiler/GNU-C.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Compiler/GNU-CXX.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Compiler/GNU.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/FindPackageHandleStandardArgs.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/FindPackageMessage.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/FindThreads.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Internal/CMakeCLinkerInformation.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Internal/CMakeCXXLinkerInformation.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Internal/CMakeCommonLinkerInformation.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Internal/CheckCommon.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Internal/CheckSourceCompiles.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Linker/GNU-C.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Linker/GNU-CXX.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Linker/GNU.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/Linker/GNU.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/Linker/Windows-GNU-C.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/Linker/Windows-GNU-CXX.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/Linker/Windows-GNU.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/Windows-GNU-C.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/Windows-GNU-CXX.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/Windows-GNU.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/Windows-Initialize.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/Windows-windres.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/Windows.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/WindowsPaths.cmake CMakeCache.txt CMakeFiles/4.4.2/CMakeCCompiler.cmake CMakeFiles/4.4.2/CMakeCXXCompiler.cmake CMakeFiles/4.4.2/CMakeRCCompiler.cmake CMakeFiles/4.4.2/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build C$:/Users/6041464/Documents/MaxCore_REMASTERED/CMakeLists.txt C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeCInformation.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeCXXInformation.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeCommonLanguageInclude.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeGenericSystem.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeInitializeConfigs.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeLanguageInformation.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeRCInformation.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeSystemSpecificInformation.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeSystemSpecificInitialize.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CheckCSourceCompiles.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CheckIncludeFile.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CheckLibraryExists.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Compiler/GNU-C.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Compiler/GNU-CXX.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Compiler/GNU.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/FindPackageHandleStandardArgs.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/FindPackageMessage.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/FindThreads.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Internal/CMakeCLinkerInformation.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Internal/CMakeCXXLinkerInformation.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Internal/CMakeCommonLinkerInformation.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Internal/CheckSourceCompiles.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Linker/GNU-C.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Linker/GNU-CXX.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Linker/GNU.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/Linker/GNU.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/Linker/Windows-GNU-C.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/Linker/Windows-GNU-CXX.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/Linker/Windows-GNU.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/Windows-GNU-C.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/Windows-GNU-CXX.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/Windows-GNU.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/Windows-Initialize.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/Windows-windres.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/Windows.cmake C$:/Users/6041464/_c_lang/share/cmake-4.4/Modules/Platform/WindowsPaths.cmake CMakeCache.txt CMakeFiles/4.4.0/CMakeCCompiler.cmake CMakeFiles/4.4.0/CMakeCXXCompiler.cmake CMakeFiles/4.4.0/CMakeRCCompiler.cmake CMakeFiles/4.4.0/CMakeSystem.cmake: phony
+build C$:/Users/6041464/Documents/MaxCore_REMASTERED/CMakeLists.txt C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeCInformation.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeCXXInformation.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeCommonLanguageInclude.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeGenericSystem.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeInitializeConfigs.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeLanguageInformation.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeRCInformation.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeSystemSpecificInformation.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CMakeSystemSpecificInitialize.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CheckCSourceCompiles.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CheckIncludeFile.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/CheckLibraryExists.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Compiler/GNU-C.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Compiler/GNU-CXX.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Compiler/GNU.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/FindPackageHandleStandardArgs.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/FindPackageMessage.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/FindThreads.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Internal/CMakeCLinkerInformation.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Internal/CMakeCXXLinkerInformation.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Internal/CMakeCommonLinkerInformation.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Internal/CheckCommon.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Internal/CheckSourceCompiles.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Linker/GNU-C.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Linker/GNU-CXX.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Linker/GNU.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/Linker/GNU.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/Linker/Windows-GNU-C.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/Linker/Windows-GNU-CXX.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/Linker/Windows-GNU.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/Windows-GNU-C.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/Windows-GNU-CXX-ABI.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/Windows-GNU-CXX.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/Windows-GNU.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/Windows-Initialize.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/Windows-windres.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/Windows.cmake C$:/Users/6041464/_c_lang_/share/cmake-4.4/Modules/Platform/WindowsPaths.cmake CMakeCache.txt CMakeFiles/4.4.2/CMakeCCompiler.cmake CMakeFiles/4.4.2/CMakeCXXCompiler.cmake CMakeFiles/4.4.2/CMakeRCCompiler.cmake CMakeFiles/4.4.2/CMakeSystem.cmake: phony
 
 
 #############################################

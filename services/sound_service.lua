@@ -262,7 +262,7 @@ end
 ---@class SoundService
 ---@field _masterVolume number
 ---@field _cachedSounds table<string, SoundObject>
----@field _storageStorage any | nil
+---@field _storageStorage StorageService|nil
 ---@field _cacheSubFolder string
 local SoundService = {}
 SoundService.__index = SoundService
@@ -278,6 +278,7 @@ function SoundService.new()
 end
 
 --- Manually maps a StorageService instance independently post-init
+---@param storageService StorageService
 function SoundService:SetStorageService(storageService)
     assert(storageService, "StorageService instance cannot be nil")
     self._storageStorage = storageService
