@@ -29,10 +29,10 @@
     #include <objc/message.h>
     #include <CoreGraphics/CoreGraphics.h>
 
-    template<typename R, typename... Args>
-    R msgSend(id self, SEL op, Args... args) {
+    template<typename R, typename Target, typename... Args>
+    R msgSend(Target self, SEL op, Args... args) {
         using Func = R (*)(id, SEL, Args...);
-        return reinterpret_cast<Func>(objc_msgSend)(self, op, args...);
+        return reinterpret_cast<Func>(objc_msgSend)(reinterpret_cast<id>(self), op, args...);
     }
 
     struct PlatformWindow {
@@ -153,17 +153,17 @@ static int window_create(lua_State* L) {
     win->platform.bmi.bmiHeader.biCompression = BI_RGB;
 
 #elif defined(__APPLE__)
-    id appClass = objc_getClass("NSApplication");
+    id appClass = reinterpret_cast<id>(objc_getClass("NSApplication"));
     id app = msgSend<id>(appClass, sel_registerName("sharedApplication"));
     msgSend<void>(app, sel_registerName("setActivationPolicy:"), 0);
 
     CGRect cgRect = CGRectMake(0, 0, width, height);
-    id windowClass = objc_getClass("NSWindow");
+    id windowClass = reinterpret_cast<id>(objc_getClass("NSWindow"));
     win->platform.window = msgSend<id>(msgSend<id>(windowClass, sel_registerName("alloc")),
         sel_registerName("initWithContentRect:styleMask:backing:defer:"),
         cgRect, 15, 2, false);
 
-    id nsTitle = msgSend<id>(objc_getClass("NSString"), sel_registerName("stringWithUTF8String:"), title);
+    id nsTitle = msgSend<id>(reinterpret_cast<id>(objc_getClass("NSString")), sel_registerName("stringWithUTF8String:"), title);
     msgSend<void>(win->platform.window, sel_registerName("setTitle:"), nsTitle);
     msgSend<void>(win->platform.window, sel_registerName("makeKeyAndOrderFront:"), static_cast<id>(nullptr));
 
@@ -188,15 +188,15 @@ static int window_create(lua_State* L) {
     XStoreName(win->platform.display, win->platform.window, title);
 #endif
 
-    int id = g_next_window_id++;
-    g_windows[id] = win;
-    lua_pushinteger(L, id);
+    int winId = g_next_window_id++;
+    g_windows[winId] = win;
+    lua_pushinteger(L, winId);
     return 1;
 }
 
 static int window_get_dimensions(lua_State* L) {
-    int id = static_cast<int>(luaL_checkinteger(L, 1));
-    auto it = g_windows.find(id);
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
+    auto it = g_windows.find(winId);
     if (it != g_windows.end()) {
         lua_pushinteger(L, it->second->width);
         lua_pushinteger(L, it->second->height);
@@ -208,11 +208,11 @@ static int window_get_dimensions(lua_State* L) {
 }
 
 static int window_set_dimensions(lua_State* L) {
-    int id = static_cast<int>(luaL_checkinteger(L, 1));
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
     int w = static_cast<int>(luaL_checkinteger(L, 2));
     int h = static_cast<int>(luaL_checkinteger(L, 3));
 
-    auto it = g_windows.find(id);
+    auto it = g_windows.find(winId);
     if (it != g_windows.end()) {
         NativeWindow* win = it->second;
         win->width = w;
@@ -229,10 +229,10 @@ static int window_set_dimensions(lua_State* L) {
 }
 
 static int window_set_fullscreen(lua_State* L) {
-    int id = static_cast<int>(luaL_checkinteger(L, 1));
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
     bool enable = lua_toboolean(L, 2);
 
-    auto it = g_windows.find(id);
+    auto it = g_windows.find(winId);
     if (it != g_windows.end()) {
         NativeWindow* win = it->second;
         if (win->isFullscreen == enable) return 0;
@@ -276,10 +276,10 @@ static int window_poll_events(lua_State* L) {
         DispatchMessageA(&msg);
     }
 #elif defined(__APPLE__)
-    id app = msgSend<id>(objc_getClass("NSApplication"), sel_registerName("sharedApplication"));
+    id app = msgSend<id>(reinterpret_cast<id>(objc_getClass("NSApplication")), sel_registerName("sharedApplication"));
     id event = msgSend<id>(app, sel_registerName("nextEventMatchingMask:untilDate:inMode:dequeue:"),
         ULONG_MAX, static_cast<id>(nullptr), 
-        msgSend<id>(objc_getClass("NSString"), sel_registerName("stringWithUTF8String:"), "kCFRunLoopDefaultMode"), true);
+        msgSend<id>(reinterpret_cast<id>(objc_getClass("NSString")), sel_registerName("stringWithUTF8String:"), "kCFRunLoopDefaultMode"), true);
     if (event) {
         msgSend<void>(app, sel_registerName("sendEvent:"), event);
     }
@@ -297,19 +297,19 @@ static int window_poll_events(lua_State* L) {
 }
 
 static int window_should_close(lua_State* L) {
-    int id = static_cast<int>(luaL_checkinteger(L, 1));
-    auto it = g_windows.find(id);
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
+    auto it = g_windows.find(winId);
     lua_pushboolean(L, (it == g_windows.end() || it->second->shouldClose) ? 1 : 0);
     return 1;
 }
 
 static int window_clear_canvas(lua_State* L) {
-    int id = static_cast<int>(luaL_checkinteger(L, 1));
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
     uint8_t r = static_cast<uint8_t>(luaL_optinteger(L, 2, 0));
     uint8_t g = static_cast<uint8_t>(luaL_optinteger(L, 3, 0));
     uint8_t b = static_cast<uint8_t>(luaL_optinteger(L, 4, 0));
 
-    auto it = g_windows.find(id);
+    auto it = g_windows.find(winId);
     if (it != g_windows.end()) {
         uint32_t color = (0xFF << 24) | (r << 16) | (g << 8) | b;
         std::fill(it->second->canvasBuffer.begin(), it->second->canvasBuffer.end(), color);
@@ -318,7 +318,7 @@ static int window_clear_canvas(lua_State* L) {
 }
 
 static int window_draw_rect(lua_State* L) {
-    int id = static_cast<int>(luaL_checkinteger(L, 1));
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
     int rx = static_cast<int>(luaL_checkinteger(L, 2));
     int ry = static_cast<int>(luaL_checkinteger(L, 3));
     int rw = static_cast<int>(luaL_checkinteger(L, 4));
@@ -327,7 +327,7 @@ static int window_draw_rect(lua_State* L) {
                                 | (static_cast<uint8_t>(luaL_optinteger(L, 7, 255)) << 8) 
                                 | static_cast<uint8_t>(luaL_optinteger(L, 8, 255));
 
-    auto it = g_windows.find(id);
+    auto it = g_windows.find(winId);
     if (it == g_windows.end()) return 0;
     NativeWindow* win = it->second;
 
@@ -341,7 +341,7 @@ static int window_draw_rect(lua_State* L) {
 }
 
 static int window_draw_line(lua_State* L) {
-    int id = static_cast<int>(luaL_checkinteger(L, 1));
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
     int x0 = static_cast<int>(luaL_checkinteger(L, 2));
     int y0 = static_cast<int>(luaL_checkinteger(L, 3));
     int x1 = static_cast<int>(luaL_checkinteger(L, 4));
@@ -350,7 +350,7 @@ static int window_draw_line(lua_State* L) {
                                 | (static_cast<uint8_t>(luaL_optinteger(L, 7, 255)) << 8) 
                                 | static_cast<uint8_t>(luaL_optinteger(L, 8, 255));
 
-    auto it = g_windows.find(id);
+    auto it = g_windows.find(winId);
     if (it != g_windows.end()) {
         Graphics::DrawLine(it->second->canvasBuffer.data(), it->second->width, it->second->height, x0, y0, x1, y1, col);
     }
@@ -358,7 +358,7 @@ static int window_draw_line(lua_State* L) {
 }
 
 static int window_draw_circle(lua_State* L) {
-    int id = static_cast<int>(luaL_checkinteger(L, 1));
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
     int cx = static_cast<int>(luaL_checkinteger(L, 2));
     int cy = static_cast<int>(luaL_checkinteger(L, 3));
     int r  = static_cast<int>(luaL_checkinteger(L, 4));
@@ -367,7 +367,7 @@ static int window_draw_circle(lua_State* L) {
                                 | (static_cast<uint8_t>(luaL_optinteger(L, 7, 255)) << 8) 
                                 | static_cast<uint8_t>(luaL_optinteger(L, 8, 255));
 
-    auto it = g_windows.find(id);
+    auto it = g_windows.find(winId);
     if (it != g_windows.end()) {
         Graphics::DrawCircle(it->second->canvasBuffer.data(), it->second->width, it->second->height, cx, cy, r, col, fill);
     }
@@ -400,12 +400,12 @@ static int image_create(lua_State* L) {
 }
 
 static int window_draw_image(lua_State* L) {
-    int id = static_cast<int>(luaL_checkinteger(L, 1));
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
     int imgId = static_cast<int>(luaL_checkinteger(L, 2));
     int dx = static_cast<int>(luaL_checkinteger(L, 3));
     int dy = static_cast<int>(luaL_checkinteger(L, 4));
 
-    auto itWin = g_windows.find(id);
+    auto itWin = g_windows.find(winId);
     auto itImg = g_images.find(imgId);
     if (itWin != g_windows.end() && itImg != g_images.end()) {
         Graphics::DrawImage(itWin->second->canvasBuffer.data(), itWin->second->width, itWin->second->height, itImg->second, dx, dy);
@@ -417,7 +417,7 @@ static int window_draw_image(lua_State* L) {
 // 3D OBJECT MESH RENDERER (SOLID & WIREFRAME WITH CUSTOM COLORS)
 // =========================================================================
 static int window_draw_cube(lua_State* L) {
-    int id = static_cast<int>(luaL_checkinteger(L, 1));
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
     float posX = static_cast<float>(luaL_optnumber(L, 2, 0.0));
     float posY = static_cast<float>(luaL_optnumber(L, 3, 0.0));
     float posZ = static_cast<float>(luaL_optnumber(L, 4, 3.0));
@@ -437,7 +437,7 @@ static int window_draw_cube(lua_State* L) {
 
     uint32_t col = (0xFF << 24) | (r << 16) | (g << 8) | b;
 
-    auto it = g_windows.find(id);
+    auto it = g_windows.find(winId);
     if (it == g_windows.end()) return 0;
     NativeWindow* win = it->second;
 
@@ -526,8 +526,8 @@ static int window_draw_cube(lua_State* L) {
 }
 
 static int window_swap_buffers(lua_State* L) {
-    int id = static_cast<int>(luaL_checkinteger(L, 1));
-    auto it = g_windows.find(id);
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
+    auto it = g_windows.find(winId);
     if (it == g_windows.end()) return 0;
     NativeWindow* win = it->second;
 
@@ -565,8 +565,8 @@ static int window_swap_buffers(lua_State* L) {
 }
 
 static int window_destroy(lua_State* L) {
-    int id = static_cast<int>(luaL_checkinteger(L, 1));
-    auto it = g_windows.find(id);
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
+    auto it = g_windows.find(winId);
     if (it != g_windows.end()) {
         NativeWindow* win = it->second;
 #if defined(_WIN32) || defined(_WIN64)
