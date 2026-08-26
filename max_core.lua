@@ -521,6 +521,7 @@ local function call(_, env)
         PlayerDataModel = PlayerManager,
         _env = env and env or nil,
         
+        ---@nodiscard handle
         ---@overload fun(selfObj: table, serviceName: "StorageService"): StorageService
         ---@overload fun(selfObj: table, serviceName: "RunnerService"): RunnerService
         ---@overload fun(selfObj: table, serviceName: "SoundService"): SoundService

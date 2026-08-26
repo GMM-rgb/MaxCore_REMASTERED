@@ -31,6 +31,8 @@ local Objects = require("sub_modules.game_object")
 ---@field draw_rect fun(id: integer, x: integer, y: integer, w: integer, h: integer, r: integer, g: integer, b: integer): nil
 ---@field draw_line fun(id: integer, x0: integer, y0: integer, x1: integer, y1: integer, r: integer, g: integer, b: integer): nil
 ---@field draw_circle fun(id: integer, cx: integer, cy: integer, r: integer, fill: boolean, red: integer, green: integer, blue: integer): nil
+---@field draw_text fun(id: integer, text: string, x: integer, y: integer, scale: integer?, r: integer?, g: integer?, b: integer?): nil
+---@field draw_polygon fun(id: integer, pointsOrFill: table|boolean, ...): nil
 ---@field create_image fun(width: integer, height: integer, pixelArray: table<integer, integer>?): integer
 ---@field draw_image fun(id: integer, imgId: integer, x: integer, y: integer): nil
 ---@field draw_cube fun(id: integer, px: number, py: number, pz: number, rx: number, ry: number, rz: number, sx: number, sy: number, sz: number, r: integer, g: integer, b: integer, wireframe: boolean): nil
@@ -193,6 +195,31 @@ function WindowObject:DrawCircle(cx, cy, radius, fill, r, g, b)
     end
 end
 
+---Draws ASCII text string supporting \n linebreaks and \t tabstops.
+---@param text string String text content
+---@param x number Start X coordinate
+---@param y number Start Y coordinate
+---@param scale integer? Text scaling factor
+---@param r integer? Red component (0-255)
+---@param g integer? Green component (0-255)
+---@param b integer? Blue component (0-255)
+---@return nil
+function WindowObject:DrawText(text, x, y, scale, r, g, b)
+    if native_ok and type(window_interface) ~= "string" then
+        window_interface.draw_text(self._id, tostring(text or ""), math.floor(x), math.floor(y), scale or 1, r or 255, g or 255, b or 255)
+    end
+end
+
+---Draws polygon primitive using a table or unpacked vararg vertex coordinates.
+---@param pointsOrFill table|boolean Table of vertices or fill boolean if unpacked
+---@param ... any Color values or coordinate parameters
+---@return nil
+function WindowObject:DrawPolygon(pointsOrFill, ...)
+    if native_ok and type(window_interface) ~= "string" then
+        window_interface.draw_polygon(self._id, pointsOrFill, ...)
+    end
+end
+
 ---Creates a software image buffer from raw pixel data.
 ---@param width integer Image width
 ---@param height integer Image height
@@ -289,6 +316,34 @@ end
 ---@return LineObject
 function WindowObject:CreateLine(x0, y0, x1, y1, r, g, b)
     local obj = Objects.LineObject.new(x0, y0, x1, y1, r, g, b)
+    table.insert(self._objects, obj)
+    return obj
+end
+
+---Instantiates a modifiable TextObject extending GameObject.
+---@param text string? String text content
+---@param x number? Position X
+---@param y number? Position Y
+---@param scale integer? Font scaling factor
+---@param r integer? Red component (0-255)
+---@param g integer? Green component (0-255)
+---@param b integer? Blue component (0-255)
+---@return TextObject
+function WindowObject:CreateText(text, x, y, scale, r, g, b)
+    local obj = Objects.TextObject.new(text, x, y, scale, r, g, b)
+    table.insert(self._objects, obj)
+    return obj
+end
+
+---Instantiates a modifiable PolygonObject extending GameObject.
+---@param points table? Array of vertex coordinates
+---@param fill boolean? Fill shape toggle
+---@param r integer? Red component (0-255)
+---@param g integer? Green component (0-255)
+---@param b integer? Blue component (0-255)
+---@return PolygonObject
+function WindowObject:CreatePolygon(points, fill, r, g, b)
+    local obj = Objects.PolygonObject.new(points, fill, r, g, b)
     table.insert(self._objects, obj)
     return obj
 end
@@ -407,7 +462,8 @@ function WindowService:CloseAll()
     for id, win in pairs(self._windows) do
         win:Close()
         self._windows[id] = nil
-    end self._activeWindow = nil
+    end 
+    self._activeWindow = nil
 end
 
 return WindowService

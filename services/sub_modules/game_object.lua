@@ -223,6 +223,107 @@ function LineObject:Render(window)
 end
 
 -- =========================================================================
+-- TEXT OBJECT
+-- =========================================================================
+
+---@class TextObject : GameObject
+---@field Text string
+---@field TextScale integer
+local TextObject = setmetatable({}, { __index = GameObject })
+TextObject.__index = TextObject
+InstanceTyping.SetType(TextObject, "TextObject")
+
+---@param text string?
+---@param x number?
+---@param y number?
+---@param scale integer?
+---@param r integer?
+---@param g integer?
+---@param b integer?
+---@return TextObject
+function TextObject.new(text, x, y, scale, r, g, b)
+    local self = setmetatable({
+        Position = { x = 0.0, y = 0.0, z = 0.0 },
+        Rotation = { x = 0.0, y = 0.0, z = 0.0 },
+        Scale = { x = 1.0, y = 1.0, z = 1.0 },
+        Color = { r = 255, g = 255, b = 255 },
+        Visible = true
+    }, TextObject)
+    self.Text = text or ""
+    self:SetPosition(x or 0, y or 0, 0)
+    self.TextScale = scale or 1
+    self:SetColor(r or 255, g or 255, b or 255)
+    return self
+end
+
+---Sets string content for the text object.
+---@param text string
+function TextObject:SetText(text)
+    self.Text = text or string.char(0)
+end
+
+function TextObject:Render(window)
+    if not self.Visible or #self.Text == 0 then return end
+    window:DrawText(
+        self.Text,
+        math.floor(self.Position.x),
+        math.floor(self.Position.y),
+        math.floor(self.TextScale * self.Scale.x),
+        self.Color.r,
+        self.Color.g,
+        self.Color.b
+    )
+end
+
+-- =========================================================================
+-- POLYGON OBJECT
+-- =========================================================================
+
+---@class PolygonObject : GameObject
+---@field Points table
+---@field Fill boolean
+local PolygonObject = setmetatable({}, { __index = GameObject })
+PolygonObject.__index = PolygonObject
+InstanceTyping.SetType(PolygonObject, "PolygonObject")
+
+---@param points table? Vertex points array (nested {{x,y}...} or flat {x1,y1,x2,y2...})
+---@param fill boolean? Fill shape toggle
+---@param r integer?
+---@param g integer?
+---@param b integer?
+---@return PolygonObject
+function PolygonObject.new(points, fill, r, g, b)
+    local self = setmetatable({
+        Position = { x = 0.0, y = 0.0, z = 0.0 },
+        Rotation = { x = 0.0, y = 0.0, z = 0.0 },
+        Scale = { x = 1.0, y = 1.0, z = 1.0 },
+        Color = { r = 255, g = 255, b = 255 },
+        Visible = true
+    }, PolygonObject)
+    self.Points = points or {}
+    self.Fill = fill or false
+    self:SetColor(r or 255, g or 255, b or 255)
+    return self
+end
+
+---Sets vertex points for the polygon object.
+---@param points table
+function PolygonObject:SetPoints(points)
+    self.Points = points or {}
+end
+
+function PolygonObject:Render(window)
+    if not self.Visible or #self.Points == 0 then return end
+    window:DrawPolygon(
+        self.Points,
+        self.Color.r,
+        self.Color.g,
+        self.Color.b,
+        self.Fill
+    )
+end
+
+-- =========================================================================
 -- IMAGE OBJECT
 -- =========================================================================
 
@@ -308,6 +409,8 @@ return {
     RectObject = RectObject,
     CircleObject = CircleObject,
     LineObject = LineObject,
+    TextObject = TextObject,
+    PolygonObject = PolygonObject,
     ImageObject = ImageObject,
     CubeObject = CubeObject
 };
