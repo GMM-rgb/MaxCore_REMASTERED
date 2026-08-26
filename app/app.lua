@@ -1,21 +1,17 @@
 local core <const> = require("max_core").call()
-local BoostChanged = core.Event.new("BoostChanged")
 local storage = core:LoadService("StorageService")
 local runtime = core:LoadService("RunnerService")
 local window = core:LoadService("WindowService")
 local sound = core:LoadService("SoundService")
 local input = core:LoadService("InputService")
-local app = window:CreateWindow("GAME", 800, 800)
-local clickEvent = core.Event.new("PlayerClickEvent")
-local IncrementBoost = false
-local IncrementIndex = 0.1
+local click = core.Event.new("PlayerClickEvent")
+local app = window:CreateWindow("APP - GAME", 800, 800)
 
 sound:SetStorageService(storage)
 sound:SetCacheFolder("../audio")
 
 local GameData <const> = storage:CreateFile({
-    path = "./data.txt",
-    debug = true,
+    path = "./data.txt", debug = true,
 });
 
 ---@class AppData
