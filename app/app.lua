@@ -48,15 +48,15 @@ coroutine.wrap(function(...)
         local obj = app:CreateRect((cx / 2) - 50, (cy / 2) - 50, 100, 100, table.unpack(ct))
         local ObjectPosChange = core.Event.new("ObjectPositionChanged")
         local noiseGen = core.NoiseClass.new(os.time())
-        local TooltipText = app:CreateText()
+        local tooltip = app:CreateText()
         local textpos = { 10, 10 }
         local TimeCounter = 0
 
-        TooltipText:SetPosition(table.unpack(textpos))
-        TooltipText:SetText("Clicking Creates Colored Squares")
-        TooltipText:SetColor(0, 255, 0)
-        TooltipText:SetScale(2, 2)
-        TooltipText:Render(app)
+        tooltip:SetPosition(table.unpack(textpos))
+        tooltip:SetText("INFO:\tClicking Creates Colored Squares")
+        tooltip:SetColor(0, 255, 255)
+        tooltip:SetScale(2, 2)
+        tooltip:Render(app)
 
         ---@param changed GameObject
         ObjectPosChange:Connect(function(changed)
@@ -76,6 +76,7 @@ coroutine.wrap(function(...)
             changed:SetColor(table.unpack(packed))
             changed:SetPosition(x - 50, y - 50)
             changed:Render(app)
+            tooltip:Render(app)
         end)
 
         input:BindAction("UpdateObjectPosition", "mouse1", function(name, state, key)

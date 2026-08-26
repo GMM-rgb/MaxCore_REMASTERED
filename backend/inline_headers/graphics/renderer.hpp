@@ -4,6 +4,10 @@
 #endif
 #define RENDERER_HPP
 
+#if !(defined(_WIN32) || defined(_WIN64))
+    #warning "Windows Operating System definition not found!"
+#endif
+
 #include <vector>
 #include <cmath>
 #include <algorithm>
