@@ -28,49 +28,63 @@ local data = {
 };
 
 if GameData ~= nil and core.typeof(GameData) == "FileObject" then
-    
+
 end
 
 local function ChecksumGameData()
-    local ErrorReason = string.char(0) for DataIndex, DataValue in pairs(data) do
-        return
-    end io.stderr:write(string.format("[Game Debug]: fatal, checksum failed. \n [Reason]:\t%s", ErrorReason))
+    local ErrorReason = string.char(0)
+    for DataIndex, DataValue in pairs(data) do
+        return -- TODO
+    end
+    io.stderr:write(string.format("[Game Debug]: fatal, checksum failed. \n [Reason]:\t%s", ErrorReason))
 end
 
-if app ~= nil and core.typeof(app) == "WindowObject" then
-    local dc <const> = 255 local ct <const> = {dc, dc, dc}
-    local cx <const>, cy <const> = app:GetDimensions()
-    local obj = app:CreateRect((cx / 2) - 50, (cy / 2) - 50, 100, 100, table.unpack(ct))
-    local ObjectPosChange = core.Event.new("ObjectPositionChanged")
-    local noiseGen = core.NoiseClass.new(os.time())
-    local timeCounter = 0
+coroutine.wrap(function(...)
+    if app ~= nil and core.typeof(app) == "WindowObject" then
+        local args = { ... }
+        local dc <const> = 255
+        local ct <const> = { dc, dc, dc }
+        local cx <const>, cy <const> = app:GetDimensions()
+        local obj = app:CreateRect((cx / 2) - 50, (cy / 2) - 50, 100, 100, table.unpack(ct))
+        local ObjectPosChange = core.Event.new("ObjectPositionChanged")
+        local noiseGen = core.NoiseClass.new(os.time())
+        local TooltipText = app:CreateText()
+        local textpos = { 10, 10 }
+        local TimeCounter = 0
 
-    ---@param changed GameObject
-    ObjectPosChange:Connect(function(changed)
-        timeCounter = timeCounter + 0.1
+        TooltipText:SetPosition(table.unpack(textpos))
+        TooltipText:SetText("Clicking Creates Colored Squares")
+        TooltipText:SetColor(0, 255, 0)
+        TooltipText:SetScale(2, 2)
+        TooltipText:Render(app)
 
-        local rawNoiseR = noiseGen:Sample2D(timeCounter, 0)
-        local rawNoiseG = noiseGen:Sample2D(0, timeCounter)
-        local rawNoiseB = noiseGen:Sample2D(timeCounter, timeCounter)
-        local color_1 = math.floor(((rawNoiseR + 1) / 2) * 255)
-        local color_2 = math.floor(((rawNoiseG + 1) / 2) * 255)
-        local color_3 = math.floor(((rawNoiseB + 1) / 2) * 255)
-        local packed <const> = { color_1, color_2, color_3 }
-        local wx, wy = app:GetDimensions()
-        local x = math.random(0, wx)
-        local y = math.random(0, wy)
+        ---@param changed GameObject
+        ObjectPosChange:Connect(function(changed)
+            TimeCounter = math.abs(TimeCounter) + 0.1
 
-        changed:SetColor(table.unpack(packed))
-        changed:SetPosition(x - 50, y - 50)
-        changed:Render(app)
-    end)
+            local rawNoiseR = noiseGen:Sample2D(TimeCounter, 0)
+            local rawNoiseG = noiseGen:Sample2D(0, TimeCounter)
+            local rawNoiseB = noiseGen:Sample2D(TimeCounter, TimeCounter)
+            local color_1 = math.floor(((rawNoiseR + 1) / 2) * 255)
+            local color_2 = math.floor(((rawNoiseG + 1) / 2) * 255)
+            local color_3 = math.floor(((rawNoiseB + 1) / 2) * 255)
+            local packed <const> = { color_1, color_2, color_3 }
+            local wx <const>, wy <const> = app:GetDimensions()
+            local x = math.random(0, wx)
+            local y = math.random(0, wy)
 
-    input:BindAction("UpdateObjectPosition", "mouse1", function(name, state, key)
-        if state ~= nil and obj ~= nil and state == "Pressed" then
-            ObjectPosChange:Fire(obj)
-        end
-    end)
-end
+            changed:SetColor(table.unpack(packed))
+            changed:SetPosition(x - 50, y - 50)
+            changed:Render(app)
+        end)
+
+        input:BindAction("UpdateObjectPosition", "mouse1", function(name, state, key)
+            if state ~= nil and obj ~= nil and state == "Pressed" then
+                ObjectPosChange:Fire(obj)
+            end
+        end)
+    end
+end)(nil)
 
 runtime.Stepped:Connect(function(dt)
     if app ~= nil and core.typeof(app) == "WindowObject" then
