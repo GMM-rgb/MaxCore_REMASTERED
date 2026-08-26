@@ -69,7 +69,7 @@ set(NATIVE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/backend/sound_service_backend.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/backend/input_native.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/backend/storage_interface.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/backend/window_managment.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/backend/window_management.cpp
 )
 
 find_package(Threads REQUIRED)

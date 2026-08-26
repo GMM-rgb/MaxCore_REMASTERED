@@ -25,12 +25,17 @@
 ---@field sound_service SoundService
 ---@field InputService InputService
 ---@field input_service InputService
+---@field WindowService WindowService
+---@field window_service WindowService
 
 --- =========================================================================
+
+---@alias ConditionFunction fun(): boolean
 
 ---@class MainKit
 ---@field Load fun(selfObj: table)
 ---@field destroy fun(indentifier, scope)
+---@field WaitForCondition fun(condition: ConditionFunction, timeout: number): boolean
 ---@field ResolveService fun(selfObj: table, name: CoreServices)
 ---@field clampDt fun(dt, maxDt)
 ---@field new fun(): MainKit
@@ -51,6 +56,9 @@
 ---@field sleep fun(time: number)
 ---@field Instance InstanceBuilder
 ---@field InstanceType InstanceType
+---@field RandomClass RandomClass
+---@field PseudoClass PseudoClass
+---@field NoiseClass NoiseClass
 ---@field typeof GetTypeFn
 ---@field MainKit MainKit
 ---@field lenum table
@@ -62,6 +70,7 @@ local isDeveloper = false
 local isDebugMode <const> = false
 local PlayerManager = require("utils.player_managment.players")
 local InstanceBuilding = require("utils.instance_creator.instancer")
+local RandomDataModel = require("utils.instance_creator.random")
 local InstanceType = require("instance_type")
 
 -- =========================================================================
@@ -506,6 +515,9 @@ local function call(_, env)
         sleep = sleep,
         colorPrint = colorPrint,
         Instance = InstanceBuilding,
+        RandomClass = RandomDataModel.Random,
+        PseudoClass = RandomDataModel.Pseudo,
+        NoiseClass = RandomDataModel.Noise,
         PlayerDataModel = PlayerManager,
         _env = env and env or nil,
         

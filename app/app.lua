@@ -2,8 +2,11 @@ local core <const> = require("max_core").call()
 local BoostChanged = core.Event.new("BoostChanged")
 local storage = core:LoadService("StorageService")
 local runtime = core:LoadService("RunnerService")
+local window = core:LoadService("WindowService")
 local sound = core:LoadService("SoundService")
 local input = core:LoadService("InputService")
+local app = window:CreateWindow("GAME", 800, 800)
+local clickEvent = core.Event.new("PlayerClickEvent")
 local IncrementBoost = false
 local IncrementIndex = 0.1
 
@@ -12,7 +15,7 @@ sound:SetCacheFolder("../audio")
 
 local GameData <const> = storage:CreateFile({
     path = "./data.txt",
-    debug = true
+    debug = true,
 });
 
 ---@class AppData
@@ -21,9 +24,9 @@ local GameData <const> = storage:CreateFile({
 local data = {
     objects = {
         ---@type table<SoundObject>
-        sound = {
-            
-        },
+        sound = {},
+        ---@type table<GameObject>
+        shapes = {},
     },
     events = {},
 };
@@ -38,11 +41,59 @@ local function ChecksumGameData()
     end io.stderr:write(string.format("[Game Debug]: fatal, checksum failed. \n [Reason]:\t%s", ErrorReason))
 end
 
+if app ~= nil and core.typeof(app) == "WindowObject" then
+    local dc <const> = 255 local ct <const> = {dc, dc, dc}
+    local cx <const>, cy <const> = app:GetDimensions()
+    local obj = app:CreateRect((cx / 2) - 50, (cy / 2) - 50, 100, 100, table.unpack(ct))
+    local ObjectPosChange = core.Event.new("ObjectPositionChanged")
+    local noiseGen = core.NoiseClass.new(os.time())
+    local timeCounter = 0
+
+    ---@param changed GameObject
+    ObjectPosChange:Connect(function(changed)
+        timeCounter = timeCounter + 0.1
+
+        local rawNoiseR = noiseGen:Sample2D(timeCounter, 0)
+        local rawNoiseG = noiseGen:Sample2D(0, timeCounter)
+        local rawNoiseB = noiseGen:Sample2D(timeCounter, timeCounter)
+        local color_1 = math.floor(((rawNoiseR + 1) / 2) * 255)
+        local color_2 = math.floor(((rawNoiseG + 1) / 2) * 255)
+        local color_3 = math.floor(((rawNoiseB + 1) / 2) * 255)
+        local packed <const> = { color_1, color_2, color_3 }
+        local wx, wy = app:GetDimensions()
+        local x = math.random(0, wx)
+        local y = math.random(0, wy)
+
+        changed:SetColor(table.unpack(packed))
+        changed:SetPosition(x - 50, y - 50)
+        changed:Render(app)
+    end)
+
+    input:BindAction("UpdateObjectPosition", "mouse1", function(name, state, key)
+        if state ~= nil and obj ~= nil and state == "Pressed" then
+            ObjectPosChange:Fire(obj)
+        end
+    end)
+end
+
 runtime.Stepped:Connect(function(dt)
-    if input:GetGlobalInput() ~= true then
-        input:SetGlobalInput(true)
-    else
-        ChecksumGameData()
-        input:UpdateAll()
+    if app ~= nil and core.typeof(app) == "WindowObject" then
+        if not app:IsRunning() then
+            return
+        else
+            app:SwapBuffers()
+        end
+
+        if input:GetGlobalInput() ~= true then
+            input:SetGlobalInput(true)
+        else
+            ChecksumGameData()
+            input:UpdateAll()
+        end
     end
-end); runtime:KeepAlive()
+end)
+
+if app ~= nil then
+    runtime:KeepAlive()
+    app:Close()
+end

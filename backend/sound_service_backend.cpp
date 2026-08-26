@@ -11,7 +11,8 @@
 #define MA_NO_NULL                       
 
 #define MINIAUDIO_IMPLEMENTATION
-#include "inline_headers/mini_audio.hpp"
+#include "inline_headers/output/mini_audio.hpp"
+#include "inline_headers/extraction/youtube_extractor.hpp"
 
 #ifdef max
     #undef max
@@ -28,8 +29,6 @@
 #include <algorithm>
 #include <filesystem>
 #include <iostream>
-
-#include "inline_headers/youtube_extractor.hpp"
 
 namespace fs = std::filesystem;
 

@@ -5,4 +5,5 @@
 ---@field LoadService fun(self: MaxCore, serviceName: "RunnerService"): RunnerService
 ---@field LoadService fun(self: MaxCore, serviceName: "SoundService"): SoundService
 ---@field LoadService fun(self: MaxCore, serviceName: "StorageService"): StorageService
+---@field LoadService fun(self: MaxCore, serviceName: "WindowService"): WindowService
 ---@field LoadService fun(self: MaxCore, serviceName: string): any
