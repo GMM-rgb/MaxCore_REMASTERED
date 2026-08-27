@@ -37,3 +37,6 @@ METHODS:
 ```lua
 InputService:SetGlobalInput()
 ```
+```lua
+
+```
