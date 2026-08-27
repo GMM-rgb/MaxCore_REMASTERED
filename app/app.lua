@@ -10,8 +10,6 @@ local app = window:CreateWindow("APP - GAME", 800, 800)
 sound:SetStorageService(storage)
 sound:SetCacheFolder("../audio")
 
--- sound:LoadSound("https://music.youtube.com/watch?v=2jPoqmYor5E&si=bfbn4BpMg9lhgm55"):Play()
-
 local GameData <const> = storage:CreateFile({
     path = "./data.txt", debug = true,
 });
@@ -101,8 +99,12 @@ coroutine.wrap(function(...)
 
         local CubeConfiguration <const> = {
             positions = {
-                { 0, 0, -20 }, { -5, 0, -20 },
-                { 5, 0, -20 }, { 0, 5, -20 },
+                { 0, 0, -15 }, { -10, 0, -35 },
+                { 15, 0, -25 }, { 10, 5, -30 },
+            },
+            sizes = {
+                3.25, 5.65,
+                5, 2,
             },
         };
 
@@ -110,16 +112,20 @@ coroutine.wrap(function(...)
         local ProjectedCubes = {}
 
         for CubeInstanceIndex = 1, #CubeConfiguration.positions do
-            local InstancedCube = app and app:CreateCube(nil, nil, nil, 5) or setmetatable({}, nil)
+            local InstancedCube = app and app:CreateCube(nil, nil, nil, CubeConfiguration.sizes[CubeInstanceIndex])
             InstancedCube:SetPosition(table.unpack(CubeConfiguration.positions[CubeInstanceIndex]))
             InstancedCube:SetColor(core.RandomClass.new(os.time() + math.random(100)):NextColor())
             table.insert(ProjectedCubes, InstancedCube)
         end
 
+        -- local MAXIMUM_COLOR_VALUE <const> = 255
+
         local CubeRuntimeConnection = runtime.RenderStepped:Connect(function(dt)
             if app and type(app.ClearCanvas) == "function" then
                 app:ClearCanvas()
             end
+
+            local SelectedColorValue = {}
 
             for i = 1, #ProjectedCubes do
                 ---@type CubeObject
@@ -127,6 +133,9 @@ coroutine.wrap(function(...)
                 local NewRotY = cube.Rotation.y + (ROTATION_SPEED * dt)
                 local NewRotX = cube.Rotation.x + (ROTATION_SPEED * dt)
                 local NewRotZ = cube.Rotation.z - (ROTATION_SPEED * dt)
+                SelectedColorValue = table.pack(cube:GetColor())
+                cube.Color.r = cube.Color.r + core.RandomClass.new():NextInteger(-5, 5)
+                cube.Color.g = cube.Color.g + core.RandomClass.new():NextInteger(-5, 5)
                 cube:SetRotation(NewRotX, NewRotY, NewRotZ)
                 pcall(cube.Render, cube, app)
             end

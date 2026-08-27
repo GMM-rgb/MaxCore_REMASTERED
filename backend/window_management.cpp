@@ -40,6 +40,10 @@
         id view = nullptr;
     };
 #else
+    #if defined(__UNIX__)
+        #warning "UNIX Operating Systems are not supported with this Engine."
+    #endif
+
     #define EXPORT_FN
     #include <X11/Xlib.h>
     #include <X11/Xutil.h>
