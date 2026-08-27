@@ -35,8 +35,8 @@ METHODS:
 
 METHODS: 
 ```lua
-InputService:SetGlobalInput()
+InputService:SetGlobalInput(target: boolean): void
 ```
 ```lua
-InputService:GetGlobalInput()
+InputService:GetGlobalInput(): boolean
 ```
