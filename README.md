@@ -1,4 +1,4 @@
-# MaxCore REMASTERED Edition
+# MaxCore REMASTERED — Edition
 ---  
 **DOCUMENTATION**
 _CoreLib Importing:_
