@@ -10,6 +10,8 @@ local app = window:CreateWindow("APP - GAME", 800, 800)
 sound:SetStorageService(storage)
 sound:SetCacheFolder("../audio")
 
+-- sound:LoadSound("https://music.youtube.com/watch?v=2jPoqmYor5E&si=bfbn4BpMg9lhgm55"):Play()
+
 local GameData <const> = storage:CreateFile({
     path = "./data.txt", debug = true,
 });
@@ -40,8 +42,8 @@ local function ChecksumGameData()
 end
 
 local BorderElementPoints = {
-    { 0, 0 }, { 800, 0 },
-    { 750, 50}, { 0, 50 },
+    { 0,   0 }, { 550, 0 },
+    { 520, 50 }, { 0, 50 },
 };
 
 coroutine.wrap(function(...)
@@ -51,18 +53,21 @@ coroutine.wrap(function(...)
         local ct <const> = { dc, dc, dc }
         local cx <const>, cy <const> = app:GetDimensions()
         local obj = app:CreateCircle((cx / 2) - 50, (cy / 2) - 50, 100, true, table.unpack(ct))
-        local angled = app:CreatePolygon(BorderElementPoints, true, 171, 212, 161)
+        local toolbar = app:CreatePolygon(BorderElementPoints, true, 171, 212, 161)
         local ObjectPosChange = core.Event.new("ObjectPositionChanged")
         local noiseGen = core.NoiseClass.new(os.time())
         local tooltip = app:CreateText()
-        local textpos = { 10, 10 }
+        local textpos = { 10, 17.5 }
         local TimeCounter = 0
 
-        angled:Render(app)
+        -- local cube = app:CreateCube(0, 0, -20)
+        -- cube:SetScale(5, 5, 5)
+        -- cube:Render(app)
+        -- toolbar:Render(app)
 
         tooltip:SetPosition(table.unpack(textpos))
-        tooltip:SetText("INFO:\tClicking Creates Colored Squares")
-        tooltip:SetColor(145, 255, 255)
+        tooltip:SetText("INFO:\tSpinning Cube YES :D")
+        tooltip:SetColor(54, 54, 59)
         tooltip:SetScale(2, 2)
         tooltip:Render(app)
 
@@ -84,15 +89,69 @@ coroutine.wrap(function(...)
             changed:SetColor(table.unpack(packed))
             changed:SetPosition(x - 50, y - 50)
             changed:Render(app)
-            angled:Render(app)
+            toolbar:Render(app)
             tooltip:Render(app)
         end)
 
-        input:BindAction("UpdateObjectPosition", "mouse1", function(name, state, key)
-            if state ~= nil and obj ~= nil and state == "Pressed" then
-                ObjectPosChange:Fire(obj)
+        -- input:BindAction("UpdateObjectPosition", "mouse1", function(name, state, key)
+        --     if state ~= nil and obj ~= nil and state == "Pressed" then
+        --         ObjectPosChange:Fire(obj)
+        --     end
+        -- end)
+
+        local CubeConfiguration <const> = {
+            positions = {
+                { 0, 0, -20 }, { -5, 0, -20 },
+                { 5, 0, -20 }, { 0, 5, -20 },
+            },
+        };
+
+        local ROTATION_SPEED = 1
+        local ProjectedCubes = {}
+
+        for i = 1, #CubeConfiguration.positions do
+            local InstancedCube = app and app:CreateCube(nil, nil, nil, 5) or setmetatable({}, nil)
+            InstancedCube:SetPosition(table.unpack(CubeConfiguration.positions[i]))
+            InstancedCube:SetColor(core.RandomClass.new(os.time() + math.random(100)):NextColor())
+            table.insert(ProjectedCubes, InstancedCube)
+        end
+
+        local CubeRuntimeConnection = runtime.RenderStepped:Connect(function(dt)
+            if app and type(app.ClearCanvas) == "function" then
+                app:ClearCanvas()
             end
+
+            for i = 1, #ProjectedCubes do
+                ---@type CubeObject
+                local cube = ProjectedCubes[i]
+                local NewRotY = cube.Rotation.y + (ROTATION_SPEED * dt)
+                local NewRotX = cube.Rotation.x + (ROTATION_SPEED * dt)
+                local NewRotZ = cube.Rotation.z - (ROTATION_SPEED * dt)
+                cube:SetRotation(NewRotX, NewRotY, NewRotZ)
+                pcall(cube.Render, cube, app)
+            end
+
+            if toolbar then toolbar:Render(app) end
+            if tooltip then tooltip:Render(app) end
         end)
+
+        -- runtime.RenderStepped:Connect(function()
+        --     local currentTime = os and os.clock()
+        --     local deltaTime = currentTime - LAST_TIME
+        --     LAST_TIME = currentTime
+
+        --     if type(app.ClearCanvas) == "function" then
+        --         if app then app:ClearCanvas() end
+        --     end
+
+        --     local NewRotY = cube.Rotation.y + (ROTATION_SPEED * deltaTime)
+        --     local NewRotX = cube.Rotation.x - (ROTATION_SPEED * deltaTime)
+        --     cube:SetRotation(NewRotX, NewRotY, 0)
+
+        --     toolbar:Render(app)
+        --     tooltip:Render(app)
+        --     cube:Render(app)
+        -- end)
     end
 end)(nil)
 
