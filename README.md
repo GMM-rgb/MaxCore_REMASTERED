@@ -13,15 +13,15 @@ local storage = core:LoadService("StorageService")
 
 ## Service Usage
 ### RunnerService
-The RunnerService also known as runtime service, 
+<p>The RunnerService also known as runtime service, 
 is a utility used in keeping programs in an active process state,
-or binding a runtime simulation to deltaTime Events.
+or binding a runtime simulation to deltaTime Events.</p>
 ---
 METHODS: 
 
 ### SoundService
-This is pretty self-explanatory, it's a native-hookup 
-to the operating system, and sound hardware.
+<p>This is pretty self-explanatory, it's a native-hookup 
+to the operating system, and sound hardware.</p>
 ---
 METHODS: 
 
