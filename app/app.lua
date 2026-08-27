@@ -5,7 +5,8 @@ local window = core:LoadService("WindowService")
 local sound = core:LoadService("SoundService")
 local input = core:LoadService("InputService")
 local click = core.Event.new("PlayerClickEvent")
-local app = window:CreateWindow("APP - GAME", 800, 800)
+local app = window:CreateWindow("Engine", 800, 800)
+local logs = window:CreateWindow("Logger", 400, 500)
 
 sound:SetStorageService(storage)
 sound:SetCacheFolder("../audio")
@@ -64,7 +65,7 @@ coroutine.wrap(function(...)
         -- toolbar:Render(app)
 
         tooltip:SetPosition(table.unpack(textpos))
-        tooltip:SetText("INFO:\tSpinning Cube YES :D")
+        tooltip:SetText("INFO:\tSpinning Cubes")
         tooltip:SetColor(54, 54, 59)
         tooltip:SetScale(2, 2)
         tooltip:Render(app)
@@ -101,6 +102,7 @@ coroutine.wrap(function(...)
             positions = {
                 { 0, 0, -15 }, { -10, 0, -35 },
                 { 15, 0, -25 }, { 10, 5, -30 },
+                { 20, 10, -15 },
             },
             sizes = {
                 3.25, 5.65,
@@ -109,17 +111,19 @@ coroutine.wrap(function(...)
         };
 
         local ROTATION_SPEED = 1
+        local COLOR_CHANGE_S = 255
+        ---@type table<CubeObject>
         local ProjectedCubes = {}
 
         for CubeInstanceIndex = 1, #CubeConfiguration.positions do
-            local InstancedCube = app and app:CreateCube(nil, nil, nil, CubeConfiguration.sizes[CubeInstanceIndex])
+            local InstancedCube = app:CreateCube(nil, nil, nil, CubeConfiguration.sizes[CubeInstanceIndex])
             InstancedCube:SetPosition(table.unpack(CubeConfiguration.positions[CubeInstanceIndex]))
             InstancedCube:SetColor(core.RandomClass.new(os.time() + math.random(100)):NextColor())
+            InstancedCube:SetRotation(10, 45, 45)
             table.insert(ProjectedCubes, InstancedCube)
         end
 
-        -- local MAXIMUM_COLOR_VALUE <const> = 255
-
+        ---@param dt number
         local CubeRuntimeConnection = runtime.RenderStepped:Connect(function(dt)
             if app and type(app.ClearCanvas) == "function" then
                 app:ClearCanvas()
@@ -133,15 +137,21 @@ coroutine.wrap(function(...)
                 local NewRotY = cube.Rotation.y + (ROTATION_SPEED * dt)
                 local NewRotX = cube.Rotation.x + (ROTATION_SPEED * dt)
                 local NewRotZ = cube.Rotation.z - (ROTATION_SPEED * dt)
-                SelectedColorValue = table.pack(cube:GetColor())
-                cube.Color.r = cube.Color.r + core.RandomClass.new():NextInteger(-5, 5)
-                cube.Color.g = cube.Color.g + core.RandomClass.new():NextInteger(-5, 5)
                 cube:SetRotation(NewRotX, NewRotY, NewRotZ)
                 pcall(cube.Render, cube, app)
             end
 
             if toolbar then toolbar:Render(app) end
             if tooltip then tooltip:Render(app) end
+        end)
+
+        input:BindAction("ChangeCubeColors", "f", function(name, state, key)
+            if state == "Pressed" then
+                for _, cube in pairs(ProjectedCubes) do
+                    local RandomGeneratorInstance = core.RandomClass.new()
+                    cube:SetColor(RandomGeneratorInstance:NextColor())
+                end
+            end
         end)
 
         -- runtime.RenderStepped:Connect(function()

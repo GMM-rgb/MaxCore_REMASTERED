@@ -1,12 +1,33 @@
 local VectorUtils = {}
+---@type WindowService?
+VectorUtils.WindowService = nil
 
----@param screenX number
----@param screenY number
----@return number, number
-function VectorUtils.toCenterRelative(screenX, screenY)
-    local cx = love.graphics.getWidth() / 2
-    local cy = love.graphics.getHeight() / 2
-    return screenX - cx, screenY - cy
+---@class DistanceArguments
+---@field x1 number
+---@field x2 number
+---@field y1 number
+---@field y2 number
+
+---@param coordinates DistanceArguments
+function VectorUtils.getDistance(coordinates)
+    local FormatedGroupOne = coordinates.x1 - coordinates.x2
+    local FormatedGroupTwo = coordinates.y1 - coordinates.y2
+    local distance = math.sqrt(FormatedGroupOne^2+FormatedGroupTwo^2)
 end
 
-return VectorUtils
+local VectorUtility = {}
+
+function VectorUtility.new()
+    local self = setmetatable({}, VectorUtility)
+    return self
+end
+
+function VectorUtility:_2D()
+
+end
+
+function VectorUtility:_3D()
+
+end
+
+return VectorUtils, VectorUtility
