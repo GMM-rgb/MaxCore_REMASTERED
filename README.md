@@ -34,3 +34,6 @@ METHODS:
 ### InputService
 
 METHODS: 
+```lua
+InputService:SetGlobalInput()
+```
