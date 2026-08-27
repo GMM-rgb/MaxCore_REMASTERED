@@ -39,22 +39,30 @@ local function ChecksumGameData()
     io.stderr:write(string.format("[Game Debug]: fatal, checksum failed. \n [Reason]:\t%s", ErrorReason))
 end
 
+local BorderElementPoints = {
+    { 0, 0 }, { 800, 0 },
+    { 750, 50}, { 0, 50 },
+};
+
 coroutine.wrap(function(...)
     if app ~= nil and core.typeof(app) == "WindowObject" then
         local args = { ... }
         local dc <const> = 255
         local ct <const> = { dc, dc, dc }
         local cx <const>, cy <const> = app:GetDimensions()
-        local obj = app:CreateRect((cx / 2) - 50, (cy / 2) - 50, 100, 100, table.unpack(ct))
+        local obj = app:CreateCircle((cx / 2) - 50, (cy / 2) - 50, 100, true, table.unpack(ct))
+        local angled = app:CreatePolygon(BorderElementPoints, true, 171, 212, 161)
         local ObjectPosChange = core.Event.new("ObjectPositionChanged")
         local noiseGen = core.NoiseClass.new(os.time())
         local tooltip = app:CreateText()
         local textpos = { 10, 10 }
         local TimeCounter = 0
 
+        angled:Render(app)
+
         tooltip:SetPosition(table.unpack(textpos))
         tooltip:SetText("INFO:\tClicking Creates Colored Squares")
-        tooltip:SetColor(0, 255, 255)
+        tooltip:SetColor(145, 255, 255)
         tooltip:SetScale(2, 2)
         tooltip:Render(app)
 
@@ -76,6 +84,7 @@ coroutine.wrap(function(...)
             changed:SetColor(table.unpack(packed))
             changed:SetPosition(x - 50, y - 50)
             changed:Render(app)
+            angled:Render(app)
             tooltip:Render(app)
         end)
 

@@ -1,0 +1,123 @@
+{
+	"configurations" : 
+	[
+		{
+			"abstractTargets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Threads::Threads::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Threads__Threads-7484b4dbc07c96890f7b.json",
+					"name" : "Threads::Threads",
+					"projectIndex" : 0
+				}
+			],
+			"directories" : 
+			[
+				{
+					"abstractTargetIndexes" : 
+					[
+						0
+					],
+					"build" : ".",
+					"jsonFile" : "directory-.-fd6451d79dc282e2f566.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"abstractTargetIndexes" : 
+					[
+						0
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "lua_native_engine",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "input_native::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-input_native-16bfa1c5510e4f1fc33d.json",
+					"name" : "input_native",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "lua_runner::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-lua_runner-dadebc4cfedb319d6bc8.json",
+					"name" : "lua_runner",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "lua_shared::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-lua_shared-a870d6bbd95a4a0b7892.json",
+					"name" : "lua_shared",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "sound_service_backend::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-sound_service_backend-65c74c8e17eeae35ee00.json",
+					"name" : "sound_service_backend",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "storage_interface::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-storage_interface-2515ac9ad31880ed864c.json",
+					"name" : "storage_interface",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "window_management::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-window_management-eac5735b1caf7e54a404.json",
+					"name" : "window_management",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build",
+		"source" : "/Users/maximus.farvour/Documents/MaxCore_REMASTERED"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 10
+	}
+}
