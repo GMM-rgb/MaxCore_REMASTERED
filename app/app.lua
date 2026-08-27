@@ -109,9 +109,9 @@ coroutine.wrap(function(...)
         local ROTATION_SPEED = 1
         local ProjectedCubes = {}
 
-        for i = 1, #CubeConfiguration.positions do
+        for CubeInstanceIndex = 1, #CubeConfiguration.positions do
             local InstancedCube = app and app:CreateCube(nil, nil, nil, 5) or setmetatable({}, nil)
-            InstancedCube:SetPosition(table.unpack(CubeConfiguration.positions[i]))
+            InstancedCube:SetPosition(table.unpack(CubeConfiguration.positions[CubeInstanceIndex]))
             InstancedCube:SetColor(core.RandomClass.new(os.time() + math.random(100)):NextColor())
             table.insert(ProjectedCubes, InstancedCube)
         end
