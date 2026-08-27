@@ -10,3 +10,7 @@ _Service-Loading:_ [using previous variables]
 ```lua
 local storage = core:LoadService("StorageService")
 ```
+
+## Service Usage
+### RunnerService
+The RunnerService also known as runtime service, is a utility used in keeping programs running or binding a runtime simulation to deltaTime Events.
