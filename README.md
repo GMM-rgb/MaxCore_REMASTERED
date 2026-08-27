@@ -24,9 +24,9 @@ to the operating system, and sound hardware.</p>
 METHODS: 
 
 ### StorageService
-[desc] 
+
 METHODS: 
 
 ### WindowService
-[desc] 
+
 METHODS: 
