@@ -7,10 +7,7 @@ local input = core:LoadService("InputService")
 local click = core.Event.new("PlayerClickEvent")
 local app = window:CreateWindow("Engine", 800, 800)
 local logs = window:CreateWindow("Logger", 400, 500)
-
-if logs and core.typeof(logs) == "WindowObject" then
-    logs:ClearCanvas(255, 255, 255)
-end
+local mpw = app and app:CreatePhysicsWorld()
 
 sound:SetStorageService(storage)
 sound:SetCacheFolder("../audio")
@@ -45,7 +42,7 @@ local function ChecksumGameData()
 end
 
 local BorderElementPoints = {
-    { 0,   0 }, { 550, 0 },
+    { 0, 0 }, { 550, 0 },
     { 520, 50 }, { 0, 50 },
 };
 
@@ -67,14 +64,30 @@ coroutine.wrap(function(...)
             { 5, 0, -20 },
         };
 
-        local CustomMesh = app:CreateMesh()
-        CustomMesh:SetFaces({{1}, {1}, {1}, {1}})
-        CustomMesh:SetVertices(MeshVertices)
-        CustomMesh:SetFillMode("point")
-        CustomMesh:Render(app)
+        app:SetAliasingQuality("3d", window:GetMaxAliasingQuality() - 2)
+
+        if logs ~= nil and core.IsA(logs, "WindowObject") then
+            local NewLogsPositionX <const>, NewLogsPositionY <const> = app:GetPosition()
+            logs:SetPosition(NewLogsPositionX + table.pack(app:GetDimensions())[1], NewLogsPositionY)
+        end
+
+        local OriginPointMesh = app:CreateMesh()
+        OriginPointMesh:SetFaces({{1}, {1}, {1}, {1}})
+        OriginPointMesh:SetVertices(MeshVertices)
+        OriginPointMesh:SetFillMode("point")
+        OriginPointMesh:Render(app)
+
+        local BindingPointMesh = app:BindPhysics(OriginPointMesh)
+
+        runtime.RenderStepped:Connect(function(dt)
+            if not BindingPointMesh then return end
+            -- BindingPointMesh:PredictPosition(dt)
+            BindingPointMesh:SetEnabled(true)
+            BindingPointMesh:SetStatic(true)
+        end)
 
         tooltip:SetPosition(table.unpack(textpos))
-        tooltip:SetText("INFO:\tSpinning Cubes")
+        tooltip:SetText("INFO:   3D Workspace Testing")
         tooltip:SetColor(54, 54, 59)
         tooltip:SetScale(2, 2)
         tooltip:SetQuality(4)
@@ -108,93 +121,94 @@ coroutine.wrap(function(...)
         --     end
         -- end)
 
+        ---@type integer[][]
+        local WorkspacePlaneFaces = {}
+
+        for i = 1, 8 do
+            table.insert(WorkspacePlaneFaces, 1)
+        end
+
+        local WorkspacePlane = app:CreateMesh({
+            { 0, 0, 0 }, {  },
+        }, WorkspacePlaneFaces)
+
+        WorkspacePlane:Render(app)
+        
+
         local CubeConfiguration <const> = {
             positions = {
-                { 0,  0, -15 }, { -10, 0, -35 },
-                { 15, 0, -25 }, { 10, 5, -30 },
+                { 0, 0, -20 }, { -10, 0, -20 },
+                { 15, 0, -2 }, { 10, 5, -12.2 },
                 { 20, 10, -15 },
             },
             sizes = {
-                4, 7,
-                2, 4,
-                8,
+                -- 4, 7,
+                -- 2, 4,
+                -- 8,
             },
         };
 
-        local ROTATION_SPEED = 0.45
-        local COLOR_CHANGE_S = 255
+        local ROTATION_SPEED = 1
         ---@type table<CubeObject>
         local ProjectedCubes = {}
+        ---@type { integer: PhysicsBody }
+        local CubePhysicBodies = {}
         local MainLightSource = app:CreateLight(27, 20, -10, 0.45, 1)
         if MainLightSource == nil or type(MainLightSource) ~= "table" then return end
         if app then app:SetActiveLight(MainLightSource) end
 
         for CubeInstanceIndex = 1, #CubeConfiguration.positions do
-            local InstancedCube = app:CreateCube(nil, nil, nil, CubeConfiguration.sizes[CubeInstanceIndex], nil, nil, nil,
-                "solid")
+            local InstancedCube = app:CreateCube(nil, nil, nil, CubeConfiguration.sizes[CubeInstanceIndex], nil, nil, nil, "wireframe")
             InstancedCube:SetPosition(table.unpack(CubeConfiguration.positions[CubeInstanceIndex]))
             InstancedCube:SetColor(core.RandomClass.new(os.time() + math.random(100)):NextColor())
-            InstancedCube:SetRotation(10, 45, 45)
+            CubePhysicBodies[core.RandomClass.new():NextInteger(0, os.time())] = app:BindPhysics(InstancedCube)
             table.insert(ProjectedCubes, InstancedCube)
         end
 
         ---@param dt number
         local CubeRuntimeConnection = runtime.RenderStepped:Connect(function(dt)
             if app and type(app.ClearCanvas) == "function" then
-                if app then app:ClearCanvas() end
+                if app then app:ClearCanvas(0, 0, 0) end
             end
 
             for i = 1, #ProjectedCubes do
                 ---@type CubeObject
                 local cube = ProjectedCubes[i]
                 local NewRotY = cube.Rotation.y + (ROTATION_SPEED * dt)
-                local NewRotX = cube.Rotation.x + (ROTATION_SPEED * dt)
-                local NewRotZ = cube.Rotation.z - (ROTATION_SPEED * dt)
-                cube:SetRotation(NewRotX, NewRotY, NewRotZ)
+                -- local NewRotX = cube.Rotation.x + (ROTATION_SPEED * dt)
+                -- local NewRotZ = cube.Rotation.z - (ROTATION_SPEED * dt)
+                cube:SetRotation(0, NewRotY, 0)
                 pcall(cube.Render, cube, app)
             end
 
             if toolbar then toolbar:Render(app) end
             if tooltip then tooltip:Render(app) end
-
-            app:RenderAll()
         end)
 
-        -- input:BindAction("ChangeCubeColors", "f", function(name, state, key)
-        --     if state == "Pressed" then
-        --         for _, cube in pairs(ProjectedCubes) do
-        --             local RandomGeneratorInstance = core.RandomClass.new()
-        --             cube:SetColor(RandomGeneratorInstance:NextColor())
-        --         end
-        --     end
-        -- end)
+        input:BindAction("ChangeCubeColors", "f", function(name, state, key)
+            if state == "Pressed" then
+                for _, cube in pairs(ProjectedCubes) do
+                    local RandomGeneratorInstance = core.RandomClass.new()
+                    cube:SetColor(RandomGeneratorInstance:NextColor())
+                end
+            end
+        end)
 
         local DefaultCamera = app:CreateCamera(0, 0, 0, 115)
         if not DefaultCamera then return end
+        DefaultCamera:SetClipPlanes(-20, 100)
+        DefaultCamera:SetRotation(0, 0, 0)
         app:SetActiveCamera(DefaultCamera)
-
-        -- runtime.RenderStepped:Connect(function()
-        --     local currentTime = os and os.clock()
-        --     local deltaTime = currentTime - LAST_TIME
-        --     LAST_TIME = currentTime
-
-        --     if type(app.ClearCanvas) == "function" then
-        --         if app then app:ClearCanvas() end
-        --     end
-
-        --     local NewRotY = cube.Rotation.y + (ROTATION_SPEED * deltaTime)
-        --     local NewRotX = cube.Rotation.x - (ROTATION_SPEED * deltaTime)
-        --     cube:SetRotation(NewRotX, NewRotY, 0)
-
-        --     toolbar:Render(app)
-        --     tooltip:Render(app)
-        --     cube:Render(app)
-        -- end)
     end
 end)(nil)
 
-runtime.RenderStepped:Connect(function()
+input:SetGlobalInput(true)
 
+---@param deltaTime number
+runtime.RenderStepped:Connect(function(deltaTime)
+    if mpw ~= nil and core.typeof(mpw) == "PhysicsWorld" then
+        mpw:Step(deltaTime)
+    end
 end)
 
 runtime.Stepped:Connect(function(dt)
@@ -212,12 +226,8 @@ runtime.Stepped:Connect(function(dt)
                 app:SwapBuffers()
             end
 
-            if input:GetGlobalInput() ~= true then
-                input:SetGlobalInput(true)
-            else
-                ChecksumGameData()
-                input:UpdateAll()
-            end
+            ChecksumGameData()
+            input:UpdateAll()
         end
     end
 end)
