@@ -128,23 +128,16 @@ coroutine.wrap(function(...)
             table.insert(WorkspacePlaneFaces, 1)
         end
 
-        local WorkspacePlane = app:CreateMesh({
-            { 0, 0, 0 }, {  },
-        }, WorkspacePlaneFaces)
-
-        WorkspacePlane:Render(app)
-        
-
         local CubeConfiguration <const> = {
             positions = {
                 { 0, 0, -20 }, { -10, 0, -20 },
                 { 15, 0, -2 }, { 10, 5, -12.2 },
-                { 20, 10, -15 },
+                { 20, 10, -5 },
             },
             sizes = {
-                -- 4, 7,
-                -- 2, 4,
-                -- 8,
+                4, 7,
+                2, 4,
+                8,
             },
         };
 
@@ -158,7 +151,7 @@ coroutine.wrap(function(...)
         if app then app:SetActiveLight(MainLightSource) end
 
         for CubeInstanceIndex = 1, #CubeConfiguration.positions do
-            local InstancedCube = app:CreateCube(nil, nil, nil, CubeConfiguration.sizes[CubeInstanceIndex], nil, nil, nil, "wireframe")
+            local InstancedCube = app:CreateCube(nil, nil, nil, CubeConfiguration.sizes[CubeInstanceIndex], nil, nil, nil, "solid")
             InstancedCube:SetPosition(table.unpack(CubeConfiguration.positions[CubeInstanceIndex]))
             InstancedCube:SetColor(core.RandomClass.new(os.time() + math.random(100)):NextColor())
             CubePhysicBodies[core.RandomClass.new():NextInteger(0, os.time())] = app:BindPhysics(InstancedCube)

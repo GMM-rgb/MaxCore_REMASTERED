@@ -7,7 +7,7 @@
 #if !(defined(_WIN32) || defined(_WIN64))
     #warning "Windows Operating System definition not found!"
 #elif defined(__APPLE__)
-    #pragma endregion
+    #pragma never
 #endif
 
 #include <vector>
