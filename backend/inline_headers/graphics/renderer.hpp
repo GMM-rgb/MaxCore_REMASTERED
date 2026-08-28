@@ -68,6 +68,17 @@ struct Matrix4x4 {
         return mat;
     }
 
+    // Added alongside RotationX/RotationY for the generic mesh pipeline
+    // (draw_cube never applied roll/Z rotation; draw_mesh does).
+    static Matrix4x4 RotationZ(float angleRad) {
+        Matrix4x4 mat = Identity();
+        mat.m[0][0] = std::cos(angleRad);
+        mat.m[0][1] = std::sin(angleRad);
+        mat.m[1][0] = -std::sin(angleRad);
+        mat.m[1][1] = std::cos(angleRad);
+        return mat;
+    }
+
     static Matrix4x4 Translation(float x, float y, float z) {
         Matrix4x4 mat = Identity();
         mat.m[3][0] = x;
@@ -93,6 +104,100 @@ struct ImageBuffer {
 };
 
 // =========================================================================
+// VEC3 MATH HELPERS
+// =========================================================================
+inline float Dot(const Vec3& a, const Vec3& b) {
+    return a.x * b.x + a.y * b.y + a.z * b.z;
+}
+
+inline Vec3 Cross(const Vec3& a, const Vec3& b) {
+    return { a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x };
+}
+
+inline Vec3 Subtract(const Vec3& a, const Vec3& b) {
+    return { a.x - b.x, a.y - b.y, a.z - b.z };
+}
+
+inline Vec3 Normalize(const Vec3& v) {
+    float len = std::sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+    if (len < 0.00001f) return { 0.0f, 0.0f, 0.0f };
+    return { v.x / len, v.y / len, v.z / len };
+}
+
+// =========================================================================
+// CAMERA
+// =========================================================================
+// A minimal free-look camera. Position + yaw/pitch define the viewport
+// transform; roll is stored but not applied to geometry transforms (reserved
+// for screen-space tilt effects later). fov/near/far feed straight into
+// Matrix4x4::Perspective.
+struct Camera {
+    Vec3 position{0.0f, 0.0f, 0.0f};
+    float pitch = 0.0f; // rotation around X axis, radians
+    float yaw   = 0.0f; // rotation around Y axis, radians
+    float roll  = 0.0f; // rotation around Z axis, radians (reserved)
+    float fov = 90.0f;
+    float nearPlane = 0.1f;
+    float farPlane = 100.0f;
+};
+
+// Transforms a world-space point into this camera's view space (i.e. what
+// you'd get from an inverse camera transform: translate by -position, then
+// undo yaw, then undo pitch). Feed the result into Project3DPoint instead
+// of the raw world position to make geometry respect the active camera.
+inline Vec3 WorldToView(const Vec3& worldPos, const Camera& cam) {
+    Vec3 rel = { worldPos.x - cam.position.x, worldPos.y - cam.position.y, worldPos.z - cam.position.z };
+
+    Matrix4x4 invYaw = Matrix4x4::RotationY(-cam.yaw);
+    Vec4 afterYaw = invYaw.MultiplyVector(rel);
+    Vec3 afterYaw3 = { afterYaw.x, afterYaw.y, afterYaw.z };
+
+    Matrix4x4 invPitch = Matrix4x4::RotationX(-cam.pitch);
+    Vec4 afterPitch = invPitch.MultiplyVector(afterYaw3);
+
+    return { afterPitch.x, afterPitch.y, afterPitch.z };
+}
+
+// =========================================================================
+// BASIC LIGHTING ("SHADERS")
+// =========================================================================
+// This is a software rasterizer, not a GPU pipeline, so there's no real
+// vertex/fragment shader stage -- this is the CPU equivalent that gets you
+// most of the visual benefit cheaply: one flat Lambertian (diffuse +
+// ambient) shade computed per FACE from its normal, applied uniformly
+// across that face's triangles. It intentionally does not do per-pixel or
+// per-vertex (Gouraud/Phong) shading.
+struct Light {
+    Vec3 direction{0.4f, -0.7f, 0.6f}; // direction the light travels, from source toward the scene
+    float ambient = 0.35f;             // base brightness even on faces facing away from the light
+    float intensity = 1.0f;            // diffuse contribution multiplier
+};
+
+// Computes a single [0,1] brightness factor for a face from its (unnormalized
+// is fine) normal and the active light. Faces should be wound consistently
+// (counter-clockwise viewed from outside the mesh) so normals point outward --
+// otherwise shading will read as inverted.
+inline float ComputeFaceShade(const Vec3& faceNormal, const Light& light) {
+    Vec3 n = Normalize(faceNormal);
+    Vec3 travelDir = Normalize(light.direction);
+    Vec3 towardLight = { -travelDir.x, -travelDir.y, -travelDir.z };
+
+    float diffuse = (std::max)(0.0f, Dot(n, towardLight));
+    float shade = light.ambient + diffuse * light.intensity;
+    return (std::min)(1.0f, (std::max)(0.0f, shade));
+}
+
+// Multiplies an AARRGGBB color's RGB channels by a [0,1] shade factor,
+// leaving alpha untouched.
+inline uint32_t ShadeColor(uint32_t color, float shade) {
+    uint8_t a = (color >> 24) & 0xFF;
+    uint8_t r = (uint8_t)(std::min)(255.0f, ((color >> 16) & 0xFF) * shade);
+    uint8_t g = (uint8_t)(std::min)(255.0f, ((color >> 8) & 0xFF) * shade);
+    uint8_t b = (uint8_t)(std::min)(255.0f, (color & 0xFF) * shade);
+    return (uint32_t(a) << 24) | (uint32_t(r) << 16) | (uint32_t(g) << 8) | uint32_t(b);
+}
+
+// =========================================================================
 // RASTERIZATION ENGINE
 // =========================================================================
 
@@ -100,6 +205,25 @@ inline void PutPixel(uint32_t* buffer, int bufWidth, int bufHeight, int x, int y
     if (x >= 0 && x < bufWidth && y >= 0 && y < bufHeight) {
         buffer[y * bufWidth + x] = color;
     }
+}
+
+// Blends an RGB color into an existing buffer pixel using an EXTERNALLY
+// supplied coverage/alpha in [0,1] (ignores whatever's in color's own alpha
+// byte). Used by anti-aliased rendering -- e.g. supersampled text -- where
+// each pixel's coverage is computed on the fly rather than baked into a
+// source image's alpha channel like DrawImage's blending does.
+inline void BlendPixel(uint32_t* buffer, int bufWidth, int bufHeight, int x, int y, uint32_t rgbColor, float alpha) {
+    if (x < 0 || x >= bufWidth || y < 0 || y >= bufHeight) return;
+    if (alpha <= 0.0f) return;
+    if (alpha >= 1.0f) {
+        buffer[y * bufWidth + x] = rgbColor;
+        return;
+    }
+    uint32_t dst = buffer[y * bufWidth + x];
+    uint8_t r = (uint8_t)(((rgbColor >> 16) & 0xFF) * alpha + ((dst >> 16) & 0xFF) * (1.0f - alpha));
+    uint8_t g = (uint8_t)(((rgbColor >> 8) & 0xFF) * alpha + ((dst >> 8) & 0xFF) * (1.0f - alpha));
+    uint8_t b = (uint8_t)((rgbColor & 0xFF) * alpha + (dst & 0xFF) * (1.0f - alpha));
+    buffer[y * bufWidth + x] = (0xFF << 24) | (uint32_t(r) << 16) | (uint32_t(g) << 8) | uint32_t(b);
 }
 
 // Bresenham's Line Algorithm

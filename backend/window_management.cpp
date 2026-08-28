@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstring>
+#include <cctype>
 #include <lua.hpp>
 #include <unordered_map>
 #include <algorithm>
@@ -159,14 +160,20 @@ struct NativeWindow {
     int height = 600;
     bool shouldClose = false;
     bool isFullscreen = false;
+    int activeCameraId = -1; // -1 = no camera bound, cube/mesh render falls back to a default camera at the origin
+    int activeLightId = -1;  // -1 = no light bound, faces render at flat/full brightness (old behavior)
     std::vector<uint32_t> canvasBuffer;
     PlatformWindow platform;
 };
 
 static std::unordered_map<int, NativeWindow*> g_windows;
 static std::unordered_map<int, Graphics::ImageBuffer> g_images;
+static std::unordered_map<int, Graphics::Camera> g_cameras;
+static std::unordered_map<int, Graphics::Light> g_lights;
 static int g_next_window_id = 1;
 static int g_next_image_id = 1;
+static int g_next_camera_id = 1;
+static int g_next_light_id = 1;
 
 #if defined(_WIN32) || defined(_WIN64)
 static LRESULT CALLBACK Win32Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
@@ -214,6 +221,372 @@ static void FillTriangle(uint32_t* buffer, int width, int height, Graphics::Vec2
             }
         }
     }
+}
+
+// =========================================================================
+// CAMERA FUNCTIONS
+// =========================================================================
+// A camera is a standalone native resource (like an image) -- create one,
+// position/rotate it, then bind it to a window with set_active_camera so
+// draw_cube/draw_mesh render through its viewpoint. A window with no bound
+// camera renders exactly like before: a fixed camera sitting at the origin
+// looking down +Z with a 90 degree FOV.
+static int camera_create(lua_State* L) {
+    float px = static_cast<float>(luaL_optnumber(L, 1, 0.0));
+    float py = static_cast<float>(luaL_optnumber(L, 2, 0.0));
+    float pz = static_cast<float>(luaL_optnumber(L, 3, 0.0));
+    float fov = static_cast<float>(luaL_optnumber(L, 4, 90.0));
+    float nearPlane = static_cast<float>(luaL_optnumber(L, 5, 0.1));
+    float farPlane = static_cast<float>(luaL_optnumber(L, 6, 100.0));
+
+    Graphics::Camera cam;
+    cam.position = {px, py, pz};
+    cam.fov = fov;
+    cam.nearPlane = nearPlane;
+    cam.farPlane = farPlane;
+
+    int camId = g_next_camera_id++;
+    g_cameras[camId] = cam;
+    lua_pushinteger(L, camId);
+    return 1;
+}
+
+static int camera_destroy(lua_State* L) {
+    int camId = static_cast<int>(luaL_checkinteger(L, 1));
+    g_cameras.erase(camId);
+
+    // Detach from any window still pointing at this camera so draw_cube/
+    // draw_mesh safely fall back to the default camera instead of
+    // dereferencing a dead id.
+    for (auto& pair : g_windows) {
+        if (pair.second->activeCameraId == camId) {
+            pair.second->activeCameraId = -1;
+        }
+    }
+    return 0;
+}
+
+static int camera_set_position(lua_State* L) {
+    int camId = static_cast<int>(luaL_checkinteger(L, 1));
+    float x = static_cast<float>(luaL_checknumber(L, 2));
+    float y = static_cast<float>(luaL_checknumber(L, 3));
+    float z = static_cast<float>(luaL_checknumber(L, 4));
+
+    auto it = g_cameras.find(camId);
+    if (it != g_cameras.end()) {
+        it->second.position = {x, y, z};
+    }
+    return 0;
+}
+
+static int camera_get_position(lua_State* L) {
+    int camId = static_cast<int>(luaL_checkinteger(L, 1));
+    auto it = g_cameras.find(camId);
+    if (it != g_cameras.end()) {
+        lua_pushnumber(L, it->second.position.x);
+        lua_pushnumber(L, it->second.position.y);
+        lua_pushnumber(L, it->second.position.z);
+        return 3;
+    }
+    lua_pushnil(L);
+    lua_pushnil(L);
+    lua_pushnil(L);
+    return 3;
+}
+
+static int camera_set_rotation(lua_State* L) {
+    int camId = static_cast<int>(luaL_checkinteger(L, 1));
+    float pitch = static_cast<float>(luaL_checknumber(L, 2));
+    float yaw = static_cast<float>(luaL_checknumber(L, 3));
+    float roll = static_cast<float>(luaL_optnumber(L, 4, 0.0));
+
+    auto it = g_cameras.find(camId);
+    if (it != g_cameras.end()) {
+        it->second.pitch = pitch;
+        it->second.yaw = yaw;
+        it->second.roll = roll;
+    }
+    return 0;
+}
+
+static int camera_get_rotation(lua_State* L) {
+    int camId = static_cast<int>(luaL_checkinteger(L, 1));
+    auto it = g_cameras.find(camId);
+    if (it != g_cameras.end()) {
+        lua_pushnumber(L, it->second.pitch);
+        lua_pushnumber(L, it->second.yaw);
+        lua_pushnumber(L, it->second.roll);
+        return 3;
+    }
+    lua_pushnil(L);
+    lua_pushnil(L);
+    lua_pushnil(L);
+    return 3;
+}
+
+static int camera_set_fov(lua_State* L) {
+    int camId = static_cast<int>(luaL_checkinteger(L, 1));
+    float fov = static_cast<float>(luaL_checknumber(L, 2));
+    auto it = g_cameras.find(camId);
+    if (it != g_cameras.end()) it->second.fov = fov;
+    return 0;
+}
+
+static int camera_get_fov(lua_State* L) {
+    int camId = static_cast<int>(luaL_checkinteger(L, 1));
+    auto it = g_cameras.find(camId);
+    if (it != g_cameras.end()) {
+        lua_pushnumber(L, it->second.fov);
+        return 1;
+    }
+    lua_pushnil(L);
+    return 1;
+}
+
+static int camera_set_clip_planes(lua_State* L) {
+    int camId = static_cast<int>(luaL_checkinteger(L, 1));
+    float nearPlane = static_cast<float>(luaL_checknumber(L, 2));
+    float farPlane = static_cast<float>(luaL_checknumber(L, 3));
+    auto it = g_cameras.find(camId);
+    if (it != g_cameras.end()) {
+        it->second.nearPlane = nearPlane;
+        it->second.farPlane = farPlane;
+    }
+    return 0;
+}
+
+static int window_set_active_camera(lua_State* L) {
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
+    int camId = static_cast<int>(luaL_checkinteger(L, 2));
+    auto it = g_windows.find(winId);
+    if (it != g_windows.end()) {
+        it->second->activeCameraId = camId;
+    }
+    return 0;
+}
+
+static int window_get_active_camera(lua_State* L) {
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
+    auto it = g_windows.find(winId);
+    if (it != g_windows.end() && it->second->activeCameraId != -1) {
+        lua_pushinteger(L, it->second->activeCameraId);
+        return 1;
+    }
+    lua_pushnil(L);
+    return 1;
+}
+
+// =========================================================================
+// LIGHT FUNCTIONS ("BASIC SHADERS")
+// =========================================================================
+// Same resource pattern as cameras: create a light, position/tune it, then
+// bind it to a window with set_active_light. With no light bound, solid
+// faces render at their flat input color exactly like before this feature
+// existed -- shading is strictly opt-in.
+static int light_create(lua_State* L) {
+    float dx = static_cast<float>(luaL_optnumber(L, 1, 0.4));
+    float dy = static_cast<float>(luaL_optnumber(L, 2, -0.7));
+    float dz = static_cast<float>(luaL_optnumber(L, 3, 0.6));
+    float ambient = static_cast<float>(luaL_optnumber(L, 4, 0.35));
+    float intensity = static_cast<float>(luaL_optnumber(L, 5, 1.0));
+
+    Graphics::Light light;
+    light.direction = {dx, dy, dz};
+    light.ambient = ambient;
+    light.intensity = intensity;
+
+    int lightId = g_next_light_id++;
+    g_lights[lightId] = light;
+    lua_pushinteger(L, lightId);
+    return 1;
+}
+
+static int light_destroy(lua_State* L) {
+    int lightId = static_cast<int>(luaL_checkinteger(L, 1));
+    g_lights.erase(lightId);
+
+    for (auto& pair : g_windows) {
+        if (pair.second->activeLightId == lightId) {
+            pair.second->activeLightId = -1;
+        }
+    }
+    return 0;
+}
+
+static int light_set_direction(lua_State* L) {
+    int lightId = static_cast<int>(luaL_checkinteger(L, 1));
+    float dx = static_cast<float>(luaL_checknumber(L, 2));
+    float dy = static_cast<float>(luaL_checknumber(L, 3));
+    float dz = static_cast<float>(luaL_checknumber(L, 4));
+    auto it = g_lights.find(lightId);
+    if (it != g_lights.end()) it->second.direction = {dx, dy, dz};
+    return 0;
+}
+
+static int light_get_direction(lua_State* L) {
+    int lightId = static_cast<int>(luaL_checkinteger(L, 1));
+    auto it = g_lights.find(lightId);
+    if (it != g_lights.end()) {
+        lua_pushnumber(L, it->second.direction.x);
+        lua_pushnumber(L, it->second.direction.y);
+        lua_pushnumber(L, it->second.direction.z);
+        return 3;
+    }
+    lua_pushnil(L);
+    lua_pushnil(L);
+    lua_pushnil(L);
+    return 3;
+}
+
+static int light_set_ambient(lua_State* L) {
+    int lightId = static_cast<int>(luaL_checkinteger(L, 1));
+    float ambient = static_cast<float>(luaL_checknumber(L, 2));
+    auto it = g_lights.find(lightId);
+    if (it != g_lights.end()) it->second.ambient = ambient;
+    return 0;
+}
+
+static int light_get_ambient(lua_State* L) {
+    int lightId = static_cast<int>(luaL_checkinteger(L, 1));
+    auto it = g_lights.find(lightId);
+    if (it != g_lights.end()) {
+        lua_pushnumber(L, it->second.ambient);
+        return 1;
+    }
+    lua_pushnil(L);
+    return 1;
+}
+
+static int light_set_intensity(lua_State* L) {
+    int lightId = static_cast<int>(luaL_checkinteger(L, 1));
+    float intensity = static_cast<float>(luaL_checknumber(L, 2));
+    auto it = g_lights.find(lightId);
+    if (it != g_lights.end()) it->second.intensity = intensity;
+    return 0;
+}
+
+static int light_get_intensity(lua_State* L) {
+    int lightId = static_cast<int>(luaL_checkinteger(L, 1));
+    auto it = g_lights.find(lightId);
+    if (it != g_lights.end()) {
+        lua_pushnumber(L, it->second.intensity);
+        return 1;
+    }
+    lua_pushnil(L);
+    return 1;
+}
+
+static int window_set_active_light(lua_State* L) {
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
+    int lightId = static_cast<int>(luaL_checkinteger(L, 2));
+    auto it = g_windows.find(winId);
+    if (it != g_windows.end()) {
+        it->second->activeLightId = lightId;
+    }
+    return 0;
+}
+
+static int window_get_active_light(lua_State* L) {
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
+    auto it = g_windows.find(winId);
+    if (it != g_windows.end() && it->second->activeLightId != -1) {
+        lua_pushinteger(L, it->second->activeLightId);
+        return 1;
+    }
+    lua_pushnil(L);
+    return 1;
+}
+
+// =========================================================================
+// CUBE / MESH FILL MODE PARSING
+// =========================================================================
+// Shared by draw_cube and draw_mesh -- both are "how do I rasterize this set
+// of faces" and the three modes mean the same thing for either.
+enum class CubeFillMode : int { Wireframe = 0, Solid = 1, Point = 2 };
+
+static bool EqualsIgnoreCase(const char* a, const char* b) {
+    while (*a && *b) {
+        if (std::tolower((unsigned char)*a) != std::tolower((unsigned char)*b)) return false;
+        ++a; ++b;
+    }
+    return *a == *b;
+}
+
+// Accepts: "wireframe" | "solid" | "point"/"points" (new), a plain
+// boolean (legacy: true = wireframe, false = solid), or an integer
+// (0 = wireframe, 1 = solid, 2 = point). Defaults to solid.
+static CubeFillMode ParseFillMode(lua_State* L, int idx) {
+    if (lua_isnoneornil(L, idx)) return CubeFillMode::Solid;
+
+    if (lua_isstring(L, idx) && !lua_isnumber(L, idx)) {
+        const char* s = lua_tostring(L, idx);
+        if (EqualsIgnoreCase(s, "wireframe")) return CubeFillMode::Wireframe;
+        if (EqualsIgnoreCase(s, "point") || EqualsIgnoreCase(s, "points")) return CubeFillMode::Point;
+        return CubeFillMode::Solid;
+    }
+    if (lua_isboolean(L, idx)) {
+        return lua_toboolean(L, idx) ? CubeFillMode::Wireframe : CubeFillMode::Solid;
+    }
+    if (lua_isnumber(L, idx)) {
+        int v = static_cast<int>(lua_tointeger(L, idx));
+        if (v == 0) return CubeFillMode::Wireframe;
+        if (v == 2) return CubeFillMode::Point;
+        return CubeFillMode::Solid;
+    }
+    return CubeFillMode::Solid;
+}
+
+// =========================================================================
+// LUA TABLE READERS FOR draw_mesh
+// =========================================================================
+// Vertices: a table of {x, y, z} triples, e.g. {{0,0,0}, {1,0,0}, ...}.
+static bool ReadVec3Array(lua_State* L, int idx, std::vector<Graphics::Vec3>& out) {
+    if (!lua_istable(L, idx)) return false;
+    size_t len = lua_rawlen(L, idx);
+    out.reserve(len);
+    for (size_t i = 1; i <= len; ++i) {
+        lua_rawgeti(L, idx, (lua_Integer)i);
+        if (lua_istable(L, -1)) {
+            lua_rawgeti(L, -1, 1);
+            lua_rawgeti(L, -2, 2);
+            lua_rawgeti(L, -3, 3);
+            float x = static_cast<float>(lua_tonumber(L, -3));
+            float y = static_cast<float>(lua_tonumber(L, -2));
+            float z = static_cast<float>(lua_tonumber(L, -1));
+            out.push_back({x, y, z});
+            lua_pop(L, 3);
+        }
+        lua_pop(L, 1);
+    }
+    return true;
+}
+
+// Faces: a table of index arrays (1-based, Lua-style), e.g.
+// {{1,2,3,4}, {5,6,7,8}, ...}. Each face should be planar and wound
+// consistently (counter-clockwise viewed from outside the mesh) for
+// correct-facing normals when a light is bound. Indices are converted to
+// 0-based here.
+static bool ReadFaceArray(lua_State* L, int idx, std::vector<std::vector<int>>& out) {
+    if (!lua_istable(L, idx)) return false;
+    size_t len = lua_rawlen(L, idx);
+    out.reserve(len);
+    for (size_t i = 1; i <= len; ++i) {
+        lua_rawgeti(L, idx, (lua_Integer)i);
+        std::vector<int> face;
+        if (lua_istable(L, -1)) {
+            size_t flen = lua_rawlen(L, -1);
+            face.reserve(flen);
+            for (size_t j = 1; j <= flen; ++j) {
+                lua_rawgeti(L, -1, (lua_Integer)j);
+                int vertIdx = static_cast<int>(lua_tointeger(L, -1)) - 1;
+                face.push_back(vertIdx);
+                lua_pop(L, 1);
+            }
+        }
+        out.push_back(std::move(face));
+        lua_pop(L, 1);
+    }
+    return true;
 }
 
 // =========================================================================
@@ -371,6 +744,100 @@ static int window_set_fullscreen(lua_State* L) {
     return 0;
 }
 
+// =========================================================================
+// WINDOW POSITION
+// =========================================================================
+// NOTE (macOS only): NSWindow's coordinate space has its origin at the
+// bottom-left of the primary screen, unlike Win32/X11 which use top-left.
+// get/set here pass the raw Cocoa frame origin straight through -- adjust
+// on the Lua side if you need top-left semantics on macOS specifically.
+static int window_get_position(lua_State* L) {
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
+    auto it = g_windows.find(winId);
+    if (it == g_windows.end()) {
+        lua_pushnil(L);
+        lua_pushnil(L);
+        return 2;
+    }
+    NativeWindow* win = it->second;
+
+#if defined(_WIN32) || defined(_WIN64)
+    RECT rect{};
+    GetWindowRect(win->platform.hwnd, &rect);
+    lua_pushinteger(L, rect.left);
+    lua_pushinteger(L, rect.top);
+    return 2;
+#elif defined(__APPLE__)
+    CGRect frame = msgSend<CGRect>(win->platform.window, sel_registerName("frame"));
+    lua_pushinteger(L, (int)frame.origin.x);
+    lua_pushinteger(L, (int)frame.origin.y);
+    return 2;
+#else
+    XWindowAttributes attrs{};
+    XGetWindowAttributes(win->platform.display, win->platform.window, &attrs);
+    int screen = DefaultScreen(win->platform.display);
+    int x = 0, y = 0;
+    Window child;
+    XTranslateCoordinates(win->platform.display, win->platform.window, RootWindow(win->platform.display, screen), 0, 0, &x, &y, &child);
+    lua_pushinteger(L, x);
+    lua_pushinteger(L, y);
+    return 2;
+#endif
+}
+
+static int window_set_position(lua_State* L) {
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
+    int x = static_cast<int>(luaL_checkinteger(L, 2));
+    int y = static_cast<int>(luaL_checkinteger(L, 3));
+
+    auto it = g_windows.find(winId);
+    if (it == g_windows.end()) return 0;
+    NativeWindow* win = it->second;
+
+#if defined(_WIN32) || defined(_WIN64)
+    SetWindowPos(win->platform.hwnd, NULL, x, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+#elif defined(__APPLE__)
+    CGPoint point = CGPointMake((CGFloat)x, (CGFloat)y);
+    msgSend<void>(win->platform.window, sel_registerName("setFrameOrigin:"), point);
+#else
+    XMoveWindow(win->platform.display, win->platform.window, x, y);
+#endif
+    return 0;
+}
+
+// =========================================================================
+// DISPLAY RESOLUTION (primary monitor, not window-scoped)
+// =========================================================================
+static int get_display_resolution(lua_State* L) {
+#if defined(_WIN32) || defined(_WIN64)
+    int w = GetSystemMetrics(SM_CXSCREEN);
+    int h = GetSystemMetrics(SM_CYSCREEN);
+    lua_pushinteger(L, w);
+    lua_pushinteger(L, h);
+    return 2;
+#elif defined(__APPLE__)
+    CGDirectDisplayID mainDisplay = CGMainDisplayID();
+    CGRect bounds = CGDisplayBounds(mainDisplay);
+    lua_pushinteger(L, (int)bounds.size.width);
+    lua_pushinteger(L, (int)bounds.size.height);
+    return 2;
+#else
+    Display* tempDisplay = XOpenDisplay(NULL);
+    if (!tempDisplay) {
+        lua_pushnil(L);
+        lua_pushnil(L);
+        return 2;
+    }
+    int screen = DefaultScreen(tempDisplay);
+    int w = DisplayWidth(tempDisplay, screen);
+    int h = DisplayHeight(tempDisplay, screen);
+    XCloseDisplay(tempDisplay);
+    lua_pushinteger(L, w);
+    lua_pushinteger(L, h);
+    return 2;
+#endif
+}
+
 static int window_poll_events(lua_State* L) {
 #if defined(_WIN32) || defined(_WIN64)
     MSG msg;
@@ -478,8 +945,62 @@ static int window_draw_circle(lua_State* L) {
 }
 
 // =========================================================================
+// TEXT RENDERING QUALITY / SAMPLING
+// =========================================================================
+// The embedded font is a fixed 8x8 bitmap -- there's no extra detail to
+// reveal past that. What DOES visibly improve with more "resolution" is
+// smoothing the jagged edges you get from blowing up a 1-bit-per-pixel
+// bitmap: bilinear-sample the glyph as a continuous field instead of
+// nearest-neighbor, then supersample multiple sub-positions per output
+// pixel and average them into a soft alpha. `quality` is that supersample
+// factor (quality x quality samples per pixel); past kMaxTextQuality the
+// extra samples buy nothing perceptible given the fixed source detail, so
+// requests are clamped down to it.
+static const int kMaxTextQuality = 8;
+
+// Bilinearly samples the glyph's binary bitmap at a continuous (u, v)
+// position, returning fractional "on-ness" in [0,1] instead of a hard 0/1.
+// (u, v) are in the glyph's own 8x8 coordinate space -- bit centers sit at
+// (col + 0.5, row + 0.5); positions outside the 0..8 range sample as "off".
+static float SampleGlyphBilinear(const uint8_t* glyph, float u, float v) {
+    float fx = u - 0.5f;
+    float fy = v - 0.5f;
+
+    int x0 = (int)std::floor(fx);
+    int y0 = (int)std::floor(fy);
+    float tx = fx - (float)x0;
+    float ty = fy - (float)y0;
+
+    auto bitAt = [&](int gx, int gy) -> float {
+        if (gx < 0 || gx > 7 || gy < 0 || gy > 7) return 0.0f;
+        return (glyph[gy] & (1 << (7 - gx))) ? 1.0f : 0.0f;
+    };
+
+    float v00 = bitAt(x0, y0);
+    float v10 = bitAt(x0 + 1, y0);
+    float v01 = bitAt(x0, y0 + 1);
+    float v11 = bitAt(x0 + 1, y0 + 1);
+
+    float top = v00 + (v10 - v00) * tx;
+    float bottom = v01 + (v11 - v01) * tx;
+    return top + (bottom - top) * ty;
+}
+
+static int get_max_text_quality(lua_State* L) {
+    lua_pushinteger(L, kMaxTextQuality);
+    return 1;
+}
+
+// =========================================================================
 // TEXT RENDERER WITH \n AND \t CONTROL
 // =========================================================================
+// `quality` (last, optional arg) selects the sampling mode: 0 (default)
+// keeps the exact original behavior -- hard nearest-neighbor blocky
+// pixels, zero extra cost, byte-for-byte identical to before this
+// feature existed. 1..kMaxTextQuality switches to the bilinear
+// supersampled path described above; anything higher is clamped down to
+// kMaxTextQuality. Returns the quality level actually used, so callers
+// asking for more than the renderer can do can tell they got capped.
 static int window_draw_text(lua_State* L) {
     int winId = static_cast<int>(luaL_checkinteger(L, 1));
     const char* text = luaL_checkstring(L, 2);
@@ -490,8 +1011,15 @@ static int window_draw_text(lua_State* L) {
     uint8_t g = static_cast<uint8_t>(luaL_optinteger(L, 7, 255));
     uint8_t b = static_cast<uint8_t>(luaL_optinteger(L, 8, 255));
 
+    int quality = static_cast<int>(luaL_optinteger(L, 9, 0));
+    if (quality < 0) quality = 0;
+    if (quality > kMaxTextQuality) quality = kMaxTextQuality;
+
     auto it = g_windows.find(winId);
-    if (it == g_windows.end()) return 0;
+    if (it == g_windows.end()) {
+        lua_pushinteger(L, quality);
+        return 1;
+    }
     NativeWindow* win = it->second;
 
     uint32_t col = (0xFF << 24) | (r << 16) | (g << 8) | b;
@@ -518,24 +1046,52 @@ static int window_draw_text(lua_State* L) {
         int glyphIdx = ch - 32;
         const uint8_t* glyph = g_font8x8[glyphIdx];
 
-        for (int py = 0; py < 8; ++py) {
-            for (int px = 0; px < 8; ++px) {
-                if (glyph[py] & (1 << (7 - px))) {
-                    for (int sy = 0; sy < scale; ++sy) {
-                        for (int sx = 0; sx < scale; ++sx) {
-                            int drawX = curX + (px * scale) + sx;
-                            int drawY = curY + (py * scale) + sy;
-                            if (drawX >= 0 && drawX < win->width && drawY >= 0 && drawY < win->height) {
-                                win->canvasBuffer[drawY * win->width + drawX] = col;
+        if (quality <= 0) {
+            // Original path: hard nearest-neighbor blocky pixels, kept
+            // exactly as-is so omitting `quality` is a complete no-op.
+            for (int py = 0; py < 8; ++py) {
+                for (int px = 0; px < 8; ++px) {
+                    if (glyph[py] & (1 << (7 - px))) {
+                        for (int sy = 0; sy < scale; ++sy) {
+                            for (int sx = 0; sx < scale; ++sx) {
+                                int drawX = curX + (px * scale) + sx;
+                                int drawY = curY + (py * scale) + sy;
+                                if (drawX >= 0 && drawX < win->width && drawY >= 0 && drawY < win->height) {
+                                    win->canvasBuffer[drawY * win->width + drawX] = col;
+                                }
                             }
                         }
                     }
                 }
             }
+        } else {
+            // Anti-aliased path: bilinear-sample the glyph with
+            // quality x quality sub-samples per output pixel, averaged
+            // into a smooth alpha and blended over the existing canvas.
+            for (int oy = 0; oy < fontDim; ++oy) {
+                for (int ox = 0; ox < fontDim; ++ox) {
+                    float coverage = 0.0f;
+                    for (int sy = 0; sy < quality; ++sy) {
+                        for (int sx = 0; sx < quality; ++sx) {
+                            float u = (ox + (sx + 0.5f) / quality) / (float)scale;
+                            float v = (oy + (sy + 0.5f) / quality) / (float)scale;
+                            coverage += SampleGlyphBilinear(glyph, u, v);
+                        }
+                    }
+                    coverage /= (float)(quality * quality);
+                    if (coverage <= 0.003f) continue; // effectively zero -- skip the blend
+
+                    int drawX = curX + ox;
+                    int drawY = curY + oy;
+                    Graphics::BlendPixel(win->canvasBuffer.data(), win->width, win->height, drawX, drawY, col, coverage);
+                }
+            }
         }
         curX += fontDim;
     }
-    return 0;
+
+    lua_pushinteger(L, quality);
+    return 1;
 }
 
 // =========================================================================
@@ -655,7 +1211,7 @@ static int window_draw_image(lua_State* L) {
 }
 
 // =========================================================================
-// 3D OBJECT MESH RENDERER
+// 3D OBJECT MESH RENDERER: CUBE (fixed geometry, kept for convenience/perf)
 // =========================================================================
 static int window_draw_cube(lua_State* L) {
     int winId = static_cast<int>(luaL_checkinteger(L, 1));
@@ -674,13 +1230,34 @@ static int window_draw_cube(lua_State* L) {
     uint8_t r = static_cast<uint8_t>(luaL_optinteger(L, 11, 0));
     uint8_t g = static_cast<uint8_t>(luaL_optinteger(L, 12, 255));
     uint8_t b = static_cast<uint8_t>(luaL_optinteger(L, 13, 0));
-    bool wireframe = lua_toboolean(L, 14);
+
+    // Arg 14: fill mode. Backward compatible with the old boolean
+    // "wireframe" flag -- true now maps to CubeFillMode::Wireframe.
+    CubeFillMode fillMode = ParseFillMode(L, 14);
 
     uint32_t col = (0xFF << 24) | (r << 16) | (g << 8) | b;
 
     auto it = g_windows.find(winId);
     if (it == g_windows.end()) return 0;
     NativeWindow* win = it->second;
+
+    // Resolve the active camera for this window, falling back to a
+    // default camera at the origin (matches the old hardcoded behavior:
+    // no view transform, 90 degree FOV, 0.1/100 clip planes).
+    Graphics::Camera defaultCam{};
+    Graphics::Camera* cam = &defaultCam;
+    if (win->activeCameraId != -1) {
+        auto camIt = g_cameras.find(win->activeCameraId);
+        if (camIt != g_cameras.end()) cam = &camIt->second;
+    }
+
+    // Resolve the active light, if any. Unbound = no shading, faces stay
+    // at their flat input color (identical to pre-lighting behavior).
+    Graphics::Light* light = nullptr;
+    if (win->activeLightId != -1) {
+        auto lightIt = g_lights.find(win->activeLightId);
+        if (lightIt != g_lights.end()) light = &lightIt->second;
+    }
 
     Graphics::Vec3 rawVertices[8] = {
         {-0.5f, -0.5f, -0.5f}, { 0.5f, -0.5f, -0.5f}, { 0.5f,  0.5f, -0.5f}, {-0.5f,  0.5f, -0.5f},
@@ -699,9 +1276,9 @@ static int window_draw_cube(lua_State* L) {
     Graphics::Matrix4x4 matRotX = Graphics::Matrix4x4::RotationX(rotX);
     Graphics::Matrix4x4 matRotY = Graphics::Matrix4x4::RotationY(rotY);
     Graphics::Matrix4x4 matTrans = Graphics::Matrix4x4::Translation(posX, posY, posZ);
-    Graphics::Matrix4x4 matProj = Graphics::Matrix4x4::Perspective(90.0f, (float)win->width / (float)win->height, 0.1f, 100.0f);
+    Graphics::Matrix4x4 matProj = Graphics::Matrix4x4::Perspective(cam->fov, (float)win->width / (float)win->height, cam->nearPlane, cam->farPlane);
 
-    Graphics::Vec3 worldPos[8];
+    Graphics::Vec3 viewPos[8];
     Graphics::Vec2 projected[8];
 
     for (int i = 0; i < 8; ++i) {
@@ -711,54 +1288,276 @@ static int window_draw_cube(lua_State* L) {
         Graphics::Vec4 rX = matRotX.MultiplyVector(rY3);
         Graphics::Vec3 rX3 = {rX.x, rX.y, rX.z};
         Graphics::Vec4 world = matTrans.MultiplyVector(rX3);
+        Graphics::Vec3 worldPos = {world.x, world.y, world.z};
 
-        worldPos[i] = {world.x, world.y, world.z};
-        projected[i] = Graphics::Project3DPoint(worldPos[i], matProj, win->width, win->height);
+        // Run the model-space vertex through the active camera's view
+        // transform before projecting, so CreateCamera/SetPosition/
+        // SetRotation actually move the viewport.
+        viewPos[i] = Graphics::WorldToView(worldPos, *cam);
+        projected[i] = Graphics::Project3DPoint(viewPos[i], matProj, win->width, win->height);
     }
 
-    if (wireframe) {
-        int edges[12][2] = {
-            {0,1},{1,2},{2,3},{3,0},
-            {4,5},{5,6},{6,7},{7,4},
-            {0,4},{1,5},{2,6},{3,7}
-        };
-        for (int i = 0; i < 12; ++i) {
-            Graphics::Vec2 p1 = projected[edges[i][0]];
-            Graphics::Vec2 p2 = projected[edges[i][1]];
-            Graphics::DrawLine(win->canvasBuffer.data(), win->width, win->height, (int)p1.x, (int)p1.y, (int)p2.x, (int)p2.y, col);
-        }
-    } else {
-        struct QuadFace {
-            int indices[4];
-            float avgZ;
-        };
-
-        QuadFace sortedFaces[6];
-        for (int i = 0; i < 6; ++i) {
-            sortedFaces[i].indices[0] = faces[i][0];
-            sortedFaces[i].indices[1] = faces[i][1];
-            sortedFaces[i].indices[2] = faces[i][2];
-            sortedFaces[i].indices[3] = faces[i][3];
-
-            float sumZ = 0;
-            for (int k = 0; k < 4; ++k) {
-                sumZ += worldPos[faces[i][k]].z;
+    switch (fillMode) {
+        case CubeFillMode::Wireframe: {
+            int edges[12][2] = {
+                {0,1},{1,2},{2,3},{3,0},
+                {4,5},{5,6},{6,7},{7,4},
+                {0,4},{1,5},{2,6},{3,7}
+            };
+            for (int i = 0; i < 12; ++i) {
+                Graphics::Vec2 p1 = projected[edges[i][0]];
+                Graphics::Vec2 p2 = projected[edges[i][1]];
+                Graphics::DrawLine(win->canvasBuffer.data(), win->width, win->height, (int)p1.x, (int)p1.y, (int)p2.x, (int)p2.y, col);
             }
-            sortedFaces[i].avgZ = sumZ / 4.0f;
+            break;
         }
+        case CubeFillMode::Point: {
+            for (int i = 0; i < 8; ++i) {
+                Graphics::DrawCircle(win->canvasBuffer.data(), win->width, win->height, (int)projected[i].x, (int)projected[i].y, 3, col, true);
+            }
+            break;
+        }
+        case CubeFillMode::Solid:
+        default: {
+            struct QuadFace {
+                int indices[4];
+                float avgZ;
+                Graphics::Vec3 normal;
+                bool visible;
+            };
 
-        std::sort(std::begin(sortedFaces), std::end(sortedFaces), [](const QuadFace& a, const QuadFace& b) {
-            return a.avgZ > b.avgZ;
-        });
+            QuadFace facesInfo[6];
+            for (int i = 0; i < 6; ++i) {
+                facesInfo[i].indices[0] = faces[i][0];
+                facesInfo[i].indices[1] = faces[i][1];
+                facesInfo[i].indices[2] = faces[i][2];
+                facesInfo[i].indices[3] = faces[i][3];
 
-        for (int i = 0; i < 6; ++i) {
-            Graphics::Vec2 p0 = projected[sortedFaces[i].indices[0]];
-            Graphics::Vec2 p1 = projected[sortedFaces[i].indices[1]];
-            Graphics::Vec2 p2 = projected[sortedFaces[i].indices[2]];
-            Graphics::Vec2 p3 = projected[sortedFaces[i].indices[3]];
+                int i0 = facesInfo[i].indices[0];
+                int i1 = facesInfo[i].indices[1];
+                int i2 = facesInfo[i].indices[2];
 
-            FillTriangle(win->canvasBuffer.data(), win->width, win->height, p0, p1, p2, col);
-            FillTriangle(win->canvasBuffer.data(), win->width, win->height, p0, p2, p3, col);
+                Graphics::Vec3 e1 = Graphics::Subtract(viewPos[i1], viewPos[i0]);
+                Graphics::Vec3 e2 = Graphics::Subtract(viewPos[i2], viewPos[i0]);
+                facesInfo[i].normal = Graphics::Cross(e1, e2);
+
+                // Backface cull: for a convex solid like this cube, a face
+                // whose outward normal points away from the camera (positive
+                // dot with the camera-to-face vector; camera sits at the
+                // view-space origin) is always fully hidden behind the near
+                // faces. Skipping it isn't just a perf win here -- it's the
+                // fix for the "notched"/discolored patches you'd otherwise
+                // get with a light bound: centroid-based painter's sorting
+                // can occasionally still place a hidden backface on top of a
+                // visible one, and once backfaces and front faces can have
+                // very different shades (instead of all being one flat
+                // color), that latent mis-sort became visible as a mismatched
+                // patch. Culling removes the hidden geometry outright instead
+                // of relying on sort order to hide it.
+                facesInfo[i].visible = Graphics::Dot(facesInfo[i].normal, viewPos[i0]) < 0.0f;
+
+                float sumZ = 0;
+                for (int k = 0; k < 4; ++k) {
+                    sumZ += viewPos[faces[i][k]].z;
+                }
+                facesInfo[i].avgZ = sumZ / 4.0f;
+            }
+
+            std::sort(std::begin(facesInfo), std::end(facesInfo), [](const QuadFace& a, const QuadFace& b) {
+                return a.avgZ > b.avgZ;
+            });
+
+            for (int i = 0; i < 6; ++i) {
+                if (!facesInfo[i].visible) continue;
+
+                int i0 = facesInfo[i].indices[0];
+                int i1 = facesInfo[i].indices[1];
+                int i2 = facesInfo[i].indices[2];
+                int i3 = facesInfo[i].indices[3];
+
+                Graphics::Vec2 p0 = projected[i0];
+                Graphics::Vec2 p1 = projected[i1];
+                Graphics::Vec2 p2 = projected[i2];
+                Graphics::Vec2 p3 = projected[i3];
+
+                uint32_t faceCol = col;
+                if (light) {
+                    float shade = Graphics::ComputeFaceShade(facesInfo[i].normal, *light);
+                    faceCol = Graphics::ShadeColor(col, shade);
+                }
+
+                FillTriangle(win->canvasBuffer.data(), win->width, win->height, p0, p1, p2, faceCol);
+                FillTriangle(win->canvasBuffer.data(), win->width, win->height, p0, p2, p3, faceCol);
+            }
+            break;
+        }
+    }
+    return 0;
+}
+
+// =========================================================================
+// 3D OBJECT MESH RENDERER: GENERIC MESH (custom vertices + faces)
+// =========================================================================
+// The 3D equivalent of draw_polygon: instead of a fixed cube shape, you
+// supply your own vertex list and face list (each face a list of vertex
+// indices), and it runs through the exact same camera/projection/lighting
+// pipeline as draw_cube. Good for pyramids, custom props, procedural
+// shapes, etc.
+static int window_draw_mesh(lua_State* L) {
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
+
+    std::vector<Graphics::Vec3> localVerts;
+    std::vector<std::vector<int>> faceList;
+    if (!ReadVec3Array(L, 2, localVerts) || !ReadFaceArray(L, 3, faceList)) return 0;
+    if (localVerts.empty() || faceList.empty()) return 0;
+
+    float posX = static_cast<float>(luaL_optnumber(L, 4, 0.0));
+    float posY = static_cast<float>(luaL_optnumber(L, 5, 0.0));
+    float posZ = static_cast<float>(luaL_optnumber(L, 6, 3.0));
+
+    float rotX = static_cast<float>(luaL_optnumber(L, 7, 0.0));
+    float rotY = static_cast<float>(luaL_optnumber(L, 8, 0.0));
+    float rotZ = static_cast<float>(luaL_optnumber(L, 9, 0.0));
+
+    float scaleX = static_cast<float>(luaL_optnumber(L, 10, 1.0));
+    float scaleY = static_cast<float>(luaL_optnumber(L, 11, 1.0));
+    float scaleZ = static_cast<float>(luaL_optnumber(L, 12, 1.0));
+
+    uint8_t r = static_cast<uint8_t>(luaL_optinteger(L, 13, 255));
+    uint8_t g = static_cast<uint8_t>(luaL_optinteger(L, 14, 255));
+    uint8_t b = static_cast<uint8_t>(luaL_optinteger(L, 15, 255));
+
+    CubeFillMode fillMode = ParseFillMode(L, 16);
+
+    uint32_t baseCol = (0xFF << 24) | (r << 16) | (g << 8) | b;
+
+    auto it = g_windows.find(winId);
+    if (it == g_windows.end()) return 0;
+    NativeWindow* win = it->second;
+
+    Graphics::Camera defaultCam{};
+    Graphics::Camera* cam = &defaultCam;
+    if (win->activeCameraId != -1) {
+        auto camIt = g_cameras.find(win->activeCameraId);
+        if (camIt != g_cameras.end()) cam = &camIt->second;
+    }
+
+    Graphics::Light* light = nullptr;
+    if (win->activeLightId != -1) {
+        auto lightIt = g_lights.find(win->activeLightId);
+        if (lightIt != g_lights.end()) light = &lightIt->second;
+    }
+
+    Graphics::Matrix4x4 matRotX = Graphics::Matrix4x4::RotationX(rotX);
+    Graphics::Matrix4x4 matRotY = Graphics::Matrix4x4::RotationY(rotY);
+    Graphics::Matrix4x4 matRotZ = Graphics::Matrix4x4::RotationZ(rotZ);
+    Graphics::Matrix4x4 matTrans = Graphics::Matrix4x4::Translation(posX, posY, posZ);
+    Graphics::Matrix4x4 matProj = Graphics::Matrix4x4::Perspective(cam->fov, (float)win->width / (float)win->height, cam->nearPlane, cam->farPlane);
+
+    size_t vertCount = localVerts.size();
+    std::vector<Graphics::Vec3> viewPos(vertCount);
+    std::vector<Graphics::Vec2> projected(vertCount);
+
+    for (size_t i = 0; i < vertCount; ++i) {
+        Graphics::Vec3 scaled = { localVerts[i].x * scaleX, localVerts[i].y * scaleY, localVerts[i].z * scaleZ };
+        Graphics::Vec4 rZ = matRotZ.MultiplyVector(scaled);
+        Graphics::Vec3 rZ3 = {rZ.x, rZ.y, rZ.z};
+        Graphics::Vec4 rY = matRotY.MultiplyVector(rZ3);
+        Graphics::Vec3 rY3 = {rY.x, rY.y, rY.z};
+        Graphics::Vec4 rX = matRotX.MultiplyVector(rY3);
+        Graphics::Vec3 rX3 = {rX.x, rX.y, rX.z};
+        Graphics::Vec4 world = matTrans.MultiplyVector(rX3);
+        Graphics::Vec3 worldPos = {world.x, world.y, world.z};
+
+        viewPos[i] = Graphics::WorldToView(worldPos, *cam);
+        projected[i] = Graphics::Project3DPoint(viewPos[i], matProj, win->width, win->height);
+    }
+
+    switch (fillMode) {
+        case CubeFillMode::Wireframe: {
+            for (auto& face : faceList) {
+                size_t n = face.size();
+                if (n < 2) continue;
+                for (size_t i = 0; i < n; ++i) {
+                    int a = face[i];
+                    int bIdx = face[(i + 1) % n];
+                    if (a < 0 || a >= (int)vertCount || bIdx < 0 || bIdx >= (int)vertCount) continue;
+                    Graphics::Vec2 p1 = projected[a];
+                    Graphics::Vec2 p2 = projected[bIdx];
+                    Graphics::DrawLine(win->canvasBuffer.data(), win->width, win->height, (int)p1.x, (int)p1.y, (int)p2.x, (int)p2.y, baseCol);
+                }
+            }
+            break;
+        }
+        case CubeFillMode::Point: {
+            for (size_t i = 0; i < vertCount; ++i) {
+                Graphics::DrawCircle(win->canvasBuffer.data(), win->width, win->height, (int)projected[i].x, (int)projected[i].y, 3, baseCol, true);
+            }
+            break;
+        }
+        case CubeFillMode::Solid:
+        default: {
+            struct RenderFace {
+                std::vector<int> indices;
+                float avgZ;
+                uint32_t color;
+            };
+            std::vector<RenderFace> renderFaces;
+            renderFaces.reserve(faceList.size());
+
+            for (auto& face : faceList) {
+                if (face.size() < 3) continue;
+
+                bool validIdx = true;
+                for (int idx : face) {
+                    if (idx < 0 || idx >= (int)vertCount) { validIdx = false; break; }
+                }
+                if (!validIdx) continue;
+
+                // One normal per face, from its first three vertices --
+                // used for both backface culling and shading. Faces must be
+                // wound consistently (CCW viewed from outside) for it to
+                // point outward.
+                Graphics::Vec3 e1 = Graphics::Subtract(viewPos[face[1]], viewPos[face[0]]);
+                Graphics::Vec3 e2 = Graphics::Subtract(viewPos[face[2]], viewPos[face[0]]);
+                Graphics::Vec3 normal = Graphics::Cross(e1, e2);
+
+                // Same backface cull as draw_cube: skip faces pointing away
+                // from the camera (camera sits at the view-space origin) so
+                // hidden geometry never has a chance to get painter's-sorted
+                // on top of visible faces. For a one-sided open surface
+                // (e.g. a single flat quad), this means it's invisible from
+                // behind -- that's expected, standard "solid faces have a
+                // front" behavior, not a bug.
+                bool faceVisible = Graphics::Dot(normal, viewPos[face[0]]) < 0.0f;
+                if (!faceVisible) continue;
+
+                float sumZ = 0.0f;
+                for (int idx : face) sumZ += viewPos[idx].z;
+                float avgZ = sumZ / (float)face.size();
+
+                uint32_t faceCol = baseCol;
+                if (light) {
+                    float shade = Graphics::ComputeFaceShade(normal, *light);
+                    faceCol = Graphics::ShadeColor(baseCol, shade);
+                }
+
+                renderFaces.push_back({face, avgZ, faceCol});
+            }
+
+            std::sort(renderFaces.begin(), renderFaces.end(), [](const RenderFace& a, const RenderFace& b) {
+                return a.avgZ > b.avgZ;
+            });
+
+            for (auto& rf : renderFaces) {
+                // Fan triangulation from the face's first vertex, same
+                // approach as draw_polygon.
+                for (size_t i = 1; i + 1 < rf.indices.size(); ++i) {
+                    FillTriangle(win->canvasBuffer.data(), win->width, win->height,
+                        projected[rf.indices[0]], projected[rf.indices[i]], projected[rf.indices[i + 1]], rf.color);
+                }
+            }
+            break;
         }
     }
     return 0;
@@ -829,6 +1628,9 @@ extern "C" EXPORT_FN int luaopen_window_management(lua_State* L) {
         {"get_dimensions", window_get_dimensions},
         {"set_dimensions", window_set_dimensions},
         {"set_fullscreen", window_set_fullscreen},
+        {"get_position", window_get_position},
+        {"set_position", window_set_position},
+        {"get_display_resolution", get_display_resolution},
         {"poll_events", window_poll_events},
         {"should_close", window_should_close},
         {"clear_canvas", window_clear_canvas},
@@ -836,10 +1638,33 @@ extern "C" EXPORT_FN int luaopen_window_management(lua_State* L) {
         {"draw_line", window_draw_line},
         {"draw_circle", window_draw_circle},
         {"draw_text", window_draw_text},
+        {"get_max_text_quality", get_max_text_quality},
         {"draw_polygon", window_draw_polygon},
         {"create_image", image_create},
         {"draw_image", window_draw_image},
         {"draw_cube", window_draw_cube},
+        {"draw_mesh", window_draw_mesh},
+        {"create_camera", camera_create},
+        {"destroy_camera", camera_destroy},
+        {"camera_set_position", camera_set_position},
+        {"camera_get_position", camera_get_position},
+        {"camera_set_rotation", camera_set_rotation},
+        {"camera_get_rotation", camera_get_rotation},
+        {"camera_set_fov", camera_set_fov},
+        {"camera_get_fov", camera_get_fov},
+        {"camera_set_clip_planes", camera_set_clip_planes},
+        {"set_active_camera", window_set_active_camera},
+        {"get_active_camera", window_get_active_camera},
+        {"create_light", light_create},
+        {"destroy_light", light_destroy},
+        {"light_set_direction", light_set_direction},
+        {"light_get_direction", light_get_direction},
+        {"light_set_ambient", light_set_ambient},
+        {"light_get_ambient", light_get_ambient},
+        {"light_set_intensity", light_set_intensity},
+        {"light_get_intensity", light_get_intensity},
+        {"set_active_light", window_set_active_light},
+        {"get_active_light", window_get_active_light},
         {"swap_buffers", window_swap_buffers},
         {"destroy", window_destroy},
         {nullptr, nullptr}

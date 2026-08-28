@@ -229,6 +229,7 @@ end
 ---@class TextObject : GameObject
 ---@field Text string
 ---@field TextScale integer
+---@field Quality integer Sampling/anti-aliasing level forwarded to WindowObject:DrawText (0 = legacy blocky rendering, default)
 local TextObject = setmetatable({}, { __index = GameObject })
 TextObject.__index = TextObject
 InstanceTyping.SetType(TextObject, "TextObject")
@@ -240,14 +241,19 @@ InstanceTyping.SetType(TextObject, "TextObject")
 ---@param r integer?
 ---@param g integer?
 ---@param b integer?
+---@param quality integer? Sampling/anti-aliasing level (default 0 = legacy blocky rendering)
 ---@return TextObject
-function TextObject.new(text, x, y, scale, r, g, b)
+function TextObject.new(text, x, y, scale, r, g, b, quality)
     local self = setmetatable({
         Position = { x = 0.0, y = 0.0, z = 0.0 },
         Rotation = { x = 0.0, y = 0.0, z = 0.0 },
         Scale = { x = 1.0, y = 1.0, z = 1.0 },
         Color = { r = 255, g = 255, b = 255 },
-        Visible = true
+        Visible = true,
+        -- Declared directly in the literal (same missing-fields fix as
+        -- CubeObject.Wireframe / MeshObject.Vertices/Faces) rather than
+        -- assigned after setmetatable.
+        Quality = quality or 0
     }, TextObject)
     self.Text = text or ""
     self:SetPosition(x or 0, y or 0, 0)
@@ -262,6 +268,12 @@ function TextObject:SetText(text)
     self.Text = text or string.char(0)
 end
 
+---Sets the sampling/anti-aliasing quality level (0 = legacy blocky).
+---@param quality integer
+function TextObject:SetQuality(quality)
+    self.Quality = quality or 0
+end
+
 function TextObject:Render(window)
     if not self.Visible or #self.Text == 0 then return end
     window:DrawText(
@@ -271,7 +283,8 @@ function TextObject:Render(window)
         math.floor(self.TextScale * self.Scale.x),
         self.Color.r,
         self.Color.g,
-        self.Color.b
+        self.Color.b,
+        self.Quality
     )
 end
 
@@ -363,8 +376,13 @@ end
 -- CUBE OBJECT
 -- =========================================================================
 
+---@alias CubeFillMode
+---| '"wireframe"' # outline edges only
+---| '"solid"' # filled, depth-sorted faces
+---| '"point"' # a dot at each of the 8 vertices
+
 ---@class CubeObject : GameObject
----@field Wireframe boolean
+---@field Wireframe CubeFillMode|boolean|integer Fill mode forwarded as-is to WindowObject:DrawCube. Kept as the original field name for backward compat with any code poking it directly -- it now also accepts "wireframe"|"solid"|"point"|integer, not just a plain boolean.
 local CubeObject = setmetatable({}, { __index = GameObject })
 CubeObject.__index = CubeObject
 InstanceTyping.SetType(CubeObject, "CubeObject")
@@ -376,21 +394,46 @@ InstanceTyping.SetType(CubeObject, "CubeObject")
 ---@param r integer?
 ---@param g integer?
 ---@param b integer?
+---@param fillMode CubeFillMode|boolean|integer? "wireframe"|"solid"|"point" (default "wireframe", matching this object's original default behavior)
 ---@return CubeObject
-function CubeObject.new(px, py, pz, size, r, g, b)
+function CubeObject.new(px, py, pz, size, r, g, b, fillMode)
     local self = setmetatable({
         Position = { x = 0.0, y = 0.0, z = 0.0 },
         Rotation = { x = 0.0, y = 0.0, z = 0.0 },
         Scale = { x = 1.0, y = 1.0, z = 1.0 },
         Color = { r = 255, g = 255, b = 255 },
-        Visible = true
+        Visible = true,
+        -- Declared in the literal (not bolted on after setmetatable) so
+        -- the class's required @field Wireframe is satisfied and the
+        -- linter's missing-fields check stays quiet. Preserves the
+        -- original default (plain `true` -> wireframe) when no fillMode
+        -- is given, while accepting the richer string/int modes too.
+        Wireframe = fillMode == nil and true or fillMode
     }, CubeObject)
     self:SetPosition(px or 0.0, py or 0.0, pz or 3.0)
     local s = size or 1.0
     self:SetScale(s, s, s)
     self:SetColor(r or 0, g or 255, b or 0)
-    self.Wireframe = true
     return self
+end
+
+---Sets this cube's fill mode ("wireframe"|"solid"|"point", or legacy boolean/int).
+---@param fillMode CubeFillMode|boolean|integer
+function CubeObject:SetFillMode(fillMode)
+    self.Wireframe = fillMode
+end
+
+---Gets this cube's current fill mode value.
+---@return CubeFillMode|boolean|integer
+function CubeObject:GetFillMode()
+    return self.Wireframe
+end
+
+---Legacy convenience shim: toggle plain wireframe on/off. Prefer
+---SetFillMode("solid"|"point") for the newer modes.
+---@param enabled boolean
+function CubeObject:SetWireframe(enabled)
+    self.Wireframe = enabled and "wireframe" or "solid"
 end
 
 function CubeObject:Render(window)
@@ -404,6 +447,79 @@ function CubeObject:Render(window)
     )
 end
 
+-- =========================================================================
+-- MESH OBJECT (custom 3D vertices + faces -- the 3D equivalent of PolygonObject)
+-- =========================================================================
+
+---@class MeshObject : GameObject
+---@field Vertices Vertex3[] Local-space vertex list, e.g. {{0,0,0}, {1,0,0}, ...}
+---@field Faces MeshFace[] Each face is a list of 1-based vertex indices (3+), wound counter-clockwise viewed from outside for correct shading
+---@field FillMode CubeFillMode|boolean|integer
+local MeshObject = setmetatable({}, { __index = GameObject })
+MeshObject.__index = MeshObject
+InstanceTyping.SetType(MeshObject, "MeshObject")
+
+---@param vertices Vertex3[]? Local-space vertex list
+---@param faces MeshFace[]? Each face is a list of 1-based vertex indices (3+)
+---@param r integer?
+---@param g integer?
+---@param b integer?
+---@param fillMode CubeFillMode|boolean|integer? "wireframe"|"solid"|"point" (default "solid")
+---@return MeshObject
+function MeshObject.new(vertices, faces, r, g, b, fillMode)
+    local self = setmetatable({
+        Position = { x = 0.0, y = 0.0, z = 0.0 },
+        Rotation = { x = 0.0, y = 0.0, z = 0.0 },
+        Scale = { x = 1.0, y = 1.0, z = 1.0 },
+        Color = { r = 255, g = 255, b = 255 },
+        Visible = true,
+        -- Declared directly in the literal (same fix applied to CubeObject's
+        -- Wireframe field) so the class's required fields are satisfied and
+        -- the linter's missing-fields check stays quiet.
+        Vertices = vertices or {},
+        Faces = faces or {},
+        FillMode = fillMode == nil and "solid" or fillMode
+    }, MeshObject)
+    self:SetColor(r or 255, g or 255, b or 255)
+    return self
+end
+
+---Replaces this mesh's vertex list.
+---@param vertices Vertex3[]
+function MeshObject:SetVertices(vertices)
+    self.Vertices = vertices or {}
+end
+
+---Replaces this mesh's face list.
+---@param faces MeshFace[]
+function MeshObject:SetFaces(faces)
+    self.Faces = faces or {}
+end
+
+---Sets this mesh's fill mode ("wireframe"|"solid"|"point", or legacy boolean/int).
+---@param fillMode CubeFillMode|boolean|integer
+function MeshObject:SetFillMode(fillMode)
+    self.FillMode = fillMode
+end
+
+---Gets this mesh's current fill mode value.
+---@return CubeFillMode|boolean|integer
+function MeshObject:GetFillMode()
+    return self.FillMode
+end
+
+function MeshObject:Render(window)
+    if not self.Visible or #self.Vertices == 0 or #self.Faces == 0 then return end
+    window:DrawMesh(
+        self.Vertices, self.Faces,
+        self.Position.x, self.Position.y, self.Position.z,
+        self.Rotation.x, self.Rotation.y, self.Rotation.z,
+        self.Scale.x, self.Scale.y, self.Scale.z,
+        self.Color.r, self.Color.g, self.Color.b,
+        self.FillMode
+    )
+end
+
 return {
     GameObject = GameObject,
     RectObject = RectObject,
@@ -412,5 +528,6 @@ return {
     TextObject = TextObject,
     PolygonObject = PolygonObject,
     ImageObject = ImageObject,
-    CubeObject = CubeObject
+    CubeObject = CubeObject,
+    MeshObject = MeshObject
 };

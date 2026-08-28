@@ -8,6 +8,10 @@ local click = core.Event.new("PlayerClickEvent")
 local app = window:CreateWindow("Engine", 800, 800)
 local logs = window:CreateWindow("Logger", 400, 500)
 
+if logs and core.typeof(logs) == "WindowObject" then
+    logs:ClearCanvas(255, 255, 255)
+end
+
 sound:SetStorageService(storage)
 sound:SetCacheFolder("../audio")
 
@@ -51,23 +55,29 @@ coroutine.wrap(function(...)
         local dc <const> = 255
         local ct <const> = { dc, dc, dc }
         local cx <const>, cy <const> = app:GetDimensions()
-        local obj = app:CreateCircle((cx / 2) - 50, (cy / 2) - 50, 100, true, table.unpack(ct))
         local toolbar = app:CreatePolygon(BorderElementPoints, true, 171, 212, 161)
         local ObjectPosChange = core.Event.new("ObjectPositionChanged")
         local noiseGen = core.NoiseClass.new(os.time())
         local tooltip = app:CreateText()
         local textpos = { 10, 17.5 }
-        local TimeCounter = 0
+        local MeshVertices = {
+            { 0, 0, -20 },
+            { 0, 5, -20 },
+            { 5, 5, -20 },
+            { 5, 0, -20 },
+        };
 
-        -- local cube = app:CreateCube(0, 0, -20)
-        -- cube:SetScale(5, 5, 5)
-        -- cube:Render(app)
-        -- toolbar:Render(app)
+        local CustomMesh = app:CreateMesh()
+        CustomMesh:SetFaces({{1}, {1}, {1}, {1}})
+        CustomMesh:SetVertices(MeshVertices)
+        CustomMesh:SetFillMode("point")
+        CustomMesh:Render(app)
 
         tooltip:SetPosition(table.unpack(textpos))
         tooltip:SetText("INFO:\tSpinning Cubes")
         tooltip:SetColor(54, 54, 59)
         tooltip:SetScale(2, 2)
+        tooltip:SetQuality(4)
         tooltip:Render(app)
 
         ---@param changed GameObject
@@ -100,23 +110,29 @@ coroutine.wrap(function(...)
 
         local CubeConfiguration <const> = {
             positions = {
-                { 0, 0, -15 }, { -10, 0, -35 },
+                { 0,  0, -15 }, { -10, 0, -35 },
                 { 15, 0, -25 }, { 10, 5, -30 },
                 { 20, 10, -15 },
             },
             sizes = {
-                3.25, 5.65,
-                5, 2,
+                4, 7,
+                2, 4,
+                8,
             },
         };
 
-        local ROTATION_SPEED = 1
+        local ROTATION_SPEED = 0.45
         local COLOR_CHANGE_S = 255
         ---@type table<CubeObject>
         local ProjectedCubes = {}
+        local MainLightSource = app:CreateLight(27, 20, -10, 0.45, 1)
+        -- local StaticCube = app:CreateCube(0, -5, -37, 5, 255, 255, 255, "wireframe")
+        if MainLightSource == nil or type(MainLightSource) ~= "table" then return end
+        if app then app:SetActiveLight(MainLightSource) end
 
         for CubeInstanceIndex = 1, #CubeConfiguration.positions do
-            local InstancedCube = app:CreateCube(nil, nil, nil, CubeConfiguration.sizes[CubeInstanceIndex])
+            local InstancedCube = app:CreateCube(nil, nil, nil, CubeConfiguration.sizes[CubeInstanceIndex], nil, nil, nil,
+                "solid")
             InstancedCube:SetPosition(table.unpack(CubeConfiguration.positions[CubeInstanceIndex]))
             InstancedCube:SetColor(core.RandomClass.new(os.time() + math.random(100)):NextColor())
             InstancedCube:SetRotation(10, 45, 45)
@@ -126,10 +142,8 @@ coroutine.wrap(function(...)
         ---@param dt number
         local CubeRuntimeConnection = runtime.RenderStepped:Connect(function(dt)
             if app and type(app.ClearCanvas) == "function" then
-                app:ClearCanvas()
+                if app then app:ClearCanvas() end
             end
-
-            local SelectedColorValue = {}
 
             for i = 1, #ProjectedCubes do
                 ---@type CubeObject
@@ -143,16 +157,22 @@ coroutine.wrap(function(...)
 
             if toolbar then toolbar:Render(app) end
             if tooltip then tooltip:Render(app) end
+
+            app:RenderAll()
         end)
 
-        input:BindAction("ChangeCubeColors", "f", function(name, state, key)
-            if state == "Pressed" then
-                for _, cube in pairs(ProjectedCubes) do
-                    local RandomGeneratorInstance = core.RandomClass.new()
-                    cube:SetColor(RandomGeneratorInstance:NextColor())
-                end
-            end
-        end)
+        -- input:BindAction("ChangeCubeColors", "f", function(name, state, key)
+        --     if state == "Pressed" then
+        --         for _, cube in pairs(ProjectedCubes) do
+        --             local RandomGeneratorInstance = core.RandomClass.new()
+        --             cube:SetColor(RandomGeneratorInstance:NextColor())
+        --         end
+        --     end
+        -- end)
+
+        local DefaultCamera = app:CreateCamera(0, 0, 0, 115)
+        if not DefaultCamera then return end
+        app:SetActiveCamera(DefaultCamera)
 
         -- runtime.RenderStepped:Connect(function()
         --     local currentTime = os and os.clock()
@@ -174,19 +194,31 @@ coroutine.wrap(function(...)
     end
 end)(nil)
 
-runtime.Stepped:Connect(function(dt)
-    if app ~= nil and core.typeof(app) == "WindowObject" then
-        if not app:IsRunning() then
-            return
-        else
-            app:SwapBuffers()
-        end
+runtime.RenderStepped:Connect(function()
 
-        if input:GetGlobalInput() ~= true then
-            input:SetGlobalInput(true)
-        else
-            ChecksumGameData()
-            input:UpdateAll()
+end)
+
+runtime.Stepped:Connect(function(dt)
+    if logs and core.typeof(logs) == "WindowObject" then
+        if app ~= nil and core.typeof(app) == "WindowObject" then
+            if not logs:IsRunning() then
+                return
+            else
+                logs:SwapBuffers()
+            end
+
+            if not app:IsRunning() then
+                return
+            else
+                app:SwapBuffers()
+            end
+
+            if input:GetGlobalInput() ~= true then
+                input:SetGlobalInput(true)
+            else
+                ChecksumGameData()
+                input:UpdateAll()
+            end
         end
     end
 end)
