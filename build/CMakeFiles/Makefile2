@@ -69,6 +69,7 @@ all: CMakeFiles/sound_service_backend.dir/all
 all: CMakeFiles/input_native.dir/all
 all: CMakeFiles/storage_interface.dir/all
 all: CMakeFiles/window_management.dir/all
+all: CMakeFiles/physics_management.dir/all
 .PHONY : all
 
 # The main recursive "codegen" target.
@@ -78,6 +79,7 @@ codegen: CMakeFiles/sound_service_backend.dir/codegen
 codegen: CMakeFiles/input_native.dir/codegen
 codegen: CMakeFiles/storage_interface.dir/codegen
 codegen: CMakeFiles/window_management.dir/codegen
+codegen: CMakeFiles/physics_management.dir/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
@@ -91,6 +93,7 @@ clean: CMakeFiles/sound_service_backend.dir/clean
 clean: CMakeFiles/input_native.dir/clean
 clean: CMakeFiles/storage_interface.dir/clean
 clean: CMakeFiles/window_management.dir/clean
+clean: CMakeFiles/physics_management.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -164,7 +167,7 @@ CMakeFiles/lua_runner.dir/clean:
 CMakeFiles/sound_service_backend.dir/all: CMakeFiles/lua_shared.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sound_service_backend.dir/build.make CMakeFiles/sound_service_backend.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sound_service_backend.dir/build.make CMakeFiles/sound_service_backend.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles --progress-num=38,39 "Built target sound_service_backend"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles --progress-num=40,41 "Built target sound_service_backend"
 .PHONY : CMakeFiles/sound_service_backend.dir/all
 
 # Build rule for subdir invocation for target.
@@ -181,7 +184,7 @@ sound_service_backend: CMakeFiles/sound_service_backend.dir/rule
 # codegen rule for target.
 CMakeFiles/sound_service_backend.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/sound_service_backend.dir/build.make CMakeFiles/sound_service_backend.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles --progress-num=38,39 "Finished codegen for target sound_service_backend"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles --progress-num=40,41 "Finished codegen for target sound_service_backend"
 .PHONY : CMakeFiles/sound_service_backend.dir/codegen
 
 # clean rule for target.
@@ -228,7 +231,7 @@ CMakeFiles/input_native.dir/clean:
 CMakeFiles/storage_interface.dir/all: CMakeFiles/lua_shared.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/storage_interface.dir/build.make CMakeFiles/storage_interface.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/storage_interface.dir/build.make CMakeFiles/storage_interface.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles --progress-num=40,41 "Built target storage_interface"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles --progress-num=42,43 "Built target storage_interface"
 .PHONY : CMakeFiles/storage_interface.dir/all
 
 # Build rule for subdir invocation for target.
@@ -245,7 +248,7 @@ storage_interface: CMakeFiles/storage_interface.dir/rule
 # codegen rule for target.
 CMakeFiles/storage_interface.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/storage_interface.dir/build.make CMakeFiles/storage_interface.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles --progress-num=40,41 "Finished codegen for target storage_interface"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles --progress-num=42,43 "Finished codegen for target storage_interface"
 .PHONY : CMakeFiles/storage_interface.dir/codegen
 
 # clean rule for target.
@@ -260,7 +263,7 @@ CMakeFiles/storage_interface.dir/clean:
 CMakeFiles/window_management.dir/all: CMakeFiles/lua_shared.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/window_management.dir/build.make CMakeFiles/window_management.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/window_management.dir/build.make CMakeFiles/window_management.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles --progress-num=42,43 "Built target window_management"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles --progress-num=44,45 "Built target window_management"
 .PHONY : CMakeFiles/window_management.dir/all
 
 # Build rule for subdir invocation for target.
@@ -277,13 +280,45 @@ window_management: CMakeFiles/window_management.dir/rule
 # codegen rule for target.
 CMakeFiles/window_management.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/window_management.dir/build.make CMakeFiles/window_management.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles --progress-num=42,43 "Finished codegen for target window_management"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles --progress-num=44,45 "Finished codegen for target window_management"
 .PHONY : CMakeFiles/window_management.dir/codegen
 
 # clean rule for target.
 CMakeFiles/window_management.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/window_management.dir/build.make CMakeFiles/window_management.dir/clean
 .PHONY : CMakeFiles/window_management.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/physics_management.dir
+
+# All Build rule for target.
+CMakeFiles/physics_management.dir/all: CMakeFiles/lua_shared.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/physics_management.dir/build.make CMakeFiles/physics_management.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/physics_management.dir/build.make CMakeFiles/physics_management.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles --progress-num=38,39 "Built target physics_management"
+.PHONY : CMakeFiles/physics_management.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/physics_management.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles 35
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/physics_management.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles 0
+.PHONY : CMakeFiles/physics_management.dir/rule
+
+# Convenience name for target.
+physics_management: CMakeFiles/physics_management.dir/rule
+.PHONY : physics_management
+
+# codegen rule for target.
+CMakeFiles/physics_management.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/physics_management.dir/build.make CMakeFiles/physics_management.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles --progress-num=38,39 "Finished codegen for target physics_management"
+.PHONY : CMakeFiles/physics_management.dir/codegen
+
+# clean rule for target.
+CMakeFiles/physics_management.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/physics_management.dir/build.make CMakeFiles/physics_management.dir/clean
+.PHONY : CMakeFiles/physics_management.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

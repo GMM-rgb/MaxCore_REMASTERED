@@ -226,55 +226,141 @@ inline void BlendPixel(uint32_t* buffer, int bufWidth, int bufHeight, int x, int
     buffer[y * bufWidth + x] = (0xFF << 24) | (uint32_t(r) << 16) | (uint32_t(g) << 8) | uint32_t(b);
 }
 
-// Bresenham's Line Algorithm
-inline void DrawLine(uint32_t* buffer, int width, int height, int x0, int y0, int x1, int y1, uint32_t color) {
-    int dx = std::abs(x1 - x0);
-    int sx = x0 < x1 ? 1 : -1;
-    int dy = -std::abs(y1 - y0);
-    int sy = y0 < y1 ? 1 : -1;
-    int err = dx + dy;
+// Generic supersampled anti-aliasing rasterizer: for every pixel in
+// [minX,maxX] x [minY,maxY], averages quality*quality jittered sub-samples
+// of an arbitrary "is this point inside the shape" predicate into a smooth
+// [0,1] coverage value, then blends `color` over the existing buffer by
+// that coverage (skipping fully-uncovered pixels). This backs the AA paths
+// for lines, circles, and filled triangles -- same technique as the text
+// renderer's glyph supersampling, just with a caller-supplied shape test
+// instead of a fixed glyph bitmap lookup.
+template <typename Predicate>
+inline void RasterizeAA(uint32_t* buffer, int bufW, int bufH, int minX, int maxX, int minY, int maxY, uint32_t color, int quality, Predicate isInside) {
+    if (quality < 1) quality = 1;
+    minX = (std::max)(0, minX);
+    minY = (std::max)(0, minY);
+    maxX = (std::min)(bufW - 1, maxX);
+    maxY = (std::min)(bufH - 1, maxY);
 
-    while (true) {
-        PutPixel(buffer, width, height, x0, y0, color);
-        if (x0 == x1 && y0 == y1) break;
-        int e2 = 2 * err;
-        if (e2 >= dy) { err += dy; x0 += sx; }
-        if (e2 <= dx) { err += dx; y0 += sy; }
+    for (int y = minY; y <= maxY; ++y) {
+        for (int x = minX; x <= maxX; ++x) {
+            float coverage = 0.0f;
+            for (int sy = 0; sy < quality; ++sy) {
+                for (int sx = 0; sx < quality; ++sx) {
+                    float px = x + (sx + 0.5f) / (float)quality;
+                    float py = y + (sy + 0.5f) / (float)quality;
+                    if (isInside(px, py)) coverage += 1.0f;
+                }
+            }
+            coverage /= (float)(quality * quality);
+            if (coverage <= 0.0f) continue;
+            BlendPixel(buffer, bufW, bufH, x, y, color, coverage);
+        }
     }
 }
 
-// Midpoint Circle Algorithm
-inline void DrawCircle(uint32_t* buffer, int width, int height, int cx, int cy, int radius, uint32_t color, bool fill = false) {
-    int x = radius;
-    int y = 0;
-    int err = 0;
+// Bresenham's Line Algorithm. `quality` (default 0) is an anti-aliasing
+// sampling level -- 0 keeps this exact hard-pixel-stepped behavior; 1+
+// switches to a supersampled path below that treats the line as a thin
+// capsule and gives it smooth, sub-pixel-accurate edges.
+inline void DrawLine(uint32_t* buffer, int width, int height, int x0, int y0, int x1, int y1, uint32_t color, int quality = 0) {
+    if (quality < 1) {
+        int dx = std::abs(x1 - x0);
+        int sx = x0 < x1 ? 1 : -1;
+        int dy = -std::abs(y1 - y0);
+        int sy = y0 < y1 ? 1 : -1;
+        int err = dx + dy;
 
-    while (x >= y) {
-        if (fill) {
-            DrawLine(buffer, width, height, cx - x, cy + y, cx + x, cy + y, color);
-            DrawLine(buffer, width, height, cx - x, cy - y, cx + x, cy - y, color);
-            DrawLine(buffer, width, height, cx - y, cy + x, cx + y, cy + x, color);
-            DrawLine(buffer, width, height, cx - y, cy - x, cx + y, cy - x, color);
-        } else {
-            PutPixel(buffer, width, height, cx + x, cy + y, color);
-            PutPixel(buffer, width, height, cx + y, cy + x, color);
-            PutPixel(buffer, width, height, cx - y, cy + x, color);
-            PutPixel(buffer, width, height, cx - x, cy + y, color);
-            PutPixel(buffer, width, height, cx - x, cy - y, color);
-            PutPixel(buffer, width, height, cx - y, cy - x, color);
-            PutPixel(buffer, width, height, cx + y, cy - x, color);
-            PutPixel(buffer, width, height, cx + x, cy - y, color);
+        while (true) {
+            PutPixel(buffer, width, height, x0, y0, color);
+            if (x0 == x1 && y0 == y1) break;
+            int e2 = 2 * err;
+            if (e2 >= dy) { err += dy; x0 += sx; }
+            if (e2 <= dx) { err += dx; y0 += sy; }
         }
-
-        if (err <= 0) {
-            y += 1;
-            err += 2 * y + 1;
-        }
-        if (err > 0) {
-            x -= 1;
-            err -= 2 * x + 1;
-        }
+        return;
     }
+
+    // Anti-aliased path: the line as a thin capsule (segment + half-width),
+    // supersampled per pixel across its bounding box.
+    const float halfWidth = 0.75f;
+    float fx0 = (float)x0, fy0 = (float)y0, fx1 = (float)x1, fy1 = (float)y1;
+    float ldx = fx1 - fx0, ldy = fy1 - fy0;
+    float lenSq = ldx * ldx + ldy * ldy;
+
+    int minX = (int)std::floor((std::min)(fx0, fx1) - halfWidth - 1.0f);
+    int maxX = (int)std::ceil((std::max)(fx0, fx1) + halfWidth + 1.0f);
+    int minY = (int)std::floor((std::min)(fy0, fy1) - halfWidth - 1.0f);
+    int maxY = (int)std::ceil((std::max)(fy0, fy1) + halfWidth + 1.0f);
+
+    RasterizeAA(buffer, width, height, minX, maxX, minY, maxY, color, quality, [&](float px, float py) {
+        float t = 0.0f;
+        if (lenSq > 0.0001f) {
+            t = ((px - fx0) * ldx + (py - fy0) * ldy) / lenSq;
+            t = (std::max)(0.0f, (std::min)(1.0f, t));
+        }
+        float closestX = fx0 + t * ldx;
+        float closestY = fy0 + t * ldy;
+        float distX = px - closestX;
+        float distY = py - closestY;
+        return (distX * distX + distY * distY) <= (halfWidth * halfWidth);
+    });
+}
+
+// Midpoint Circle Algorithm. `quality` (default 0) is an anti-aliasing
+// sampling level -- 0 keeps this exact hard-pixel behavior; 1+ switches to
+// a supersampled path that rasterizes against the ideal circle (fill:
+// inside the radius; outline: within a thin band around it) for smooth
+// edges instead of the midpoint algorithm's stair-stepping.
+inline void DrawCircle(uint32_t* buffer, int width, int height, int cx, int cy, int radius, uint32_t color, bool fill = false, int quality = 0) {
+    if (quality < 1) {
+        int x = radius;
+        int y = 0;
+        int err = 0;
+
+        while (x >= y) {
+            if (fill) {
+                DrawLine(buffer, width, height, cx - x, cy + y, cx + x, cy + y, color);
+                DrawLine(buffer, width, height, cx - x, cy - y, cx + x, cy - y, color);
+                DrawLine(buffer, width, height, cx - y, cy + x, cx + y, cy + x, color);
+                DrawLine(buffer, width, height, cx - y, cy - x, cx + y, cy - x, color);
+            } else {
+                PutPixel(buffer, width, height, cx + x, cy + y, color);
+                PutPixel(buffer, width, height, cx + y, cy + x, color);
+                PutPixel(buffer, width, height, cx - y, cy + x, color);
+                PutPixel(buffer, width, height, cx - x, cy + y, color);
+                PutPixel(buffer, width, height, cx - x, cy - y, color);
+                PutPixel(buffer, width, height, cx - y, cy - x, color);
+                PutPixel(buffer, width, height, cx + y, cy - x, color);
+                PutPixel(buffer, width, height, cx + x, cy - y, color);
+            }
+
+            if (err <= 0) {
+                y += 1;
+                err += 2 * y + 1;
+            }
+            if (err > 0) {
+                x -= 1;
+                err -= 2 * x + 1;
+            }
+        }
+        return;
+    }
+
+    const float outlineHalfWidth = 0.75f;
+    int minX = cx - radius - 1;
+    int maxX = cx + radius + 1;
+    int minY = cy - radius - 1;
+    int maxY = cy + radius + 1;
+    float r = (float)radius;
+    float fcx = (float)cx, fcy = (float)cy;
+
+    RasterizeAA(buffer, width, height, minX, maxX, minY, maxY, color, quality, [&](float px, float py) {
+        float dx = px - fcx;
+        float dy = py - fcy;
+        float dist = std::sqrt(dx * dx + dy * dy);
+        return fill ? (dist <= r) : (std::fabs(dist - r) <= outlineHalfWidth);
+    });
 }
 
 // Blit Image / Texture to Buffer

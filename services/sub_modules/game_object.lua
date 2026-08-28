@@ -9,6 +9,7 @@ local InstanceTyping = require("instance_type")
 ---@field Scale { x: number, y: number, z: number } Object scale multipliers
 ---@field Color { r: integer, g: integer, b: integer } RGB rendering color (0-255)
 ---@field Visible boolean Lifecycle visibility toggle
+---@field _physicsBody PhysicsBody? Set by WindowObject:BindPhysics; nil until this object is bound to physics
 local GameObject = {}
 GameObject.__index = GameObject
 InstanceTyping.SetType(GameObject, "GameObject")
@@ -529,5 +530,5 @@ return {
     PolygonObject = PolygonObject,
     ImageObject = ImageObject,
     CubeObject = CubeObject,
-    MeshObject = MeshObject
+    MeshObject = MeshObject,
 };

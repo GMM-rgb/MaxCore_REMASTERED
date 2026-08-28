@@ -194,6 +194,19 @@ window_management/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/window_management.dir/build.make CMakeFiles/window_management.dir/build
 .PHONY : window_management/fast
 
+#=============================================================================
+# Target rules for targets named physics_management
+
+# Build rule for target.
+physics_management: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 physics_management
+.PHONY : physics_management
+
+# fast build rule for target.
+physics_management/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/physics_management.dir/build.make CMakeFiles/physics_management.dir/build
+.PHONY : physics_management/fast
+
 backend/input_native.o: backend/input_native.cpp.o
 .PHONY : backend/input_native.o
 
@@ -217,6 +230,30 @@ backend/input_native.s: backend/input_native.cpp.s
 backend/input_native.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/input_native.dir/build.make CMakeFiles/input_native.dir/backend/input_native.cpp.s
 .PHONY : backend/input_native.cpp.s
+
+backend/physics_management.o: backend/physics_management.cpp.o
+.PHONY : backend/physics_management.o
+
+# target to build an object file
+backend/physics_management.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/physics_management.dir/build.make CMakeFiles/physics_management.dir/backend/physics_management.cpp.o
+.PHONY : backend/physics_management.cpp.o
+
+backend/physics_management.i: backend/physics_management.cpp.i
+.PHONY : backend/physics_management.i
+
+# target to preprocess a source file
+backend/physics_management.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/physics_management.dir/build.make CMakeFiles/physics_management.dir/backend/physics_management.cpp.i
+.PHONY : backend/physics_management.cpp.i
+
+backend/physics_management.s: backend/physics_management.cpp.s
+.PHONY : backend/physics_management.s
+
+# target to generate assembly for a file
+backend/physics_management.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/physics_management.dir/build.make CMakeFiles/physics_management.dir/backend/physics_management.cpp.s
+.PHONY : backend/physics_management.cpp.s
 
 backend/sound_service_backend.o: backend/sound_service_backend.cpp.o
 .PHONY : backend/sound_service_backend.o
@@ -1093,12 +1130,16 @@ help:
 	@echo "... input_native"
 	@echo "... lua_runner"
 	@echo "... lua_shared"
+	@echo "... physics_management"
 	@echo "... sound_service_backend"
 	@echo "... storage_interface"
 	@echo "... window_management"
 	@echo "... backend/input_native.o"
 	@echo "... backend/input_native.i"
 	@echo "... backend/input_native.s"
+	@echo "... backend/physics_management.o"
+	@echo "... backend/physics_management.i"
+	@echo "... backend/physics_management.s"
 	@echo "... backend/sound_service_backend.o"
 	@echo "... backend/sound_service_backend.i"
 	@echo "... backend/sound_service_backend.s"

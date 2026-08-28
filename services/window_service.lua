@@ -19,9 +19,14 @@ package.cpath = package.cpath
     .. ";./build/?.dll"
 
 local Objects = require("sub_modules.game_object")
+local PhysicsModule = require("sub_modules.physics_object")
 
 ---@alias Vertex3 { [1]: number, [2]: number, [3]: number }
 ---@alias MeshFace integer[] # 1-based vertex indices into a mesh's vertex list, wound counter-clockwise (viewed from outside) for correct-facing shading
+
+---@alias AliasingMode
+---| '"2d"' # 2D primitives: lines, circles, filled polygons
+---| '"3d"' # 3D primitives: cube/mesh wireframe edges, points, and solid faces
 
 ---@class NativeWindowInterface
 ---@field create_window fun(title: string, width: integer, height: integer): integer
@@ -39,6 +44,9 @@ local Objects = require("sub_modules.game_object")
 ---@field draw_circle fun(id: integer, cx: integer, cy: integer, r: integer, fill: boolean, red: integer, green: integer, blue: integer): nil
 ---@field draw_text fun(id: integer, text: string, x: integer, y: integer, scale: integer?, r: integer?, g: integer?, b: integer?, quality: integer?): integer effectiveQuality
 ---@field get_max_text_quality fun(): integer
+---@field set_aliasing_quality fun(id: integer, mode: string, quality: integer?): integer effectiveQuality
+---@field get_aliasing_quality fun(id: integer, mode: string): integer
+---@field get_max_alias_quality fun(): integer
 ---@field draw_polygon fun(id: integer, pointsOrFill: table|boolean, ...): nil
 ---@field create_image fun(width: integer, height: integer, pixelArray: table<integer, integer>?): integer
 ---@field draw_image fun(id: integer, imgId: integer, x: integer, y: integer): nil
@@ -313,6 +321,8 @@ end
 ---@field private _objects table<integer, GameObject>
 ---@field private _activeCamera CameraObject?
 ---@field private _activeLight LightObject?
+---@field private _physicsWorld PhysicsWorld?
+---@field private _physicsLinks table[] # {gameObject=GameObject, body=PhysicsBody} pairs synced every StepPhysics
 local WindowObject = {}
 WindowObject.__index = WindowObject
 InstanceTyping.SetType(WindowObject, "WindowObject")
@@ -323,6 +333,12 @@ InstanceTyping.SetType(WindowObject, "WindowObject")
 local WindowService = {}
 WindowService.__index = WindowService
 InstanceTyping.SetType(WindowService, "WindowService")
+
+-- Common collision-group bit flags, re-exported for convenience so callers
+-- don't need to separately require("sub_modules.physics_object") just to
+-- get e.g. WindowService.PhysicsGroups.Enemy.
+---@type PhysicsGroups
+WindowService.PhysicsGroups = PhysicsModule.PhysicsGroups
 
 -- =========================================================================
 -- WINDOW OBJECT IMPLEMENTATION
@@ -349,6 +365,8 @@ function WindowObject.new(title, width, height)
     self._objects = {}
     self._activeCamera = nil
     self._activeLight = nil
+    self._physicsWorld = nil
+    self._physicsLinks = {}
 
     return self
 end
@@ -601,6 +619,32 @@ function WindowObject:DrawMesh(vertices, faces, px, py, pz, rx, ry, rz, sx, sy, 
     end
 end
 
+---Sets the anti-aliasing sampling level for a rendering pipeline. 0
+---(default) is the original hard-edge rendering, byte-for-byte unchanged.
+---1+ supersamples edges for smoother lines/circles/filled polygons (mode
+---"2d") or cube/mesh wireframe edges, points, and solid faces (mode "3d")
+----- higher looks smoother, up to WindowService.GetMaxAliasingQuality();
+---requests above that are silently clamped.
+---@param mode AliasingMode
+---@param quality integer?
+---@return integer effectiveQuality The quality level actually used, after clamping
+function WindowObject:SetAliasingQuality(mode, quality)
+    if native_ok and type(window_interface) ~= "string" then
+        return window_interface.set_aliasing_quality(self._id, mode, quality or 0)
+    end
+    return 0
+end
+
+---Gets the current anti-aliasing sampling level for a rendering pipeline.
+---@param mode AliasingMode
+---@return integer quality
+function WindowObject:GetAliasingQuality(mode)
+    if native_ok and type(window_interface) ~= "string" then
+        return window_interface.get_aliasing_quality(self._id, mode)
+    end
+    return 0
+end
+
 -- -------------------------------------------------------------------------
 -- CAMERA CREATION & MANAGEMENT METHODS
 -- -------------------------------------------------------------------------
@@ -666,6 +710,149 @@ end
 ---@return LightObject?
 function WindowObject:GetActiveLight()
     return self._activeLight
+end
+
+-- -------------------------------------------------------------------------
+-- PHYSICS
+-- -------------------------------------------------------------------------
+-- A GameObject is purely visual by default -- BindPhysics is the one call
+-- that turns it into a real participant in the simulation: it creates a
+-- PhysicsBody at the object's current position and links the two, so every
+-- StepPhysics call afterward copies the body's simulated position back
+-- onto the GameObject automatically (which then renders normally next
+-- RenderAll). Skip BindPhysics and an object just sits there, rendered but
+-- never touched by physics -- exactly the "won't interact with anything,
+-- stays a visual object" behavior. A physics world is created lazily on
+-- the first BindPhysics call if you haven't made one explicitly yet.
+
+---Explicitly creates this window's physics world (useful if you want
+---custom gravity before binding anything). If you skip this, BindPhysics
+---creates one lazily with default gravity on first use.
+---@param gx number? Gravity X (default 0)
+---@param gy number? Gravity Y (default -9.81)
+---@param gz number? Gravity Z (default 0)
+---@return PhysicsWorld?
+function WindowObject:CreatePhysicsWorld(gx, gy, gz)
+    if not self._physicsWorld then
+        self._physicsWorld = PhysicsModule.PhysicsWorld.new(gx, gy, gz)
+    end
+    return self._physicsWorld
+end
+
+---Gets this window's physics world, if one has been created (explicitly or via BindPhysics).
+---@return PhysicsWorld?
+function WindowObject:GetPhysicsWorld()
+    return self._physicsWorld
+end
+
+---Binds a GameObject to this window's physics simulation, creating a
+---PhysicsBody for it and linking the two. From now on, every StepPhysics
+---call moves the body, spins it, and copies both the new position AND
+---rotation onto `gameObject` -- so a rolling/tumbling body actually looks
+---like it's rolling/tumbling once rendered. Without this call, a
+---GameObject is never touched by physics no matter what else you do to it
+----- it's just rendered where you put it.
+---@param gameObject GameObject The object to drive physically; its current Position/Rotation seed the body's starting position/rotation
+---@param options table? {shape="sphere"|"box" (default "sphere"), radius=number (sphere, default 0.5), halfExtents={x,y,z} (box, default {0.5,0.5,0.5}), mass=number (default 1.0, ignored if density is given), density=number (alternative to mass -- mass = density * shape volume), isStatic=boolean (default false, i.e. "anchored" -- see PhysicsBody:SetStatic), restitution=number (bounciness, 0..1), friction=number (grip, 0..1 -- this is what makes a pushed/dropped body roll), damping=number (linear), angularDamping=number, group=integer (see PhysicsModule.PhysicsGroups), collidesWith=integer}
+---@return PhysicsBody?
+function WindowObject:BindPhysics(gameObject, options)
+    if not gameObject then return nil end
+
+    if not self._physicsWorld then
+        self._physicsWorld = PhysicsModule.PhysicsWorld.new()
+    end
+    if not self._physicsWorld then return nil end
+
+    options = options or {}
+
+    local shapeParams
+    if (options.shape or "sphere") == "box" then
+        local he = options.halfExtents or {}
+        shapeParams = { he[1] or 0.5, he[2] or 0.5, he[3] or 0.5 }
+    else
+        shapeParams = { options.radius or 0.5 }
+    end
+
+    local px, py, pz = gameObject:GetPosition()
+    local body = self._physicsWorld:CreateBody(
+        options.shape or "sphere", shapeParams,
+        px, py, pz,
+        options.mass, options.isStatic
+    )
+    if not body then return nil end
+
+    local rx, ry, rz = gameObject:GetRotation()
+    body:SetRotation(rx, ry, rz)
+
+    if options.density then body:SetDensity(options.density) end
+    if options.restitution then body:SetRestitution(options.restitution) end
+    if options.friction then body:SetFriction(options.friction) end
+    if options.damping then body:SetDamping(options.damping) end
+    if options.angularDamping then body:SetAngularDamping(options.angularDamping) end
+    if options.group then body:SetGroup(options.group) end
+    if options.collidesWith then body:SetCollidesWith(options.collidesWith) end
+
+    table.insert(self._physicsLinks, { gameObject = gameObject, body = body })
+    gameObject._physicsBody = body
+    return body
+end
+
+---Unbinds a GameObject from physics: destroys its PhysicsBody and drops
+---the link. The object goes back to being purely visual, staying wherever
+---it last was.
+---@param gameObject GameObject
+function WindowObject:UnbindPhysics(gameObject)
+    if not gameObject or not gameObject._physicsBody then return end
+
+    gameObject._physicsBody:Destroy()
+    gameObject._physicsBody = nil
+
+    for i = #self._physicsLinks, 1, -1 do
+        if self._physicsLinks[i].gameObject == gameObject then
+            table.remove(self._physicsLinks, i)
+        end
+    end
+end
+
+---Gets the PhysicsBody a GameObject is bound to, if any.
+---@param gameObject GameObject
+---@return PhysicsBody?
+function WindowObject:GetPhysicsBody(gameObject)
+    return gameObject and gameObject._physicsBody
+end
+
+---Advances this window's physics world by `dt` seconds and syncs every
+---bound GameObject's Position to its body's new simulated position. A
+---no-op if no physics world exists yet (nothing has called BindPhysics or
+---CreatePhysicsWorld).
+---@param dt number
+function WindowObject:StepPhysics(dt)
+    if not self._physicsWorld then return end
+
+    self._physicsWorld:Step(dt)
+    for _, link in ipairs(self._physicsLinks) do
+        local x, y, z = link.body:GetPosition()
+        link.gameObject:SetPosition(x, y, z)
+    end
+end
+
+---Manual override: pins this window's physics quality level (0=Low ..
+---3=Ultra) and disables automatic dynamic level shifting. No-op if no
+---physics world exists yet.
+---@param level PhysicsQualityLevel
+---@return integer effectiveLevel
+function WindowObject:SetPhysicsQuality(level)
+    if not self._physicsWorld then return level end
+    return self._physicsWorld:SetQuality(level)
+end
+
+---Re-enables (true) or disables (false) automatic dynamic physics quality
+---shifting for this window's world. No-op if no physics world exists yet.
+---@param enabled boolean
+function WindowObject:SetPhysicsAutoQuality(enabled)
+    if self._physicsWorld then
+        self._physicsWorld:SetAutoQuality(enabled)
+    end
 end
 
 -- -------------------------------------------------------------------------
@@ -889,6 +1076,17 @@ end
 function WindowService.GetMaxTextQuality()
     if native_ok and type(window_interface) ~= "string" then
         return window_interface.get_max_text_quality()
+    end
+    return 0
+end
+
+---Gets the max anti-aliasing sampling level SetAliasingQuality will
+---actually use -- requests above this get silently clamped. Same cap for
+---both "2d" and "3d" modes. Not tied to any window.
+---@return integer maxQuality
+function WindowService.GetMaxAliasingQuality()
+    if native_ok and type(window_interface) ~= "string" then
+        return window_interface.get_max_alias_quality()
     end
     return 0
 end

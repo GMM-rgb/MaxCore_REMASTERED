@@ -126,7 +126,6 @@ coroutine.wrap(function(...)
         ---@type table<CubeObject>
         local ProjectedCubes = {}
         local MainLightSource = app:CreateLight(27, 20, -10, 0.45, 1)
-        -- local StaticCube = app:CreateCube(0, -5, -37, 5, 255, 255, 255, "wireframe")
         if MainLightSource == nil or type(MainLightSource) ~= "table" then return end
         if app then app:SetActiveLight(MainLightSource) end
 

@@ -162,6 +162,8 @@ struct NativeWindow {
     bool isFullscreen = false;
     int activeCameraId = -1; // -1 = no camera bound, cube/mesh render falls back to a default camera at the origin
     int activeLightId = -1;  // -1 = no light bound, faces render at flat/full brightness (old behavior)
+    int aliasQuality2D = 0;  // anti-aliasing level for 2D primitives (lines, circles, filled polygons); 0 = original hard edges
+    int aliasQuality3D = 0;  // anti-aliasing level for 3D primitives (cube/mesh edges, points, solid faces); 0 = original hard edges
     std::vector<uint32_t> canvasBuffer;
     PlatformWindow platform;
 };
@@ -193,7 +195,7 @@ static LRESULT CALLBACK Win32Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 // =========================================================================
 // HELPER RASTERIZER FOR FILLED TRIANGLES
 // =========================================================================
-static void FillTriangle(uint32_t* buffer, int width, int height, Graphics::Vec2 p0, Graphics::Vec2 p1, Graphics::Vec2 p2, uint32_t color) {
+static void FillTriangle(uint32_t* buffer, int width, int height, Graphics::Vec2 p0, Graphics::Vec2 p1, Graphics::Vec2 p2, uint32_t color, int quality = 0) {
     int minX = (std::max)(0, (int)std::floor((std::min)({p0.x, p1.x, p2.x})));
     int maxX = (std::min)(width - 1, (int)std::ceil((std::max)({p0.x, p1.x, p2.x})));
     int minY = (std::max)(0, (int)std::floor((std::min)({p0.y, p1.y, p2.y})));
@@ -206,21 +208,36 @@ static void FillTriangle(uint32_t* buffer, int width, int height, Graphics::Vec2
     float area = edge(p0, p1, p2.x, p2.y);
     if (std::abs(area) < 0.0001f) return;
 
-    for (int y = minY; y <= maxY; ++y) {
-        for (int x = minX; x <= maxX; ++x) {
-            float px = x + 0.5f;
-            float py = y + 0.5f;
+    if (quality < 1) {
+        for (int y = minY; y <= maxY; ++y) {
+            for (int x = minX; x <= maxX; ++x) {
+                float px = x + 0.5f;
+                float py = y + 0.5f;
 
-            float w0 = edge(p1, p2, px, py);
-            float w1 = edge(p2, p0, px, py);
-            float w2 = edge(p0, p1, px, py);
+                float w0 = edge(p1, p2, px, py);
+                float w1 = edge(p2, p0, px, py);
+                float w2 = edge(p0, p1, px, py);
 
-            if ((area > 0 && w0 >= 0 && w1 >= 0 && w2 >= 0) ||
-                (area < 0 && w0 <= 0 && w1 <= 0 && w2 <= 0)) {
-                buffer[y * width + x] = color;
+                if ((area > 0 && w0 >= 0 && w1 >= 0 && w2 >= 0) ||
+                    (area < 0 && w0 <= 0 && w1 <= 0 && w2 <= 0)) {
+                    buffer[y * width + x] = color;
+                }
             }
         }
+        return;
     }
+
+    // Anti-aliased path: same inside/outside edge-function test, just
+    // supersampled per pixel so shared/silhouette edges -- very visible on
+    // cube/mesh faces and filled 2D polygons -- get smooth coverage
+    // instead of a jagged hard boundary.
+    Graphics::RasterizeAA(buffer, width, height, minX, maxX, minY, maxY, color, quality, [&](float px, float py) {
+        float w0 = edge(p1, p2, px, py);
+        float w1 = edge(p2, p0, px, py);
+        float w2 = edge(p0, p1, px, py);
+        return (area > 0 && w0 >= 0 && w1 >= 0 && w2 >= 0) ||
+               (area < 0 && w0 <= 0 && w1 <= 0 && w2 <= 0);
+    });
 }
 
 // =========================================================================
@@ -534,6 +551,64 @@ static CubeFillMode ParseFillMode(lua_State* L, int idx) {
         return CubeFillMode::Solid;
     }
     return CubeFillMode::Solid;
+}
+
+// =========================================================================
+// ANTI-ALIASING QUALITY ("SetAliasingQuality")
+// =========================================================================
+// Two independent per-window knobs -- aliasQuality2D for lines/circles/
+// filled polygons, aliasQuality3D for cube/mesh wireframe edges, points,
+// and solid faces -- both defaulting to 0 (the original hard-edge
+// rendering, unchanged). Raising either routes the matching draw calls
+// through Graphics::RasterizeAA-backed supersampling instead. Past
+// kMaxAliasQuality the extra samples aren't worth their cost for a
+// software rasterizer at these primitive sizes, so requests are clamped.
+static const int kMaxAliasQuality = 8;
+
+static int get_max_alias_quality(lua_State* L) {
+    lua_pushinteger(L, kMaxAliasQuality);
+    return 1;
+}
+
+// mode: "2d" or "3d" (case-insensitive; anything else falls back to "2d",
+// the more common case, rather than silently doing nothing). Returns the
+// quality level actually applied, after clamping.
+static int window_set_aliasing_quality(lua_State* L) {
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
+    const char* modeStr = luaL_checkstring(L, 2);
+    int quality = static_cast<int>(luaL_optinteger(L, 3, 0));
+    if (quality < 0) quality = 0;
+    if (quality > kMaxAliasQuality) quality = kMaxAliasQuality;
+
+    auto it = g_windows.find(winId);
+    if (it != g_windows.end()) {
+        if (EqualsIgnoreCase(modeStr, "3d")) {
+            it->second->aliasQuality3D = quality;
+        } else {
+            it->second->aliasQuality2D = quality;
+        }
+    }
+
+    lua_pushinteger(L, quality);
+    return 1;
+}
+
+static int window_get_aliasing_quality(lua_State* L) {
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
+    const char* modeStr = luaL_checkstring(L, 2);
+
+    auto it = g_windows.find(winId);
+    if (it == g_windows.end()) {
+        lua_pushinteger(L, 0);
+        return 1;
+    }
+
+    if (EqualsIgnoreCase(modeStr, "3d")) {
+        lua_pushinteger(L, it->second->aliasQuality3D);
+    } else {
+        lua_pushinteger(L, it->second->aliasQuality2D);
+    }
+    return 1;
 }
 
 // =========================================================================
@@ -922,7 +997,7 @@ static int window_draw_line(lua_State* L) {
 
     auto it = g_windows.find(winId);
     if (it != g_windows.end()) {
-        Graphics::DrawLine(it->second->canvasBuffer.data(), it->second->width, it->second->height, x0, y0, x1, y1, col);
+        Graphics::DrawLine(it->second->canvasBuffer.data(), it->second->width, it->second->height, x0, y0, x1, y1, col, it->second->aliasQuality2D);
     }
     return 0;
 }
@@ -939,7 +1014,7 @@ static int window_draw_circle(lua_State* L) {
 
     auto it = g_windows.find(winId);
     if (it != g_windows.end()) {
-        Graphics::DrawCircle(it->second->canvasBuffer.data(), it->second->width, it->second->height, cx, cy, r, col, fill);
+        Graphics::DrawCircle(it->second->canvasBuffer.data(), it->second->width, it->second->height, cx, cy, r, col, fill, it->second->aliasQuality2D);
     }
     return 0;
 }
@@ -1158,14 +1233,14 @@ static int window_draw_polygon(lua_State* L) {
     if (fill) {
         // Triangle Fan Triangulation
         for (size_t i = 1; i < points.size() - 1; ++i) {
-            FillTriangle(win->canvasBuffer.data(), win->width, win->height, points[0], points[i], points[i + 1], col);
+            FillTriangle(win->canvasBuffer.data(), win->width, win->height, points[0], points[i], points[i + 1], col, win->aliasQuality2D);
         }
     } else {
         // Outline wireframe loop
         for (size_t i = 0; i < points.size(); ++i) {
             Graphics::Vec2 p1 = points[i];
             Graphics::Vec2 p2 = points[(i + 1) % points.size()];
-            Graphics::DrawLine(win->canvasBuffer.data(), win->width, win->height, (int)p1.x, (int)p1.y, (int)p2.x, (int)p2.y, col);
+            Graphics::DrawLine(win->canvasBuffer.data(), win->width, win->height, (int)p1.x, (int)p1.y, (int)p2.x, (int)p2.y, col, win->aliasQuality2D);
         }
     }
     return 0;
@@ -1307,13 +1382,13 @@ static int window_draw_cube(lua_State* L) {
             for (int i = 0; i < 12; ++i) {
                 Graphics::Vec2 p1 = projected[edges[i][0]];
                 Graphics::Vec2 p2 = projected[edges[i][1]];
-                Graphics::DrawLine(win->canvasBuffer.data(), win->width, win->height, (int)p1.x, (int)p1.y, (int)p2.x, (int)p2.y, col);
+                Graphics::DrawLine(win->canvasBuffer.data(), win->width, win->height, (int)p1.x, (int)p1.y, (int)p2.x, (int)p2.y, col, win->aliasQuality3D);
             }
             break;
         }
         case CubeFillMode::Point: {
             for (int i = 0; i < 8; ++i) {
-                Graphics::DrawCircle(win->canvasBuffer.data(), win->width, win->height, (int)projected[i].x, (int)projected[i].y, 3, col, true);
+                Graphics::DrawCircle(win->canvasBuffer.data(), win->width, win->height, (int)projected[i].x, (int)projected[i].y, 3, col, true, win->aliasQuality3D);
             }
             break;
         }
@@ -1386,8 +1461,8 @@ static int window_draw_cube(lua_State* L) {
                     faceCol = Graphics::ShadeColor(col, shade);
                 }
 
-                FillTriangle(win->canvasBuffer.data(), win->width, win->height, p0, p1, p2, faceCol);
-                FillTriangle(win->canvasBuffer.data(), win->width, win->height, p0, p2, p3, faceCol);
+                FillTriangle(win->canvasBuffer.data(), win->width, win->height, p0, p1, p2, faceCol, win->aliasQuality3D);
+                FillTriangle(win->canvasBuffer.data(), win->width, win->height, p0, p2, p3, faceCol, win->aliasQuality3D);
             }
             break;
         }
@@ -1484,14 +1559,14 @@ static int window_draw_mesh(lua_State* L) {
                     if (a < 0 || a >= (int)vertCount || bIdx < 0 || bIdx >= (int)vertCount) continue;
                     Graphics::Vec2 p1 = projected[a];
                     Graphics::Vec2 p2 = projected[bIdx];
-                    Graphics::DrawLine(win->canvasBuffer.data(), win->width, win->height, (int)p1.x, (int)p1.y, (int)p2.x, (int)p2.y, baseCol);
+                    Graphics::DrawLine(win->canvasBuffer.data(), win->width, win->height, (int)p1.x, (int)p1.y, (int)p2.x, (int)p2.y, baseCol, win->aliasQuality3D);
                 }
             }
             break;
         }
         case CubeFillMode::Point: {
             for (size_t i = 0; i < vertCount; ++i) {
-                Graphics::DrawCircle(win->canvasBuffer.data(), win->width, win->height, (int)projected[i].x, (int)projected[i].y, 3, baseCol, true);
+                Graphics::DrawCircle(win->canvasBuffer.data(), win->width, win->height, (int)projected[i].x, (int)projected[i].y, 3, baseCol, true, win->aliasQuality3D);
             }
             break;
         }
@@ -1554,7 +1629,7 @@ static int window_draw_mesh(lua_State* L) {
                 // approach as draw_polygon.
                 for (size_t i = 1; i + 1 < rf.indices.size(); ++i) {
                     FillTriangle(win->canvasBuffer.data(), win->width, win->height,
-                        projected[rf.indices[0]], projected[rf.indices[i]], projected[rf.indices[i + 1]], rf.color);
+                        projected[rf.indices[0]], projected[rf.indices[i]], projected[rf.indices[i + 1]], rf.color, win->aliasQuality3D);
                 }
             }
             break;
@@ -1639,6 +1714,9 @@ extern "C" EXPORT_FN int luaopen_window_management(lua_State* L) {
         {"draw_circle", window_draw_circle},
         {"draw_text", window_draw_text},
         {"get_max_text_quality", get_max_text_quality},
+        {"set_aliasing_quality", window_set_aliasing_quality},
+        {"get_aliasing_quality", window_get_aliasing_quality},
+        {"get_max_alias_quality", get_max_alias_quality},
         {"draw_polygon", window_draw_polygon},
         {"create_image", image_create},
         {"draw_image", window_draw_image},
