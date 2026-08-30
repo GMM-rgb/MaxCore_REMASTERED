@@ -190,10 +190,14 @@ function InputService:_ResolveTarget(target)
     return keyName, KEY_MAP[keyName]
 end
 
+---@alias InputActionState
+---| "Pressed"
+---| "Released"
+
 ---@param self InputService
 ---@param actionName string
 ---@param keyName KeyName
----@param callback fun(name: string, state: "Pressed"|"Released", key: string)
+---@param callback fun(name: string, state: InputActionState, key: KeyName)
 function InputService:BindAction(actionName, keyName, callback)
     self._actions[actionName] = {
         keyName = keyName:lower(),
@@ -208,7 +212,7 @@ function InputService:UnbindAction(actionName)
 end
 
 ---@param self InputService
----@param target string
+---@param target KeyName
 ---@return boolean
 function InputService:IsKeyDown(target)
     local keyName, keyCode = self:_ResolveTarget(target)
@@ -227,7 +231,7 @@ function InputService:IsKeyDown(target)
 end
 
 ---@param self InputService
----@param target string
+---@param target KeyName
 ---@return boolean
 function InputService:IsKeyPressed(target)
     local _, keyCode = self:_ResolveTarget(target)
@@ -237,7 +241,7 @@ function InputService:IsKeyPressed(target)
 end
 
 ---@param self InputService
----@param target string
+---@param target KeyName
 ---@return boolean
 function InputService:IsKeyReleased(target)
     local _, keyCode = self:_ResolveTarget(target)
