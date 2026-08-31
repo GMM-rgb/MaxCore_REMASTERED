@@ -144,10 +144,7 @@ local function tick(dt)
             return
         end
 
-        -- if type(IsPlayerDead) == "boolean" and not IsPlayerDead then
-            windows.GameApplication:StepPhysics(dt)
-        -- end
-
+        windows.GameApplication:StepPhysics(dt)
         windows.GameApplication:SetDimensions(windows.GameApplication:GetDimensions())
         windows.GameApplication:SwapBuffers()
         windows.GameApplication:ClearCanvas()

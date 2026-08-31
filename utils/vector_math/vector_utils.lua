@@ -1,6 +1,19 @@
 local VectorUtils = {}
+local VectorUtility = {}
 ---@type WindowService?
 VectorUtils.WindowService = nil
+
+---@class WorkspaceDimensions2D
+---@field RotX number
+---@field RotY number
+---@field X number
+---@field Y number
+
+---@class WorkspaceDimensions3D : WorkspaceDimensions2D
+---@field RotZ number
+---@field Z number
+
+---@class 
 
 ---@class DistanceArguments
 ---@field x1 number
@@ -15,19 +28,34 @@ function VectorUtils.getDistance(coordinates)
     local distance = math.sqrt(FormatedGroupOne^2+FormatedGroupTwo^2)
 end
 
-local VectorUtility = {}
-
 function VectorUtility.new()
     local self = setmetatable({}, VectorUtility)
     return self
 end
 
-function VectorUtility:_2D()
+---@generic T
+---@param ... VectorInputPattern
+---@alias VectorInputPattern { [integer]: table<T> }
+---@return WorkspaceDimensions2D?
+function VectorUtility:_2D(...)
+    local VectorInputsTable <const> = { ... }
+    ---@type WorkspaceDimensions2D?
+    local WorkspaceDimensionalVector = nil
 
+    for ParamArgumentIndex, ParamArgumentValue in pairs(VectorInputsTable) do
+        for _, ArgTableValue in ipairs(ParamArgumentValue) do
+            
+        end
+    end
+
+    return WorkspaceDimensionalVector or nil
 end
 
 function VectorUtility:_3D()
 
 end
 
-return VectorUtils, VectorUtility
+return {
+    VectorUtility,
+    VectorUtils,
+};

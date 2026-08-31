@@ -7,7 +7,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Threads::Threads::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Threads__Threads-34618a45bbfb2c091431.json",
+					"jsonFile" : "target-Threads__Threads-15d887e3509aeac2a478.json",
 					"name" : "Threads::Threads",
 					"projectIndex" : 0
 				}
@@ -20,7 +20,7 @@
 						0
 					],
 					"build" : ".",
-					"jsonFile" : "directory-.-f040eec181a89de70dbe.json",
+					"jsonFile" : "directory-.-b5805d5c08fd3d92def4.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.15"
@@ -69,49 +69,49 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "input_native::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-input_native-5b52de41255037f31c9b.json",
+					"jsonFile" : "target-input_native-095fdbf59e824ac4e611.json",
 					"name" : "input_native",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "lua_runner::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-lua_runner-48b5ae2acac5d348f6a0.json",
+					"jsonFile" : "target-lua_runner-68436358517bf43c2f23.json",
 					"name" : "lua_runner",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "lua_shared::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-lua_shared-f0987567746431e338e6.json",
+					"jsonFile" : "target-lua_shared-faada24675f2d7547f59.json",
 					"name" : "lua_shared",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "physics_management::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-physics_management-54b646a7b173165701bf.json",
+					"jsonFile" : "target-physics_management-b881f01cdd6f2b97d7ee.json",
 					"name" : "physics_management",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "sound_service_backend::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-sound_service_backend-d57041bd30c97d9170c0.json",
+					"jsonFile" : "target-sound_service_backend-be34c91a7f7ef103f083.json",
 					"name" : "sound_service_backend",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "storage_interface::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-storage_interface-7d70f6465183eb34306e.json",
+					"jsonFile" : "target-storage_interface-bf400b3a39d7e164ee03.json",
 					"name" : "storage_interface",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "window_management::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-window_management-2725c6543d2fefe90e52.json",
+					"jsonFile" : "target-window_management-bc4dfc21d8f3bdcb4653.json",
 					"name" : "window_management",
 					"projectIndex" : 0
 				}
@@ -121,12 +121,12 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "D:/MaxCore_REMASTERED/build",
-		"source" : "D:/MaxCore_REMASTERED"
+		"build" : "C:/Users/6041464/Documents/MaxCore_REMASTERED/build",
+		"source" : "C:/Users/6041464/Documents/MaxCore_REMASTERED"
 	},
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 10
+		"minor" : 11
 	}
 }

@@ -52,7 +52,7 @@
 	"codemodelVersion" : 
 	{
 		"major" : 2,
-		"minor" : 10
+		"minor" : 11
 	},
 	"compileGroups" : 
 	[
@@ -71,7 +71,7 @@
 			[
 				{
 					"backtrace" : 3,
-					"path" : "D:/MaxCore_REMASTERED/lua-5.6.0/src"
+					"path" : "C:/Users/6041464/Documents/MaxCore_REMASTERED/lua-5.6.0/src"
 				}
 			],
 			"language" : "C",
@@ -180,192 +180,320 @@
 	[
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/lapi.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/lauxlib.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/lbaselib.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/lcode.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/lcorolib.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/lctype.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/ldblib.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/ldebug.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/ldo.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/ldump.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/lfunc.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/lgc.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/linit.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/liolib.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/llex.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/lmathlib.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/lmem.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/loadlib.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/lobject.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/lopcodes.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/loslib.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/lparser.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/lstate.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/lstring.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/lstrlib.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/ltable.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/ltablib.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/ltm.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/lundump.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/lutf8lib.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/lvm.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
+			"backtraces" : 
+			[
+				1
+			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.6.0/src/lzio.c",
 			"sourceGroupIndex" : 0

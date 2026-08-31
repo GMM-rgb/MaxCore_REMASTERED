@@ -15,7 +15,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/maxim/_C_/bin/addr2line.exe"
+			"value" : "C:/Users/6041464/_c_lang_/bin/addr2line.exe"
 		},
 		{
 			"name" : "CMAKE_AR",
@@ -31,7 +31,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/maxim/_C_/bin/ar.exe"
+			"value" : "C:/Users/6041464/_c_lang_/bin/ar.exe"
 		},
 		{
 			"name" : "CMAKE_BUILD_TYPE",
@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "d:/MaxCore_REMASTERED/build"
+			"value" : "c:/Users/6041464/Documents/MaxCore_REMASTERED/build"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -79,7 +79,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "3"
+			"value" : "4"
 		},
 		{
 			"name" : "CMAKE_CACHE_PATCH_VERSION",
@@ -103,7 +103,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/maxim/_C_/bin/cmake.exe"
+			"value" : "C:/Users/6041464/_c_lang_/bin/cmake.exe"
 		},
 		{
 			"name" : "CMAKE_CPACK_COMMAND",
@@ -115,7 +115,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/maxim/_C_/bin/cpack.exe"
+			"value" : "C:/Users/6041464/_c_lang_/bin/cpack.exe"
 		},
 		{
 			"name" : "CMAKE_CTEST_COMMAND",
@@ -127,7 +127,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/maxim/_C_/bin/ctest.exe"
+			"value" : "C:/Users/6041464/_c_lang_/bin/ctest.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER",
@@ -143,7 +143,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/maxim/_C_/bin/c++.exe"
+			"value" : "C:/Users/6041464/_c_lang_/bin/c++.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER_AR",
@@ -159,7 +159,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/maxim/_C_/bin/gcc-ar.exe"
+			"value" : "C:/Users/6041464/_c_lang_/bin/gcc-ar.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER_RANLIB",
@@ -175,7 +175,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/maxim/_C_/bin/gcc-ranlib.exe"
+			"value" : "C:/Users/6041464/_c_lang_/bin/gcc-ranlib.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_FLAGS",
@@ -287,7 +287,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/maxim/_C_/bin/cc.exe"
+			"value" : "C:/Users/6041464/_c_lang_/bin/cc.exe"
 		},
 		{
 			"name" : "CMAKE_C_COMPILER_AR",
@@ -303,7 +303,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/maxim/_C_/bin/gcc-ar.exe"
+			"value" : "C:/Users/6041464/_c_lang_/bin/gcc-ar.exe"
 		},
 		{
 			"name" : "CMAKE_C_COMPILER_RANLIB",
@@ -319,7 +319,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/maxim/_C_/bin/gcc-ranlib.exe"
+			"value" : "C:/Users/6041464/_c_lang_/bin/gcc-ranlib.exe"
 		},
 		{
 			"name" : "CMAKE_C_FLAGS",
@@ -418,6 +418,18 @@
 			"value" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32"
 		},
 		{
+			"name" : "CMAKE_DIAGNOSTIC_INIT",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Set initial state for CMake diagnostics; used to persist state set by command-line options across invocations."
+				}
+			],
+			"type" : "INTERNAL",
+			"value" : "CMD_AUTHOR=WARN;CMD_DEPRECATED=WARN;CMD_EXPERIMENTAL=WARN;CMD_INSTALL_ABSOLUTE_DESTINATION=IGNORE;CMD_POLICY=WARN;CMD_UNINITIALIZED=IGNORE;CMD_UNUSED_CLI=WARN"
+		},
+		{
 			"name" : "CMAKE_DLLTOOL",
 			"properties" : 
 			[
@@ -431,7 +443,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/maxim/_C_/bin/dlltool.exe"
+			"value" : "C:/Users/6041464/_c_lang_/bin/dlltool.exe"
 		},
 		{
 			"name" : "CMAKE_EDIT_COMMAND",
@@ -443,7 +455,19 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/maxim/_C_/bin/ccmake.exe"
+			"value" : "C:/Users/6041464/_c_lang_/bin/ccmake.exe"
+		},
+		{
+			"name" : "CMAKE_ERROR_DEPRECATED",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Deprecated.  Use -W[no-]error=deprecated instead."
+				}
+			],
+			"type" : "INTERNAL",
+			"value" : "OFF"
 		},
 		{
 			"name" : "CMAKE_EXECUTABLE_FORMAT",
@@ -591,7 +615,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "D:/MaxCore_REMASTERED/build/CMakeFiles/pkgRedirects"
+			"value" : "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -675,7 +699,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "D:/MaxCore_REMASTERED"
+			"value" : "C:/Users/6041464/Documents/MaxCore_REMASTERED"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -703,7 +727,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/maxim/_C_/bin/ld.exe"
+			"value" : "C:/Users/6041464/_c_lang_/bin/ld.exe"
 		},
 		{
 			"name" : "CMAKE_LIST_FILE_NAME",
@@ -731,7 +755,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/maxim/_C_/bin/ninja.exe"
+			"value" : "C:/Users/6041464/_c_lang_/bin/ninja.exe"
 		},
 		{
 			"name" : "CMAKE_MODULE_LINKER_FLAGS",
@@ -827,7 +851,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/maxim/_C_/bin/nm.exe"
+			"value" : "C:/Users/6041464/_c_lang_/bin/nm.exe"
 		},
 		{
 			"name" : "CMAKE_NUMBER_OF_MAKEFILES",
@@ -855,7 +879,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/maxim/_C_/bin/objcopy.exe"
+			"value" : "C:/Users/6041464/_c_lang_/bin/objcopy.exe"
 		},
 		{
 			"name" : "CMAKE_OBJDUMP",
@@ -871,7 +895,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/maxim/_C_/bin/objdump.exe"
+			"value" : "C:/Users/6041464/_c_lang_/bin/objdump.exe"
 		},
 		{
 			"name" : "CMAKE_PLATFORM_INFO_INITIALIZED",
@@ -959,7 +983,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/maxim/_C_/bin/ranlib.exe"
+			"value" : "C:/Users/6041464/_c_lang_/bin/ranlib.exe"
 		},
 		{
 			"name" : "CMAKE_RC_COMPILER",
@@ -975,7 +999,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/maxim/_C_/bin/windres.exe"
+			"value" : "C:/Users/6041464/_c_lang_/bin/windres.exe"
 		},
 		{
 			"name" : "CMAKE_RC_COMPILER_WORKS",
@@ -1095,7 +1119,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/maxim/_C_/share/cmake-4.3"
+			"value" : "C:/Users/6041464/_c_lang_/share/cmake-4.4"
 		},
 		{
 			"name" : "CMAKE_SHARED_LINKER_FLAGS",
@@ -1303,7 +1327,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/maxim/_C_/bin/strip.exe"
+			"value" : "C:/Users/6041464/_c_lang_/bin/strip.exe"
 		},
 		{
 			"name" : "CMAKE_TAPI",
@@ -1338,6 +1362,18 @@
 			"value" : "FALSE"
 		},
 		{
+			"name" : "CMAKE_WARN_DEPRECATED",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Deprecated.  Use -W[no-]deprecated instead."
+				}
+			],
+			"type" : "INTERNAL",
+			"value" : "ON"
+		},
+		{
 			"name" : "FIND_PACKAGE_MESSAGE_DETAILS_Threads",
 			"properties" : 
 			[
@@ -1359,7 +1395,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "D:/MaxCore_REMASTERED/build"
+			"value" : "C:/Users/6041464/Documents/MaxCore_REMASTERED/build"
 		},
 		{
 			"name" : "lua_native_engine_IS_TOP_LEVEL",
@@ -1383,7 +1419,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "D:/MaxCore_REMASTERED"
+			"value" : "C:/Users/6041464/Documents/MaxCore_REMASTERED"
 		}
 	],
 	"kind" : "cache",
