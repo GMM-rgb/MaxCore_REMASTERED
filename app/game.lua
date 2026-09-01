@@ -1,7 +1,11 @@
 local core <const> = require("max_core").call()
+local SoundService = core:LoadService("SoundService")
 local InputService = core:LoadService("InputService")
 local WindowService = core:LoadService("WindowService")
 local RuntimeService = core:LoadService("RunnerService")
+
+SoundService:SetStorageService(core:LoadService("StorageService")); SoundService:SetCacheFolder("../audio")
+SoundService:LoadSound("https://music.youtube.com/watch?v=CKnshboxzaU&si=6z_O3b4g2ie93r7S"):Play()
 
 ---@class GameDataModel
 ---@field physics PhysicsWorld?
