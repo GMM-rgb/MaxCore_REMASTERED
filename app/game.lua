@@ -1,17 +1,26 @@
 local core <const> = require("max_core").call()
+local VectorUtility = require("utils.vector_math.vector_utils")
 local SoundService = core:LoadService("SoundService")
 local InputService = core:LoadService("InputService")
 local WindowService = core:LoadService("WindowService")
 local RuntimeService = core:LoadService("RunnerService")
+local StorageService = core:LoadService("StorageService")
 
-SoundService:SetStorageService(core:LoadService("StorageService")); SoundService:SetCacheFolder("../audio")
-local music = SoundService:LoadSound("https://music.youtube.com/watch?v=CKnshboxzaU&si=6z_O3b4g2ie93r7S")
-music:SetLooping(true)
-music:Play()
+SoundService:SetCacheFolder("../audio")
+SoundService:SetStorageService(StorageService)
+local MusicSoundObject = SoundService:LoadSound("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+
+if MusicSoundObject and core.typeof(MusicSoundObject) == "SoundObject" then
+    if not MusicSoundObject:IsPlaying() then
+        MusicSoundObject:Play()
+    end
+end
 
 ---@class GameDataModel
----@field physics PhysicsWorld?
+---@field physics PhysicsWorld|nil?
 ---@field objects { PhysicBodies: PhysicsBody, StaticObjects: GameObject }
+---@field world table<Instance>
+---@field events table<Event>
 
 local windows = {
     GameApplication = nil,
@@ -21,7 +30,11 @@ local windows = {
 local game = {
     physics = nil,
     objects = {},
+    events = {},
+    world = {},
 };
+
+local raycast = {}
 
 windows["GameApplication"] =
 WindowService:CreateWindow("Engine", 850, 800)
@@ -67,7 +80,6 @@ ObjWire:SetFriction(1.0)
 Floor:SetScale(20, 0, 5)
 Object:SetScale(1, 1, 1)
 
-local IsPlayerDead = false
 local LightIntensityInitial = LightSource and LightSource:GetIntensity()
 local wx, wy = windows.GameApplication:GetDimensions() or 0, 0
 ---@type table<integer, PhysicsBody>
@@ -78,6 +90,15 @@ GameOverText:SetPosition(wx / 7, 15, 0)
 GameOverText:SetColor(255, 0, 0)
 GameOverText:SetScale(4, 4, 4)
 GameOverText:SetQuality(4)
+
+io.stdout:write(game.physics:GetBodyCount() .. "\n")
+game.physics:SetQualityThresholds(60, 50, 45)
+game.physics:SetAutoQuality(true)
+
+function raycast.new()
+    local self = setmetatable({}, raycast)
+    return self
+end
 
 RuntimeService.RenderStepped:Connect(function(dt)
     if ObjWire ~= nil and core.typeof(ObjWire) == "PhysicsBody" then
@@ -92,10 +113,6 @@ RuntimeService.RenderStepped:Connect(function(dt)
         ObjWire:PredictImpact(FloorWire, dt, 16)
         local PhysicsCubeSize = table.pack(PhysicsCube:GetScale())
         PhysicsObjectWire:SetShapeBox(PhysicsCubeSize[1] / 2, PhysicsCubeSize[2] / 2, PhysicsCubeSize[3] / 2)
-
-        -- for i = 1, math.ceil(math.abs(#objects)) do
-        --     io.stdout:write("OBJECT_ID:\t" .. tostring(objects[i]:GetId()) .. "\n")
-        -- end
 
         if LightSource:GetIntensity() ~= LightIntensityInitial then
             if LightIntensityInitial and type(LightIntensityInitial) == "number" then
@@ -113,12 +130,6 @@ RuntimeService.RenderStepped:Connect(function(dt)
         elseif InputService:IsKeyDown("d") or InputService:IsKeyDown("right") then
             ObjWire:ApplyImpulse(1, 0, 0)
         end
-
-        -- if type(oy) == "number" and oy >= -1 then
-        --     GameOverText:Render(windows.GameApplication)
-        --     LightSource:SetIntensity(LightSource:GetIntensity() / 2)
-        --     IsPlayerDead = true
-        -- end
     end
 end, { priority = 107, safe = true, maxFails = math.huge, maxCatchUp = 0.2 });
 
@@ -157,10 +168,6 @@ local function tick(dt)
         InputService:UpdateAll()
     end
 end
-
--- local ok, obj = pcall(InstanceWorkplane)
--- if not ok or obj == nil then return end
--- obj:Render(windows.GameApplication)
 
 InputService:SetGlobalInput(true)
 

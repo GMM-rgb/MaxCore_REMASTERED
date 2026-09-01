@@ -13,8 +13,6 @@ VectorUtils.WindowService = nil
 ---@field RotZ number
 ---@field Z number
 
----@class 
-
 ---@class DistanceArguments
 ---@field x1 number
 ---@field x2 number
