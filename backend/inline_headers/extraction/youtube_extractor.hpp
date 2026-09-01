@@ -1,6 +1,12 @@
 #ifndef YOUTUBE_EXTRACTOR_HPP
 #define YOUTUBE_EXTRACTOR_HPP
 
+#ifndef _WIN32
+#error "This header is designed exclusively for Win32/Windows systems."
+#endif
+
+#include <windows.h>
+#include <urlmon.h>
 #include <string>
 #include <iostream>
 #include <filesystem>
@@ -15,22 +21,9 @@
 #include <atomic>
 #include <algorithm>
 
-namespace fs = std::filesystem;
+#pragma comment(lib, "urlmon.lib")
 
-#if defined(_WIN32) || defined(_WIN64)
-    #define YT_OS_WINDOWS
-    #define YT_EXE_EXT ".exe"
-    #define YT_DEV_NULL "NUL"
-    #include <windows.h>
-#elif defined(__APPLE__)
-    #define YT_OS_MACOS
-    #define YT_EXE_EXT ""
-    #define YT_DEV_NULL "/dev/null"
-#else
-    #define YT_OS_LINUX
-    #define YT_EXE_EXT ""
-    #define YT_DEV_NULL "/dev/null"
-#endif
+namespace fs = std::filesystem;
 
 // ============================================================================
 // Progress Tracker
@@ -46,7 +39,7 @@ struct ProgressTracker {
     std::string extractLabel{"MP3 Conversion"};
 
     void UpdateDownload(double currentBytes, double streamTotalBytes = 0) {
-        if (isExtracting.load()) return; // Freeze download stats during extraction
+        if (isExtracting.load()) return;
 
         if (streamTotalBytes > 0) {
             double prevTot = downloadTotal.load();
@@ -65,20 +58,21 @@ struct ProgressTracker {
 class DownloadProgressBar {
 private:
     static void EnableVTMode() {
-        #if defined(YT_OS_WINDOWS)
-            static bool enabled = false;
-            if (!enabled) {
-                HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-                if (hOut != INVALID_HANDLE_VALUE) {
-                    DWORD dwMode = 0;
-                    if (GetConsoleMode(hOut, &dwMode)) {
-                        dwMode |= 0x0004; // ENABLE_VIRTUAL_TERMINAL_PROCESSING
-                        SetConsoleMode(hOut, dwMode);
-                    }
+        static bool enabled = false;
+        if (!enabled) {
+            SetConsoleOutputCP(CP_UTF8);
+            SetConsoleCP(CP_UTF8);
+
+            HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+            if (hOut != INVALID_HANDLE_VALUE) {
+                DWORD dwMode = 0;
+                if (GetConsoleMode(hOut, &dwMode)) {
+                    dwMode |= 0x0004; // ENABLE_VIRTUAL_TERMINAL_PROCESSING
+                    SetConsoleMode(hOut, dwMode);
                 }
-                enabled = true;
             }
-        #endif
+            enabled = true;
+        }
     }
 
 public:
@@ -111,7 +105,6 @@ public:
         return oss.str();
     }
 
-    // 3D Depth Bar: Solid Cyan blocks for filled portion, Dark Cyan background for track
     static std::string BuildBar(double current, double total, int width = 24) {
         double ratio = (total > 0) ? (current / total) : 0.0;
         ratio = std::clamp(ratio, 0.0, 1.0);
@@ -125,29 +118,24 @@ public:
 
         std::ostringstream bar;
 
-        // Left Cap: Heavy Pipe (┃)
         bar << "\033[38;5;242m┃\033[0m";
 
-        // Solid Bright Cyan Filled Portion (Foreground 39 / Background 39)
         bar << "\033[38;5;39m\033[48;5;39m";
         for (int i = 0; i < fullBlocks; ++i) {
             bar << "█";
         }
 
-        // Sub-block Transition Edge (Bright Cyan FG 39 / Dark Cyan BG 24)
         if (hasHalfBlock) {
             bar << "\033[38;5;39m\033[48;5;24m▌";
         }
 
-        // Unfilled Track (Dark Cyan Background 24)
         bar << "\033[48;5;24m";
         for (int i = 0; i < emptyBlocks; ++i) {
             bar << " ";
         }
 
-        bar << "\033[0m"; // Reset ANSI attributes
+        bar << "\033[0m";
 
-        // Right Cap: Heavy Pipe (┃)
         bar << "\033[38;5;242m┃\033[0m";
 
         return bar.str();
@@ -158,7 +146,6 @@ public:
 
         static int prevLines = 1;
 
-        // Move cursor up and clear previously rendered lines to prevent vertical line stacking
         if (prevLines > 1) {
             for (int i = 0; i < prevLines - 1; ++i) {
                 std::cout << "\033[1A\033[2K";
@@ -179,7 +166,6 @@ public:
 
         std::string dlBarStr = BuildBar(dlCur, dlTot, 24);
 
-        // Download Line
         std::cout << "[" << std::left << std::setw(18) << tracker.downloadLabel << "] "
                   << dlBarStr << " "
                   << std::right << std::setw(5) << std::fixed << std::setprecision(1) << (dlRatio * 100.0) << "% | "
@@ -187,7 +173,6 @@ public:
                   << " | Speed: " << FormatSize(speed) << "/s"
                   << " | ETA: " << FormatTime(eta);
 
-        // Conversion Line
         if (tracker.isExtracting.load()) {
             double extCur = tracker.extractCurrent.load();
             double extTot = tracker.extractTotal.load();
@@ -224,23 +209,62 @@ private:
     }
 
     static int RunSystemCommand(const std::string& cmd) {
-        #if defined(YT_OS_WINDOWS)
-            std::string wrapped = "\"" + cmd + "\"";
-            return system(wrapped.c_str());
-        #else
-            return system(cmd.c_str());
-        #endif
+        return system(cmd.c_str());
+    }
+
+    static bool EnsureDependencies() {
+        fs::path modulesDir = GetModulesDir();
+        fs::path ytDlpPath = modulesDir / "yt-dlp.exe";
+        fs::path ffmpegPath = modulesDir / "ffmpeg.exe";
+
+        if (!fs::exists(ytDlpPath) || fs::file_size(ytDlpPath) < 10000) {
+            std::cout << "[Dependency Check] Downloading yt-dlp.exe..." << std::endl;
+            const char* ytDlpUrl = "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe";
+            
+            HRESULT hr = URLDownloadToFileA(NULL, ytDlpUrl, ytDlpPath.string().c_str(), 0, NULL);
+            if (FAILED(hr) || !fs::exists(ytDlpPath)) {
+                std::cerr << "[Error] Failed to download yt-dlp.exe!" << std::endl;
+                return false;
+            }
+            std::cout << "[Dependency Check] yt-dlp.exe installed successfully." << std::endl;
+        }
+
+        if (!fs::exists(ffmpegPath) || fs::file_size(ffmpegPath) < 10000) {
+            std::cout << "[Dependency Check] Downloading FFmpeg build..." << std::endl;
+            
+            fs::path zipPath = modulesDir / "ffmpeg_temp.zip";
+            fs::path tempExtractDir = modulesDir / "ffmpeg_temp";
+
+            std::string downloadCmd = "powershell -Command \"[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; "
+                                      "Invoke-WebRequest -Uri 'https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip' "
+                                      "-OutFile '" + zipPath.generic_string() + "'\"";
+            
+            if (RunSystemCommand(downloadCmd) != 0 || !fs::exists(zipPath)) {
+                std::cerr << "[Error] Failed to download FFmpeg zip archive!" << std::endl;
+                return false;
+            }
+
+            std::string extractCmd = "powershell -Command \"Expand-Archive -Path '" + zipPath.generic_string() + "' -DestinationPath '" + tempExtractDir.generic_string() + "' -Force; "
+                                     "Get-ChildItem -Path '" + tempExtractDir.generic_string() + "' -Recurse -Filter 'ffmpeg.exe' | Copy-Item -Destination '" + ffmpegPath.generic_string() + "'; "
+                                     "Remove-Item -Recurse -Force '" + tempExtractDir.generic_string() + "', '" + zipPath.generic_string() + "'\"";
+
+            RunSystemCommand(extractCmd);
+
+            if (!fs::exists(ffmpegPath)) {
+                std::cerr << "[Error] Failed to extract ffmpeg.exe!" << std::endl;
+                return false;
+            }
+            std::cout << "[Dependency Check] FFmpeg converter installed successfully." << std::endl;
+        }
+
+        return true;
     }
 
     static bool ExecuteYtDlpStream(const std::string& cmd, ProgressTracker& tracker) {
-        std::string pipeCmd = cmd + " --newline --progress-template \"dl_data:%(progress.downloaded_bytes)s/%(progress.total_bytes)s/%(progress.total_bytes_estimate)s\"";
+        // Outer wrapping quotes prevent cmd.exe from stripping inner quotes on Windows
+        std::string pipeCmd = "\"" + cmd + " --newline --progress-template \"dl_data:%(progress.downloaded_bytes)s/%(progress.total_bytes)s/%(progress.total_bytes_estimate)s\"\"";
 
-        #if defined(YT_OS_WINDOWS)
-            FILE* pipe = _popen(pipeCmd.c_str(), "r");
-        #else
-            FILE* pipe = popen(pipeCmd.c_str(), "r");
-        #endif
-
+        FILE* pipe = _popen(pipeCmd.c_str(), "r");
         if (!pipe) return false;
 
         char buffer[512];
@@ -251,10 +275,8 @@ private:
         while (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
             std::string line(buffer);
 
-            // Detect transition into post-processing (extraction / ffmpeg encoding)
             if (line.find("[ExtractAudio]") != std::string::npos || line.find("[ffmpeg]") != std::string::npos) {
                 if (!tracker.isExtracting.load()) {
-                    // Lock download bar at 100% when extraction starts
                     double finalTot = tracker.downloadTotal.load();
                     if (finalTot <= 0) finalTot = 1.0;
                     tracker.downloadCurrent.store(finalTot);
@@ -262,7 +284,6 @@ private:
                 }
             }
 
-            // Only update download byte counts if extraction has NOT started yet
             if (!tracker.isExtracting.load()) {
                 if (std::regex_search(line, match, templateRegex)) {
                     std::string curStr = match[1].str();
@@ -300,11 +321,7 @@ private:
             }
         }
 
-        #if defined(YT_OS_WINDOWS)
-            int status = _pclose(pipe);
-        #else
-            int status = pclose(pipe);
-        #endif
+        int status = _pclose(pipe);
 
         if (status == 0) {
             double finalSize = tracker.downloadTotal.load();
@@ -374,11 +391,16 @@ public:
     }
 
     static std::string ResolveToLocalFile(const std::string& inputUrl, const fs::path& cacheDir) {
+        if (!EnsureDependencies()) {
+            std::cerr << "[Error] Dependent binaries could not be downloaded/resolved." << std::endl;
+            return "";
+        }
+
         if (!IsYouTubeUrl(inputUrl)) {
             return inputUrl;
         }
 
-        fs::path absoluteCacheDir = fs::absolute(cacheDir);
+        fs::path absoluteCacheDir = cacheDir.empty() ? (fs::current_path() / "cache") : fs::absolute(cacheDir);
         if (!fs::exists(absoluteCacheDir)) {
             std::error_code ec;
             fs::create_directories(absoluteCacheDir, ec);
@@ -389,23 +411,25 @@ public:
             return "";
         }
 
+        std::string cleanUrl = "https://www.youtube.com/watch?v=" + videoId;
+
         fs::path outputTemplatePath = absoluteCacheDir / ("yt_" + videoId);
         fs::path expectedMp3 = absoluteCacheDir / ("yt_" + videoId + ".mp3");
 
         if (fs::exists(expectedMp3) && fs::file_size(expectedMp3) > 1024) {
-            return expectedMp3.string();
+            return expectedMp3.generic_string();
         }
 
-        fs::path ytDlpPath = GetModulesDir() / ("yt-dlp" YT_EXE_EXT);
+        fs::path ytDlpPath = GetModulesDir() / "yt-dlp.exe";
         fs::path ffmpegDir = GetModulesDir();
 
         auto futureProgress = ExecuteProcedureWithProgressAsync(
             "Downloading Stream", "MP3 Conversion",
             [&](ProgressTracker& tracker) -> bool {
-                std::string cmd = "\"" + ytDlpPath.string() + "\" --no-warnings --no-playlist "
-                                  "--ffmpeg-location \"" + ffmpegDir.string() + "\" "
+                std::string cmd = "\"" + ytDlpPath.generic_string() + "\" --no-warnings --no-playlist "
+                                  "--ffmpeg-location \"" + ffmpegDir.generic_string() + "\" "
                                   "-x --audio-format mp3 --audio-quality 0 "
-                                  "-o \"" + outputTemplatePath.string() + ".%(ext)s\" \"" + inputUrl + "\"";
+                                  "-o \"" + outputTemplatePath.generic_string() + ".%(ext)s\" \"" + cleanUrl + "\"";
 
                 bool success = ExecuteYtDlpStream(cmd, tracker);
 
@@ -418,7 +442,6 @@ public:
 
         futureProgress.get();
 
-        // Cleanup temporary intermediate files (.webm, .m4a, .part, .ytdl)
         std::string videoPrefix = "yt_" + videoId;
         std::error_code ec;
         if (fs::exists(absoluteCacheDir, ec)) {
@@ -433,7 +456,7 @@ public:
         }
 
         if (fs::exists(expectedMp3) && fs::file_size(expectedMp3) > 1024) {
-            return expectedMp3.string();
+            return expectedMp3.generic_string();
         }
 
         return "";

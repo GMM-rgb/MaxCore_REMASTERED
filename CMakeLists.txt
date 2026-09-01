@@ -73,13 +73,12 @@ set(NATIVE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/backend/physics_management.cpp
 )
 
-find_package(Threads REQUIRED)
-
+find_package(Threads REQUIRED) # includes the `Threads` library
 set(PLATFORM_LIBS Threads::Threads lua_shared)
 
 if(WIN32)
     message(STATUS "[Engine] Target OS: Windows")
-    list(APPEND PLATFORM_LIBS winmm user32)
+    list(APPEND PLATFORM_LIBS winmm user32 urlmon)
 elseif(APPLE)
     message(STATUS "[Engine] Target OS: macOS")
     list(APPEND PLATFORM_LIBS "-framework CoreAudio" "-framework CoreFoundation" "-framework AudioToolbox" "-framework ApplicationServices" "-framework Cocoa")
