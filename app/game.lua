@@ -6,8 +6,7 @@ local WindowService = core:LoadService("WindowService")
 local RuntimeService = core:LoadService("RunnerService")
 local StorageService = core:LoadService("StorageService")
 
-SoundService:SetCacheFolder("../audio")
-SoundService:SetStorageService(StorageService)
+SoundService:SetStorageService(StorageService); SoundService:SetCacheFolder("../audio")
 local MusicSoundObject = SoundService:LoadSound("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
 
 if MusicSoundObject and core.typeof(MusicSoundObject) == "SoundObject" then

@@ -1,12 +1,6 @@
 #ifndef YOUTUBE_EXTRACTOR_HPP
 #define YOUTUBE_EXTRACTOR_HPP
 
-#ifndef _WIN32
-#error "This header is designed exclusively for Win32/Windows systems."
-#endif
-
-#include <windows.h>
-#include <urlmon.h>
 #include <string>
 #include <iostream>
 #include <filesystem>
@@ -21,7 +15,34 @@
 #include <atomic>
 #include <algorithm>
 
-#pragma comment(lib, "urlmon.lib")
+// ============================================================================
+// Platform Abstraction Layer
+// ============================================================================
+
+#if defined(_WIN32) || defined(__WIN32__) || defined(WIN32)
+    #define EXTRACTOR_OS_WINDOWS
+    #include <windows.h>
+    #include <urlmon.h>
+    #pragma comment(lib, "urlmon.lib")
+    #define CROSS_POPEN _popen
+    #define CROSS_PCLOSE _pclose
+    constexpr const char* YT_DLP_NAME = "yt-dlp.exe";
+    constexpr const char* FFMPEG_NAME = "ffmpeg.exe";
+#elif defined(__APPLE__) || defined(__MACH__)
+    #define EXTRACTOR_OS_MAC
+    #include <unistd.h>
+    #define CROSS_POPEN popen
+    #define CROSS_PCLOSE pclose
+    constexpr const char* YT_DLP_NAME = "yt-dlp";
+    constexpr const char* FFMPEG_NAME = "ffmpeg";
+#else
+    #define EXTRACTOR_OS_LINUX
+    #include <unistd.h>
+    #define CROSS_POPEN popen
+    #define CROSS_PCLOSE pclose
+    constexpr const char* YT_DLP_NAME = "yt-dlp";
+    constexpr const char* FFMPEG_NAME = "ffmpeg";
+#endif
 
 namespace fs = std::filesystem;
 
@@ -58,6 +79,7 @@ struct ProgressTracker {
 class DownloadProgressBar {
 private:
     static void EnableVTMode() {
+#if defined(EXTRACTOR_OS_WINDOWS)
         static bool enabled = false;
         if (!enabled) {
             SetConsoleOutputCP(CP_UTF8);
@@ -73,6 +95,7 @@ private:
             }
             enabled = true;
         }
+#endif
     }
 
 public:
@@ -117,9 +140,7 @@ public:
         int emptyBlocks = width - fullBlocks - (hasHalfBlock ? 1 : 0);
 
         std::ostringstream bar;
-
         bar << "\033[38;5;242m┃\033[0m";
-
         bar << "\033[38;5;39m\033[48;5;39m";
         for (int i = 0; i < fullBlocks; ++i) {
             bar << "█";
@@ -133,9 +154,7 @@ public:
         for (int i = 0; i < emptyBlocks; ++i) {
             bar << " ";
         }
-
         bar << "\033[0m";
-
         bar << "\033[38;5;242m┃\033[0m";
 
         return bar.str();
@@ -214,24 +233,42 @@ private:
 
     static bool EnsureDependencies() {
         fs::path modulesDir = GetModulesDir();
-        fs::path ytDlpPath = modulesDir / "yt-dlp.exe";
-        fs::path ffmpegPath = modulesDir / "ffmpeg.exe";
+        fs::path ytDlpPath = modulesDir / YT_DLP_NAME;
+        fs::path ffmpegPath = modulesDir / FFMPEG_NAME;
 
+        // 1. Check & Download yt-dlp
         if (!fs::exists(ytDlpPath) || fs::file_size(ytDlpPath) < 10000) {
-            std::cout << "[Dependency Check] Downloading yt-dlp.exe..." << std::endl;
-            const char* ytDlpUrl = "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe";
+            std::cout << "[Dependency Check] Downloading yt-dlp..." << std::endl;
             
+#if defined(EXTRACTOR_OS_WINDOWS)
+            const char* ytDlpUrl = "https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp.exe";
             HRESULT hr = URLDownloadToFileA(NULL, ytDlpUrl, ytDlpPath.string().c_str(), 0, NULL);
-            if (FAILED(hr) || !fs::exists(ytDlpPath)) {
-                std::cerr << "[Error] Failed to download yt-dlp.exe!" << std::endl;
-                return false;
-            }
-            std::cout << "[Dependency Check] yt-dlp.exe installed successfully." << std::endl;
+            if (FAILED(hr) || !fs::exists(ytDlpPath)) return false;
+#elif defined(EXTRACTOR_OS_MAC)
+            std::string curlCmd = "curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_macos -o \"" + ytDlpPath.generic_string() + "\" && chmod +x \"" + ytDlpPath.generic_string() + "\"";
+            if (RunSystemCommand(curlCmd) != 0 || !fs::exists(ytDlpPath)) return false;
+#else // Linux
+            std::string curlCmd = "curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o \"" + ytDlpPath.generic_string() + "\" && chmod +x \"" + ytDlpPath.generic_string() + "\"";
+            if (RunSystemCommand(curlCmd) != 0 || !fs::exists(ytDlpPath)) return false;
+#endif
+            std::cout << "[Dependency Check] yt-dlp installed successfully." << std::endl;
         }
 
+        // 2. Check & Download FFmpeg
         if (!fs::exists(ffmpegPath) || fs::file_size(ffmpegPath) < 10000) {
+            // Check if system-installed ffmpeg is available on POSIX
+#if !defined(EXTRACTOR_OS_WINDOWS)
+            if (RunSystemCommand("which ffmpeg > /dev/null 2>&1") == 0) {
+                // System ffmpeg exists, create symlink or copy to modules
+                std::string linkCmd = "ln -sf $(which ffmpeg) \"" + ffmpegPath.generic_string() + "\"";
+                RunSystemCommand(linkCmd);
+                if (fs::exists(ffmpegPath)) return true;
+            }
+#endif
+
             std::cout << "[Dependency Check] Downloading FFmpeg build..." << std::endl;
-            
+
+#if defined(EXTRACTOR_OS_WINDOWS)
             fs::path zipPath = modulesDir / "ffmpeg_temp.zip";
             fs::path tempExtractDir = modulesDir / "ffmpeg_temp";
 
@@ -239,19 +276,23 @@ private:
                                       "Invoke-WebRequest -Uri 'https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip' "
                                       "-OutFile '" + zipPath.generic_string() + "'\"";
             
-            if (RunSystemCommand(downloadCmd) != 0 || !fs::exists(zipPath)) {
-                std::cerr << "[Error] Failed to download FFmpeg zip archive!" << std::endl;
-                return false;
-            }
+            if (RunSystemCommand(downloadCmd) != 0 || !fs::exists(zipPath)) return false;
 
             std::string extractCmd = "powershell -Command \"Expand-Archive -Path '" + zipPath.generic_string() + "' -DestinationPath '" + tempExtractDir.generic_string() + "' -Force; "
                                      "Get-ChildItem -Path '" + tempExtractDir.generic_string() + "' -Recurse -Filter 'ffmpeg.exe' | Copy-Item -Destination '" + ffmpegPath.generic_string() + "'; "
                                      "Remove-Item -Recurse -Force '" + tempExtractDir.generic_string() + "', '" + zipPath.generic_string() + "'\"";
 
             RunSystemCommand(extractCmd);
+#elif defined(EXTRACTOR_OS_MAC)
+            std::string fetchCmd = "curl -L https://evermeet.cx/ffmpeg/getrelease/zip -o modules/ffmpeg.zip && unzip -o modules/ffmpeg.zip -d modules/ && chmod +x modules/ffmpeg && rm modules/ffmpeg.zip";
+            RunSystemCommand(fetchCmd);
+#else // Linux
+            std::string fetchCmd = "curl -L https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz -o modules/ffmpeg.tar.xz && tar -xf modules/ffmpeg.tar.xz -C modules/ --strip-components=1 && chmod +x modules/ffmpeg && rm modules/ffmpeg.tar.xz";
+            RunSystemCommand(fetchCmd);
+#endif
 
             if (!fs::exists(ffmpegPath)) {
-                std::cerr << "[Error] Failed to extract ffmpeg.exe!" << std::endl;
+                std::cerr << "[Error] Failed to install ffmpeg binary!" << std::endl;
                 return false;
             }
             std::cout << "[Dependency Check] FFmpeg converter installed successfully." << std::endl;
@@ -261,10 +302,14 @@ private:
     }
 
     static bool ExecuteYtDlpStream(const std::string& cmd, ProgressTracker& tracker) {
-        // Outer wrapping quotes prevent cmd.exe from stripping inner quotes on Windows
-        std::string pipeCmd = "\"" + cmd + " --newline --progress-template \"dl_data:%(progress.downloaded_bytes)s/%(progress.total_bytes)s/%(progress.total_bytes_estimate)s\"\"";
+        std::string pipeCmd;
+#if defined(EXTRACTOR_OS_WINDOWS)
+        pipeCmd = "\"" + cmd + " --newline --progress-template \"dl_data:%(progress.downloaded_bytes)s/%(progress.total_bytes)s/%(progress.total_bytes_estimate)s\"\"";
+#else
+        pipeCmd = cmd + " --newline --progress-template \"dl_data:%(progress.downloaded_bytes)s/%(progress.total_bytes)s/%(progress.total_bytes_estimate)s\"";
+#endif
 
-        FILE* pipe = _popen(pipeCmd.c_str(), "r");
+        FILE* pipe = CROSS_POPEN(pipeCmd.c_str(), "r");
         if (!pipe) return false;
 
         char buffer[512];
@@ -321,7 +366,7 @@ private:
             }
         }
 
-        int status = _pclose(pipe);
+        int status = CROSS_PCLOSE(pipe);
 
         if (status == 0) {
             double finalSize = tracker.downloadTotal.load();
@@ -420,7 +465,7 @@ public:
             return expectedMp3.generic_string();
         }
 
-        fs::path ytDlpPath = GetModulesDir() / "yt-dlp.exe";
+        fs::path ytDlpPath = GetModulesDir() / YT_DLP_NAME;
         fs::path ffmpegDir = GetModulesDir();
 
         auto futureProgress = ExecuteProcedureWithProgressAsync(
