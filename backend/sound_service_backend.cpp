@@ -130,6 +130,14 @@ static SoundHandle* getOrCreateSound(const std::string& path) {
 // LUA BINDINGS
 // =========================================================================
 
+static int l_load_sound(lua_State* L) {
+    const char* path = luaL_checkstring(L, 1);
+    std::lock_guard<std::mutex> lock(g_soundMutex);
+    SoundHandle* handle = getOrCreateSound(path);
+    lua_pushboolean(L, handle != nullptr);
+    return 1;
+}
+
 static int l_play(lua_State* L) {
     const char* path = luaL_checkstring(L, 1);
     float volume = (float)luaL_optnumber(L, 2, 1.0);
@@ -384,6 +392,7 @@ static int l_clear_cache(lua_State* L) {
 
 extern "C" EXPORT_FN int luaopen_sound_native(lua_State* L) {
     static const luaL_Reg soundFuncs[] = {
+        {"load", l_load_sound},
         {"play", l_play},
         {"stop", l_stop},
         {"pause", l_pause},

@@ -39,7 +39,9 @@ local SoundObject = {}
 SoundObject.__index = SoundObject
 InstanceType.SetType(SoundObject, "SoundObject")
 
-function SoundObject.new(filePath, serviceOwner)
+---@param filePath string
+---@param serviceOwner SoundService
+function SoundObject.new(serviceOwner, filePath)
     local self = setmetatable({}, SoundObject)
     self._path = filePath
     self._service = serviceOwner
@@ -208,7 +210,7 @@ end
 ---@param self SoundObject
 ---@return SoundObject
 function SoundObject:Clone()
-    local clone = SoundObject.new(self._path, self._service)
+    local clone = SoundObject.new(self._service, self._path)
     clone:SetVolume(self._volume)
     clone:SetPitch(self._pitch)
     clone:SetLooping(self._loop)
@@ -338,14 +340,21 @@ function SoundService:GetCacheSize()
 end
 
 --[=[
-    Import audio files for program playback.  
+    Import and preload audio files into memory/cache for program playback.  
     **VALID:** local-file-path / youtube URL.
 ]=]
 ---@param self SoundService
 ---@param filePath string
 function SoundService:LoadSound(filePath)
     if not self._cachedSounds[filePath] then
-        self._cachedSounds[filePath] = SoundObject.new(filePath, self)
+        local soundObj = SoundObject.new(self, filePath)
+        
+        -- Trigger immediate download and miniaudio RAM decoding
+        if native_ok and type(sound_native.load) == "function" then
+            sound_native.load(filePath)
+        end
+        
+        self._cachedSounds[filePath] = soundObj
     end
     return self._cachedSounds[filePath]
 end

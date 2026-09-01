@@ -5,7 +5,9 @@ local WindowService = core:LoadService("WindowService")
 local RuntimeService = core:LoadService("RunnerService")
 
 SoundService:SetStorageService(core:LoadService("StorageService")); SoundService:SetCacheFolder("../audio")
-SoundService:LoadSound("https://music.youtube.com/watch?v=CKnshboxzaU&si=6z_O3b4g2ie93r7S"):Play()
+local music = SoundService:LoadSound("https://music.youtube.com/watch?v=CKnshboxzaU&si=6z_O3b4g2ie93r7S")
+music:SetLooping(true)
+music:Play()
 
 ---@class GameDataModel
 ---@field physics PhysicsWorld?
