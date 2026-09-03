@@ -13,7 +13,7 @@
     "Lua.hint.paramName": "Disable",
     "Lua.hint.paramType": false,
 
-    "cmake.cmakePath": "C:/Users/6041464/gcc/bin/cmake.exe",
-    // "cmake.cmakePath": "opt/homebrew/bin/cmake"
+    // "cmake.cmakePath": "C:/Users/6041464/gcc/bin/cmake.exe",
+    "cmake.cmakePath": "opt/homebrew/bin/cmake"
     // "pixelbyte.love2d.path": "C:/Program Files/LOVE/love.exe"
 }

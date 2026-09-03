@@ -19,11 +19,25 @@ VectorUtils.WindowService = nil
 ---@field y1 number
 ---@field y2 number
 
+---@class ThreeDistanceArguments : DistanceArguments
+---@field z1 number
+---@field z2 number
+
 ---@param coordinates DistanceArguments
-function VectorUtils.getDistance(coordinates)
+function VectorUtils.GetDistance2D(coordinates)
     local FormatedGroupOne = coordinates.x1 - coordinates.x2
     local FormatedGroupTwo = coordinates.y1 - coordinates.y2
-    local distance = math.sqrt(FormatedGroupOne^2+FormatedGroupTwo^2)
+    return math.sqrt(FormatedGroupOne^2 + FormatedGroupTwo^2)
+end
+
+---@param coordinates ThreeDistanceArguments
+function VectorUtils.GetDistance3D(coordinates)
+    local GroupOne = coordinates.x1 - coordinates.x2 ^ 2
+    local GroupTwo = coordinates.y1 - coordinates.y2 ^ 2
+    local GroupThree = coordinates.z1 - coordinates.z2 ^ 2
+    local PrimaryDistance = math.sqrt(GroupOne + GroupTwo)
+    local SecondaryDistance =  math.sqrt(PrimaryDistance + GroupThree)
+    return SecondaryDistance or math.huge or "<unkown-vector>"
 end
 
 function VectorUtility.new()
@@ -54,6 +68,6 @@ function VectorUtility:_3D()
 end
 
 return {
-    VectorUtility,
-    VectorUtils,
+    VectorWorkspace = VectorUtility,
+    VectorMath = VectorUtils,
 };

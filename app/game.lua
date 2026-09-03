@@ -5,15 +5,16 @@ local InputService = core:LoadService("InputService")
 local WindowService = core:LoadService("WindowService")
 local RuntimeService = core:LoadService("RunnerService")
 local StorageService = core:LoadService("StorageService")
+local RaycastUtility = {}
 
 SoundService:SetStorageService(StorageService); SoundService:SetCacheFolder("../audio")
 local MusicSoundObject = SoundService:LoadSound("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
 
-if MusicSoundObject and core.typeof(MusicSoundObject) == "SoundObject" then
-    if not MusicSoundObject:IsPlaying() then
-        MusicSoundObject:Play()
-    end
-end
+-- if MusicSoundObject and core.typeof(MusicSoundObject) == "SoundObject" then
+--     if not MusicSoundObject:IsPlaying() then
+--         MusicSoundObject:Play()
+--     end
+-- end
 
 ---@class GameDataModel
 ---@field physics PhysicsWorld|nil?
@@ -32,8 +33,6 @@ local game = {
     events = {},
     world = {},
 };
-
-local raycast = {}
 
 windows["GameApplication"] =
 WindowService:CreateWindow("Engine", 850, 800)
@@ -54,11 +53,58 @@ local PhysicsObjectWire = windows.GameApplication:BindPhysics(PhysicsCube)
 local FloorWire = windows.GameApplication:BindPhysics(Floor)
 local ObjWire = windows.GameApplication:BindPhysics(Object)
 
+---@class PlatformConfig
+---@field size table<number>
+---@field position table<number>
+---@type table<PlatformConfig>
+local PlatformCoordinates = {
+    [1] = {
+        position = { -5, -4, 0 },
+        size = { 4, 0.5, 2 },
+    },
+    [2] = {
+        position = { -1, -7, 0 },
+        size = { 3.5, 0.5, 2 },
+    },
+    [3] = {
+        position = { 6, -15, 0 },
+        size = { 4.25, 0.5, 2 },
+    },
+};
+
+local function CreatePlatforms()
+    ---@type table<integer, CubeObject>
+    local platforms = {}
+
+    for _, PlatformConfiguration in ipairs(PlatformCoordinates) do
+        local PlatformInstance = windows.GameApplication:CreateCube()
+        local PlatformPhysics = windows.GameApplication:BindPhysics(PlatformInstance)
+        PlatformInstance:SetPosition(table.unpack(PlatformConfiguration.position))
+        PlatformInstance:SetScale(table.unpack(PlatformConfiguration.size))
+        PlatformInstance:SetFillMode("wireframe")
+        if not PlatformPhysics then return end
+        print("OK:\t", PlatformInstance, PlatformPhysics)
+        table.insert(platforms, PlatformInstance)
+        local PIS = table.pack(PlatformInstance:GetScale())
+        local ShapeBox = { PIS[1] / 2, PIS[2] / 2, PIS[3] / 2 }
+        PlatformPhysics:SetShapeBox(table.unpack(ShapeBox))
+        PlatformPhysics:SetStatic(true)
+    end
+
+    ---@param dt number
+    RuntimeService.RenderStepped:Connect(function(dt)
+        for _, SelectedPlatform in ipairs(platforms or {}) do
+            SelectedPlatform:Render(windows.GameApplication)
+            -- print(SelectedPlatform:GetPosition() or 0, 0, 0)
+        end
+    end)
+end
+
 if MainCamera ~= nil and core.typeof(MainCamera) == "CameraObject" then
     windows.GameApplication:SetActiveCamera(MainCamera); MainCamera:SetFOV(70)
     MainCamera:SetClipPlanes(1, 50)
     MainCamera:SetPosition(0, -5, 5)
-    MainCamera:SetRotation(-135, 0, 0)
+    MainCamera:SetRotation(-135, 0, -15)
 end
 
 if not PhysicsObjectWire then return end
@@ -94,10 +140,83 @@ io.stdout:write(game.physics:GetBodyCount() .. "\n")
 game.physics:SetQualityThresholds(60, 50, 45)
 game.physics:SetAutoQuality(true)
 
-function raycast.new()
-    local self = setmetatable({}, raycast)
+-- windows.GameApplication:GetPhysicsBody()
+
+---@class RaycastObject
+---@field new fun(opts: RaycastParameters)
+---@field origin RaycastCoordinates
+---@field target RaycastCoordinates
+---@field tester MeshObject
+
+---@class RaycastParameters
+---@field origin RaycastCoordinates
+---@field target RaycastCoordinates
+---@alias RaycastCoordinates { x: number, y: number, z: number }
+---@param opts RaycastParameters
+---@return RaycastObject
+function RaycastUtility.new(opts)
+    ---@type RaycastObject
+    local self = setmetatable({}, RaycastUtility)
+
+    self.tester = windows and windows.GameApplication:CreateMesh()
+    local TesterPhysics = windows.GameApplication:BindPhysics(self.tester)
+    if not TesterPhysics then return setmetatable({}, RaycastUtility) end
+    if not TesterPhysics:IsStatic() then TesterPhysics:SetStatic(true) end
+
+    for ParameterName, ParameterValues in pairs(opts or {}) do
+        if ParameterValues ~= nil and type(ParameterValues) == "table" then
+            for SubParamName, SubParamValue in pairs(ParameterValues) do
+                self[ParameterName] = table and table.create(3, 0) or {}
+                self[ParameterName][SubParamName] = SubParamValue
+            end
+        end
+    end
+
     return self
 end
+
+---@param self RaycastObject
+function RaycastUtility:Synthesis()
+    for i, OriginCoordinateValue in pairs(self.origin) do
+        if self.target[i] < OriginCoordinateValue then goto continue else return end
+        if self.target[i] > OriginCoordinateValue then goto continue else return end
+        goto unsafe ::continue:: local TesterPositions = table.pack(self.tester:GetPosition())
+
+        for _, pos in ipairs(TesterPositions) do
+            for PositionIndex = 0, pos / 100 do
+                
+            end
+        end
+    end ::unsafe:: return nil
+end
+
+---@param self RaycastObject
+function RaycastUtility:GetOrigin()
+    
+end
+
+---@param self RaycastObject
+function RaycastUtility:GetDistance()
+    if self ~= nil and type(self) == "table" then
+        return VectorUtility.VectorMath.GetDistance3D({
+            x1 = self.origin.x, x2 = self.target.x,
+            y1 = self.origin.y, y2 = self.target.y,
+            z1 = self.origin.z, z2 = self.target.z,
+        });
+    end return nil
+end
+
+function RaycastUtility:EndingPosition()
+    local window <const> = windows.GameApplication
+    if not window or core.typeof(window) ~= "WindowObject" then return end
+    local physics = window and window:GetPhysicsWorld() or {}
+    -- local intersection = window:GetPhysicsBody()
+end
+
+local ray = RaycastUtility.new({
+    origin = { x = 0, y = 0, z = 0 },
+    target = { x = 0, y = 0, z = -5 },
+});
 
 RuntimeService.RenderStepped:Connect(function(dt)
     if ObjWire ~= nil and core.typeof(ObjWire) == "PhysicsBody" then
@@ -168,6 +287,7 @@ local function tick(dt)
     end
 end
 
+pcall(CreatePlatforms)
 InputService:SetGlobalInput(true)
 
 ---@type JobOptions
