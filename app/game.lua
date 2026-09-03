@@ -6,9 +6,10 @@ local WindowService = core:LoadService("WindowService")
 local RuntimeService = core:LoadService("RunnerService")
 local StorageService = core:LoadService("StorageService")
 local RaycastUtility = {}
+RaycastUtility._private = {}
 
-SoundService:SetStorageService(StorageService); SoundService:SetCacheFolder("../audio")
-local MusicSoundObject = SoundService:LoadSound("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+SoundService:SetStorageService(StorageService)
+SoundService:SetCacheFolder("../audio")
 
 -- if MusicSoundObject and core.typeof(MusicSoundObject) == "SoundObject" then
 --     if not MusicSoundObject:IsPlaying() then
@@ -36,8 +37,8 @@ local game = {
 
 windows["GameApplication"] =
 WindowService:CreateWindow("Engine", 850, 800)
-windows.GameApplication:SetAliasingQuality("2d", 4)
-windows.GameApplication:SetAliasingQuality("3d", 2)
+windows.GameApplication:SetAliasingQuality("2d", 2)
+windows.GameApplication:SetAliasingQuality("3d", 1)
 windows.GameApplication:SetPhysicsAutoQuality(true)
 
 if windows.GameApplication then
@@ -46,9 +47,9 @@ end
 
 local MainCamera = windows.GameApplication:CreateCamera()
 local LightSource = windows.GameApplication:CreateLight()
-local Floor = windows.GameApplication:CreateCube(0, 0, -5)
-local Object = windows.GameApplication:CreateCube(0, -5, -5)
-local PhysicsCube = windows.GameApplication:CreateCube(-5, -2, -5)
+local Floor = windows.GameApplication:CreateCube(0, 0, 0)
+local Object = windows.GameApplication:CreateCube(0, -5, 0)
+local PhysicsCube = windows.GameApplication:CreateCube(-5, -2, 0)
 local PhysicsObjectWire = windows.GameApplication:BindPhysics(PhysicsCube)
 local FloorWire = windows.GameApplication:BindPhysics(Floor)
 local ObjWire = windows.GameApplication:BindPhysics(Object)
@@ -59,20 +60,21 @@ local ObjWire = windows.GameApplication:BindPhysics(Object)
 ---@type table<PlatformConfig>
 local PlatformCoordinates = {
     [1] = {
-        position = { -5, -4, 0 },
+        position = { -5, -4, -5 },
         size = { 4, 0.5, 2 },
     },
     [2] = {
-        position = { -1, -7, 0 },
+        position = { -1, -7, -5 },
         size = { 3.5, 0.5, 2 },
     },
     [3] = {
-        position = { 6, -15, 0 },
+        position = { 6, -15, -5 },
         size = { 4.25, 0.5, 2 },
     },
 };
 
 local function CreatePlatforms()
+    local rng = core.RandomClass.new(os.clock())
     ---@type table<integer, CubeObject>
     local platforms = {}
 
@@ -81,27 +83,27 @@ local function CreatePlatforms()
         local PlatformPhysics = windows.GameApplication:BindPhysics(PlatformInstance)
         PlatformInstance:SetPosition(table.unpack(PlatformConfiguration.position))
         PlatformInstance:SetScale(table.unpack(PlatformConfiguration.size))
-        PlatformInstance:SetFillMode("wireframe")
         if not PlatformPhysics then return end
         print("OK:\t", PlatformInstance, PlatformPhysics)
         table.insert(platforms, PlatformInstance)
         local PIS = table.pack(PlatformInstance:GetScale())
         local ShapeBox = { PIS[1] / 2, PIS[2] / 2, PIS[3] / 2 }
         PlatformPhysics:SetShapeBox(table.unpack(ShapeBox))
+        PlatformInstance:SetColor(rng:NextColor())
+        -- PlatformInstance:SetWireframe(true)
         PlatformPhysics:SetStatic(true)
     end
 
     ---@param dt number
     RuntimeService.RenderStepped:Connect(function(dt)
-        for _, SelectedPlatform in ipairs(platforms or {}) do
+        for _, SelectedPlatform in ipairs(platforms) do
             SelectedPlatform:Render(windows.GameApplication)
-            -- print(SelectedPlatform:GetPosition() or 0, 0, 0)
         end
     end)
 end
 
 if MainCamera ~= nil and core.typeof(MainCamera) == "CameraObject" then
-    windows.GameApplication:SetActiveCamera(MainCamera); MainCamera:SetFOV(70)
+    windows.GameApplication:SetActiveCamera(MainCamera); MainCamera:SetFOV(120)
     MainCamera:SetClipPlanes(1, 50)
     MainCamera:SetPosition(0, -5, 5)
     MainCamera:SetRotation(-135, 0, -15)
@@ -122,7 +124,7 @@ Object:SetFillMode("solid")
 Floor:SetFillMode("solid")
 FloorWire:SetFriction(1.0)
 ObjWire:SetFriction(1.0)
-Floor:SetScale(20, 0, 5)
+Floor:SetScale(20, 1, 5)
 Object:SetScale(1, 1, 1)
 
 local LightIntensityInitial = LightSource and LightSource:GetIntensity()
@@ -140,7 +142,18 @@ io.stdout:write(game.physics:GetBodyCount() .. "\n")
 game.physics:SetQualityThresholds(60, 50, 45)
 game.physics:SetAutoQuality(true)
 
--- windows.GameApplication:GetPhysicsBody()
+---@return RaycastTesterObject
+function RaycastUtility._private.CreateRaycastTester()
+    ---@class RaycastTesterObject : MeshObject
+    ---@field TestIntersection fun(): boolean
+    local InitialObject = windows.GameApplication:CreateMesh()
+
+    InitialObject.TestIntersection = function()
+        return false -- default value for now; TODO!
+    end
+
+    return InitialObject
+end
 
 ---@class RaycastObject
 ---@field new fun(opts: RaycastParameters)
@@ -157,7 +170,7 @@ game.physics:SetAutoQuality(true)
 function RaycastUtility.new(opts)
     ---@type RaycastObject
     local self = setmetatable({}, RaycastUtility)
-
+    core.InstanceType.SetType(self, "RaycastObject")
     self.tester = windows and windows.GameApplication:CreateMesh()
     local TesterPhysics = windows.GameApplication:BindPhysics(self.tester)
     if not TesterPhysics then return setmetatable({}, RaycastUtility) end
@@ -166,7 +179,7 @@ function RaycastUtility.new(opts)
     for ParameterName, ParameterValues in pairs(opts or {}) do
         if ParameterValues ~= nil and type(ParameterValues) == "table" then
             for SubParamName, SubParamValue in pairs(ParameterValues) do
-                self[ParameterName] = table and table.create(3, 0) or {}
+                self[ParameterName] = table and table.create(3) or {}
                 self[ParameterName][SubParamName] = SubParamValue
             end
         end
@@ -203,7 +216,7 @@ function RaycastUtility:GetDistance()
             y1 = self.origin.y, y2 = self.target.y,
             z1 = self.origin.z, z2 = self.target.z,
         });
-    end return nil
+    end
 end
 
 function RaycastUtility:EndingPosition()
@@ -229,6 +242,7 @@ RuntimeService.RenderStepped:Connect(function(dt)
         FloorWire:SetShapeBox(fx / 2, fy / 2, fz / 2)
         ObjWire:SetShapeBox(osx / 2, osy / 2, osz / 2)
         ObjWire:PredictImpact(FloorWire, dt, 16)
+
         local PhysicsCubeSize = table.pack(PhysicsCube:GetScale())
         PhysicsObjectWire:SetShapeBox(PhysicsCubeSize[1] / 2, PhysicsCubeSize[2] / 2, PhysicsCubeSize[3] / 2)
 
@@ -238,7 +252,7 @@ RuntimeService.RenderStepped:Connect(function(dt)
             end
         end
 
-        MainCamera:SetPosition(ox, oy - 2.75, caz)
+        MainCamera:SetPosition(ox, oy - 2.75, 10)
         Floor:Render(windows.GameApplication)
         PhysicsCube:Render(windows.GameApplication)
         Object:Render(windows.GameApplication)
@@ -249,7 +263,7 @@ RuntimeService.RenderStepped:Connect(function(dt)
             ObjWire:ApplyImpulse(1, 0, 0)
         end
     end
-end, { priority = 107, safe = true, maxFails = math.huge, maxCatchUp = 0.2 });
+end, { priority = 107, safe = true, maxFails = math.huge, maxCatchUp = 0.1 });
 
 ---@param state InputActionState
 local function JumpObject(_, state, _)
