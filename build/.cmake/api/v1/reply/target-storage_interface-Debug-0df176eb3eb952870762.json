@@ -59,7 +59,7 @@
 	"codemodelVersion" : 
 	{
 		"major" : 2,
-		"minor" : 11
+		"minor" : 10
 	},
 	"compileDependencies" : 
 	[
@@ -78,7 +78,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-std=gnu++17"
+					"fragment" : "-g -std=gnu++17"
 				}
 			],
 			"defines" : 
@@ -95,7 +95,7 @@
 			[
 				{
 					"backtrace" : 4,
-					"path" : "C:/Users/6041464/Documents/MaxCore_REMASTERED/lua-5.6.0/src"
+					"path" : "D:/MaxCore_REMASTERED/lua-5.6.0/src"
 				}
 			],
 			"language" : "CXX",
@@ -200,10 +200,6 @@
 	[
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "backend/storage_interface.cpp",
 			"sourceGroupIndex" : 0

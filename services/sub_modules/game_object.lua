@@ -3,6 +3,28 @@
 -- =========================================================================
 local InstanceTyping = require("instance_type")
 
+-- Pulls the SAME Event class every other service uses (Connect/Fire/etc,
+-- see max_core.lua) so GameObject.Collided behaves identically to every
+-- other event in the framework instead of being a one-off reimplementation.
+--
+-- Resolved LAZILY (on first actual use, not at file-load time) to dodge a
+-- require cycle: this sub_module is required by window_service.lua, which
+-- max_core.lua's own service bootstrap (RunnerService/ResolveService) can
+-- load WHILE max_core.lua itself is still mid-load (its `return` is the
+-- very last line of the file). require("max_core") called from in here at
+-- THAT moment hands back an incomplete/placeholder module instead of the
+-- real one -- ".call()" on it then indexes something that isn't there
+-- yet, which is the "attempt to index a nil value" RunnerService Job
+-- error. Deferring the require until the first GameObject is actually
+-- constructed guarantees max_core.lua has long since finished loading.
+local _EventClass = nil
+local function NewCollidedEvent()
+    if not _EventClass then
+        _EventClass = require("max_core").call().Event
+    end
+    return _EventClass.new("Collided")
+end
+
 ---@class GameObject
 ---@field Position { x: number, y: number, z: number } World position offset
 ---@field Rotation { x: number, y: number, z: number } Euler rotations (radians)
@@ -10,6 +32,7 @@ local InstanceTyping = require("instance_type")
 ---@field Color { r: integer, g: integer, b: integer } RGB rendering color (0-255)
 ---@field Visible boolean Lifecycle visibility toggle
 ---@field _physicsBody PhysicsBody? Set by WindowObject:BindPhysics; nil until this object is bound to physics
+---@field Collided Event Fires (self:Fire(otherGameObject)) every Step for as long as this object's PhysicsBody stays touching another's -- only meaningful once BindPhysics has been called; see WindowObject:StepPhysics
 local GameObject = {}
 GameObject.__index = GameObject
 InstanceTyping.SetType(GameObject, "GameObject")
@@ -22,6 +45,7 @@ function GameObject.new()
     self.Scale = { x = 1.0, y = 1.0, z = 1.0 }
     self.Color = { r = 255, g = 255, b = 255 }
     self.Visible = true
+    self.Collided = NewCollidedEvent()
     return self
 end
 
@@ -81,6 +105,16 @@ function GameObject:GetColor()
     return self.Color.r, self.Color.g, self.Color.b
 end
 
+---Whether this object's bound PhysicsBody is CURRENTLY touching another
+---body (see PhysicsBody:IsColliding) -- false if physics was never bound
+---via WindowObject:BindPhysics. `Collided` fires this same info as an
+---event (every Step the touch persists) if you'd rather react than poll.
+---@return boolean
+function GameObject:IsColliding()
+    if not self._physicsBody then return false end
+    return self._physicsBody:IsColliding()
+end
+
 ---Virtual render method to be overridden by derived objects.
 ---@param window WindowObject
 function GameObject:Render(window) end
@@ -109,7 +143,8 @@ function RectObject.new(x, y, w, h, r, g, b)
         Rotation = { x = 0.0, y = 0.0, z = 0.0 },
         Scale = { x = 1.0, y = 1.0, z = 1.0 },
         Color = { r = 255, g = 255, b = 255 },
-        Visible = true
+        Visible = true,
+        Collided = NewCollidedEvent()
     }, RectObject)
     self:SetPosition(x or 0, y or 0, 0)
     self.Size = { w = w or 100, h = h or 100 }
@@ -155,7 +190,8 @@ function CircleObject.new(cx, cy, radius, fill, r, g, b)
         Rotation = { x = 0.0, y = 0.0, z = 0.0 },
         Scale = { x = 1.0, y = 1.0, z = 1.0 },
         Color = { r = 255, g = 255, b = 255 },
-        Visible = true
+        Visible = true,
+        Collided = NewCollidedEvent()
     }, CircleObject)
     self:SetPosition(cx or 0, cy or 0, 0)
     self.Radius = radius or 50
@@ -202,7 +238,8 @@ function LineObject.new(x0, y0, x1, y1, r, g, b)
         Rotation = { x = 0.0, y = 0.0, z = 0.0 },
         Scale = { x = 1.0, y = 1.0, z = 1.0 },
         Color = { r = 255, g = 255, b = 255 },
-        Visible = true
+        Visible = true,
+        Collided = NewCollidedEvent()
     }, LineObject)
     self:SetPosition(x0 or 0, y0 or 0, 0)
     self.EndPosition = { x = x1 or 100, y = y1 or 100 }
@@ -251,6 +288,7 @@ function TextObject.new(text, x, y, scale, r, g, b, quality)
         Scale = { x = 1.0, y = 1.0, z = 1.0 },
         Color = { r = 255, g = 255, b = 255 },
         Visible = true,
+        Collided = NewCollidedEvent(),
         -- Declared directly in the literal (same missing-fields fix as
         -- CubeObject.Wireframe / MeshObject.Vertices/Faces) rather than
         -- assigned after setmetatable.
@@ -312,7 +350,8 @@ function PolygonObject.new(points, fill, r, g, b)
         Rotation = { x = 0.0, y = 0.0, z = 0.0 },
         Scale = { x = 1.0, y = 1.0, z = 1.0 },
         Color = { r = 255, g = 255, b = 255 },
-        Visible = true
+        Visible = true,
+        Collided = NewCollidedEvent()
     }, PolygonObject)
     self.Points = points or {}
     self.Fill = fill or false
@@ -357,7 +396,8 @@ function ImageObject.new(imageId, x, y)
         Rotation = { x = 0.0, y = 0.0, z = 0.0 },
         Scale = { x = 1.0, y = 1.0, z = 1.0 },
         Color = { r = 255, g = 255, b = 255 },
-        Visible = true
+        Visible = true,
+        Collided = NewCollidedEvent()
     }, ImageObject)
     self.ImageId = imageId
     self:SetPosition(x or 0, y or 0, 0)
@@ -404,6 +444,7 @@ function CubeObject.new(px, py, pz, size, r, g, b, fillMode)
         Scale = { x = 1.0, y = 1.0, z = 1.0 },
         Color = { r = 255, g = 255, b = 255 },
         Visible = true,
+        Collided = NewCollidedEvent(),
         -- Declared in the literal (not bolted on after setmetatable) so
         -- the class's required @field Wireframe is satisfied and the
         -- linter's missing-fields check stays quiet. Preserves the
@@ -474,6 +515,7 @@ function MeshObject.new(vertices, faces, r, g, b, fillMode)
         Scale = { x = 1.0, y = 1.0, z = 1.0 },
         Color = { r = 255, g = 255, b = 255 },
         Visible = true,
+        Collided = NewCollidedEvent(),
         -- Declared directly in the literal (same fix applied to CubeObject's
         -- Wireframe field) so the class's required fields are satisfied and
         -- the linter's missing-fields check stays quiet.
@@ -530,5 +572,5 @@ return {
     PolygonObject = PolygonObject,
     ImageObject = ImageObject,
     CubeObject = CubeObject,
-    MeshObject = MeshObject,
+    MeshObject = MeshObject
 };

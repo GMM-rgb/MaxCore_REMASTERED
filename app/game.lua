@@ -42,7 +42,7 @@ windows.GameApplication:SetAliasingQuality("3d", 1)
 windows.GameApplication:SetPhysicsAutoQuality(true)
 
 if windows.GameApplication then
-    game.physics = windows.GameApplication:CreatePhysicsWorld(0, 28.5, 0)
+    game.physics = windows.GameApplication:CreatePhysicsWorld(0, 9.81, 0)
 end
 
 local MainCamera = windows.GameApplication:CreateCamera()
@@ -60,53 +60,55 @@ local ObjWire = windows.GameApplication:BindPhysics(Object)
 ---@type table<PlatformConfig>
 local PlatformCoordinates = {
     [1] = {
-        position = { -5, -4, -5 },
+        position = { -5, -4, 0 },
         size = { 4, 0.5, 2 },
     },
     [2] = {
-        position = { -1, -7, -5 },
+        position = { -1, -7, 0 },
         size = { 3.5, 0.5, 2 },
     },
     [3] = {
-        position = { 6, -15, -5 },
+        position = { 6, -15, 0 },
         size = { 4.25, 0.5, 2 },
     },
 };
 
 local function CreatePlatforms()
-    local rng = core.RandomClass.new(os.clock())
+    local rng = core.RandomClass.new(os.time())
     ---@type table<integer, CubeObject>
-    local platforms = {}
+    local InstancedPlatforms = {}
 
     for _, PlatformConfiguration in ipairs(PlatformCoordinates) do
-        local PlatformInstance = windows.GameApplication:CreateCube()
-        local PlatformPhysics = windows.GameApplication:BindPhysics(PlatformInstance)
-        PlatformInstance:SetPosition(table.unpack(PlatformConfiguration.position))
+        local PlatformInstance = windows.GameApplication:CreateCube(table.unpack(PlatformConfiguration.position))
+        local PlatformPhysics = windows.GameApplication:BindPhysics(PlatformInstance, { isStatic = true })
         PlatformInstance:SetScale(table.unpack(PlatformConfiguration.size))
-        if not PlatformPhysics then return end
-        print("OK:\t", PlatformInstance, PlatformPhysics)
-        table.insert(platforms, PlatformInstance)
+        if not PlatformPhysics then goto skip_platform_config end
+        print("OK:\t", PlatformInstance, "\t", PlatformPhysics)
+        table.insert(InstancedPlatforms, PlatformInstance)
         local PIS = table.pack(PlatformInstance:GetScale())
         local ShapeBox = { PIS[1] / 2, PIS[2] / 2, PIS[3] / 2 }
         PlatformPhysics:SetShapeBox(table.unpack(ShapeBox))
-        PlatformInstance:SetColor(rng:NextColor())
-        -- PlatformInstance:SetWireframe(true)
-        PlatformPhysics:SetStatic(true)
+        PlatformInstance:SetColor(255, 255, 255)
+        PlatformInstance:SetFillMode("solid")
+        ::skip_platform_config::
     end
 
     ---@param dt number
     RuntimeService.RenderStepped:Connect(function(dt)
-        for _, SelectedPlatform in ipairs(platforms) do
+        for _, SelectedPlatform in ipairs(InstancedPlatforms) do
+            Floor:Render(windows.GameApplication)
             SelectedPlatform:Render(windows.GameApplication)
+            PhysicsCube:Render(windows.GameApplication)
+            Object:Render(windows.GameApplication)
         end
     end)
 end
 
 if MainCamera ~= nil and core.typeof(MainCamera) == "CameraObject" then
-    windows.GameApplication:SetActiveCamera(MainCamera); MainCamera:SetFOV(120)
-    MainCamera:SetClipPlanes(1, 50)
+    windows.GameApplication:SetActiveCamera(MainCamera); MainCamera:SetFOV(70)
+    -- MainCamera:SetClipPlanes(1, 50)
     MainCamera:SetPosition(0, -5, 5)
-    MainCamera:SetRotation(-135, 0, -15)
+    MainCamera:SetRotation(-135, 0, 0)
 end
 
 if not PhysicsObjectWire then return end
@@ -122,23 +124,17 @@ Object:SetColor(100, 100, 100)
 LightSource:SetIntensity(0.5)
 Object:SetFillMode("solid")
 Floor:SetFillMode("solid")
+Floor:SetColor(200, 200, 200)
 FloorWire:SetFriction(1.0)
 ObjWire:SetFriction(1.0)
 Floor:SetScale(20, 1, 5)
 Object:SetScale(1, 1, 1)
+ObjWire:SetFriction(1)
 
 local LightIntensityInitial = LightSource and LightSource:GetIntensity()
 local wx, wy = windows.GameApplication:GetDimensions() or 0, 0
 ---@type table<integer, PhysicsBody>
 local objects = table.pack(FloorWire, ObjWire)
-local GameOverText = windows.GameApplication:CreateText()
-GameOverText:SetText("DANG - YOU'RE DEAD!")
-GameOverText:SetPosition(wx / 7, 15, 0)
-GameOverText:SetColor(255, 0, 0)
-GameOverText:SetScale(4, 4, 4)
-GameOverText:SetQuality(4)
-
-io.stdout:write(game.physics:GetBodyCount() .. "\n")
 game.physics:SetQualityThresholds(60, 50, 45)
 game.physics:SetAutoQuality(true)
 
@@ -194,19 +190,18 @@ function RaycastUtility:Synthesis()
         if self.target[i] < OriginCoordinateValue then goto continue else return end
         if self.target[i] > OriginCoordinateValue then goto continue else return end
         goto unsafe ::continue:: local TesterPositions = table.pack(self.tester:GetPosition())
-
-        for _, pos in ipairs(TesterPositions) do
-            for PositionIndex = 0, pos / 100 do
-                
-            end
-        end
     end ::unsafe:: return nil
 end
 
 ---@param self RaycastObject
 function RaycastUtility:GetOrigin()
-    
+    return self.origin or { x = 0, y = 0, z = 0 }
 end
+
+---@param v PhysicsBody
+Floor.Collided:Connect(function(v)
+    print("Floor COLLISION!")
+end)
 
 ---@param self RaycastObject
 function RaycastUtility:GetDistance()
@@ -239,9 +234,10 @@ RuntimeService.RenderStepped:Connect(function(dt)
         local cax, cay, caz = MainCamera:GetPosition()
         local mx, my = InputService:GetMousePosition()
         local dx, dy = InputService:GetMouseDelta()
-        FloorWire:SetShapeBox(fx / 2, fy / 2, fz / 2)
-        ObjWire:SetShapeBox(osx / 2, osy / 2, osz / 2)
-        ObjWire:PredictImpact(FloorWire, dt, 16)
+        -- FloorWire:SetShapeBox(fx / 2, fy / 2, fz / 2)
+        -- ObjWire:SetShapeBox(osx / 2, osy / 2, osz / 2)
+        FloorWire:SetShapeBox(fx / 1.8, fy / 1.8, fz / 1.8)
+        -- ObjWire:SetShapeBox(osx / 1.8, osy / 1.8, osz / 1.8)
 
         local PhysicsCubeSize = table.pack(PhysicsCube:GetScale())
         PhysicsObjectWire:SetShapeBox(PhysicsCubeSize[1] / 2, PhysicsCubeSize[2] / 2, PhysicsCubeSize[3] / 2)
@@ -261,6 +257,10 @@ RuntimeService.RenderStepped:Connect(function(dt)
             ObjWire:ApplyImpulse(-1, 0, 0)
         elseif InputService:IsKeyDown("d") or InputService:IsKeyDown("right") then
             ObjWire:ApplyImpulse(1, 0, 0)
+        elseif InputService:IsKeyDown("w") then
+            ObjWire:ApplyImpulse(0, 0, -1)
+        elseif InputService:IsKeyDown("s") then
+            ObjWire:ApplyImpulse(0, 0, 1)
         end
     end
 end, { priority = 107, safe = true, maxFails = math.huge, maxCatchUp = 0.1 });
@@ -272,11 +272,20 @@ local function JumpObject(_, state, _)
     end
 end
 
+---@param state InputActionState
+local function FallObject(_, state, _)
+    if state and state == "Pressed" then
+        ObjWire:ApplyImpulse(0, 20, 0)
+    end
+end
+
+InputService:BindAction("FallDownStandard", "c", FallObject)
+InputService:BindAction("FallDownArrow", "down", FallObject)
 InputService:BindAction("JumpObjectStandard", "space", JumpObject)
 InputService:BindAction("JumpObjectArrow", "up", JumpObject)
 
 if LightSource ~= nil then
-    LightSource:SetAmbient(0.65); LightSource:SetDirection(20, 20, 20)
+    LightSource:SetAmbient(0.65); LightSource:SetDirection(-20, 20, 20)
     windows.GameApplication:SetActiveLight(LightSource)
 end
 
@@ -301,8 +310,8 @@ local function tick(dt)
     end
 end
 
-pcall(CreatePlatforms)
 InputService:SetGlobalInput(true)
+xpcall(CreatePlatforms, print)
 
 ---@type JobOptions
 local TickConfiguration = { safe = true, maxFails = 1 }

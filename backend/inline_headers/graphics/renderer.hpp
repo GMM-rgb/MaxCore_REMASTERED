@@ -7,7 +7,7 @@
 #if !(defined(_WIN32) || defined(_WIN64))
     #warning "Windows Operating System definition not found!"
 #elif defined(__APPLE__)
-    #pragma never
+    #pragma endregion
 #endif
 
 #include <vector>
@@ -361,6 +361,141 @@ inline void DrawCircle(uint32_t* buffer, int width, int height, int cx, int cy, 
         float dist = std::sqrt(dx * dx + dy * dy);
         return fill ? (dist <= r) : (std::fabs(dist - r) <= outlineHalfWidth);
     });
+}
+
+// Depth-tested line, used ONLY by draw_cube/draw_mesh's Wireframe fill
+// mode -- real 3D edges that need to respect the SAME depth buffer solid
+// faces write to (see FillTriangleDepth in window_management.cpp), so a
+// far edge can't paint over a nearer solid object just because it happened
+// to be drawn in a later draw call. z0/z1 are each endpoint's view-space
+// depth, interpolated linearly along the line by the same `t` the
+// point-to-segment projection already computes.
+inline void DrawLineDepth(uint32_t* buffer, float* depthBuffer, int width, int height, int x0, int y0, float z0, int x1, int y1, float z1, uint32_t color, int quality = 0) {
+    float fx0 = (float)x0, fy0 = (float)y0, fx1 = (float)x1, fy1 = (float)y1;
+    float ldx = fx1 - fx0, ldy = fy1 - fy0;
+    float lenSq = ldx * ldx + ldy * ldy;
+
+    auto depthAt = [&](float px, float py) {
+        float t = 0.0f;
+        if (lenSq > 0.0001f) {
+            t = ((px - fx0) * ldx + (py - fy0) * ldy) / lenSq;
+            t = (std::max)(0.0f, (std::min)(1.0f, t));
+        }
+        return z0 + t * (z1 - z0);
+    };
+
+    if (quality < 1) {
+        int dx = std::abs(x1 - x0);
+        int sx = x0 < x1 ? 1 : -1;
+        int dy = -std::abs(y1 - y0);
+        int sy = y0 < y1 ? 1 : -1;
+        int err = dx + dy;
+        int cx = x0, cy = y0;
+
+        while (true) {
+            if (cx >= 0 && cx < width && cy >= 0 && cy < height) {
+                int idx = cy * width + cx;
+                float z = depthAt((float)cx, (float)cy);
+                if (z < depthBuffer[idx]) {
+                    buffer[idx] = color;
+                    depthBuffer[idx] = z;
+                }
+            }
+            if (cx == x1 && cy == y1) break;
+            int e2 = 2 * err;
+            if (e2 >= dy) { err += dy; cx += sx; }
+            if (e2 <= dx) { err += dx; cy += sy; }
+        }
+        return;
+    }
+
+    // AA path: same thin-capsule supersampling DrawLine's AA path uses,
+    // but gated by a per-pixel depth test/write instead of an
+    // unconditional coverage blend.
+    const float halfWidth = 0.75f;
+    int minX = (std::max)(0, (int)std::floor((std::min)(fx0, fx1) - halfWidth - 1.0f));
+    int maxX = (std::min)(width - 1, (int)std::ceil((std::max)(fx0, fx1) + halfWidth + 1.0f));
+    int minY = (std::max)(0, (int)std::floor((std::min)(fy0, fy1) - halfWidth - 1.0f));
+    int maxY = (std::min)(height - 1, (int)std::ceil((std::max)(fy0, fy1) + halfWidth + 1.0f));
+    int q = (std::max)(1, quality);
+
+    for (int y = minY; y <= maxY; ++y) {
+        for (int x = minX; x <= maxX; ++x) {
+            int idx = y * width + x;
+            float z = depthAt(x + 0.5f, y + 0.5f);
+            if (z >= depthBuffer[idx]) continue; // occluded -- skip before doing any supersampling work
+
+            float coverage = 0.0f;
+            for (int sy = 0; sy < q; ++sy) {
+                for (int sx = 0; sx < q; ++sx) {
+                    float px = x + (sx + 0.5f) / (float)q;
+                    float py = y + (sy + 0.5f) / (float)q;
+                    float t = 0.0f;
+                    if (lenSq > 0.0001f) {
+                        t = ((px - fx0) * ldx + (py - fy0) * ldy) / lenSq;
+                        t = (std::max)(0.0f, (std::min)(1.0f, t));
+                    }
+                    float closestX = fx0 + t * ldx;
+                    float closestY = fy0 + t * ldy;
+                    float ddx = px - closestX;
+                    float ddy = py - closestY;
+                    if ((ddx * ddx + ddy * ddy) <= (halfWidth * halfWidth)) coverage += 1.0f;
+                }
+            }
+            coverage /= (float)(q * q);
+            if (coverage <= 0.0f) continue;
+
+            BlendPixel(buffer, width, height, x, y, color, coverage);
+            depthBuffer[idx] = z;
+        }
+    }
+}
+
+// Depth-tested filled circle marker, used ONLY by draw_cube/draw_mesh's
+// Point fill mode -- same depth-buffer-respecting reasoning as
+// DrawLineDepth above. Every pixel of one marker represents the SAME
+// single 3D vertex, so one z value applies to the whole thing (no
+// interpolation needed, unlike the line/triangle cases).
+inline void DrawCircleDepth(uint32_t* buffer, float* depthBuffer, int width, int height, int cx, int cy, int radius, float z, uint32_t color, int quality = 0) {
+    int minX = (std::max)(0, cx - radius - 1);
+    int maxX = (std::min)(width - 1, cx + radius + 1);
+    int minY = (std::max)(0, cy - radius - 1);
+    int maxY = (std::min)(height - 1, cy + radius + 1);
+    float r = (float)radius;
+    float fcx = (float)cx, fcy = (float)cy;
+    int q = (std::max)(1, quality);
+
+    for (int y = minY; y <= maxY; ++y) {
+        for (int x = minX; x <= maxX; ++x) {
+            int idx = y * width + x;
+            if (z >= depthBuffer[idx]) continue;
+
+            if (quality < 1) {
+                float dx = (x + 0.5f) - fcx;
+                float dy = (y + 0.5f) - fcy;
+                if (dx * dx + dy * dy > r * r) continue;
+                buffer[idx] = color;
+                depthBuffer[idx] = z;
+                continue;
+            }
+
+            float coverage = 0.0f;
+            for (int sy = 0; sy < q; ++sy) {
+                for (int sx = 0; sx < q; ++sx) {
+                    float px = x + (sx + 0.5f) / (float)q;
+                    float py = y + (sy + 0.5f) / (float)q;
+                    float dx = px - fcx;
+                    float dy = py - fcy;
+                    if (dx * dx + dy * dy <= r * r) coverage += 1.0f;
+                }
+            }
+            coverage /= (float)(q * q);
+            if (coverage <= 0.0f) continue;
+
+            BlendPixel(buffer, width, height, x, y, color, coverage);
+            depthBuffer[idx] = z;
+        }
+    }
 }
 
 // Blit Image / Texture to Buffer

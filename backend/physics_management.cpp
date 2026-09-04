@@ -10,6 +10,7 @@
 #include <lua.hpp>
 #include <unordered_map>
 #include <cctype>
+#include <vector> // used directly by body_create_hull below, not just transitively via physics.hpp
 
 #include "inline_headers/physics/physics.hpp"
 
@@ -62,8 +63,46 @@ static int world_step(lua_State* L) {
     int worldId = static_cast<int>(luaL_checkinteger(L, 1));
     float dt = static_cast<float>(luaL_checknumber(L, 2));
     Physics::World* world = GetWorld(worldId);
-    if (world) world->Step(dt);
-    return 0;
+    if (!world) {
+        lua_newtable(L);
+        return 1;
+    }
+
+    world->Step(dt);
+
+    // ALL pairs touching as of this completed Step (not just ones that
+    // just started) -- the Lua side (WindowObject:StepPhysics) fires each
+    // involved GameObject/PhysicsBody's Collided event for every pair
+    // here, every Step, so it keeps firing for the whole duration two
+    // bodies stay in contact instead of once at the start of the touch.
+    lua_newtable(L);
+    int pairIndex = 1;
+    for (uint64_t key : world->touchingPairs) {
+        int idA = (int)(key & 0xFFFFFFFFu);
+        int idB = (int)(key >> 32);
+        lua_newtable(L);
+        lua_pushinteger(L, idA);
+        lua_rawseti(L, -2, 1);
+        lua_pushinteger(L, idB);
+        lua_rawseti(L, -2, 2);
+        lua_rawseti(L, -2, pairIndex);
+        ++pairIndex;
+    }
+    return 1;
+}
+
+// Whether this body is currently overlapping any other body it's allowed
+// to collide with (see ShouldCollide/groups) -- reflects state as of the
+// most recently completed Step(), same lifecycle as the pairs step_world
+// hands back. True for the whole duration of a touch, not just the frame
+// it started (that's what step_world's returned pairs are for).
+static int body_is_colliding(lua_State* L) {
+    int worldId = static_cast<int>(luaL_checkinteger(L, 1));
+    int bodyId = static_cast<int>(luaL_checkinteger(L, 2));
+
+    Physics::World* world = GetWorld(worldId);
+    lua_pushboolean(L, (world && world->IsBodyColliding(bodyId)) ? 1 : 0);
+    return 1;
 }
 
 static int world_set_gravity(lua_State* L) {
@@ -183,6 +222,70 @@ static int body_create(lua_State* L) {
         body.shape.radius = shapeA;
     }
 
+    body.SetMass(mass);
+    body.SetStatic(isStatic);
+
+    int bodyId = world->AddBody(body);
+    lua_pushinteger(L, bodyId);
+    return 1;
+}
+
+// Creates a Hull-shaped body from a mesh's vertex/face lists -- the
+// physics counterpart of MeshObject.Vertices/Faces, so collision uses the
+// mesh's ACTUAL geometry (Physics::Shape::SetHull) instead of a box/
+// sphere standing in for it. Only convex meshes are valid input; see
+// HullData's comment in physics.hpp for why.
+// verticesTable: array of {x, y, z} tables, local-space -- pass
+// MeshObject.Vertices directly, no conversion needed.
+// facesTable: array of arrays of 1-BASED vertex indices, wound counter-
+// clockwise viewed from outside -- pass MeshObject.Faces directly, same
+// convention draw_mesh already requires for correct shading.
+static int body_create_hull(lua_State* L) {
+    int worldId = static_cast<int>(luaL_checkinteger(L, 1));
+    luaL_checktype(L, 2, LUA_TTABLE); // vertices
+    luaL_checktype(L, 3, LUA_TTABLE); // faces
+    float px = static_cast<float>(luaL_optnumber(L, 4, 0.0));
+    float py = static_cast<float>(luaL_optnumber(L, 5, 0.0));
+    float pz = static_cast<float>(luaL_optnumber(L, 6, 0.0));
+    float mass = static_cast<float>(luaL_optnumber(L, 7, 1.0));
+    bool isStatic = lua_toboolean(L, 8);
+
+    Physics::World* world = GetWorld(worldId);
+    if (!world) { lua_pushnil(L); return 1; }
+
+    std::vector<Physics::Vec3> vertices;
+    int vertCount = (int)lua_rawlen(L, 2);
+    vertices.reserve(vertCount);
+    for (int i = 1; i <= vertCount; ++i) {
+        lua_rawgeti(L, 2, i);
+        lua_rawgeti(L, -1, 1); float x = (float)lua_tonumber(L, -1); lua_pop(L, 1);
+        lua_rawgeti(L, -1, 2); float y = (float)lua_tonumber(L, -1); lua_pop(L, 1);
+        lua_rawgeti(L, -1, 3); float z = (float)lua_tonumber(L, -1); lua_pop(L, 1);
+        vertices.push_back({x, y, z});
+        lua_pop(L, 1); // pop this vertex's table
+    }
+
+    std::vector<std::vector<int>> faces;
+    int faceCount = (int)lua_rawlen(L, 3);
+    faces.reserve(faceCount);
+    for (int i = 1; i <= faceCount; ++i) {
+        lua_rawgeti(L, 3, i);
+        int idxCount = (int)lua_rawlen(L, -1);
+        std::vector<int> face;
+        face.reserve(idxCount);
+        for (int j = 1; j <= idxCount; ++j) {
+            lua_rawgeti(L, -1, j);
+            int idx1Based = (int)lua_tointeger(L, -1);
+            face.push_back(idx1Based - 1); // 1-based (MeshObject convention) -> 0-based (HullData convention)
+            lua_pop(L, 1);
+        }
+        faces.push_back(face);
+        lua_pop(L, 1); // pop this face's table
+    }
+
+    Physics::Body body;
+    body.position = {px, py, pz};
+    body.shape.SetHull(vertices, faces);
     body.SetMass(mass);
     body.SetStatic(isStatic);
 
@@ -462,6 +565,99 @@ static int body_is_static(lua_State* L) {
     return 1;
 }
 
+// Freezes this body's ORIENTATION from the physics engine's point of view
+// -- torque and collision angular response can never spin it (see
+// Body::SetRotationLocked/ComputeInverseInertia), so only its position
+// keeps moving under physics. Direct teleport-style sets
+// (PhysicsBody:SetRotation -> body_set_rotation) are untouched by this and
+// keep working exactly as before, locked or not.
+static int body_set_rotation_locked(lua_State* L) {
+    int worldId = static_cast<int>(luaL_checkinteger(L, 1));
+    int bodyId = static_cast<int>(luaL_checkinteger(L, 2));
+    bool locked = lua_toboolean(L, 3);
+
+    Physics::World* world = GetWorld(worldId);
+    Physics::Body* body = world ? world->GetBody(bodyId) : nullptr;
+    if (body) body->SetRotationLocked(locked);
+    return 0;
+}
+
+static int body_is_rotation_locked(lua_State* L) {
+    int worldId = static_cast<int>(luaL_checkinteger(L, 1));
+    int bodyId = static_cast<int>(luaL_checkinteger(L, 2));
+
+    Physics::World* world = GetWorld(worldId);
+    Physics::Body* body = world ? world->GetBody(bodyId) : nullptr;
+    lua_pushboolean(L, (body && body->rotationLocked) ? 1 : 0);
+    return 1;
+}
+
+// Rigidly welds `bodyId` to `parentId` -- captures their CURRENT
+// relative position/rotation as the weld offset (see Body::weldParentId
+// in physics.hpp for what happens every Step from here on). Refuses to
+// weld a body to itself or to a nonexistent body; does NOT check for
+// cycles (A welded to B welded back to A) -- don't do that, it'll just
+// fight itself every Step.
+static int body_weld_to(lua_State* L) {
+    int worldId = static_cast<int>(luaL_checkinteger(L, 1));
+    int bodyId = static_cast<int>(luaL_checkinteger(L, 2));
+    int parentId = static_cast<int>(luaL_checkinteger(L, 3));
+
+    Physics::World* world = GetWorld(worldId);
+    if (!world || bodyId == parentId) return 0;
+    Physics::Body* body = world->GetBody(bodyId);
+    Physics::Body* parent = world->GetBody(parentId);
+    if (!body || !parent) return 0;
+
+    Physics::Vec3 worldDelta = Physics::Subtract(body->position, parent->position);
+    body->weldLocalOffset = Physics::RotateWorldToLocal(worldDelta, parent->rotation);
+    body->weldLocalRotationOffset = Physics::Subtract(body->rotation, parent->rotation);
+    body->weldParentId = parentId;
+    body->invMass = 0.0f;         // kinematic while welded -- same trick SetStatic(true) uses, see Body::weldParentId
+    body->velocity = {0.0f, 0.0f, 0.0f};
+    body->angularVelocity = {0.0f, 0.0f, 0.0f};
+    return 0;
+}
+
+// Releases a weld, restoring mass-derived invMass so forces/collisions
+// affect this body on its own again. No-op if it wasn't welded.
+static int body_unweld(lua_State* L) {
+    int worldId = static_cast<int>(luaL_checkinteger(L, 1));
+    int bodyId = static_cast<int>(luaL_checkinteger(L, 2));
+
+    Physics::World* world = GetWorld(worldId);
+    Physics::Body* body = world ? world->GetBody(bodyId) : nullptr;
+    if (body && body->weldParentId >= 0) {
+        body->weldParentId = -1;
+        body->invMass = (body->mass > 0.0f) ? (1.0f / body->mass) : 0.0f;
+    }
+    return 0;
+}
+
+static int body_is_welded(lua_State* L) {
+    int worldId = static_cast<int>(luaL_checkinteger(L, 1));
+    int bodyId = static_cast<int>(luaL_checkinteger(L, 2));
+
+    Physics::World* world = GetWorld(worldId);
+    Physics::Body* body = world ? world->GetBody(bodyId) : nullptr;
+    lua_pushboolean(L, (body && body->weldParentId >= 0) ? 1 : 0);
+    return 1;
+}
+
+static int body_get_weld_parent(lua_State* L) {
+    int worldId = static_cast<int>(luaL_checkinteger(L, 1));
+    int bodyId = static_cast<int>(luaL_checkinteger(L, 2));
+
+    Physics::World* world = GetWorld(worldId);
+    Physics::Body* body = world ? world->GetBody(bodyId) : nullptr;
+    if (body && body->weldParentId >= 0) {
+        lua_pushinteger(L, body->weldParentId);
+        return 1;
+    }
+    lua_pushnil(L);
+    return 1;
+}
+
 // Enabled/disabled is separate from static/anchored: disabling freezes the
 // body in place AND skips it from collision checks entirely (cheaper than
 // destroying/recreating it if you'll want it back later).
@@ -650,6 +846,7 @@ extern "C" EXPORT_FN int luaopen_physics_management(lua_State* L) {
         {"world_get_body_count", world_get_body_count},
 
         {"create_body", body_create},
+        {"create_body_hull", body_create_hull},
         {"destroy_body", body_destroy},
         {"body_set_position", body_set_position},
         {"body_get_position", body_get_position},
@@ -669,6 +866,13 @@ extern "C" EXPORT_FN int luaopen_physics_management(lua_State* L) {
         {"body_get_density", body_get_density},
         {"body_set_static", body_set_static},
         {"body_is_static", body_is_static},
+        {"body_set_rotation_locked", body_set_rotation_locked},
+        {"body_is_rotation_locked", body_is_rotation_locked},
+        {"body_weld_to", body_weld_to},
+        {"body_unweld", body_unweld},
+        {"body_is_welded", body_is_welded},
+        {"body_get_weld_parent", body_get_weld_parent},
+        {"body_is_colliding", body_is_colliding},
         {"body_set_enabled", body_set_enabled},
         {"body_is_enabled", body_is_enabled},
         {"body_set_restitution", body_set_restitution},

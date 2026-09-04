@@ -753,7 +753,7 @@ end
 ---GameObject is never touched by physics no matter what else you do to it
 ----- it's just rendered where you put it.
 ---@param gameObject GameObject The object to drive physically; its current Position/Rotation seed the body's starting position/rotation
----@param options table? {shape="sphere"|"box" (default "sphere"), radius=number (sphere, default 0.5), halfExtents={x,y,z} (box, default {0.5,0.5,0.5}), mass=number (default 1.0, ignored if density is given), density=number (alternative to mass -- mass = density * shape volume), isStatic=boolean (default false, i.e. "anchored" -- see PhysicsBody:SetStatic), restitution=number (bounciness, 0..1), friction=number (grip, 0..1 -- this is what makes a pushed/dropped body roll), damping=number (linear), angularDamping=number, group=integer (see PhysicsModule.PhysicsGroups), collidesWith=integer}
+---@param options table? {shape="sphere"|"box"|"hull" (default "sphere"), radius=number (sphere, default 0.5), halfExtents={x,y,z} (box, default {0.5,0.5,0.5}), vertices=Vertex3[] (hull -- defaults to gameObject.Vertices, so this is optional when gameObject is a MeshObject), faces=MeshFace[] (hull -- defaults to gameObject.Faces, same MeshObject default as vertices; hull must be CONVEX, see PhysicsWorld:CreateHullBody), mass=number (default 1.0, ignored if density is given), density=number (alternative to mass -- mass = density * shape volume), isStatic=boolean (default false, i.e. "anchored" -- see PhysicsBody:SetStatic), restitution=number (bounciness, 0..1), friction=number (grip, 0..1 -- this is what makes a pushed/dropped body roll), damping=number (linear), angularDamping=number, group=integer (see PhysicsModule.PhysicsGroups), collidesWith=integer}
 ---@return PhysicsBody?
 function WindowObject:BindPhysics(gameObject, options)
     if not gameObject then return nil end
@@ -765,20 +765,37 @@ function WindowObject:BindPhysics(gameObject, options)
 
     options = options or {}
 
-    local shapeParams
-    if (options.shape or "sphere") == "box" then
-        local he = options.halfExtents or {}
-        shapeParams = { he[1] or 0.5, he[2] or 0.5, he[3] or 0.5 }
-    else
-        shapeParams = { options.radius or 0.5 }
-    end
-
     local px, py, pz = gameObject:GetPosition()
-    local body = self._physicsWorld:CreateBody(
-        options.shape or "sphere", shapeParams,
-        px, py, pz,
-        options.mass, options.isStatic
-    )
+    local body
+
+    if options.shape == "hull" then
+        -- options.vertices/faces let you pass an explicit convex hull;
+        -- otherwise, for a MeshObject, its own Vertices/Faces are used
+        -- automatically -- BindPhysics(meshObject, {shape = "hull"}) is
+        -- all that's needed for the mesh to collide using its ACTUAL
+        -- geometry (see PhysicsWorld:CreateHullBody).
+        local vertices = options.vertices or gameObject.Vertices
+        local faces = options.faces or gameObject.Faces
+        body = self._physicsWorld:CreateHullBody(
+            vertices, faces,
+            px, py, pz,
+            options.mass, options.isStatic
+        )
+    else
+        local shapeParams
+        if (options.shape or "sphere") == "box" then
+            local he = options.halfExtents or {}
+            shapeParams = { he[1] or 0.5, he[2] or 0.5, he[3] or 0.5 }
+        else
+            shapeParams = { options.radius or 0.5 }
+        end
+
+        body = self._physicsWorld:CreateBody(
+            options.shape or "sphere", shapeParams,
+            px, py, pz,
+            options.mass, options.isStatic
+        )
+    end
     if not body then return nil end
 
     local rx, ry, rz = gameObject:GetRotation()
@@ -821,18 +838,58 @@ function WindowObject:GetPhysicsBody(gameObject)
     return gameObject and gameObject._physicsBody
 end
 
----Advances this window's physics world by `dt` seconds and syncs every
----bound GameObject's Position to its body's new simulated position. A
----no-op if no physics world exists yet (nothing has called BindPhysics or
----CreatePhysicsWorld).
+---Advances this window's physics world by `dt` seconds, syncs every bound
+---GameObject's Position AND Rotation to its body's new simulated pose (the
+---rotation half of that sync was missing before -- rolling/tumbling bodies
+---were spinning in the physics world but rendering perfectly upright), and
+---fires `Collided` on both PhysicsBody/GameObject of every pair still
+---touching as of this Step -- keeps firing every Step for as long as the
+---touch lasts, not just once when it starts. A no-op if no physics world
+---exists yet (nothing has called BindPhysics or CreatePhysicsWorld).
 ---@param dt number
 function WindowObject:StepPhysics(dt)
     if not self._physicsWorld then return end
 
-    self._physicsWorld:Step(dt)
+    -- Step FIRST -- syncing pose before advancing the simulation would
+    -- copy last frame's stale position/rotation instead of the new one.
+    local touchingPairs = self._physicsWorld:Step(dt)
+
+    -- Built while syncing pose below -- lets touchingPairs (native
+    -- body ids) resolve back to both the PhysicsBody AND the GameObject
+    -- (if any) whose Collided event needs to Fire.
+    local bodyIdToObject = {}
+    local bodyIdToBody = {}
+
     for _, link in ipairs(self._physicsLinks) do
         local x, y, z = link.body:GetPosition()
         link.gameObject:SetPosition(x, y, z)
+
+        local rx, ry, rz = link.body:GetRotation()
+        link.gameObject:SetRotation(rx, ry, rz)
+
+        bodyIdToObject[link.body:GetId()] = link.gameObject
+        bodyIdToBody[link.body:GetId()] = link.body
+    end
+
+    for _, pair in ipairs(touchingPairs) do
+        -- Fires on both the PhysicsBody and the GameObject it's bound to
+        -- -- every entry in _physicsLinks has both, since BindPhysics is
+        -- the only way a link gets created here. A body made directly via
+        -- PhysicsWorld:CreateBody (bypassing BindPhysics) isn't in
+        -- _physicsLinks and won't have either Fire automatically.
+        local bodyA = bodyIdToBody[pair[1]]
+        local bodyB = bodyIdToBody[pair[2]]
+        if bodyA and bodyB then
+            bodyA.Collided:Fire(bodyB)
+            bodyB.Collided:Fire(bodyA)
+        end
+
+        local objA = bodyIdToObject[pair[1]]
+        local objB = bodyIdToObject[pair[2]]
+        if objA and objB then
+            objA.Collided:Fire(objB)
+            objB.Collided:Fire(objA)
+        end
     end
 end
 

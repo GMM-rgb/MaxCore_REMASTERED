@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 #include <cmath>
+#include <limits>
 
 #include "inline_headers/graphics/renderer.hpp"
 
@@ -165,8 +166,18 @@ struct NativeWindow {
     int aliasQuality2D = 0;  // anti-aliasing level for 2D primitives (lines, circles, filled polygons); 0 = original hard edges
     int aliasQuality3D = 0;  // anti-aliasing level for 3D primitives (cube/mesh edges, points, solid faces); 0 = original hard edges
     std::vector<uint32_t> canvasBuffer;
+
+    // Per-pixel view-space depth for 3D draws ONLY (draw_cube/draw_mesh) --
+    // this is what makes objects from SEPARATE draw calls occlude each
+    // other correctly by actual distance instead of just draw order. 2D
+    // primitives (rects/lines/circles/polygons/text) never touch this --
+    // they're always drawn as flat overlay, same as before. Sentinel
+    // kDepthFar means "nothing drawn here yet"; cleared every ClearCanvas.
+    std::vector<float> depthBuffer;
     PlatformWindow platform;
 };
+
+static constexpr float kDepthFar = (std::numeric_limits<float>::max)();
 
 static std::unordered_map<int, NativeWindow*> g_windows;
 static std::unordered_map<int, Graphics::ImageBuffer> g_images;
@@ -238,6 +249,80 @@ static void FillTriangle(uint32_t* buffer, int width, int height, Graphics::Vec2
         return (area > 0 && w0 >= 0 && w1 >= 0 && w2 >= 0) ||
                (area < 0 && w0 <= 0 && w1 <= 0 && w2 <= 0);
     });
+}
+
+// Depth-tested variant of FillTriangle, used ONLY by draw_cube/draw_mesh
+// (real 3D geometry that can occlude other separately-drawn 3D objects).
+// z0/z1/z2 are each vertex's view-space depth (smaller = closer to the
+// camera, since the camera looks down +Z -- see Graphics::WorldToView).
+// Per pixel: interpolate depth from the same barycentric weights already
+// used for the inside/outside test, and only draw (and claim the depth
+// buffer) if this pixel is closer than whatever's already there. This is
+// what makes two SEPARATE draw_cube/draw_mesh calls occlude each other by
+// actual distance instead of by draw order -- the per-mesh avgZ sort
+// upstream only ever ordered a single mesh's OWN faces against each
+// other, never against a different object's geometry.
+static void FillTriangleDepth(uint32_t* buffer, float* depthBuffer, int width, int height, Graphics::Vec2 p0, Graphics::Vec2 p1, Graphics::Vec2 p2, float z0, float z1, float z2, uint32_t color, int quality = 0) {
+    int minX = (std::max)(0, (int)std::floor((std::min)({p0.x, p1.x, p2.x})));
+    int maxX = (std::min)(width - 1, (int)std::ceil((std::max)({p0.x, p1.x, p2.x})));
+    int minY = (std::max)(0, (int)std::floor((std::min)({p0.y, p1.y, p2.y})));
+    int maxY = (std::min)(height - 1, (int)std::ceil((std::max)({p0.y, p1.y, p2.y})));
+
+    auto edge = [](Graphics::Vec2 a, Graphics::Vec2 b, float px, float py) {
+        return (px - a.x) * (b.y - a.y) - (py - a.y) * (b.x - a.x);
+    };
+
+    float area = edge(p0, p1, p2.x, p2.y);
+    if (std::abs(area) < 0.0001f) return;
+
+    int q = (std::max)(1, quality);
+
+    for (int y = minY; y <= maxY; ++y) {
+        for (int x = minX; x <= maxX; ++x) {
+            float px = x + 0.5f;
+            float py = y + 0.5f;
+
+            float w0 = edge(p1, p2, px, py);
+            float w1 = edge(p2, p0, px, py);
+            float w2 = edge(p0, p1, px, py);
+
+            bool inside = (area > 0 && w0 >= 0 && w1 >= 0 && w2 >= 0) ||
+                          (area < 0 && w0 <= 0 && w1 <= 0 && w2 <= 0);
+            if (!inside) continue;
+
+            // Barycentric weights (w0/area, w1/area, w2/area correspond to
+            // p0, p1, p2 respectively -- w0 comes from the edge opposite p0).
+            float depth = (w0 * z0 + w1 * z1 + w2 * z2) / area;
+
+            int idx = y * width + x;
+            if (depth >= depthBuffer[idx]) continue; // something closer already occupies this pixel
+
+            if (quality < 1) {
+                buffer[idx] = color;
+            } else {
+                // Same supersampled coverage idea as RasterizeAA, just
+                // inlined here so the depth test/write above can gate it.
+                float coverage = 0.0f;
+                for (int sy = 0; sy < q; ++sy) {
+                    for (int sx = 0; sx < q; ++sx) {
+                        float spx = x + (sx + 0.5f) / (float)q;
+                        float spy = y + (sy + 0.5f) / (float)q;
+                        float sw0 = edge(p1, p2, spx, spy);
+                        float sw1 = edge(p2, p0, spx, spy);
+                        float sw2 = edge(p0, p1, spx, spy);
+                        bool sInside = (area > 0 && sw0 >= 0 && sw1 >= 0 && sw2 >= 0) ||
+                                       (area < 0 && sw0 <= 0 && sw1 <= 0 && sw2 <= 0);
+                        if (sInside) coverage += 1.0f;
+                    }
+                }
+                coverage /= (float)(q * q);
+                if (coverage <= 0.0f) continue;
+                Graphics::BlendPixel(buffer, width, height, x, y, color, coverage);
+            }
+
+            depthBuffer[idx] = depth;
+        }
+    }
 }
 
 // =========================================================================
@@ -676,6 +761,7 @@ static int window_create(lua_State* L) {
     win->width = width;
     win->height = height;
     win->canvasBuffer.resize(width * height, 0xFF181818);
+    win->depthBuffer.resize(width * height, kDepthFar);
 
 #if defined(_WIN32) || defined(_WIN64)
     WNDCLASSEXA wc = { sizeof(WNDCLASSEXA) };
@@ -769,6 +855,7 @@ static int window_set_dimensions(lua_State* L) {
         win->width = w;
         win->height = h;
         win->canvasBuffer.resize(w * h, 0xFF181818);
+        win->depthBuffer.resize(w * h, kDepthFar);
 
 #if defined(_WIN32) || defined(_WIN64)
         SetWindowPos(win->platform.hwnd, NULL, 0, 0, w, h, SWP_NOMOVE | SWP_NOZORDER);
@@ -800,6 +887,7 @@ static int window_set_fullscreen(lua_State* L) {
             win->width = screenW;
             win->height = screenH;
             win->canvasBuffer.resize(screenW * screenH, 0xFF181818);
+            win->depthBuffer.resize(screenW * screenH, kDepthFar);
             win->platform.bmi.bmiHeader.biWidth = screenW;
             win->platform.bmi.bmiHeader.biHeight = -screenH;
         } else {
@@ -811,6 +899,7 @@ static int window_set_fullscreen(lua_State* L) {
             win->width = w;
             win->height = h;
             win->canvasBuffer.resize(w * h, 0xFF181818);
+            win->depthBuffer.resize(w * h, kDepthFar);
             win->platform.bmi.bmiHeader.biWidth = w;
             win->platform.bmi.bmiHeader.biHeight = -h;
         }
@@ -958,6 +1047,13 @@ static int window_clear_canvas(lua_State* L) {
     if (it != g_windows.end()) {
         uint32_t color = (0xFF << 24) | (r << 16) | (g << 8) | b;
         std::fill(it->second->canvasBuffer.begin(), it->second->canvasBuffer.end(), color);
+
+        // Reset the 3D depth buffer alongside the canvas -- this is what
+        // makes separately-drawn cube/mesh objects occlude each other
+        // correctly by distance instead of whichever was drawn last (see
+        // NativeWindow::depthBuffer). Call this once per frame, before
+        // your 3D draw calls, same as you already do for the canvas.
+        std::fill(it->second->depthBuffer.begin(), it->second->depthBuffer.end(), kDepthFar);
     }
     return 0;
 }
@@ -1348,8 +1444,17 @@ static int window_draw_cube(lua_State* L) {
         {0, 4, 7, 3}  // Left
     };
 
+    // rotZ was being read from the Lua call and then silently dropped --
+    // no matRotZ existed and it was never applied below, so a cube's roll
+    // (Z rotation) was invisible no matter what drove it (SetRotation,
+    // physics, anything). Added here, applied FIRST in the chain (Z, then
+    // Y, then X) to match draw_mesh's existing order exactly -- this same
+    // Z-Y-X order is also what Physics::RotateLocalToWorld now assumes,
+    // so a physics body's simulated orientation always agrees with what
+    // actually gets rendered.
     Graphics::Matrix4x4 matRotX = Graphics::Matrix4x4::RotationX(rotX);
     Graphics::Matrix4x4 matRotY = Graphics::Matrix4x4::RotationY(rotY);
+    Graphics::Matrix4x4 matRotZ = Graphics::Matrix4x4::RotationZ(rotZ);
     Graphics::Matrix4x4 matTrans = Graphics::Matrix4x4::Translation(posX, posY, posZ);
     Graphics::Matrix4x4 matProj = Graphics::Matrix4x4::Perspective(cam->fov, (float)win->width / (float)win->height, cam->nearPlane, cam->farPlane);
 
@@ -1358,7 +1463,9 @@ static int window_draw_cube(lua_State* L) {
 
     for (int i = 0; i < 8; ++i) {
         Graphics::Vec3 scaled = { rawVertices[i].x * scaleX, rawVertices[i].y * scaleY, rawVertices[i].z * scaleZ };
-        Graphics::Vec4 rY = matRotY.MultiplyVector(scaled);
+        Graphics::Vec4 rZ = matRotZ.MultiplyVector(scaled);
+        Graphics::Vec3 rZ3 = {rZ.x, rZ.y, rZ.z};
+        Graphics::Vec4 rY = matRotY.MultiplyVector(rZ3);
         Graphics::Vec3 rY3 = {rY.x, rY.y, rY.z};
         Graphics::Vec4 rX = matRotX.MultiplyVector(rY3);
         Graphics::Vec3 rX3 = {rX.x, rX.y, rX.z};
@@ -1380,15 +1487,17 @@ static int window_draw_cube(lua_State* L) {
                 {0,4},{1,5},{2,6},{3,7}
             };
             for (int i = 0; i < 12; ++i) {
-                Graphics::Vec2 p1 = projected[edges[i][0]];
-                Graphics::Vec2 p2 = projected[edges[i][1]];
-                Graphics::DrawLine(win->canvasBuffer.data(), win->width, win->height, (int)p1.x, (int)p1.y, (int)p2.x, (int)p2.y, col, win->aliasQuality3D);
+                int i0 = edges[i][0];
+                int i1 = edges[i][1];
+                Graphics::Vec2 p1 = projected[i0];
+                Graphics::Vec2 p2 = projected[i1];
+                Graphics::DrawLineDepth(win->canvasBuffer.data(), win->depthBuffer.data(), win->width, win->height, (int)p1.x, (int)p1.y, viewPos[i0].z, (int)p2.x, (int)p2.y, viewPos[i1].z, col, win->aliasQuality3D);
             }
             break;
         }
         case CubeFillMode::Point: {
             for (int i = 0; i < 8; ++i) {
-                Graphics::DrawCircle(win->canvasBuffer.data(), win->width, win->height, (int)projected[i].x, (int)projected[i].y, 3, col, true, win->aliasQuality3D);
+                Graphics::DrawCircleDepth(win->canvasBuffer.data(), win->depthBuffer.data(), win->width, win->height, (int)projected[i].x, (int)projected[i].y, 3, viewPos[i].z, col, win->aliasQuality3D);
             }
             break;
         }
@@ -1461,8 +1570,8 @@ static int window_draw_cube(lua_State* L) {
                     faceCol = Graphics::ShadeColor(col, shade);
                 }
 
-                FillTriangle(win->canvasBuffer.data(), win->width, win->height, p0, p1, p2, faceCol, win->aliasQuality3D);
-                FillTriangle(win->canvasBuffer.data(), win->width, win->height, p0, p2, p3, faceCol, win->aliasQuality3D);
+                FillTriangleDepth(win->canvasBuffer.data(), win->depthBuffer.data(), win->width, win->height, p0, p1, p2, viewPos[i0].z, viewPos[i1].z, viewPos[i2].z, faceCol, win->aliasQuality3D);
+                FillTriangleDepth(win->canvasBuffer.data(), win->depthBuffer.data(), win->width, win->height, p0, p2, p3, viewPos[i0].z, viewPos[i2].z, viewPos[i3].z, faceCol, win->aliasQuality3D);
             }
             break;
         }
@@ -1559,14 +1668,14 @@ static int window_draw_mesh(lua_State* L) {
                     if (a < 0 || a >= (int)vertCount || bIdx < 0 || bIdx >= (int)vertCount) continue;
                     Graphics::Vec2 p1 = projected[a];
                     Graphics::Vec2 p2 = projected[bIdx];
-                    Graphics::DrawLine(win->canvasBuffer.data(), win->width, win->height, (int)p1.x, (int)p1.y, (int)p2.x, (int)p2.y, baseCol, win->aliasQuality3D);
+                    Graphics::DrawLineDepth(win->canvasBuffer.data(), win->depthBuffer.data(), win->width, win->height, (int)p1.x, (int)p1.y, viewPos[a].z, (int)p2.x, (int)p2.y, viewPos[bIdx].z, baseCol, win->aliasQuality3D);
                 }
             }
             break;
         }
         case CubeFillMode::Point: {
             for (size_t i = 0; i < vertCount; ++i) {
-                Graphics::DrawCircle(win->canvasBuffer.data(), win->width, win->height, (int)projected[i].x, (int)projected[i].y, 3, baseCol, true, win->aliasQuality3D);
+                Graphics::DrawCircleDepth(win->canvasBuffer.data(), win->depthBuffer.data(), win->width, win->height, (int)projected[i].x, (int)projected[i].y, 3, viewPos[i].z, baseCol, win->aliasQuality3D);
             }
             break;
         }
@@ -1628,8 +1737,12 @@ static int window_draw_mesh(lua_State* L) {
                 // Fan triangulation from the face's first vertex, same
                 // approach as draw_polygon.
                 for (size_t i = 1; i + 1 < rf.indices.size(); ++i) {
-                    FillTriangle(win->canvasBuffer.data(), win->width, win->height,
-                        projected[rf.indices[0]], projected[rf.indices[i]], projected[rf.indices[i + 1]], rf.color, win->aliasQuality3D);
+                    int idx0 = rf.indices[0];
+                    int idxA = rf.indices[i];
+                    int idxB = rf.indices[i + 1];
+                    FillTriangleDepth(win->canvasBuffer.data(), win->depthBuffer.data(), win->width, win->height,
+                        projected[idx0], projected[idxA], projected[idxB],
+                        viewPos[idx0].z, viewPos[idxA].z, viewPos[idxB].z, rf.color, win->aliasQuality3D);
                 }
             }
             break;

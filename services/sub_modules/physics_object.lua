@@ -7,9 +7,22 @@
 -- PhysicsBody into GameObjects via WindowObject:BindPhysics.
 local InstanceTyping = require("instance_type")
 
+-- Lazy Event resolver -- same require-cycle dodge as game_object.lua's
+-- NewCollidedEvent (see the comment there for the full "why"). Deferred
+-- until the first PhysicsBody is actually constructed, by which point
+-- max_core.lua has long finished loading.
+local _EventClass = nil
+local function NewCollidedEvent()
+    if not _EventClass then
+        _EventClass = require("max_core").call().Event
+    end
+    return _EventClass.new("Collided")
+end
+
 ---@alias PhysicsShapeType
 ---| '"sphere"'
 ---| '"box"'
+---| '"hull"' # Arbitrary convex mesh -- see PhysicsWorld:CreateHullBody, not CreateBody (which only takes sphere/box, both fixed-size-params shapes)
 
 ---@alias PhysicsQualityLevel
 ---| 0 # Low -- fewest substeps/iterations, cheapest
@@ -20,7 +33,8 @@ local InstanceTyping = require("instance_type")
 ---@class PhysicsInterface
 ---@field create_world fun(gx: number?, gy: number?, gz: number?): integer
 ---@field destroy_world fun(worldId: integer): nil
----@field step_world fun(worldId: integer, dt: number): nil
+---@field step_world fun(worldId: integer, dt: number): { [integer]: { [1]: integer, [2]: integer } } touchingPairs ALL body id pairs touching as of this completed Step (every Step they stay in contact, not just the first)
+---@field body_is_colliding fun(worldId: integer, bodyId: integer): boolean
 ---@field world_set_gravity fun(worldId: integer, x: number, y: number, z: number): nil
 ---@field world_get_gravity fun(worldId: integer): number, number, number
 ---@field world_set_quality fun(worldId: integer, level: PhysicsQualityLevel): integer effectiveLevel
@@ -29,6 +43,7 @@ local InstanceTyping = require("instance_type")
 ---@field world_set_quality_thresholds fun(worldId: integer, low: integer, medium: integer, high: integer): nil
 ---@field world_get_body_count fun(worldId: integer): integer
 ---@field create_body fun(worldId: integer, shapeType: PhysicsShapeType, shapeA: number, shapeB: number, shapeC: number, px: number, py: number, pz: number, mass: number, isStatic: boolean): integer?
+---@field create_body_hull fun(worldId: integer, vertices: Vertex3[], faces: MeshFace[], px: number, py: number, pz: number, mass: number, isStatic: boolean): integer?
 ---@field destroy_body fun(worldId: integer, bodyId: integer): nil
 ---@field body_set_position fun(worldId: integer, bodyId: integer, x: number, y: number, z: number): nil
 ---@field body_get_position fun(worldId: integer, bodyId: integer): number, number, number
@@ -55,12 +70,18 @@ local InstanceTyping = require("instance_type")
 ---@field body_set_damping fun(worldId: integer, bodyId: integer, value: number): nil
 ---@field body_set_shape_sphere fun(worldId: integer, bodyId: integer, radius: number): nil
 ---@field body_set_shape_box fun(worldId: integer, bodyId: integer, hx: number, hy: number, hz: number): nil
+---@field body_weld_to fun(worldId: integer, bodyId: integer, parentId: integer): nil
+---@field body_unweld fun(worldId: integer, bodyId: integer): nil
+---@field body_is_welded fun(worldId: integer, bodyId: integer): boolean
+---@field body_get_weld_parent fun(worldId: integer, bodyId: integer): integer?
 ---@field body_set_group fun(worldId: integer, bodyId: integer, group: integer): nil
 ---@field body_get_group fun(worldId: integer, bodyId: integer): integer
 ---@field body_set_collides_with fun(worldId: integer, bodyId: integer, mask: integer): nil
 ---@field body_get_collides_with fun(worldId: integer, bodyId: integer): integer
 ---@field body_predict_position fun(worldId: integer, bodyId: integer, dt: number): number, number, number
 ---@field body_predict_impact fun(worldId: integer, bodyId: integer, targetBodyId: integer, dt: number, samples: integer?): (willCollide: boolean, timeToImpact: number, predictedX: number, predictedY: number, predictedZ: number)
+---@field body_set_rotation_locked fun(worldId: integer, objectId: integer, targetLock: boolean): nil
+---@field body_is_rotation_locked fun(worldId: integer, target: integer): boolean
 
 ---@type boolean, PhysicsInterface|string
 local physics_ok, physics_interface = pcall(require, "physics_management")
@@ -92,6 +113,7 @@ local PhysicsGroups = {
 ---@class PhysicsBody
 ---@field private _worldId integer
 ---@field private _id integer
+---@field Collided Event Fires (self:Fire(otherBody)) every Step for as long as this body stays in contact with another -- same underlying step_world pairs that drive the bound GameObject's Collided (see WindowObject:StepPhysics); fires on the PhysicsBody even for bodies with no GameObject bound to them
 local PhysicsBody = {}
 PhysicsBody.__index = PhysicsBody
 InstanceTyping.SetType(PhysicsBody, "PhysicsBody")
@@ -103,6 +125,7 @@ function PhysicsBody._wrap(worldId, bodyId)
     local self = setmetatable({}, PhysicsBody)
     self._worldId = worldId
     self._id = bodyId
+    self.Collided = NewCollidedEvent()
     return self
 end
 
@@ -294,6 +317,87 @@ function PhysicsBody:IsStatic()
     return false
 end
 
+---Locks (true) or unlocks (false) this body's ORIENTATION from the
+---physics engine's point of view: while locked, torque and collision
+---angular response can never spin it -- only its POSITION keeps moving
+---under physics (gravity, forces, collisions). Direct teleport-style
+---sets (SetRotation) still work regardless of the lock; this only blocks
+---rotation physics from changing it on its own. Locking snaps any
+---current spin to zero immediately.
+---@param locked boolean
+function PhysicsBody:SetRotationLocked(locked)
+    if physics_ok and type(physics_interface) ~= "string" then
+        physics_interface.body_set_rotation_locked(self._worldId, self._id, locked)
+    end
+end
+
+---@return boolean
+function PhysicsBody:IsRotationLocked()
+    if physics_ok and type(physics_interface) ~= "string" then
+        return physics_interface.body_is_rotation_locked(self._worldId, self._id)
+    end
+    return false
+end
+
+---Rigidly welds THIS body to `target` -- from now on, every physics
+---Step snaps this body's position/rotation to track `target` exactly,
+---using the relative offset captured RIGHT NOW at weld time, like it's
+---been bolted on. This is a KINEMATIC weld, not a true two-way
+---constraint: this body becomes immovable by its OWN forces/collisions/
+---torque while welded (same idea as SetStatic(true), just tracking a
+---moving target instead of a fixed point) -- but `target`'s mass/inertia
+---is untouched, so this body's weight doesn't make `target` feel heavier
+---or harder to spin. Automatically stops colliding with `target` itself
+---(a welded pair is usually flush/overlapping by design). Chained welds
+---(A welded to B, B welded to C) can lag one physics step for the
+---outermost link -- weld everything directly to a single root body if
+---you need zero lag.
+---@param target PhysicsBody The body this one will rigidly follow
+function PhysicsBody:WeldTo(target)
+    if not target or not physics_ok or type(physics_interface) == "string" then return end
+    physics_interface.body_weld_to(self._worldId, self._id, target._id)
+end
+
+---Releases a weld set up by WeldTo, restoring this body's own mass-
+---derived dynamics (forces/collisions affect it again). No-op if it
+---wasn't welded.
+function PhysicsBody:Unweld()
+    if physics_ok and type(physics_interface) ~= "string" then
+        physics_interface.body_unweld(self._worldId, self._id)
+    end
+end
+
+---@return boolean
+function PhysicsBody:IsWelded()
+    if physics_ok and type(physics_interface) ~= "string" then
+        return physics_interface.body_is_welded(self._worldId, self._id)
+    end
+    return false
+end
+
+---Gets the PhysicsBody this one is currently welded to, if any. Wraps a
+---fresh handle each call -- compare with GetId() if you need identity.
+---@return PhysicsBody?
+function PhysicsBody:GetWeldParent()
+    if not physics_ok or type(physics_interface) == "string" then return nil end
+    local parentId = physics_interface.body_get_weld_parent(self._worldId, self._id)
+    if not parentId then return nil end
+    return PhysicsBody._wrap(self._worldId, parentId)
+end
+
+---Whether this body is CURRENTLY overlapping any other body it's allowed
+---to collide with (see SetGroup/SetCollidesWith) -- true for the whole
+---duration of a touch. Reflects state as of this world's most recently
+---completed Step(). `Collided` fires this same info as an event (every
+---Step the touch persists) if you'd rather react than poll.
+---@return boolean
+function PhysicsBody:IsColliding()
+    if physics_ok and type(physics_interface) ~= "string" then
+        return physics_interface.body_is_colliding(self._worldId, self._id)
+    end
+    return false
+end
+
 ---Enables or disables simulation for this body entirely -- disabled means
 ---frozen in place and skipped by both integration and collision (cheaper
 ---than destroying/recreating it if you'll want it back).
@@ -478,10 +582,12 @@ end
 ---masks match, using however many substeps/iterations the current quality
 ---level calls for (see SetQuality and dynamic auto-adjustment).
 ---@param dt number
+---@return { [integer]: { [1]: integer, [2]: integer } } touchingPairs ALL body id pairs touching as of this completed Step -- WindowObject:StepPhysics fires Collided on the bound GameObjects/PhysicsBodies for every one of these, every Step, so it keeps firing for as long as the touch lasts; empty table if physics isn't available
 function PhysicsWorld:Step(dt)
     if physics_ok and type(physics_interface) ~= "string" then
-        physics_interface.step_world(self._id, dt)
+        return physics_interface.step_world(self._id, dt)
     end
+    return {}
 end
 
 ---Sets world gravity.
@@ -590,6 +696,41 @@ function PhysicsWorld:CreateBody(shapeType, shapeParams, px, py, pz, mass, isSta
     return PhysicsBody._wrap(self._id, bodyId)
 end
 
+---Creates a Hull-shaped body from a mesh's ACTUAL vertices/faces -- the
+---physics counterpart of MeshObject.Vertices/Faces, so collision (see
+---BoxVsBox's generalization, Physics::HullVsBody in physics.hpp) tests
+---against the real geometry instead of a box/sphere standing in for it.
+---Only convex meshes are valid -- a concave mesh needs to be split into
+---convex pieces, each its own hull body; this does NOT check convexity
+---for you, it'll just collide wrong (typically: tunneling through the
+---"dents") if you feed it a concave one.
+---
+---For the common case of physicalizing a MeshObject you already have,
+---prefer WindowObject:BindPhysics(meshObject, {shape = "hull"}) instead
+---of calling this directly -- it pulls Vertices/Faces off the
+---MeshObject for you.
+---@param vertices Vertex3[] Local-space vertex list, same convention as MeshObject.Vertices
+---@param faces MeshFace[] Each face is a list of 1-based vertex indices (3+), wound counter-clockwise viewed from outside -- same convention MeshObject.Faces already requires for correct shading
+---@param px number? Position X
+---@param py number? Position Y
+---@param pz number? Position Z
+---@param mass number? Default 1.0
+---@param isStatic boolean? Anchored/immovable (default false)
+---@return PhysicsBody?
+function PhysicsWorld:CreateHullBody(vertices, faces, px, py, pz, mass, isStatic)
+    if not physics_ok or type(physics_interface) == "string" then return nil end
+    if not vertices or not faces or #vertices == 0 or #faces == 0 then return nil end
+
+    local bodyId = physics_interface.create_body_hull(
+        self._id, vertices, faces,
+        px or 0.0, py or 0.0, pz or 0.0,
+        mass or 1.0, isStatic or false
+    )
+    if not bodyId then return nil end
+
+    return PhysicsBody._wrap(self._id, bodyId)
+end
+
 ---Destroys the world and every body in it.
 function PhysicsWorld:Destroy()
     if physics_ok and type(physics_interface) ~= "string" then
@@ -601,4 +742,4 @@ return {
     PhysicsWorld = PhysicsWorld,
     PhysicsBody = PhysicsBody,
     PhysicsGroups = PhysicsGroups,
-}
+};
