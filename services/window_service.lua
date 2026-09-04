@@ -772,8 +772,8 @@ function WindowObject:BindPhysics(gameObject, options)
         -- options.vertices/faces let you pass an explicit convex hull;
         -- otherwise, for a MeshObject, its own Vertices/Faces are used
         -- automatically -- BindPhysics(meshObject, {shape = "hull"}) is
-        -- all that's needed for the mesh to collide using its ACTUAL
-        -- geometry (see PhysicsWorld:CreateHullBody).
+        -- all that's needed for the mesh to collide using its ACTUAL geometry.
+        ---@see PhysicsWorld.CreateBody
         local vertices = options.vertices or gameObject.Vertices
         local faces = options.faces or gameObject.Faces
         body = self._physicsWorld:CreateHullBody(

@@ -33,6 +33,8 @@ end
 ---@field Visible boolean Lifecycle visibility toggle
 ---@field _physicsBody PhysicsBody? Set by WindowObject:BindPhysics; nil until this object is bound to physics
 ---@field Collided Event Fires (self:Fire(otherGameObject)) every Step for as long as this object's PhysicsBody stays touching another's -- only meaningful once BindPhysics has been called; see WindowObject:StepPhysics
+---@field Vertices table<number[]>
+---@field Faces integer[][]
 local GameObject = {}
 GameObject.__index = GameObject
 InstanceTyping.SetType(GameObject, "GameObject")

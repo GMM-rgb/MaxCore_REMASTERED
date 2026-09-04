@@ -42,14 +42,14 @@ windows.GameApplication:SetAliasingQuality("3d", 1)
 windows.GameApplication:SetPhysicsAutoQuality(true)
 
 if windows.GameApplication then
-    game.physics = windows.GameApplication:CreatePhysicsWorld(0, 9.81, 0)
+    game.physics = windows.GameApplication:CreatePhysicsWorld(0, 20.98, 0)
 end
 
 local MainCamera = windows.GameApplication:CreateCamera()
 local LightSource = windows.GameApplication:CreateLight()
 local Floor = windows.GameApplication:CreateCube(0, 0, 0)
-local Object = windows.GameApplication:CreateCube(0, -5, 0)
-local PhysicsCube = windows.GameApplication:CreateCube(-5, -2, 0)
+local Object = windows.GameApplication:CreateCube(0, -2, 0)
+local PhysicsCube = windows.GameApplication:CreateCube(-5, -5, 0)
 local PhysicsObjectWire = windows.GameApplication:BindPhysics(PhysicsCube)
 local FloorWire = windows.GameApplication:BindPhysics(Floor)
 local ObjWire = windows.GameApplication:BindPhysics(Object)
@@ -105,7 +105,7 @@ local function CreatePlatforms()
 end
 
 if MainCamera ~= nil and core.typeof(MainCamera) == "CameraObject" then
-    windows.GameApplication:SetActiveCamera(MainCamera); MainCamera:SetFOV(70)
+    windows.GameApplication:SetActiveCamera(MainCamera); MainCamera:SetFOV(115)
     -- MainCamera:SetClipPlanes(1, 50)
     MainCamera:SetPosition(0, -5, 5)
     MainCamera:SetRotation(-135, 0, 0)
@@ -118,13 +118,15 @@ if not MainCamera then return end
 if not FloorWire then return end
 if not ObjWire then return end
 
+Floor:SetFillMode("solid")
+Object:SetFillMode("solid")
 PhysicsCube:SetFillMode("solid")
+PhysicsObjectWire:SetMass(100)
+PhysicsObjectWire:SetRestitution(0)
 PhysicsObjectWire:SetFriction(0.5)
 Object:SetColor(100, 100, 100)
-LightSource:SetIntensity(0.5)
-Object:SetFillMode("solid")
-Floor:SetFillMode("solid")
 Floor:SetColor(200, 200, 200)
+LightSource:SetIntensity(0.5)
 FloorWire:SetFriction(1.0)
 ObjWire:SetFriction(1.0)
 Floor:SetScale(20, 1, 5)
@@ -151,11 +153,15 @@ function RaycastUtility._private.CreateRaycastTester()
     return InitialObject
 end
 
+---@alias SlopeFetchOutput { sx: number, sy: number, sz: number }
+
 ---@class RaycastObject
 ---@field new fun(opts: RaycastParameters)
 ---@field origin RaycastCoordinates
 ---@field target RaycastCoordinates
 ---@field tester MeshObject
+---@field GetSlopeValue fun(selfObj: RaycastObject): SlopeFetchOutput
+---@field Synthesis fun(selfObj: RaycastObject): nil
 
 ---@class RaycastParameters
 ---@field origin RaycastCoordinates
@@ -184,12 +190,36 @@ function RaycastUtility.new(opts)
     return self
 end
 
+--- fetches slope increment value for _`RaycastObject`_ pointing direction.
+---@param self RaycastObject
+---@return SlopeFetchOutput
+function RaycastUtility:GetSlopeValue()
+    if not self then return {} end
+
+    local distance = VectorUtility.VectorMath.GetDistance3D({
+        x1 = self.origin.x, x2 = self.target.x,
+        y1 = self.origin.y, y2 = self.target.y,
+        z1 = self.origin.z, z2 = self.target.z,
+    });
+
+    local distance_x = self.target.x - self.origin.x
+    local distance_y = self.target.y - self.origin.y
+    local distance_z = self.target.z - self.origin.z
+
+    local slope_x <const> = distance_x / distance
+    local slope_y <const> = distance_y / distance
+    local slope_z <const> = distance_z / distance
+
+    return { sx = slope_x, sy = slope_y, sz = slope_z }
+end
+
 ---@param self RaycastObject
 function RaycastUtility:Synthesis()
     for i, OriginCoordinateValue in pairs(self.origin) do
         if self.target[i] < OriginCoordinateValue then goto continue else return end
         if self.target[i] > OriginCoordinateValue then goto continue else return end
         goto unsafe ::continue:: local TesterPositions = table.pack(self.tester:GetPosition())
+        -- for PosIndex = 0, self
     end ::unsafe:: return nil
 end
 
@@ -197,11 +227,6 @@ end
 function RaycastUtility:GetOrigin()
     return self.origin or { x = 0, y = 0, z = 0 }
 end
-
----@param v PhysicsBody
-Floor.Collided:Connect(function(v)
-    print("Floor COLLISION!")
-end)
 
 ---@param self RaycastObject
 function RaycastUtility:GetDistance()
@@ -223,8 +248,25 @@ end
 
 local ray = RaycastUtility.new({
     origin = { x = 0, y = 0, z = 0 },
-    target = { x = 0, y = 0, z = -5 },
+    target = { x = 0, y = -5, z = -5 },
 });
+
+print(ray)
+
+-- print(ray:Synthesis())
+-- local s = ray:GetSlopeValue()
+
+-- for key, value in pairs(s) do
+    
+-- end
+
+
+---@param obj PhysicsBody
+Floor.Collided:Connect(function(obj)
+    for _, v in pairs(getmetatable(obj)) do
+        io.stdout:write(tostring(v) .. "\n")
+    end
+end)
 
 RuntimeService.RenderStepped:Connect(function(dt)
     if ObjWire ~= nil and core.typeof(ObjWire) == "PhysicsBody" then
@@ -234,10 +276,10 @@ RuntimeService.RenderStepped:Connect(function(dt)
         local cax, cay, caz = MainCamera:GetPosition()
         local mx, my = InputService:GetMousePosition()
         local dx, dy = InputService:GetMouseDelta()
-        -- FloorWire:SetShapeBox(fx / 2, fy / 2, fz / 2)
-        -- ObjWire:SetShapeBox(osx / 2, osy / 2, osz / 2)
-        FloorWire:SetShapeBox(fx / 1.8, fy / 1.8, fz / 1.8)
-        -- ObjWire:SetShapeBox(osx / 1.8, osy / 1.8, osz / 1.8)
+        FloorWire:SetShapeBox(fx / 2, fy / 2, fz / 2)
+        ObjWire:SetShapeBox(osx / 2, osy / 2, osz / 2)
+        ObjWire:SetRotationLocked(false)
+        ObjWire:PredictPosition(dt)
 
         local PhysicsCubeSize = table.pack(PhysicsCube:GetScale())
         PhysicsObjectWire:SetShapeBox(PhysicsCubeSize[1] / 2, PhysicsCubeSize[2] / 2, PhysicsCubeSize[3] / 2)

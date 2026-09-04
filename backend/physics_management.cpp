@@ -7,12 +7,17 @@
 // require("physics_management")) rather than folded into window_management,
 // mirroring how physics.hpp sits next to renderer.hpp: same pairing
 // pattern, one step over.
+#include <string>
+#include <iostream>
 #include <lua.hpp>
 #include <unordered_map>
 #include <cctype>
 #include <vector> // used directly by body_create_hull below, not just transitively via physics.hpp
 
 #include "inline_headers/physics/physics.hpp"
+
+using namespace std;
+using typename std::string;
 
 #if defined(_WIN32) || defined(_WIN64)
     #define EXPORT_FN __declspec(dllexport)
@@ -587,7 +592,7 @@ static int body_is_rotation_locked(lua_State* L) {
     int bodyId = static_cast<int>(luaL_checkinteger(L, 2));
 
     Physics::World* world = GetWorld(worldId);
-    Physics::Body* body = world ? world->GetBody(bodyId) : nullptr;
+    Physics::Body* body = world != nullptr ? world->GetBody(bodyId) : nullptr;
     lua_pushboolean(L, (body && body->rotationLocked) ? 1 : 0);
     return 1;
 }
@@ -844,7 +849,6 @@ extern "C" EXPORT_FN int luaopen_physics_management(lua_State* L) {
         {"world_get_quality", world_get_quality},
         {"world_set_quality_thresholds", world_set_quality_thresholds},
         {"world_get_body_count", world_get_body_count},
-
         {"create_body", body_create},
         {"create_body_hull", body_create_hull},
         {"destroy_body", body_destroy},
