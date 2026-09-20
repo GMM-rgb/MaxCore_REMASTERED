@@ -97,7 +97,7 @@ package.cpath = package.cpath .. ";" .. table.concat(cpath_patterns, ";")
 local native_ok, input_native = pcall(require, "input_native")
 
 ---@type boolean
-local IS_LOVE = (_G.love ~= nil) and (_G.love.keyboard ~= nil)
+-- local IS_LOVE = (_G.love ~= nil) and (_G.love.keyboard ~= nil)
 
 if not native_ok then
     print("\27[33m[InputService Warning]\27[0m Could not load input_native binary.")
@@ -218,15 +218,15 @@ function InputService:IsKeyDown(target)
     local keyName, keyCode = self:_ResolveTarget(target)
     if native_ok and keyCode and type(input_native) == "table" and type(input_native.is_key_down) == "function" then
         return input_native.is_key_down(keyCode)
-    elseif IS_LOVE then
-        if keyName:find("mouse") then
-            local btnIndex = tonumber(keyName:match("%d+")) or 1
-            return love.mouse.isDown(btnIndex)
-        else
-            local loveKey = LOVE_KEY_MAP[keyName] or keyName
-            ---@cast loveKey love.KeyConstant
-            return love.keyboard.isDown(loveKey)
-        end
+    -- elseif IS_LOVE then
+    --     if keyName:find("mouse") then
+    --         local btnIndex = tonumber(keyName:match("%d+")) or 1
+    --         return love.mouse.isDown(btnIndex)
+    --     else
+    --         local loveKey = LOVE_KEY_MAP[keyName] or keyName
+    --         ---@cast loveKey love.KeyConstant
+    --         return love.keyboard.isDown(loveKey)
+    --     end
     end return false
 end
 
@@ -255,8 +255,8 @@ end
 function InputService:GetMousePosition()
     if native_ok and type(input_native) == "table" and type(input_native.get_mouse_position) == "function" then
         return input_native.get_mouse_position()
-    elseif IS_LOVE then
-        return love.mouse.getPosition()
+    -- elseif IS_LOVE then
+    --     return love.mouse.getPosition()
     end return 0, 0
 end
 
@@ -334,17 +334,17 @@ function InputService.UpdateAll()
     end
 end
 
-function InputService.HookLove()
-    if not IS_LOVE then return end
-    local prevUpdate = love.update
+-- function InputService.HookLove()
+--     if not IS_LOVE then return end
+--     local prevUpdate = love.update
 
-    love.update = function(dt)
-        InputService.UpdateAll()
-        if prevUpdate then
-            prevUpdate(dt)
-        end
-    end
-end
+--     love.update = function(dt)
+--         InputService.UpdateAll()
+--         if prevUpdate then
+--             prevUpdate(dt)
+--         end
+--     end
+-- end
 
 -- #service
 return InputService

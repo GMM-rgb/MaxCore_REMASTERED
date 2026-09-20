@@ -11,7 +11,7 @@ local DEFAULTS = {
     maxFails = 3,
     tickRate = 60,
     maxDt = 0.5,
-}
+};
 
 ---@class Logger
 ---@field log fun(self: Logger, ...: any)

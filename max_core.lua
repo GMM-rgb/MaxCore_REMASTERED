@@ -335,6 +335,8 @@ end
 ---@field Fire fun(selfObj: Event, ...: any)
 ---@field Connect fun(selfObj: Event, func: function, ...: any): EventConnection
 ---@field IsConnected fun(selfObj: Event): boolean
+---@field RenameEvent fun(selfObj: Event, target: string)
+---@field GetEventName fun(selfObj: Event): string
 ---@field _listeners table<integer, function>
 ---@field _connected boolean
 ---@field _nextId integer

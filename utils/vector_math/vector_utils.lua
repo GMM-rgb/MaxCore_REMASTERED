@@ -40,31 +40,37 @@ function VectorUtils.GetDistance3D(coordinates)
     return SecondaryDistance or math.huge or "<unkown-vector>"
 end
 
+---@class VectorObject
+---@field SetCoordinates fun(self: VectorObject, v: CoordinatesTarget)
+---@return VectorObject
 function VectorUtility.new()
     local self = setmetatable({}, VectorUtility)
+    self.coordinates = { x = 0, y = 0, z = 0}
     return self
 end
 
----@generic T
----@param ... VectorInputPattern
----@alias VectorInputPattern { [integer]: table<T> }
----@return WorkspaceDimensions2D?
-function VectorUtility:_2D(...)
-    local VectorInputsTable <const> = { ... }
-    ---@type WorkspaceDimensions2D?
-    local WorkspaceDimensionalVector = nil
+-- ---@generic T
+-- ---@param ... VectorInputPattern
+-- ---@alias VectorInputPattern { [integer]: table<T> }
+-- ---@return WorkspaceDimensions2D?
+-- function VectorUtility:_2D(...)
+--     local VectorInputsTable <const> = { ... }
+--     ---@type WorkspaceDimensions2D?
+--     local WorkspaceDimensionalVector = nil
 
-    for ParamArgumentIndex, ParamArgumentValue in pairs(VectorInputsTable) do
-        for _, ArgTableValue in ipairs(ParamArgumentValue) do
+--     for ParamArgumentIndex, ParamArgumentValue in pairs(VectorInputsTable) do
+--         for _, ArgTableValue in ipairs(ParamArgumentValue) do
             
-        end
-    end
+--         end
+--     end
 
-    return WorkspaceDimensionalVector or nil
-end
+--     return WorkspaceDimensionalVector or nil
+-- end
 
-function VectorUtility:_3D()
-
+---@alias CoordinatesTarget table<number>
+---@param coords CoordinatesTarget
+function VectorUtility:SetCoordinates(coords)
+    self.coordinates = { x = coords[1], y = coords[2], z = coords[3] }
 end
 
 return {

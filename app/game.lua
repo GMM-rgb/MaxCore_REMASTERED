@@ -45,6 +45,98 @@ if windows.GameApplication then
     game.physics = windows.GameApplication:CreatePhysicsWorld(0, 20.98, 0)
 end
 
+-- ---@alias DataValues { scope: string, value: string }
+-- ---@param data { [string]: DataValues }
+-- local function SaveData(data)
+--     ---@type string
+--     local FormattedSaveData = ""
+--     ---@type CreateFileOptions
+--     local config = { path = "./game_data.ini" }
+--     ---@type FileObject?
+--     local DataFile = StorageService:GetFile(config.path)
+
+--     for property, value in pairs(data or {}) do
+--         local combined = property .. " = " .. tostring(value.value) .. "\n"
+--         local content = FormattedSaveData .. combined
+--         FormattedSaveData = content
+--     end
+
+--     if not DataFile or not core.IsA(DataFile, "FileObject") then DataFile = StorageService:CreateFile(config) end
+--     if DataFile ~= nil and core.IsA(DataFile, "FileObject") then DataFile:Write(FormattedSaveData) end
+-- end
+
+---@param pos table<number>
+---@return GameObject?
+local function CreateCollectableCoin(pos)
+    if core.typeof(windows.GameApplication) ~= "WindowObject" then warn("Game Application NIL!") return nil end
+    if pos == nil or type(pos) ~= "table" or #pos ~= 3 then warn("Insufficent Position Amount!") return nil end
+    local GameApplication <const> = windows.GameApplication
+    if not GameApplication then return nil end
+
+    local CoinMeshConfiguration = {
+        vertices = {
+            -- Front Face Center & Ring (Z = +0.25)
+            {  0.000,  0.000,  0.25 }, -- 1: Front Center
+            {  1.000,  0.000,  0.25 }, -- 2: Right
+            {  0.707,  0.707,  0.25 }, -- 3: Top-Right
+            {  0.000,  1.000,  0.25 }, -- 4: Top
+            { -0.707,  0.707,  0.25 }, -- 5: Top-Left
+            { -1.000,  0.000,  0.25 }, -- 6: Left
+            { -0.707, -0.707,  0.25 }, -- 7: Bottom-Left
+            {  0.000, -1.000,  0.25 }, -- 8: Bottom
+            {  0.707, -0.707,  0.25 }, -- 9: Bottom-Right
+
+            -- Back Face Center & Ring (Z = -0.25)
+            {  0.000,  0.000, -0.25 }, -- 10: Back Center
+            {  1.000,  0.000, -0.25 }, -- 11: Right
+            {  0.707,  0.707, -0.25 }, -- 12: Top-Right
+            {  0.000,  1.000, -0.25 }, -- 13: Top
+            { -0.707,  0.707, -0.25 }, -- 14: Top-Left
+            { -1.000,  0.000, -0.25 }, -- 15: Left
+            { -0.707, -0.707, -0.25 }, -- 16: Bottom-Left
+            {  0.000, -1.000, -0.25 }, -- 17: Bottom
+            {  0.707, -0.707, -0.25 }, -- 18: Bottom-Right
+        },
+        faces = {
+            -- Front Cap (8 Triangles around front center #1)
+            { 1, 2, 3 }, { 1, 3, 4 }, { 1, 4, 5 }, { 1, 5, 6 },
+            { 1, 6, 7 }, { 1, 7, 8 }, { 1, 8, 9 }, { 1, 9, 2 },
+
+            -- Back Cap (8 Triangles around back center #10)
+            { 10, 12, 11 }, { 10, 13, 12 }, { 10, 14, 13 }, { 10, 15, 14 },
+            { 10, 16, 15 }, { 10, 17, 16 }, { 10, 18, 17 }, { 10, 11, 18 },
+
+            -- 8 Outer Sides (16 Triangles, outward normals)
+            { 2, 11, 12 }, { 2, 12, 3 },   -- Side 1
+            { 3, 12, 13 }, { 3, 13, 4 },   -- Side 2
+            { 4, 13, 14 }, { 4, 14, 5 },   -- Side 3
+            { 5, 14, 15 }, { 5, 15, 6 },   -- Side 4
+            { 6, 15, 16 }, { 6, 16, 7 },   -- Side 5
+            { 7, 16, 17 }, { 7, 17, 8 },   -- Side 6
+            { 8, 17, 18 }, { 8, 18, 9 },   -- Side 7
+            { 9, 18, 11 }, { 9, 11, 2 },   -- Side 8
+        },
+    };
+
+    local CoinMesh = GameApplication:CreateMesh()
+    CoinMesh:SetVertices(CoinMeshConfiguration.vertices)
+    CoinMesh:SetFaces(CoinMeshConfiguration.faces)
+    CoinMesh:SetPosition(table.unpack(pos))
+    CoinMesh:SetScale(0.5, 0.5, 0.25)
+    
+    for _, v in pairs(CoinMesh.Vertices) do
+        for _, vv in ipairs(v) do
+            print(vv)
+        end
+    end
+
+    return CoinMesh
+end
+
+local CoinObject = CreateCollectableCoin({5, -2, 0})
+if not CoinObject or type(CoinObject) == "nil" then return end
+local CoinPhysics = windows.GameApplication:BindPhysics(CoinObject)
+if not CoinPhysics or core.typeof(CoinPhysics) ~= "PhysicsBody" then return end
 local MainCamera = windows.GameApplication:CreateCamera()
 local LightSource = windows.GameApplication:CreateLight()
 local Floor = windows.GameApplication:CreateCube(0, 0, 0)
@@ -53,6 +145,7 @@ local PhysicsCube = windows.GameApplication:CreateCube(-5, -5, 0)
 local PhysicsObjectWire = windows.GameApplication:BindPhysics(PhysicsCube)
 local FloorWire = windows.GameApplication:BindPhysics(Floor)
 local ObjWire = windows.GameApplication:BindPhysics(Object)
+local CoinCount = 0
 
 ---@class PlatformConfig
 ---@field size table<number>
@@ -121,7 +214,7 @@ if not ObjWire then return end
 Floor:SetFillMode("solid")
 Object:SetFillMode("solid")
 PhysicsCube:SetFillMode("solid")
-PhysicsObjectWire:SetMass(100)
+PhysicsObjectWire:SetMass(1)
 PhysicsObjectWire:SetRestitution(0)
 PhysicsObjectWire:SetFriction(0.5)
 Object:SetColor(100, 100, 100)
@@ -132,6 +225,9 @@ ObjWire:SetFriction(1.0)
 Floor:SetScale(20, 1, 5)
 Object:SetScale(1, 1, 1)
 ObjWire:SetFriction(1)
+
+ObjWire:SetRotationLocked(true)
+PhysicsObjectWire:SetRotationLocked(true)
 
 local LightIntensityInitial = LightSource and LightSource:GetIntensity()
 local wx, wy = windows.GameApplication:GetDimensions() or 0, 0
@@ -246,27 +342,19 @@ function RaycastUtility:EndingPosition()
     -- local intersection = window:GetPhysicsBody()
 end
 
-local ray = RaycastUtility.new({
-    origin = { x = 0, y = 0, z = 0 },
-    target = { x = 0, y = -5, z = -5 },
-});
-
-print(ray)
-
--- print(ray:Synthesis())
--- local s = ray:GetSlopeValue()
-
--- for key, value in pairs(s) do
-    
--- end
-
-
----@param obj PhysicsBody
-Floor.Collided:Connect(function(obj)
-    for _, v in pairs(getmetatable(obj)) do
-        io.stdout:write(tostring(v) .. "\n")
-    end
+---@param object GameObject
+CoinObject.Collided:Connect(function(object)
+    core.task.seed(function()
+        CoinPhysics:SetEnabled(false)
+        CoinObject.Visible = false
+        CoinCount = CoinCount + 1
+        print("COINS:", CoinCount)
+    end)
 end)
+
+if not CoinPhysics:IsStatic() then
+    CoinPhysics:SetStatic(true)
+end
 
 RuntimeService.RenderStepped:Connect(function(dt)
     if ObjWire ~= nil and core.typeof(ObjWire) == "PhysicsBody" then
@@ -278,7 +366,6 @@ RuntimeService.RenderStepped:Connect(function(dt)
         local dx, dy = InputService:GetMouseDelta()
         FloorWire:SetShapeBox(fx / 2, fy / 2, fz / 2)
         ObjWire:SetShapeBox(osx / 2, osy / 2, osz / 2)
-        ObjWire:SetRotationLocked(false)
         ObjWire:PredictPosition(dt)
 
         local PhysicsCubeSize = table.pack(PhysicsCube:GetScale())
@@ -294,6 +381,8 @@ RuntimeService.RenderStepped:Connect(function(dt)
         Floor:Render(windows.GameApplication)
         PhysicsCube:Render(windows.GameApplication)
         Object:Render(windows.GameApplication)
+        CoinObject:Render(windows.GameApplication)
+        CoinObject:SetRotation(0, CoinObject.Rotation.y + (20 * dt), 0)
 
         if InputService:IsKeyDown("a") or InputService:IsKeyDown("left") then
             ObjWire:ApplyImpulse(-1, 0, 0)
@@ -305,7 +394,7 @@ RuntimeService.RenderStepped:Connect(function(dt)
             ObjWire:ApplyImpulse(0, 0, 1)
         end
     end
-end, { priority = 107, safe = true, maxFails = math.huge, maxCatchUp = 0.1 });
+end, { priority = 115, safe = true, maxFails = math.huge, maxCatchUp = 0.1 });
 
 ---@param state InputActionState
 local function JumpObject(_, state, _)
@@ -337,11 +426,13 @@ if FloorWire ~= nil then
     end
 end
 
+local ProgramExit = core.Event.new("ExitProgramCleanup")
+
 ---@param dt number
 local function tick(dt)
     if windows["GameApplication"] ~= nil then
         if not windows.GameApplication:IsRunning() then
-            return
+            ProgramExit:Fire()
         end
 
         windows.GameApplication:StepPhysics(dt)
@@ -358,4 +449,9 @@ xpcall(CreatePlatforms, print)
 ---@type JobOptions
 local TickConfiguration = { safe = true, maxFails = 1 }
 RuntimeService.Stepped:Connect(tick, TickConfiguration)
-RuntimeService:KeepAlive()
+ProgramExit:Connect(function()
+    -- "%[([^%]]+)%]"
+    windows.GameApplication:Close()
+    core.colorPrint("DEBUG", "EXITING...")
+    os.exit(0x00000, true); return nil
+end); RuntimeService:KeepAlive()
