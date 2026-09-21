@@ -34,6 +34,10 @@ events:
       - "C:/Windows/System32/wbem/"
       - "C:/Windows/System32/WindowsPowerShell/v1.0/"
       - "C:/Windows/System32/OpenSSH/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/6041464/.local/bin/"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Lua/bin/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
@@ -87,6 +91,42 @@ events:
       - "C:/Windows/System32/OpenSSH/samu.com"
       - "C:/Windows/System32/OpenSSH/samu.exe"
       - "C:/Windows/System32/OpenSSH/samu"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/ninja-build.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/ninja-build.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/ninja-build"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/ninja.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/ninja.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/ninja"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/samu.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/samu.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/samu"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/ninja-build.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/ninja-build.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/ninja-build"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/ninja.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/ninja.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/ninja"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/samu.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/samu.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/samu"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/ninja-build.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/ninja-build.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/ninja-build"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/ninja.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/ninja.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/ninja"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/samu.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/samu.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/samu"
+      - "C:/Users/6041464/.local/bin/ninja-build.com"
+      - "C:/Users/6041464/.local/bin/ninja-build.exe"
+      - "C:/Users/6041464/.local/bin/ninja-build"
+      - "C:/Users/6041464/.local/bin/ninja.com"
+      - "C:/Users/6041464/.local/bin/ninja.exe"
+      - "C:/Users/6041464/.local/bin/ninja"
+      - "C:/Users/6041464/.local/bin/samu.com"
+      - "C:/Users/6041464/.local/bin/samu.exe"
+      - "C:/Users/6041464/.local/bin/samu"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ninja-build.com"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ninja-build.exe"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/ninja-build"
@@ -126,6 +166,10 @@ events:
         - "C:\\WINDOWS\\System32\\Wbem"
         - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
         - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\6041464\\.local\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Microsoft\\WindowsApps"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Lua\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
@@ -163,6 +207,10 @@ events:
       - "C:/Windows/System32/wbem/"
       - "C:/Windows/System32/WindowsPowerShell/v1.0/"
       - "C:/Windows/System32/OpenSSH/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/6041464/.local/bin/"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Lua/bin/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
@@ -261,6 +309,78 @@ events:
       - "C:/Windows/System32/OpenSSH/clang++.com"
       - "C:/Windows/System32/OpenSSH/clang++.exe"
       - "C:/Windows/System32/OpenSSH/clang++"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/c++.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/c++.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/c++"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/g++.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/g++.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/g++"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/cl.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/cl.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/cl"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/bcc.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/bcc.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/bcc"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/icx.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/icx.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/icx"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/clang++.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/clang++.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/clang++"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/c++.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/c++.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/c++"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/g++.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/g++.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/g++"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/cl.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/cl.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/cl"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/bcc.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/bcc.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/bcc"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/icx.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/icx.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/icx"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/clang++.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/clang++.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/clang++"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/c++.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/c++.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/c++"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/g++.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/g++.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/g++"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/cl.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/cl.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/cl"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/bcc.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/bcc.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/bcc"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/icx.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/icx.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/icx"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/clang++.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/clang++.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/clang++"
+      - "C:/Users/6041464/.local/bin/c++.com"
+      - "C:/Users/6041464/.local/bin/c++.exe"
+      - "C:/Users/6041464/.local/bin/c++"
+      - "C:/Users/6041464/.local/bin/g++.com"
+      - "C:/Users/6041464/.local/bin/g++.exe"
+      - "C:/Users/6041464/.local/bin/g++"
+      - "C:/Users/6041464/.local/bin/cl.com"
+      - "C:/Users/6041464/.local/bin/cl.exe"
+      - "C:/Users/6041464/.local/bin/cl"
+      - "C:/Users/6041464/.local/bin/bcc.com"
+      - "C:/Users/6041464/.local/bin/bcc.exe"
+      - "C:/Users/6041464/.local/bin/bcc"
+      - "C:/Users/6041464/.local/bin/icx.com"
+      - "C:/Users/6041464/.local/bin/icx.exe"
+      - "C:/Users/6041464/.local/bin/icx"
+      - "C:/Users/6041464/.local/bin/clang++.com"
+      - "C:/Users/6041464/.local/bin/clang++.exe"
+      - "C:/Users/6041464/.local/bin/clang++"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/c++.com"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/c++.exe"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/c++"
@@ -324,6 +444,10 @@ events:
         - "C:\\WINDOWS\\System32\\Wbem"
         - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
         - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\6041464\\.local\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Microsoft\\WindowsApps"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Lua\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
@@ -363,6 +487,10 @@ events:
         - "C:\\WINDOWS\\System32\\Wbem"
         - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
         - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\6041464\\.local\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Microsoft\\WindowsApps"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Lua\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
@@ -418,6 +546,10 @@ events:
       - "C:/Windows/System32/wbem/"
       - "C:/Windows/System32/WindowsPowerShell/v1.0/"
       - "C:/Windows/System32/OpenSSH/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/6041464/.local/bin/"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Lua/bin/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
@@ -434,6 +566,10 @@ events:
         - "C:\\WINDOWS\\System32\\Wbem"
         - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
         - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\6041464\\.local\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Microsoft\\WindowsApps"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Lua\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
@@ -467,6 +603,10 @@ events:
       - "C:/Windows/System32/wbem/"
       - "C:/Windows/System32/WindowsPowerShell/v1.0/"
       - "C:/Windows/System32/OpenSSH/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/6041464/.local/bin/"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Lua/bin/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
@@ -483,6 +623,10 @@ events:
         - "C:\\WINDOWS\\System32\\Wbem"
         - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
         - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\6041464\\.local\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Microsoft\\WindowsApps"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Lua\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
@@ -516,6 +660,10 @@ events:
       - "C:/Windows/System32/wbem/"
       - "C:/Windows/System32/WindowsPowerShell/v1.0/"
       - "C:/Windows/System32/OpenSSH/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/6041464/.local/bin/"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Lua/bin/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
@@ -532,6 +680,10 @@ events:
         - "C:\\WINDOWS\\System32\\Wbem"
         - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
         - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\6041464\\.local\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Microsoft\\WindowsApps"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Lua\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
@@ -565,6 +717,10 @@ events:
       - "C:/Windows/System32/wbem/"
       - "C:/Windows/System32/WindowsPowerShell/v1.0/"
       - "C:/Windows/System32/OpenSSH/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/6041464/.local/bin/"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Lua/bin/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
@@ -581,6 +737,10 @@ events:
         - "C:\\WINDOWS\\System32\\Wbem"
         - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
         - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\6041464\\.local\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Microsoft\\WindowsApps"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Lua\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
@@ -614,6 +774,10 @@ events:
       - "C:/Windows/System32/wbem/"
       - "C:/Windows/System32/WindowsPowerShell/v1.0/"
       - "C:/Windows/System32/OpenSSH/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/6041464/.local/bin/"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Lua/bin/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
@@ -630,6 +794,10 @@ events:
         - "C:\\WINDOWS\\System32\\Wbem"
         - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
         - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\6041464\\.local\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Microsoft\\WindowsApps"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Lua\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
@@ -663,6 +831,10 @@ events:
       - "C:/Windows/System32/wbem/"
       - "C:/Windows/System32/WindowsPowerShell/v1.0/"
       - "C:/Windows/System32/OpenSSH/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/6041464/.local/bin/"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Lua/bin/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
@@ -679,6 +851,10 @@ events:
         - "C:\\WINDOWS\\System32\\Wbem"
         - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
         - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\6041464\\.local\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Microsoft\\WindowsApps"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Lua\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
@@ -712,6 +888,10 @@ events:
       - "C:/Windows/System32/wbem/"
       - "C:/Windows/System32/WindowsPowerShell/v1.0/"
       - "C:/Windows/System32/OpenSSH/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/6041464/.local/bin/"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Lua/bin/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
@@ -728,6 +908,10 @@ events:
         - "C:\\WINDOWS\\System32\\Wbem"
         - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
         - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\6041464\\.local\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Microsoft\\WindowsApps"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Lua\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
@@ -761,6 +945,10 @@ events:
       - "C:/Windows/System32/wbem/"
       - "C:/Windows/System32/WindowsPowerShell/v1.0/"
       - "C:/Windows/System32/OpenSSH/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/6041464/.local/bin/"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Lua/bin/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
@@ -786,6 +974,18 @@ events:
       - "C:/Windows/System32/OpenSSH/readelf.com"
       - "C:/Windows/System32/OpenSSH/readelf.exe"
       - "C:/Windows/System32/OpenSSH/readelf"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/readelf.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/readelf.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/readelf"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/readelf.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/readelf.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/readelf"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/readelf.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/readelf.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/readelf"
+      - "C:/Users/6041464/.local/bin/readelf.com"
+      - "C:/Users/6041464/.local/bin/readelf.exe"
+      - "C:/Users/6041464/.local/bin/readelf"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/readelf.com"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/readelf.exe"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/readelf"
@@ -812,6 +1012,10 @@ events:
         - "C:\\WINDOWS\\System32\\Wbem"
         - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
         - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\6041464\\.local\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Microsoft\\WindowsApps"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Lua\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
@@ -845,6 +1049,10 @@ events:
       - "C:/Windows/System32/wbem/"
       - "C:/Windows/System32/WindowsPowerShell/v1.0/"
       - "C:/Windows/System32/OpenSSH/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/6041464/.local/bin/"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Lua/bin/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
@@ -861,6 +1069,10 @@ events:
         - "C:\\WINDOWS\\System32\\Wbem"
         - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
         - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\6041464\\.local\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Microsoft\\WindowsApps"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Lua\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
@@ -894,6 +1106,10 @@ events:
       - "C:/Windows/System32/wbem/"
       - "C:/Windows/System32/WindowsPowerShell/v1.0/"
       - "C:/Windows/System32/OpenSSH/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/6041464/.local/bin/"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Lua/bin/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
@@ -910,6 +1126,10 @@ events:
         - "C:\\WINDOWS\\System32\\Wbem"
         - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
         - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\6041464\\.local\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Microsoft\\WindowsApps"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Lua\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
@@ -943,6 +1163,10 @@ events:
       - "C:/Windows/System32/wbem/"
       - "C:/Windows/System32/WindowsPowerShell/v1.0/"
       - "C:/Windows/System32/OpenSSH/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/6041464/.local/bin/"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Lua/bin/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
@@ -968,6 +1192,18 @@ events:
       - "C:/Windows/System32/OpenSSH/tapi.com"
       - "C:/Windows/System32/OpenSSH/tapi.exe"
       - "C:/Windows/System32/OpenSSH/tapi"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/tapi.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/tapi.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/tapi"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/tapi.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/tapi.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/tapi"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/tapi.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/tapi.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/tapi"
+      - "C:/Users/6041464/.local/bin/tapi.com"
+      - "C:/Users/6041464/.local/bin/tapi.exe"
+      - "C:/Users/6041464/.local/bin/tapi"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/tapi.com"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/tapi.exe"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/tapi"
@@ -994,6 +1230,10 @@ events:
         - "C:\\WINDOWS\\System32\\Wbem"
         - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
         - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\6041464\\.local\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Microsoft\\WindowsApps"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Lua\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
@@ -1030,6 +1270,10 @@ events:
       - "C:/Windows/System32/wbem/"
       - "C:/Windows/System32/WindowsPowerShell/v1.0/"
       - "C:/Windows/System32/OpenSSH/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/6041464/.local/bin/"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Lua/bin/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
@@ -1055,6 +1299,18 @@ events:
       - "C:/Windows/System32/OpenSSH/gcc-ar-16.1.com"
       - "C:/Windows/System32/OpenSSH/gcc-ar-16.1.exe"
       - "C:/Windows/System32/OpenSSH/gcc-ar-16.1"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ar-16.1.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ar-16.1.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ar-16.1"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ar-16.1.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ar-16.1.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ar-16.1"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ar-16.1.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ar-16.1.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ar-16.1"
+      - "C:/Users/6041464/.local/bin/gcc-ar-16.1.com"
+      - "C:/Users/6041464/.local/bin/gcc-ar-16.1.exe"
+      - "C:/Users/6041464/.local/bin/gcc-ar-16.1"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar-16.1.com"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar-16.1.exe"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar-16.1"
@@ -1091,6 +1347,18 @@ events:
       - "C:/Windows/System32/OpenSSH/gcc-ar-16.com"
       - "C:/Windows/System32/OpenSSH/gcc-ar-16.exe"
       - "C:/Windows/System32/OpenSSH/gcc-ar-16"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ar-16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ar-16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ar-16"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ar-16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ar-16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ar-16"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ar-16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ar-16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ar-16"
+      - "C:/Users/6041464/.local/bin/gcc-ar-16.com"
+      - "C:/Users/6041464/.local/bin/gcc-ar-16.exe"
+      - "C:/Users/6041464/.local/bin/gcc-ar-16"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar-16.com"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar-16.exe"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar-16"
@@ -1127,6 +1395,18 @@ events:
       - "C:/Windows/System32/OpenSSH/gcc-ar16.com"
       - "C:/Windows/System32/OpenSSH/gcc-ar16.exe"
       - "C:/Windows/System32/OpenSSH/gcc-ar16"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ar16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ar16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ar16"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ar16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ar16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ar16"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ar16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ar16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ar16"
+      - "C:/Users/6041464/.local/bin/gcc-ar16.com"
+      - "C:/Users/6041464/.local/bin/gcc-ar16.exe"
+      - "C:/Users/6041464/.local/bin/gcc-ar16"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar16.com"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar16.exe"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar16"
@@ -1154,6 +1434,10 @@ events:
         - "C:\\WINDOWS\\System32\\Wbem"
         - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
         - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\6041464\\.local\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Microsoft\\WindowsApps"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Lua\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
@@ -1190,6 +1474,10 @@ events:
       - "C:/Windows/System32/wbem/"
       - "C:/Windows/System32/WindowsPowerShell/v1.0/"
       - "C:/Windows/System32/OpenSSH/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/6041464/.local/bin/"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Lua/bin/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
@@ -1215,6 +1503,18 @@ events:
       - "C:/Windows/System32/OpenSSH/gcc-ranlib-16.1.com"
       - "C:/Windows/System32/OpenSSH/gcc-ranlib-16.1.exe"
       - "C:/Windows/System32/OpenSSH/gcc-ranlib-16.1"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ranlib-16.1.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ranlib-16.1.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ranlib-16.1"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ranlib-16.1.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ranlib-16.1.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ranlib-16.1"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ranlib-16.1.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ranlib-16.1.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ranlib-16.1"
+      - "C:/Users/6041464/.local/bin/gcc-ranlib-16.1.com"
+      - "C:/Users/6041464/.local/bin/gcc-ranlib-16.1.exe"
+      - "C:/Users/6041464/.local/bin/gcc-ranlib-16.1"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib-16.1.com"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib-16.1.exe"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib-16.1"
@@ -1251,6 +1551,18 @@ events:
       - "C:/Windows/System32/OpenSSH/gcc-ranlib-16.com"
       - "C:/Windows/System32/OpenSSH/gcc-ranlib-16.exe"
       - "C:/Windows/System32/OpenSSH/gcc-ranlib-16"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ranlib-16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ranlib-16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ranlib-16"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ranlib-16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ranlib-16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ranlib-16"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ranlib-16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ranlib-16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ranlib-16"
+      - "C:/Users/6041464/.local/bin/gcc-ranlib-16.com"
+      - "C:/Users/6041464/.local/bin/gcc-ranlib-16.exe"
+      - "C:/Users/6041464/.local/bin/gcc-ranlib-16"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib-16.com"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib-16.exe"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib-16"
@@ -1287,6 +1599,18 @@ events:
       - "C:/Windows/System32/OpenSSH/gcc-ranlib16.com"
       - "C:/Windows/System32/OpenSSH/gcc-ranlib16.exe"
       - "C:/Windows/System32/OpenSSH/gcc-ranlib16"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ranlib16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ranlib16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ranlib16"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ranlib16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ranlib16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ranlib16"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ranlib16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ranlib16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ranlib16"
+      - "C:/Users/6041464/.local/bin/gcc-ranlib16.com"
+      - "C:/Users/6041464/.local/bin/gcc-ranlib16.exe"
+      - "C:/Users/6041464/.local/bin/gcc-ranlib16"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib16.com"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib16.exe"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib16"
@@ -1314,6 +1638,10 @@ events:
         - "C:\\WINDOWS\\System32\\Wbem"
         - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
         - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\6041464\\.local\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Microsoft\\WindowsApps"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Lua\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
@@ -1358,6 +1686,10 @@ events:
         - "C:\\WINDOWS\\System32\\Wbem"
         - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
         - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\6041464\\.local\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Microsoft\\WindowsApps"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Lua\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
@@ -1397,6 +1729,10 @@ events:
         - "C:\\WINDOWS\\System32\\Wbem"
         - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
         - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\6041464\\.local\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Microsoft\\WindowsApps"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Lua\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
@@ -1455,6 +1791,10 @@ events:
       - "C:/Windows/System32/wbem/"
       - "C:/Windows/System32/WindowsPowerShell/v1.0/"
       - "C:/Windows/System32/OpenSSH/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/6041464/.local/bin/"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Lua/bin/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
@@ -1480,6 +1820,18 @@ events:
       - "C:/Windows/System32/OpenSSH/gcc-ar-16.1.com"
       - "C:/Windows/System32/OpenSSH/gcc-ar-16.1.exe"
       - "C:/Windows/System32/OpenSSH/gcc-ar-16.1"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ar-16.1.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ar-16.1.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ar-16.1"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ar-16.1.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ar-16.1.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ar-16.1"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ar-16.1.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ar-16.1.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ar-16.1"
+      - "C:/Users/6041464/.local/bin/gcc-ar-16.1.com"
+      - "C:/Users/6041464/.local/bin/gcc-ar-16.1.exe"
+      - "C:/Users/6041464/.local/bin/gcc-ar-16.1"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar-16.1.com"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar-16.1.exe"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar-16.1"
@@ -1516,6 +1868,18 @@ events:
       - "C:/Windows/System32/OpenSSH/gcc-ar-16.com"
       - "C:/Windows/System32/OpenSSH/gcc-ar-16.exe"
       - "C:/Windows/System32/OpenSSH/gcc-ar-16"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ar-16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ar-16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ar-16"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ar-16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ar-16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ar-16"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ar-16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ar-16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ar-16"
+      - "C:/Users/6041464/.local/bin/gcc-ar-16.com"
+      - "C:/Users/6041464/.local/bin/gcc-ar-16.exe"
+      - "C:/Users/6041464/.local/bin/gcc-ar-16"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar-16.com"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar-16.exe"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar-16"
@@ -1552,6 +1916,18 @@ events:
       - "C:/Windows/System32/OpenSSH/gcc-ar16.com"
       - "C:/Windows/System32/OpenSSH/gcc-ar16.exe"
       - "C:/Windows/System32/OpenSSH/gcc-ar16"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ar16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ar16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ar16"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ar16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ar16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ar16"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ar16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ar16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ar16"
+      - "C:/Users/6041464/.local/bin/gcc-ar16.com"
+      - "C:/Users/6041464/.local/bin/gcc-ar16.exe"
+      - "C:/Users/6041464/.local/bin/gcc-ar16"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar16.com"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar16.exe"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ar16"
@@ -1579,6 +1955,10 @@ events:
         - "C:\\WINDOWS\\System32\\Wbem"
         - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
         - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\6041464\\.local\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Microsoft\\WindowsApps"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Lua\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
@@ -1615,6 +1995,10 @@ events:
       - "C:/Windows/System32/wbem/"
       - "C:/Windows/System32/WindowsPowerShell/v1.0/"
       - "C:/Windows/System32/OpenSSH/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/6041464/.local/bin/"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Lua/bin/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
@@ -1640,6 +2024,18 @@ events:
       - "C:/Windows/System32/OpenSSH/gcc-ranlib-16.1.com"
       - "C:/Windows/System32/OpenSSH/gcc-ranlib-16.1.exe"
       - "C:/Windows/System32/OpenSSH/gcc-ranlib-16.1"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ranlib-16.1.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ranlib-16.1.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ranlib-16.1"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ranlib-16.1.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ranlib-16.1.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ranlib-16.1"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ranlib-16.1.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ranlib-16.1.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ranlib-16.1"
+      - "C:/Users/6041464/.local/bin/gcc-ranlib-16.1.com"
+      - "C:/Users/6041464/.local/bin/gcc-ranlib-16.1.exe"
+      - "C:/Users/6041464/.local/bin/gcc-ranlib-16.1"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib-16.1.com"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib-16.1.exe"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib-16.1"
@@ -1676,6 +2072,18 @@ events:
       - "C:/Windows/System32/OpenSSH/gcc-ranlib-16.com"
       - "C:/Windows/System32/OpenSSH/gcc-ranlib-16.exe"
       - "C:/Windows/System32/OpenSSH/gcc-ranlib-16"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ranlib-16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ranlib-16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ranlib-16"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ranlib-16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ranlib-16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ranlib-16"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ranlib-16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ranlib-16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ranlib-16"
+      - "C:/Users/6041464/.local/bin/gcc-ranlib-16.com"
+      - "C:/Users/6041464/.local/bin/gcc-ranlib-16.exe"
+      - "C:/Users/6041464/.local/bin/gcc-ranlib-16"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib-16.com"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib-16.exe"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib-16"
@@ -1712,6 +2120,18 @@ events:
       - "C:/Windows/System32/OpenSSH/gcc-ranlib16.com"
       - "C:/Windows/System32/OpenSSH/gcc-ranlib16.exe"
       - "C:/Windows/System32/OpenSSH/gcc-ranlib16"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ranlib16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ranlib16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/gcc-ranlib16"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ranlib16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ranlib16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/gcc-ranlib16"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ranlib16.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ranlib16.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/gcc-ranlib16"
+      - "C:/Users/6041464/.local/bin/gcc-ranlib16.com"
+      - "C:/Users/6041464/.local/bin/gcc-ranlib16.exe"
+      - "C:/Users/6041464/.local/bin/gcc-ranlib16"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib16.com"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib16.exe"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/gcc-ranlib16"
@@ -1739,6 +2159,10 @@ events:
         - "C:\\WINDOWS\\System32\\Wbem"
         - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
         - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\6041464\\.local\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Microsoft\\WindowsApps"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Lua\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
@@ -1774,6 +2198,10 @@ events:
       - "C:/Windows/System32/wbem/"
       - "C:/Windows/System32/WindowsPowerShell/v1.0/"
       - "C:/Windows/System32/OpenSSH/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/6041464/.local/bin/"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/"
       - "C:/Users/6041464/AppData/Local/Programs/Lua/bin/"
       - "C:/Users/6041464/AppData/Local/Programs/Microsoft VS Code/bin/"
@@ -1809,6 +2237,18 @@ events:
       - "C:/Windows/System32/OpenSSH/windres.com"
       - "C:/Windows/System32/OpenSSH/windres.exe"
       - "C:/Windows/System32/OpenSSH/windres"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/windres.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/windres.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/Scripts/windres"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/windres.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/windres.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Python314/windres"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/windres.com"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/windres.exe"
+      - "C:/Users/6041464/AppData/Local/Programs/Python/Launcher/windres"
+      - "C:/Users/6041464/.local/bin/windres.com"
+      - "C:/Users/6041464/.local/bin/windres.exe"
+      - "C:/Users/6041464/.local/bin/windres"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/windres.com"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/windres.exe"
       - "C:/Users/6041464/AppData/Local/Microsoft/WindowsApps/windres"
@@ -1827,6 +2267,10 @@ events:
         - "C:\\WINDOWS\\System32\\Wbem"
         - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
         - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\6041464\\.local\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Microsoft\\WindowsApps"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Lua\\bin"
         - "C:\\Users\\6041464\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
@@ -1849,8 +2293,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-b2cach"
-      binary: "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-b2cach"
+      source: "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-hrl930"
+      binary: "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-hrl930"
     cmakeVariables:
       CMAKE_CXX_FLAGS: ""
       CMAKE_CXX_FLAGS_DEBUG: "-g"
@@ -1861,10 +2305,10 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: false
       stdout: |
-        Change Dir: 'C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-b2cach'
+        Change Dir: 'C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-hrl930'
         
-        Run Build Command(s): C:/Users/6041464/_c_lang/bin/ninja.exe -v cmTC_440f0
-        [1/2] C:\\Users\\6041464\\_c_lang\\bin\\c++.exe   -v -o CMakeFiles/cmTC_440f0.dir/CMakeCXXCompilerABI.cpp.obj -c C:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeCXXCompilerABI.cpp
+        Run Build Command(s): C:/Users/6041464/_c_lang/bin/ninja.exe -v cmTC_15c87
+        [1/2] C:\\Users\\6041464\\_c_lang\\bin\\c++.exe   -v -o CMakeFiles/cmTC_15c87.dir/CMakeCXXCompilerABI.cpp.obj -c C:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeCXXCompilerABI.cpp
         Using built-in specs.
         COLLECT_GCC=c++
         Target: x86_64-w64-mingw32
@@ -1872,8 +2316,8 @@ events:
         Thread model: posix
         Supported LTO compression algorithms: zlib
         gcc version 16.1.0 (GCC) 
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_440f0.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_440f0.dir/'
-         C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1plus.exe -quiet -v -iprefix C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_440f0.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -o C:\\Users\\6041464\\AppData\\Local\\Temp\\ccydopcw.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_15c87.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_15c87.dir/'
+         C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1plus.exe -quiet -v -iprefix C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_15c87.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -o C:\\Users\\6041464\\AppData\\Local\\Temp\\ccrI9oze.s
         GNU C++20 (GCC) version 16.1.0 (x86_64-w64-mingw32)
         	compiled by GNU C version 16.1.0, GMP version 6.3.0, MPFR version 4.2.2, MPC version 1.4.1, isl version none
         GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
@@ -1894,13 +2338,13 @@ events:
          C:/Users/6041464/_c_lang/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../include
         End of search list.
         Compiler executable checksum: cc52f8f630e75099ce2e7405fa00ab01
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_440f0.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_440f0.dir/'
-         as -v -o CMakeFiles/cmTC_440f0.dir/CMakeCXXCompilerABI.cpp.obj C:\\Users\\6041464\\AppData\\Local\\Temp\\ccydopcw.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_15c87.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_15c87.dir/'
+         as -v -o CMakeFiles/cmTC_15c87.dir/CMakeCXXCompilerABI.cpp.obj C:\\Users\\6041464\\AppData\\Local\\Temp\\ccrI9oze.s
         GNU assembler version 2.47 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.47.20260726
         COMPILER_PATH=C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/6041464/_c_lang/bin/../libexec/gcc/
         LIBRARY_PATH=C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/6041464/_c_lang/bin/../lib/gcc/;C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/;C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_440f0.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_440f0.dir/CMakeCXXCompilerABI.cpp.'
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\6041464\\_c_lang\\bin\\c++.exe  -v -Wl,-v CMakeFiles/cmTC_440f0.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_440f0.exe -Wl,--out-implib,libcmTC_440f0.dll.a -Wl,--major-image-version,0,--minor-image-version,0   && cd ."
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_15c87.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_15c87.dir/CMakeCXXCompilerABI.cpp.'
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\6041464\\_c_lang\\bin\\c++.exe  -v -Wl,-v CMakeFiles/cmTC_15c87.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_15c87.exe -Wl,--out-implib,libcmTC_15c87.dll.a -Wl,--major-image-version,0,--minor-image-version,0   && cd ."
         Using built-in specs.
         COLLECT_GCC=c++
         COLLECT_LTO_WRAPPER=C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/lto-wrapper.exe
@@ -1911,12 +2355,12 @@ events:
         gcc version 16.1.0 (GCC) 
         COMPILER_PATH=C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/6041464/_c_lang/bin/../libexec/gcc/
         LIBRARY_PATH=C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/6041464/_c_lang/bin/../lib/gcc/;C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/;C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_440f0.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_440f0.'
-         C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_440f0.exe C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang/bin/../lib/gcc -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_440f0.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_440f0.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_15c87.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_15c87.'
+         C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_15c87.exe C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang/bin/../lib/gcc -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_15c87.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_15c87.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
         collect2 version 16.1.0
-        C:\\Users\\6041464\\_c_lang\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_440f0.exe C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang/bin/../lib/gcc -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_440f0.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_440f0.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
+        C:\\Users\\6041464\\_c_lang\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_15c87.exe C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang/bin/../lib/gcc -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_15c87.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_15c87.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
         GNU ld (GNU Binutils) 2.47.20260726
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_440f0.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_440f0.'
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_15c87.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_15c87.'
         
       exitCode: 0
   -
@@ -1955,10 +2399,10 @@ events:
       Parsed CXX implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|wild|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|wild))("|,| |$)]
-        ignore line: [Change Dir: 'C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-b2cach']
+        ignore line: [Change Dir: 'C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-hrl930']
         ignore line: []
-        ignore line: [Run Build Command(s): C:/Users/6041464/_c_lang/bin/ninja.exe -v cmTC_440f0]
-        ignore line: [[1/2] C:\\Users\\6041464\\_c_lang\\bin\\c++.exe   -v -o CMakeFiles/cmTC_440f0.dir/CMakeCXXCompilerABI.cpp.obj -c C:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Run Build Command(s): C:/Users/6041464/_c_lang/bin/ninja.exe -v cmTC_15c87]
+        ignore line: [[1/2] C:\\Users\\6041464\\_c_lang\\bin\\c++.exe   -v -o CMakeFiles/cmTC_15c87.dir/CMakeCXXCompilerABI.cpp.obj -c C:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=c++]
         ignore line: [Target: x86_64-w64-mingw32]
@@ -1966,8 +2410,8 @@ events:
         ignore line: [Thread model: posix]
         ignore line: [Supported LTO compression algorithms: zlib]
         ignore line: [gcc version 16.1.0 (GCC) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_440f0.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_440f0.dir/']
-        ignore line: [ C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1plus.exe -quiet -v -iprefix C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_440f0.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -o C:\\Users\\6041464\\AppData\\Local\\Temp\\ccydopcw.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_15c87.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_15c87.dir/']
+        ignore line: [ C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1plus.exe -quiet -v -iprefix C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_15c87.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -o C:\\Users\\6041464\\AppData\\Local\\Temp\\ccrI9oze.s]
         ignore line: [GNU C++20 (GCC) version 16.1.0 (x86_64-w64-mingw32)]
         ignore line: [	compiled by GNU C version 16.1.0  GMP version 6.3.0  MPFR version 4.2.2  MPC version 1.4.1  isl version none]
         ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
@@ -1988,8 +2432,8 @@ events:
         ignore line: [ C:/Users/6041464/_c_lang/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../include]
         ignore line: [End of search list.]
         ignore line: [Compiler executable checksum: cc52f8f630e75099ce2e7405fa00ab01]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_440f0.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_440f0.dir/']
-        ignore line: [ as -v -o CMakeFiles/cmTC_440f0.dir/CMakeCXXCompilerABI.cpp.obj C:\\Users\\6041464\\AppData\\Local\\Temp\\ccydopcw.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_15c87.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_15c87.dir/']
+        ignore line: [ as -v -o CMakeFiles/cmTC_15c87.dir/CMakeCXXCompilerABI.cpp.obj C:\\Users\\6041464\\AppData\\Local\\Temp\\ccrI9oze.s]
         ignore line: [GNU assembler version 2.47 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.47.20260726]
         ignore line: [COMPILER_PATH=C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/]
         ignore line: [C:/Users/6041464/_c_lang/bin/../libexec/gcc/]
@@ -1997,8 +2441,8 @@ events:
         ignore line: [C:/Users/6041464/_c_lang/bin/../lib/gcc/]
         ignore line: [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/]
         ignore line: [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_440f0.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_440f0.dir/CMakeCXXCompilerABI.cpp.']
-        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\6041464\\_c_lang\\bin\\c++.exe  -v -Wl -v CMakeFiles/cmTC_440f0.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_440f0.exe -Wl --out-implib libcmTC_440f0.dll.a -Wl --major-image-version 0 --minor-image-version 0   && cd ."]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_15c87.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_15c87.dir/CMakeCXXCompilerABI.cpp.']
+        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\6041464\\_c_lang\\bin\\c++.exe  -v -Wl -v CMakeFiles/cmTC_15c87.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_15c87.exe -Wl --out-implib libcmTC_15c87.dll.a -Wl --major-image-version 0 --minor-image-version 0   && cd ."]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=c++]
         ignore line: [COLLECT_LTO_WRAPPER=C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/lto-wrapper.exe]
@@ -2013,15 +2457,15 @@ events:
         ignore line: [C:/Users/6041464/_c_lang/bin/../lib/gcc/]
         ignore line: [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/]
         ignore line: [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_440f0.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_440f0.']
-        link line: [ C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_440f0.exe C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang/bin/../lib/gcc -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_440f0.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_440f0.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_15c87.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_15c87.']
+        link line: [ C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_15c87.exe C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang/bin/../lib/gcc -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_15c87.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_15c87.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
           arg [C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe] ==> ignore
           arg [--sysroot=/w64devkit] ==> ignore
           arg [-m] ==> ignore
           arg [i386pep] ==> ignore
           arg [-Bdynamic] ==> search dynamic
           arg [-o] ==> ignore
-          arg [cmTC_440f0.exe] ==> ignore
+          arg [cmTC_15c87.exe] ==> ignore
           arg [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o] ==> obj [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o]
           arg [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o] ==> obj [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o]
           arg [-LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0] ==> dir [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0]
@@ -2029,9 +2473,9 @@ events:
           arg [-LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib] ==> dir [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib]
           arg [-LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../..] ==> dir [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../..]
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_440f0.dir/CMakeCXXCompilerABI.cpp.obj] ==> ignore
+          arg [CMakeFiles/cmTC_15c87.dir/CMakeCXXCompilerABI.cpp.obj] ==> ignore
           arg [--out-implib] ==> ignore
-          arg [libcmTC_440f0.dll.a] ==> ignore
+          arg [libcmTC_15c87.dll.a] ==> ignore
           arg [--major-image-version] ==> ignore
           arg [0] ==> ignore
           arg [--minor-image-version] ==> ignore
@@ -2054,9 +2498,9 @@ events:
           arg [-lkernel32] ==> lib [kernel32]
           arg [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> obj [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
         ignore line: [collect2 version 16.1.0]
-        link line: [C:\\Users\\6041464\\_c_lang\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_440f0.exe C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang/bin/../lib/gcc -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_440f0.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_440f0.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> linker [C:\\Users\\6041464\\_c_lang\\bin\\ld.exe]
-        link line: [C:\\Users\\6041464\\_c_lang\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_440f0.exe C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang/bin/../lib/gcc -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_440f0.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_440f0.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> linker architecture flags [-m;i386pep]
-        ignore line: [C:\\Users\\6041464\\_c_lang\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_440f0.exe C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang/bin/../lib/gcc -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_440f0.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_440f0.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
+        link line: [C:\\Users\\6041464\\_c_lang\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_15c87.exe C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang/bin/../lib/gcc -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_15c87.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_15c87.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> linker [C:\\Users\\6041464\\_c_lang\\bin\\ld.exe]
+        link line: [C:\\Users\\6041464\\_c_lang\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_15c87.exe C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang/bin/../lib/gcc -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_15c87.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_15c87.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> linker architecture flags [-m;i386pep]
+        ignore line: [C:\\Users\\6041464\\_c_lang\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_15c87.exe C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang/bin/../lib/gcc -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_15c87.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_15c87.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
         linker tool for 'CXX': C:/Users/6041464/_c_lang/bin/ld.exe -m;i386pep
         remove lib [msvcrt]
         remove lib [msvcrt]
@@ -2092,8 +2536,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-kfrf8q"
-      binary: "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-kfrf8q"
+      source: "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-jerxdd"
+      binary: "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-jerxdd"
     cmakeVariables:
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
       CMAKE_C_FLAGS: ""
@@ -2103,10 +2547,10 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: false
       stdout: |
-        Change Dir: 'C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-kfrf8q'
+        Change Dir: 'C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-jerxdd'
         
-        Run Build Command(s): C:/Users/6041464/_c_lang/bin/ninja.exe -v cmTC_f91f0
-        [1/2] C:\\Users\\6041464\\_c_lang\\bin\\cc.exe   -v -o CMakeFiles/cmTC_f91f0.dir/CMakeCCompilerABI.c.obj -c C:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeCCompilerABI.c
+        Run Build Command(s): C:/Users/6041464/_c_lang/bin/ninja.exe -v cmTC_538ca
+        [1/2] C:\\Users\\6041464\\_c_lang\\bin\\cc.exe   -v -o CMakeFiles/cmTC_538ca.dir/CMakeCCompilerABI.c.obj -c C:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeCCompilerABI.c
         Using built-in specs.
         COLLECT_GCC=cc
         Target: x86_64-w64-mingw32
@@ -2114,8 +2558,8 @@ events:
         Thread model: posix
         Supported LTO compression algorithms: zlib
         gcc version 16.1.0 (GCC) 
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_f91f0.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_f91f0.dir/'
-         C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1.exe -quiet -v -iprefix C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_f91f0.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -o C:\\Users\\6041464\\AppData\\Local\\Temp\\ccZyTsFT.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_538ca.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_538ca.dir/'
+         C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1.exe -quiet -v -iprefix C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_538ca.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -o C:\\Users\\6041464\\AppData\\Local\\Temp\\ccMUBxAo.s
         GNU C23 (GCC) version 16.1.0 (x86_64-w64-mingw32)
         	compiled by GNU C version 16.1.0, GMP version 6.3.0, MPFR version 4.2.2, MPC version 1.4.1, isl version none
         GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
@@ -2130,13 +2574,13 @@ events:
          C:/Users/6041464/_c_lang/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../include
         End of search list.
         Compiler executable checksum: 83d802a575b4e5aa95c0ab1da3c058b4
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_f91f0.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_f91f0.dir/'
-         as -v -o CMakeFiles/cmTC_f91f0.dir/CMakeCCompilerABI.c.obj C:\\Users\\6041464\\AppData\\Local\\Temp\\ccZyTsFT.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_538ca.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_538ca.dir/'
+         as -v -o CMakeFiles/cmTC_538ca.dir/CMakeCCompilerABI.c.obj C:\\Users\\6041464\\AppData\\Local\\Temp\\ccMUBxAo.s
         GNU assembler version 2.47 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.47.20260726
         COMPILER_PATH=C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/6041464/_c_lang/bin/../libexec/gcc/
         LIBRARY_PATH=C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/6041464/_c_lang/bin/../lib/gcc/;C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/;C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_f91f0.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_f91f0.dir/CMakeCCompilerABI.c.'
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\6041464\\_c_lang\\bin\\cc.exe  -v -Wl,-v CMakeFiles/cmTC_f91f0.dir/CMakeCCompilerABI.c.obj -o cmTC_f91f0.exe -Wl,--out-implib,libcmTC_f91f0.dll.a -Wl,--major-image-version,0,--minor-image-version,0   && cd ."
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_538ca.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_538ca.dir/CMakeCCompilerABI.c.'
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\6041464\\_c_lang\\bin\\cc.exe  -v -Wl,-v CMakeFiles/cmTC_538ca.dir/CMakeCCompilerABI.c.obj -o cmTC_538ca.exe -Wl,--out-implib,libcmTC_538ca.dll.a -Wl,--major-image-version,0,--minor-image-version,0   && cd ."
         Using built-in specs.
         COLLECT_GCC=cc
         COLLECT_LTO_WRAPPER=C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/lto-wrapper.exe
@@ -2147,12 +2591,12 @@ events:
         gcc version 16.1.0 (GCC) 
         COMPILER_PATH=C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/6041464/_c_lang/bin/../libexec/gcc/
         LIBRARY_PATH=C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/6041464/_c_lang/bin/../lib/gcc/;C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/;C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_f91f0.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_f91f0.'
-         C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_f91f0.exe C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang/bin/../lib/gcc -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_f91f0.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_f91f0.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_538ca.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_538ca.'
+         C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_538ca.exe C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang/bin/../lib/gcc -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_538ca.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_538ca.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
         collect2 version 16.1.0
-        C:\\Users\\6041464\\_c_lang\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_f91f0.exe C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang/bin/../lib/gcc -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_f91f0.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_f91f0.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
+        C:\\Users\\6041464\\_c_lang\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_538ca.exe C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang/bin/../lib/gcc -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_538ca.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_538ca.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
         GNU ld (GNU Binutils) 2.47.20260726
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_f91f0.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_f91f0.'
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_538ca.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_538ca.'
         
       exitCode: 0
   -
@@ -2185,10 +2629,10 @@ events:
       Parsed C implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|wild|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|wild))("|,| |$)]
-        ignore line: [Change Dir: 'C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-kfrf8q']
+        ignore line: [Change Dir: 'C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-jerxdd']
         ignore line: []
-        ignore line: [Run Build Command(s): C:/Users/6041464/_c_lang/bin/ninja.exe -v cmTC_f91f0]
-        ignore line: [[1/2] C:\\Users\\6041464\\_c_lang\\bin\\cc.exe   -v -o CMakeFiles/cmTC_f91f0.dir/CMakeCCompilerABI.c.obj -c C:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeCCompilerABI.c]
+        ignore line: [Run Build Command(s): C:/Users/6041464/_c_lang/bin/ninja.exe -v cmTC_538ca]
+        ignore line: [[1/2] C:\\Users\\6041464\\_c_lang\\bin\\cc.exe   -v -o CMakeFiles/cmTC_538ca.dir/CMakeCCompilerABI.c.obj -c C:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeCCompilerABI.c]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=cc]
         ignore line: [Target: x86_64-w64-mingw32]
@@ -2196,8 +2640,8 @@ events:
         ignore line: [Thread model: posix]
         ignore line: [Supported LTO compression algorithms: zlib]
         ignore line: [gcc version 16.1.0 (GCC) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_f91f0.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_f91f0.dir/']
-        ignore line: [ C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1.exe -quiet -v -iprefix C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_f91f0.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -o C:\\Users\\6041464\\AppData\\Local\\Temp\\ccZyTsFT.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_538ca.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_538ca.dir/']
+        ignore line: [ C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1.exe -quiet -v -iprefix C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/6041464/_c_lang/share/cmake-4.4/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_538ca.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -o C:\\Users\\6041464\\AppData\\Local\\Temp\\ccMUBxAo.s]
         ignore line: [GNU C23 (GCC) version 16.1.0 (x86_64-w64-mingw32)]
         ignore line: [	compiled by GNU C version 16.1.0  GMP version 6.3.0  MPFR version 4.2.2  MPC version 1.4.1  isl version none]
         ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
@@ -2212,8 +2656,8 @@ events:
         ignore line: [ C:/Users/6041464/_c_lang/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../include]
         ignore line: [End of search list.]
         ignore line: [Compiler executable checksum: 83d802a575b4e5aa95c0ab1da3c058b4]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_f91f0.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_f91f0.dir/']
-        ignore line: [ as -v -o CMakeFiles/cmTC_f91f0.dir/CMakeCCompilerABI.c.obj C:\\Users\\6041464\\AppData\\Local\\Temp\\ccZyTsFT.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_538ca.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_538ca.dir/']
+        ignore line: [ as -v -o CMakeFiles/cmTC_538ca.dir/CMakeCCompilerABI.c.obj C:\\Users\\6041464\\AppData\\Local\\Temp\\ccMUBxAo.s]
         ignore line: [GNU assembler version 2.47 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.47.20260726]
         ignore line: [COMPILER_PATH=C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/]
         ignore line: [C:/Users/6041464/_c_lang/bin/../libexec/gcc/]
@@ -2221,8 +2665,8 @@ events:
         ignore line: [C:/Users/6041464/_c_lang/bin/../lib/gcc/]
         ignore line: [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/]
         ignore line: [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_f91f0.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_f91f0.dir/CMakeCCompilerABI.c.']
-        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\6041464\\_c_lang\\bin\\cc.exe  -v -Wl -v CMakeFiles/cmTC_f91f0.dir/CMakeCCompilerABI.c.obj -o cmTC_f91f0.exe -Wl --out-implib libcmTC_f91f0.dll.a -Wl --major-image-version 0 --minor-image-version 0   && cd ."]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_538ca.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_538ca.dir/CMakeCCompilerABI.c.']
+        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\6041464\\_c_lang\\bin\\cc.exe  -v -Wl -v CMakeFiles/cmTC_538ca.dir/CMakeCCompilerABI.c.obj -o cmTC_538ca.exe -Wl --out-implib libcmTC_538ca.dll.a -Wl --major-image-version 0 --minor-image-version 0   && cd ."]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=cc]
         ignore line: [COLLECT_LTO_WRAPPER=C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/lto-wrapper.exe]
@@ -2237,15 +2681,15 @@ events:
         ignore line: [C:/Users/6041464/_c_lang/bin/../lib/gcc/]
         ignore line: [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/]
         ignore line: [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_f91f0.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_f91f0.']
-        link line: [ C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_f91f0.exe C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang/bin/../lib/gcc -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_f91f0.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_f91f0.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_538ca.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_538ca.']
+        link line: [ C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_538ca.exe C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang/bin/../lib/gcc -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_538ca.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_538ca.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
           arg [C:/Users/6041464/_c_lang/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe] ==> ignore
           arg [--sysroot=/w64devkit] ==> ignore
           arg [-m] ==> ignore
           arg [i386pep] ==> ignore
           arg [-Bdynamic] ==> search dynamic
           arg [-o] ==> ignore
-          arg [cmTC_f91f0.exe] ==> ignore
+          arg [cmTC_538ca.exe] ==> ignore
           arg [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o] ==> obj [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o]
           arg [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o] ==> obj [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o]
           arg [-LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0] ==> dir [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0]
@@ -2253,9 +2697,9 @@ events:
           arg [-LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib] ==> dir [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib]
           arg [-LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../..] ==> dir [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../..]
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_f91f0.dir/CMakeCCompilerABI.c.obj] ==> ignore
+          arg [CMakeFiles/cmTC_538ca.dir/CMakeCCompilerABI.c.obj] ==> ignore
           arg [--out-implib] ==> ignore
-          arg [libcmTC_f91f0.dll.a] ==> ignore
+          arg [libcmTC_538ca.dll.a] ==> ignore
           arg [--major-image-version] ==> ignore
           arg [0] ==> ignore
           arg [--minor-image-version] ==> ignore
@@ -2277,9 +2721,9 @@ events:
           arg [-lkernel32] ==> lib [kernel32]
           arg [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> obj [C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
         ignore line: [collect2 version 16.1.0]
-        link line: [C:\\Users\\6041464\\_c_lang\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_f91f0.exe C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang/bin/../lib/gcc -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_f91f0.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_f91f0.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> linker [C:\\Users\\6041464\\_c_lang\\bin\\ld.exe]
-        link line: [C:\\Users\\6041464\\_c_lang\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_f91f0.exe C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang/bin/../lib/gcc -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_f91f0.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_f91f0.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> linker architecture flags [-m;i386pep]
-        ignore line: [C:\\Users\\6041464\\_c_lang\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_f91f0.exe C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang/bin/../lib/gcc -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_f91f0.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_f91f0.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
+        link line: [C:\\Users\\6041464\\_c_lang\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_538ca.exe C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang/bin/../lib/gcc -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_538ca.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_538ca.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> linker [C:\\Users\\6041464\\_c_lang\\bin\\ld.exe]
+        link line: [C:\\Users\\6041464\\_c_lang\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_538ca.exe C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang/bin/../lib/gcc -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_538ca.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_538ca.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> linker architecture flags [-m;i386pep]
+        ignore line: [C:\\Users\\6041464\\_c_lang\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_538ca.exe C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/6041464/_c_lang/bin/../lib/gcc -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_538ca.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_538ca.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/6041464/_c_lang/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
         linker tool for 'C': C:/Users/6041464/_c_lang/bin/ld.exe -m;i386pep
         remove lib [msvcrt]
         remove lib [msvcrt]
@@ -2317,8 +2761,8 @@ events:
     checks:
       - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
     directories:
-      source: "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-fbqwo0"
-      binary: "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-fbqwo0"
+      source: "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-ygzftj"
+      binary: "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-ygzftj"
     cmakeVariables:
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
       CMAKE_C_FLAGS: ""
@@ -2328,11 +2772,11 @@ events:
       variable: "CMAKE_HAVE_LIBC_PTHREAD"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-fbqwo0'
+        Change Dir: 'C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-ygzftj'
         
-        Run Build Command(s): C:/Users/6041464/_c_lang/bin/ninja.exe -v cmTC_88e5c
-        [1/2] C:\\Users\\6041464\\_c_lang\\bin\\cc.exe -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_88e5c.dir/src.c.obj -c C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-fbqwo0/src.c
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\6041464\\_c_lang\\bin\\cc.exe   CMakeFiles/cmTC_88e5c.dir/src.c.obj -o cmTC_88e5c.exe -Wl,--out-implib,libcmTC_88e5c.dll.a -Wl,--major-image-version,0,--minor-image-version,0  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 && cd ."
+        Run Build Command(s): C:/Users/6041464/_c_lang/bin/ninja.exe -v cmTC_c401b
+        [1/2] C:\\Users\\6041464\\_c_lang\\bin\\cc.exe -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_c401b.dir/src.c.obj -c C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-ygzftj/src.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\6041464\\_c_lang\\bin\\cc.exe   CMakeFiles/cmTC_c401b.dir/src.c.obj -o cmTC_c401b.exe -Wl,--out-implib,libcmTC_c401b.dll.a -Wl,--major-image-version,0,--minor-image-version,0  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 && cd ."
         
       exitCode: 0
 ...
