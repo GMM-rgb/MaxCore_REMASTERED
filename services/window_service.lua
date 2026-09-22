@@ -803,13 +803,13 @@ function WindowObject:BindPhysics(gameObject, options)
         -- geometry (see PhysicsWorld:CreateHullBody).
         local vertices = options.vertices or gameObject.Vertices
         local faces = options.faces or gameObject.Faces
-        if faces ~= nil and vertices ~= nil then
-            body = self._physicsWorld:CreateHullBody(
-                vertices, faces,
-                px, py, pz,
-                options.mass, options.isStatic
-            )
-        end
+        if not vertices then return nil end
+        if not faces then return nil end
+        body = self._physicsWorld:CreateHullBody(
+            vertices, faces,
+            px, py, pz,
+            options.mass, options.isStatic
+        )
     else
         local shapeParams
         if shape == "box" then
@@ -1162,7 +1162,8 @@ end
 function WindowService.GetMaxTextQuality()
     if native_ok and type(window_interface) ~= "string" then
         return window_interface.get_max_text_quality()
-    end return 0
+    end
+    return 0
 end
 
 ---Gets the max anti-aliasing sampling level SetAliasingQuality will
@@ -1172,7 +1173,8 @@ end
 function WindowService.GetMaxAliasingQuality()
     if native_ok and type(window_interface) ~= "string" then
         return window_interface.get_max_alias_quality()
-    end return 0
+    end
+    return 0
 end
 
 ---Closes all active managed windows.
@@ -1181,7 +1183,8 @@ function WindowService:CloseAll()
     for id, win in pairs(self._windows) do
         win:Close()
         self._windows[id] = nil
-    end self._activeWindow = nil
+    end 
+    self._activeWindow = nil
 end
 
 return WindowService

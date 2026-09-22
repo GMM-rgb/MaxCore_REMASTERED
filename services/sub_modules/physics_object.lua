@@ -57,6 +57,8 @@ end
 ---@field body_get_angular_velocity fun(worldId: integer, bodyId: integer): number, number, number
 ---@field body_apply_torque fun(worldId: integer, bodyId: integer, x: number, y: number, z: number): nil
 ---@field body_set_angular_damping fun(worldId: integer, bodyId: integer, value: number): nil
+---@field body_set_rotation_locked fun(world: integer, object: integer, locked: boolean): nil
+---@field body_is_rotation_locked fun(world: integer, id: integer): boolean
 ---@field body_set_mass fun(worldId: integer, bodyId: integer, mass: number): nil
 ---@field body_get_mass fun(worldId: integer, bodyId: integer): number
 ---@field body_set_density fun(worldId: integer, bodyId: integer, density: number): nil
@@ -80,8 +82,6 @@ end
 ---@field body_get_collides_with fun(worldId: integer, bodyId: integer): integer
 ---@field body_predict_position fun(worldId: integer, bodyId: integer, dt: number): number, number, number
 ---@field body_predict_impact fun(worldId: integer, bodyId: integer, targetBodyId: integer, dt: number, samples: integer?): (willCollide: boolean, timeToImpact: number, predictedX: number, predictedY: number, predictedZ: number)
----@field body_set_rotation_locked fun(world: integer, object: integer, locked: boolean): nil
----@field body_is_rotation_locked fun(world: integer, id: integer): boolean
 
 ---@type boolean, PhysicsInterface|string
 local physics_ok, physics_interface = pcall(require, "physics_management")

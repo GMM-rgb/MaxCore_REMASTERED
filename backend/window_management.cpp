@@ -49,12 +49,211 @@
     #define EXPORT_FN
     #include <X11/Xlib.h>
     #include <X11/Xutil.h>
-    
+    #include <dlfcn.h>
+
+    // =====================================================================
+    // GPU (OpenGL via GLX) -- RUNTIME-LOADED, ZERO BUILD-TIME DEPENDENCY
+    // =====================================================================
+    // Phase 1b: everything below dlopen's libGL.so.1 and dlsym's the
+    // handful of GLX/GL entry points needed, instead of linking against
+    // -lGL and #include <GL/gl.h>/<GL/glx.h>. This means the binary
+    // still LINKS AND RUNS on a system that has no libGL at all (e.g. a
+    // custom/non-official X11-based OS with no GPU driver) -- it just
+    // silently reports GPU unavailable and every window falls back to
+    // the exact original XCreateSimpleWindow + XPutImage CPU path,
+    // completely unchanged. Only Xlib types/constants come from the
+    // real <X11/Xlib.h> already included above (that one IS a hard
+    // dependency of this file already); GLX/GL types and constants are
+    // hand-declared here since <GL/glx.h>/<GL/gl.h> are deliberately
+    // never included.
+    //
+    // What THIS phase does: creates a real GLX window + context, and
+    // uses it to present the SAME CPU-rasterized canvasBuffer every
+    // draw_* function already fills in -- via a GPU texture upload +
+    // textured full-screen quad instead of XPutImage. No draw_* function
+    // changes at all yet; that's the larger Phase 2 (porting actual
+    // primitives to real GL draw calls). This phase's win is a real,
+    // working, fully-fallback-safe GPU present path, which is also the
+    // exact foundation Phase 2 builds on.
+    typedef void* GLXContext_t; // opaque, matches real GLXContext ABI (a pointer) without needing glx.h's actual typedef
+    typedef long GLXDrawable_t; // matches XID/Window
+
+    typedef XVisualInfo* (*glXChooseVisual_fn)(Display*, int, int*);
+    typedef GLXContext_t  (*glXCreateContext_fn)(Display*, XVisualInfo*, GLXContext_t, Bool);
+    typedef Bool          (*glXMakeCurrent_fn)(Display*, GLXDrawable_t, GLXContext_t);
+    typedef void          (*glXSwapBuffers_fn)(Display*, GLXDrawable_t);
+    typedef void          (*glXDestroyContext_fn)(Display*, GLXContext_t);
+
+    typedef void (*glClearColor_fn)(float, float, float, float);
+    typedef void (*glClear_fn)(unsigned int);
+    typedef void (*glViewport_fn)(int, int, int, int);
+    typedef void (*glMatrixMode_fn)(unsigned int);
+    typedef void (*glLoadIdentity_fn)();
+    typedef void (*glOrtho_fn)(double, double, double, double, double, double);
+    typedef void (*glEnable_fn)(unsigned int);
+    typedef void (*glGenTextures_fn)(int, unsigned int*);
+    typedef void (*glDeleteTextures_fn)(int, const unsigned int*);
+    typedef void (*glBindTexture_fn)(unsigned int, unsigned int);
+    typedef void (*glTexParameteri_fn)(unsigned int, unsigned int, int);
+    typedef void (*glTexImage2D_fn)(unsigned int, int, int, int, int, int, unsigned int, unsigned int, const void*);
+    typedef void (*glBegin_fn)(unsigned int);
+    typedef void (*glEnd_fn)();
+    typedef void (*glTexCoord2f_fn)(float, float);
+    typedef void (*glVertex2f_fn)(float, float);
+
+    // Standard OpenGL 1.1 constants -- stable/frozen since 1992, hand-
+    // declared here only because <GL/gl.h> is deliberately not included.
+    static constexpr unsigned int kGlColorBufferBit   = 0x00004000;
+    static constexpr unsigned int kGlProjection        = 0x1701;
+    static constexpr unsigned int kGlModelview          = 0x1700;
+    static constexpr unsigned int kGlTexture2D          = 0x0DE1;
+    static constexpr unsigned int kGlBgra                = 0x80E1; // matches canvasBuffer's actual in-memory byte order (B,G,R,A) -- see NativeWindow::canvasBuffer's packing -- so upload needs no per-pixel channel swizzle
+    static constexpr unsigned int kGlUnsignedByte        = 0x1401;
+    static constexpr unsigned int kGlTextureMinFilter    = 0x2801;
+    static constexpr unsigned int kGlTextureMagFilter    = 0x2800;
+    static constexpr unsigned int kGlNearest             = 0x2600;
+    static constexpr unsigned int kGlQuads               = 0x0007;
+    static constexpr unsigned int kGlRgba                = 0x1908;
+
+    // GLX attributes for glXChooseVisual -- also stable/frozen, from glx.h.
+    static constexpr int kGlxRgba        = 4;
+    static constexpr int kGlxDoublebuffer = 5;
+    static constexpr int kGlxDepthSize    = 12;
+
+    // All the function pointers a GPU-active window needs at present/
+    // destroy time, resolved once at window-creation time and stashed
+    // on PlatformWindow so nothing re-does dlopen/dlsym every frame.
+    struct X11GpuFunctions {
+        void* libGLHandle = nullptr;
+        glXMakeCurrent_fn glXMakeCurrent = nullptr;
+        glXSwapBuffers_fn glXSwapBuffers = nullptr;
+        glXDestroyContext_fn glXDestroyContext = nullptr;
+        glClearColor_fn glClearColor = nullptr;
+        glClear_fn glClear = nullptr;
+        glViewport_fn glViewport = nullptr;
+        glMatrixMode_fn glMatrixMode = nullptr;
+        glLoadIdentity_fn glLoadIdentity = nullptr;
+        glOrtho_fn glOrtho = nullptr;
+        glEnable_fn glEnable = nullptr;
+        glGenTextures_fn glGenTextures = nullptr;
+        glDeleteTextures_fn glDeleteTextures = nullptr;
+        glBindTexture_fn glBindTexture = nullptr;
+        glTexParameteri_fn glTexParameteri = nullptr;
+        glTexImage2D_fn glTexImage2D = nullptr;
+        glBegin_fn glBegin = nullptr;
+        glEnd_fn glEnd = nullptr;
+        glTexCoord2f_fn glTexCoord2f = nullptr;
+        glVertex2f_fn glVertex2f = nullptr;
+    };
+
     struct PlatformWindow {
         Display* display = nullptr;
         Window window = 0;
         GC gc = 0;
+
+        // GPU present path state -- all zero/false/null on the CPU-only
+        // fallback path, which is also the state if GPU init fails at
+        // ANY step (see TryInitX11Gpu). gpuActive is the single flag
+        // window_present/window_destroy branch on.
+        bool gpuActive = false;
+        GLXContext_t glxContext = nullptr;
+        Colormap colormap = 0;
+        unsigned int textureId = 0;
+        int textureWidth = 0;
+        int textureHeight = 0;
+        X11GpuFunctions gpu;
     };
+
+    // Attempts the full GPU init sequence: dlopen libGL, resolve symbols,
+    // pick a GLX-capable visual, create+select a colormap, create the
+    // ACTUAL window with that visual (GLX requires the window's visual
+    // to match the one the context was chosen for -- it can't be
+    // retrofitted onto a window created with the default visual), create
+    // the GLX context, and make it current. Returns false (leaving `win`
+    // completely untouched on the GPU side) on ANY failure, at which
+    // point the caller falls back to the original XCreateSimpleWindow
+    // path -- this function never partially commits.
+    static bool TryInitX11Gpu(NativeWindow* win, Display* display, int screen, Window root, const char* title, int width, int height) {
+        void* libGL = dlopen("libGL.so.1", RTLD_LAZY | RTLD_LOCAL);
+        if (!libGL) return false;
+
+        auto glXChooseVisual = (glXChooseVisual_fn)dlsym(libGL, "glXChooseVisual");
+        auto glXCreateContext = (glXCreateContext_fn)dlsym(libGL, "glXCreateContext");
+        X11GpuFunctions gpu;
+        gpu.libGLHandle = libGL;
+        gpu.glXMakeCurrent = (glXMakeCurrent_fn)dlsym(libGL, "glXMakeCurrent");
+        gpu.glXSwapBuffers = (glXSwapBuffers_fn)dlsym(libGL, "glXSwapBuffers");
+        gpu.glXDestroyContext = (glXDestroyContext_fn)dlsym(libGL, "glXDestroyContext");
+        gpu.glClearColor = (glClearColor_fn)dlsym(libGL, "glClearColor");
+        gpu.glClear = (glClear_fn)dlsym(libGL, "glClear");
+        gpu.glViewport = (glViewport_fn)dlsym(libGL, "glViewport");
+        gpu.glMatrixMode = (glMatrixMode_fn)dlsym(libGL, "glMatrixMode");
+        gpu.glLoadIdentity = (glLoadIdentity_fn)dlsym(libGL, "glLoadIdentity");
+        gpu.glOrtho = (glOrtho_fn)dlsym(libGL, "glOrtho");
+        gpu.glEnable = (glEnable_fn)dlsym(libGL, "glEnable");
+        gpu.glGenTextures = (glGenTextures_fn)dlsym(libGL, "glGenTextures");
+        gpu.glDeleteTextures = (glDeleteTextures_fn)dlsym(libGL, "glDeleteTextures");
+        gpu.glBindTexture = (glBindTexture_fn)dlsym(libGL, "glBindTexture");
+        gpu.glTexParameteri = (glTexParameteri_fn)dlsym(libGL, "glTexParameteri");
+        gpu.glTexImage2D = (glTexImage2D_fn)dlsym(libGL, "glTexImage2D");
+        gpu.glBegin = (glBegin_fn)dlsym(libGL, "glBegin");
+        gpu.glEnd = (glEnd_fn)dlsym(libGL, "glEnd");
+        gpu.glTexCoord2f = (glTexCoord2f_fn)dlsym(libGL, "glTexCoord2f");
+        gpu.glVertex2f = (glVertex2f_fn)dlsym(libGL, "glVertex2f");
+
+        bool allResolved = glXChooseVisual && glXCreateContext && gpu.glXMakeCurrent && gpu.glXSwapBuffers &&
+            gpu.glXDestroyContext && gpu.glClearColor && gpu.glClear && gpu.glViewport && gpu.glMatrixMode &&
+            gpu.glLoadIdentity && gpu.glOrtho && gpu.glEnable && gpu.glGenTextures && gpu.glDeleteTextures &&
+            gpu.glBindTexture && gpu.glTexParameteri && gpu.glTexImage2D && gpu.glBegin && gpu.glEnd &&
+            gpu.glTexCoord2f && gpu.glVertex2f;
+        if (!allResolved) { dlclose(libGL); return false; }
+
+        int attribs[] = { kGlxRgba, kGlxDepthSize, 24, kGlxDoublebuffer, 0 };
+        XVisualInfo* visual = glXChooseVisual(display, screen, attribs);
+        if (!visual) { dlclose(libGL); return false; }
+
+        Colormap colormap = XCreateColormap(display, root, visual->visual, AllocNone);
+
+        XSetWindowAttributes attrs{};
+        attrs.colormap = colormap;
+        attrs.border_pixel = 0;
+        attrs.event_mask = ExposureMask | KeyPressMask | StructureNotifyMask;
+
+        Window glxWindow = XCreateWindow(
+            display, root, 10, 10, width, height, 1,
+            visual->depth, InputOutput, visual->visual,
+            CWColormap | CWBorderPixel | CWEventMask, &attrs
+        );
+
+        GLXContext_t context = glXCreateContext(display, visual, nullptr, True);
+        XFree(visual);
+        if (!context) { XFreeColormap(display, colormap); XDestroyWindow(display, glxWindow); dlclose(libGL); return false; }
+
+        if (!gpu.glXMakeCurrent(display, (GLXDrawable_t)glxWindow, context)) {
+            gpu.glXDestroyContext(display, context);
+            XFreeColormap(display, colormap);
+            XDestroyWindow(display, glxWindow);
+            dlclose(libGL);
+            return false;
+        }
+
+        // Committed -- wire everything onto the real window/platform now.
+        win->platform.window = glxWindow;
+        win->platform.gpuActive = true;
+        win->platform.glxContext = context;
+        win->platform.colormap = colormap;
+        win->platform.gpu = gpu;
+
+        XMapWindow(display, glxWindow);
+        XStoreName(display, glxWindow, title);
+
+        gpu.glGenTextures(1, &win->platform.textureId);
+        gpu.glBindTexture(kGlTexture2D, win->platform.textureId);
+        gpu.glTexParameteri(kGlTexture2D, kGlTextureMinFilter, kGlNearest);
+        gpu.glTexParameteri(kGlTexture2D, kGlTextureMagFilter, kGlNearest);
+
+        return true;
+    }
 #endif
 
 // Minimal embedded 8x8 font bitmap for ASCII
@@ -813,16 +1012,27 @@ static int window_create(lua_State* L) {
         return 2;
     }
     int screen = DefaultScreen(win->platform.display);
-    win->platform.window = XCreateSimpleWindow(
-        win->platform.display, RootWindow(win->platform.display, screen),
-        10, 10, width, height, 1,
-        BlackPixel(win->platform.display, screen),
-        WhitePixel(win->platform.display, screen)
-    );
-    XSelectInput(win->platform.display, win->platform.window, ExposureMask | KeyPressMask | StructureNotifyMask);
-    XMapWindow(win->platform.display, win->platform.window);
-    win->platform.gc = XCreateGC(win->platform.display, win->platform.window, 0, NULL);
-    XStoreName(win->platform.display, win->platform.window, title);
+    Window root = RootWindow(win->platform.display, screen);
+
+    // Try GPU (GLX) first -- see TryInitX11Gpu's own comment block for the
+    // full "why" (runtime dlopen, zero build-time dependency on libGL, so
+    // this never breaks a system that doesn't have it). ANY failure --
+    // no libGL.so present, no GLX-capable visual, context creation
+    // failing -- falls straight through to the exact original
+    // XCreateSimpleWindow CPU path below, completely unchanged.
+    bool gpuReady = TryInitX11Gpu(win, win->platform.display, screen, root, title, width, height);
+    if (!gpuReady) {
+        win->platform.window = XCreateSimpleWindow(
+            win->platform.display, root,
+            10, 10, width, height, 1,
+            BlackPixel(win->platform.display, screen),
+            WhitePixel(win->platform.display, screen)
+        );
+        XSelectInput(win->platform.display, win->platform.window, ExposureMask | KeyPressMask | StructureNotifyMask);
+        XMapWindow(win->platform.display, win->platform.window);
+        win->platform.gc = XCreateGC(win->platform.display, win->platform.window, 0, NULL);
+        XStoreName(win->platform.display, win->platform.window, title);
+    }
 #endif
 
     int winId = g_next_window_id++;
@@ -1777,14 +1987,52 @@ static int window_swap_buffers(lua_State* L) {
     CGContextRelease(ctx);
     CGColorSpaceRelease(colorSpace);
 #else
-    XImage* img = XCreateImage(
-        win->platform.display, DefaultVisual(win->platform.display, DefaultScreen(win->platform.display)),
-        24, ZPixmap, 0, reinterpret_cast<char*>(win->canvasBuffer.data()),
-        win->width, win->height, 32, 0
-    );
-    XPutImage(win->platform.display, win->platform.window, win->platform.gc, img, 0, 0, 0, 0, win->width, win->height);
-    img->data = NULL;
-    XDestroyImage(img);
+    if (win->platform.gpuActive) {
+        // GPU present: upload the SAME CPU-rasterized canvasBuffer every
+        // draw_* already filled in as a texture, then draw it as one
+        // full-screen textured quad and swap. Nothing about how pixels
+        // get INTO canvasBuffer changes here -- only how that finished
+        // buffer reaches the screen. Re-declares the texture's storage
+        // (glTexImage2D) only when the size actually changed (e.g.
+        // window_resize) -- otherwise glTexSubImage2D-equivalent reuse
+        // via the same glTexImage2D call is still correct, just costs a
+        // reallocation every frame; a real subimage-update is a Phase 2
+        // perf refinement, not needed for correctness here.
+        auto& gpu = win->platform.gpu;
+        gpu.glBindTexture(kGlTexture2D, win->platform.textureId);
+        gpu.glTexImage2D(kGlTexture2D, 0, kGlRgba, win->width, win->height, 0, kGlBgra, kGlUnsignedByte, win->canvasBuffer.data());
+        win->platform.textureWidth = win->width;
+        win->platform.textureHeight = win->height;
+
+        gpu.glViewport(0, 0, win->width, win->height);
+        gpu.glMatrixMode(kGlProjection);
+        gpu.glLoadIdentity();
+        gpu.glOrtho(0, win->width, win->height, 0, -1, 1); // top-left origin, matching canvasBuffer's own row order
+        gpu.glMatrixMode(kGlModelview);
+        gpu.glLoadIdentity();
+
+        gpu.glEnable(kGlTexture2D);
+        gpu.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        gpu.glClear(kGlColorBufferBit);
+
+        gpu.glBegin(kGlQuads);
+        gpu.glTexCoord2f(0.0f, 0.0f); gpu.glVertex2f(0.0f, 0.0f);
+        gpu.glTexCoord2f(1.0f, 0.0f); gpu.glVertex2f((float)win->width, 0.0f);
+        gpu.glTexCoord2f(1.0f, 1.0f); gpu.glVertex2f((float)win->width, (float)win->height);
+        gpu.glTexCoord2f(0.0f, 1.0f); gpu.glVertex2f(0.0f, (float)win->height);
+        gpu.glEnd();
+
+        gpu.glXSwapBuffers(win->platform.display, (GLXDrawable_t)win->platform.window);
+    } else {
+        XImage* img = XCreateImage(
+            win->platform.display, DefaultVisual(win->platform.display, DefaultScreen(win->platform.display)),
+            24, ZPixmap, 0, reinterpret_cast<char*>(win->canvasBuffer.data()),
+            win->width, win->height, 32, 0
+        );
+        XPutImage(win->platform.display, win->platform.window, win->platform.gc, img, 0, 0, 0, 0, win->width, win->height);
+        img->data = NULL;
+        XDestroyImage(img);
+    }
 #endif
 
     return 0;
@@ -1801,6 +2049,14 @@ static int window_destroy(lua_State* L) {
 #elif defined(__APPLE__)
         msgSend<void>(win->platform.window, sel_registerName("close"));
 #else
+        if (win->platform.gpuActive) {
+            auto& gpu = win->platform.gpu;
+            gpu.glDeleteTextures(1, &win->platform.textureId);
+            gpu.glXMakeCurrent(win->platform.display, 0, nullptr);
+            gpu.glXDestroyContext(win->platform.display, win->platform.glxContext);
+            XFreeColormap(win->platform.display, win->platform.colormap);
+            if (gpu.libGLHandle) dlclose(gpu.libGLHandle);
+        }
         XDestroyWindow(win->platform.display, win->platform.window);
         XCloseDisplay(win->platform.display);
 #endif

@@ -411,7 +411,10 @@ static int body_set_rotation(lua_State* L) {
 
     Physics::World* world = GetWorld(worldId);
     Physics::Body* body = world ? world->GetBody(bodyId) : nullptr;
-    if (body) body->rotation = {x, y, z};
+    if (body) {
+        body->rotation = {x, y, z};
+        body->orientation = Physics::QuatFromEuler(body->rotation); // keep in sync -- see Body::orientation; otherwise the next Step's quaternion integration would silently overwrite this direct set
+    }
     return 0;
 }
 
