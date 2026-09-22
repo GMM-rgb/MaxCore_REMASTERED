@@ -212,11 +212,12 @@ if not FloorWire then return end
 if not ObjWire then return end
 
 Floor:SetFillMode("solid")
-Object:SetFillMode("solid")
+Object:SetFillMode("wireframe")
 PhysicsCube:SetFillMode("solid")
-PhysicsObjectWire:SetMass(1)
+ObjWire:SetDamping(0.2)
+PhysicsObjectWire:SetMass(20)
 PhysicsObjectWire:SetRestitution(0)
-PhysicsObjectWire:SetFriction(0.5)
+PhysicsObjectWire:SetFriction(1)
 Object:SetColor(100, 100, 100)
 Floor:SetColor(200, 200, 200)
 LightSource:SetIntensity(0.5)
@@ -226,7 +227,7 @@ Floor:SetScale(20, 1, 5)
 Object:SetScale(1, 1, 1)
 ObjWire:SetFriction(1)
 
-ObjWire:SetRotationLocked(true)
+ObjWire:SetRotationLocked(false)
 -- PhysicsObjectWire:SetRotationLocked(true)
 
 local LightIntensityInitial = LightSource and LightSource:GetIntensity()
@@ -366,7 +367,11 @@ RuntimeService.RenderStepped:Connect(function(dt)
         local dx, dy = InputService:GetMouseDelta()
         FloorWire:SetShapeBox(fx / 2, fy / 2, fz / 2)
         ObjWire:SetShapeBox(osx / 2, osy / 2, osz / 2)
+        PhysicsObjectWire:PredictImpact(ObjWire, dt)
         ObjWire:PredictPosition(dt)
+
+        PhysicsObjectWire:ApplyTorque(0, 0, 0)
+        print(PhysicsObjectWire:GetAngularVelocity())
 
         local PhysicsCubeSize = table.pack(PhysicsCube:GetScale())
         PhysicsObjectWire:SetShapeBox(PhysicsCubeSize[1] / 2, PhysicsCubeSize[2] / 2, PhysicsCubeSize[3] / 2)
@@ -394,7 +399,7 @@ RuntimeService.RenderStepped:Connect(function(dt)
             ObjWire:ApplyImpulse(0, 0, 1)
         end
     end
-end, { priority = 115, safe = true, maxFails = math.huge, maxCatchUp = 0.1 });
+end, { priority = 115, safe = true, maxFails = math.huge, maxCatchUp = 0.5 });
 
 ---@param state InputActionState
 local function JumpObject(_, state, _)
