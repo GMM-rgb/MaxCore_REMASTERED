@@ -33,8 +33,8 @@ end
 ---@field Visible boolean Lifecycle visibility toggle
 ---@field _physicsBody PhysicsBody? Set by WindowObject:BindPhysics; nil until this object is bound to physics
 ---@field Collided Event Fires (self:Fire(otherGameObject)) every Step for as long as this object's PhysicsBody stays touching another's -- only meaningful once BindPhysics has been called; see WindowObject:StepPhysics
----@field Vertices table<number[]>
----@field Faces integer[][]
+---@field Vertices Vertex3[]? Only present on MeshObject (declared here, nilable, so code that takes a plain GameObject -- e.g. WindowObject:BindPhysics's {shape="hull"} path -- can check gameObject.Vertices without the language server complaining); see MeshObject's own (non-nilable) override below
+---@field Faces MeshFace[]? Only present on MeshObject, same reasoning as Vertices above
 local GameObject = {}
 GameObject.__index = GameObject
 InstanceTyping.SetType(GameObject, "GameObject")
@@ -369,8 +369,33 @@ end
 
 function PolygonObject:Render(window)
     if not self.Visible or #self.Points == 0 then return end
+
+    -- self.Points is LOCAL space (nested {{x,y},...} or flat
+    -- {x1,y1,x2,y2,...}, both accepted -- see PolygonObject.new) --
+    -- offset+scale each point by this object's own Position/Scale
+    -- before handing off, exactly like every other 2D primitive
+    -- (RectObject:Render, etc.) already does. Without this, SetPosition
+    -- and SetScale had literally no effect on a polygon -- the native
+    -- draw_polygon has no position/scale of its own, it just draws
+    -- whatever raw coordinates it's given.
+    local px, py = self.Position.x, self.Position.y
+    local sx, sy = self.Scale.x, self.Scale.y
+    local worldPoints = {}
+    if type(self.Points[1]) == "table" then
+        for i = 1, #self.Points do
+            local p = self.Points[i]
+            worldPoints[i] = { p[1] * sx + px, p[2] * sy + py }
+        end
+    else
+        local j = 1
+        for i = 1, #self.Points, 2 do
+            worldPoints[j] = { self.Points[i] * sx + px, self.Points[i + 1] * sy + py }
+            j = j + 1
+        end
+    end
+
     window:DrawPolygon(
-        self.Points,
+        worldPoints,
         self.Color.r,
         self.Color.g,
         self.Color.b,

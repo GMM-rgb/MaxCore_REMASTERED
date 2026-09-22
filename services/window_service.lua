@@ -753,7 +753,7 @@ end
 ---GameObject is never touched by physics no matter what else you do to it
 ----- it's just rendered where you put it.
 ---@param gameObject GameObject The object to drive physically; its current Position/Rotation seed the body's starting position/rotation
----@param options table? {shape="sphere"|"box"|"hull" (default "sphere"), radius=number (sphere, default 0.5), halfExtents={x,y,z} (box, default {0.5,0.5,0.5}), vertices=Vertex3[] (hull -- defaults to gameObject.Vertices, so this is optional when gameObject is a MeshObject), faces=MeshFace[] (hull -- defaults to gameObject.Faces, same MeshObject default as vertices; hull must be CONVEX, see PhysicsWorld:CreateHullBody), mass=number (default 1.0, ignored if density is given), density=number (alternative to mass -- mass = density * shape volume), isStatic=boolean (default false, i.e. "anchored" -- see PhysicsBody:SetStatic), restitution=number (bounciness, 0..1), friction=number (grip, 0..1 -- this is what makes a pushed/dropped body roll), damping=number (linear), angularDamping=number, group=integer (see PhysicsModule.PhysicsGroups), collidesWith=integer}
+---@param options table? {shape="sphere"|"box"|"hull" (default: auto-picked from gameObject's type -- "box" for a CubeObject, "hull" for a MeshObject/anything with Vertices+Faces, "sphere" otherwise), radius=number (sphere, default 0.5), halfExtents={x,y,z} (box, default {0.5,0.5,0.5}), vertices=Vertex3[] (hull -- defaults to gameObject.Vertices, so this is optional when gameObject is a MeshObject), faces=MeshFace[] (hull -- defaults to gameObject.Faces, same MeshObject default as vertices; hull must be CONVEX, see PhysicsWorld:CreateHullBody), mass=number (default 1.0, ignored if density is given), density=number (alternative to mass -- mass = density * shape volume), isStatic=boolean (default false, i.e. "anchored" -- see PhysicsBody:SetStatic), restitution=number (bounciness, 0..1), friction=number (grip, 0..1 -- this is what makes a pushed/dropped body roll), damping=number (linear), angularDamping=number, group=integer (see PhysicsModule.PhysicsGroups), collidesWith=integer}
 ---@return PhysicsBody?
 function WindowObject:BindPhysics(gameObject, options)
     if not gameObject then return nil end
@@ -765,25 +765,54 @@ function WindowObject:BindPhysics(gameObject, options)
 
     options = options or {}
 
+    -- Smart shape default when the caller doesn't pick one explicitly:
+    -- a CubeObject defaults to "box" and a MeshObject (or anything else
+    -- that happens to carry Vertices+Faces) defaults to "hull", instead
+    -- of the old blanket "sphere" default. That old default is exactly
+    -- why a plain BindPhysics(cubeObject) call used to render a visual
+    -- CUBE but collide as an actual SPHERE -- a sphere only ever touches
+    -- the ground at one point, so there's no real face contact to ever
+    -- stop it spinning, and it looks like it's tumbling in zero-g
+    -- forever. A real box gets real face contact and friction, and
+    -- settles like you'd expect.
+    local shape = options.shape
+    if not shape then
+        local typeName = nil
+        local getType = InstanceTyping.GetType
+        if type(getType) == "function" then
+            local ok, result = pcall(getType, gameObject)
+            if ok then typeName = result end
+        end
+        if typeName == "MeshObject" or (gameObject.Vertices and gameObject.Faces) then
+            shape = "hull"
+        elseif typeName == "CubeObject" then
+            shape = "box"
+        else
+            shape = "sphere"
+        end
+    end
+
     local px, py, pz = gameObject:GetPosition()
     local body
 
-    if options.shape == "hull" then
+    if shape == "hull" then
         -- options.vertices/faces let you pass an explicit convex hull;
         -- otherwise, for a MeshObject, its own Vertices/Faces are used
         -- automatically -- BindPhysics(meshObject, {shape = "hull"}) is
-        -- all that's needed for the mesh to collide using its ACTUAL geometry.
-        ---@see PhysicsWorld.CreateBody
+        -- all that's needed for the mesh to collide using its ACTUAL
+        -- geometry (see PhysicsWorld:CreateHullBody).
         local vertices = options.vertices or gameObject.Vertices
         local faces = options.faces or gameObject.Faces
-        body = self._physicsWorld:CreateHullBody(
-            vertices, faces,
-            px, py, pz,
-            options.mass, options.isStatic
-        )
+        if faces ~= nil and vertices ~= nil then
+            body = self._physicsWorld:CreateHullBody(
+                vertices, faces,
+                px, py, pz,
+                options.mass, options.isStatic
+            )
+        end
     else
         local shapeParams
-        if (options.shape or "sphere") == "box" then
+        if shape == "box" then
             local he = options.halfExtents or {}
             shapeParams = { he[1] or 0.5, he[2] or 0.5, he[3] or 0.5 }
         else
@@ -791,7 +820,7 @@ function WindowObject:BindPhysics(gameObject, options)
         end
 
         body = self._physicsWorld:CreateBody(
-            options.shape or "sphere", shapeParams,
+            shape, shapeParams,
             px, py, pz,
             options.mass, options.isStatic
         )
@@ -1133,8 +1162,7 @@ end
 function WindowService.GetMaxTextQuality()
     if native_ok and type(window_interface) ~= "string" then
         return window_interface.get_max_text_quality()
-    end
-    return 0
+    end return 0
 end
 
 ---Gets the max anti-aliasing sampling level SetAliasingQuality will
@@ -1144,8 +1172,7 @@ end
 function WindowService.GetMaxAliasingQuality()
     if native_ok and type(window_interface) ~= "string" then
         return window_interface.get_max_alias_quality()
-    end
-    return 0
+    end return 0
 end
 
 ---Closes all active managed windows.
@@ -1154,8 +1181,7 @@ function WindowService:CloseAll()
     for id, win in pairs(self._windows) do
         win:Close()
         self._windows[id] = nil
-    end 
-    self._activeWindow = nil
+    end self._activeWindow = nil
 end
 
 return WindowService

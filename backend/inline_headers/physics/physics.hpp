@@ -374,9 +374,25 @@ inline Vec3 RotateWorldToLocal(const Vec3& world, const Vec3& rotation) {
 // crucially -- actually sits ON the touching surface instead of
 // somewhere between the two centers.
 inline Vec3 SupportPoint(const Vec3& center, const Vec3& axisX, const Vec3& axisY, const Vec3& axisZ, const Vec3& halfExtents, const Vec3& dir) {
-    float sx = Dot(dir, axisX) >= 0.0f ? halfExtents.x : -halfExtents.x;
-    float sy = Dot(dir, axisY) >= 0.0f ? halfExtents.y : -halfExtents.y;
-    float sz = Dot(dir, axisZ) >= 0.0f ? halfExtents.z : -halfExtents.z;
+    // When an axis doesn't discriminate a single farthest side (its dot
+    // with `dir` is ~0 -- e.g. ANY horizontal axis under a purely
+    // vertical `dir`, which is exactly a box resting flat on the
+    // ground), BOTH of that axis's corners tie for farthest. Contribute
+    // 0 (the middle) along that axis instead of arbitrarily picking
+    // +halfExtent -- picking +halfExtent unconditionally is what used to
+    // pin a resting box's contact point at the SAME fixed corner every
+    // single Step, feeding ResolveContact a constant off-center lever
+    // arm that spun it in place forever for no visible reason. This is
+    // the corner-average-under-ties trick collapsed into one line per
+    // axis: contributing 0 for a tied axis is mathematically the average
+    // of that axis's two tied corners.
+    const float kTieEpsilon = 0.001f;
+    float dx = Dot(dir, axisX);
+    float dy = Dot(dir, axisY);
+    float dz = Dot(dir, axisZ);
+    float sx = (std::fabs(dx) < kTieEpsilon) ? 0.0f : (dx > 0.0f ? halfExtents.x : -halfExtents.x);
+    float sy = (std::fabs(dy) < kTieEpsilon) ? 0.0f : (dy > 0.0f ? halfExtents.y : -halfExtents.y);
+    float sz = (std::fabs(dz) < kTieEpsilon) ? 0.0f : (dz > 0.0f ? halfExtents.z : -halfExtents.z);
     return {
         center.x + axisX.x * sx + axisY.x * sy + axisZ.x * sz,
         center.y + axisX.y * sx + axisY.y * sy + axisZ.y * sz,
@@ -603,13 +619,25 @@ inline Polytope BuildPolytope(const Body& body) {
 // -- the true support mapping for an arbitrary convex polytope (unlike
 // SupportPoint above, which only works for a box's closed-form corners).
 inline Vec3 PolytopeSupport(const Polytope& p, const Vec3& dir) {
-    Vec3 best = p.vertices.empty() ? Vec3{0.0f, 0.0f, 0.0f} : p.vertices[0];
+    if (p.vertices.empty()) return {0.0f, 0.0f, 0.0f};
     float bestDot = -1e30f;
+    for (const Vec3& v : p.vertices) bestDot = (std::max)(bestDot, Dot(v, dir));
+
+    // Same fix as SupportPoint above, generalized to an arbitrary vertex
+    // list: average EVERY vertex tied (within epsilon) for farthest
+    // along `dir`, not just the first one encountered -- a hull resting
+    // flat on a face has every vertex of that face tied, and picking
+    // only one pins the contact point at a fixed corner every Step.
+    const float kTieEpsilon = 0.001f;
+    Vec3 sum{0.0f, 0.0f, 0.0f};
+    int count = 0;
     for (const Vec3& v : p.vertices) {
-        float d = Dot(v, dir);
-        if (d > bestDot) { bestDot = d; best = v; }
+        if (Dot(v, dir) >= bestDot - kTieEpsilon) {
+            sum.x += v.x; sum.y += v.y; sum.z += v.z;
+            count += 1;
+        }
     }
-    return best;
+    return { sum.x / (float)count, sum.y / (float)count, sum.z / (float)count };
 }
 
 // SAT across every face normal of both polytopes plus every pairwise

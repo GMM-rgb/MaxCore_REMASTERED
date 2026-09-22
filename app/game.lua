@@ -38,7 +38,7 @@ local game = {
 windows["GameApplication"] =
 WindowService:CreateWindow("Engine", 850, 800)
 windows.GameApplication:SetAliasingQuality("2d", 2)
-windows.GameApplication:SetAliasingQuality("3d", 1)
+windows.GameApplication:SetAliasingQuality("3d", 4)
 windows.GameApplication:SetPhysicsAutoQuality(true)
 
 if windows.GameApplication then
@@ -227,7 +227,7 @@ Object:SetScale(1, 1, 1)
 ObjWire:SetFriction(1)
 
 ObjWire:SetRotationLocked(true)
-PhysicsObjectWire:SetRotationLocked(true)
+-- PhysicsObjectWire:SetRotationLocked(true)
 
 local LightIntensityInitial = LightSource and LightSource:GetIntensity()
 local wx, wy = windows.GameApplication:GetDimensions() or 0, 0
