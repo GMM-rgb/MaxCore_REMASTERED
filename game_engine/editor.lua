@@ -6,6 +6,7 @@ local InputService = core:LoadService("InputService")
 local window = core:LoadService("WindowService")
 local runtime = core:LoadService("RunnerService")
 local game = window:CreateWindow("Game Editor", 850, 800)
+local logs = StorageService:CreateFile({ path = "./logs.log" })
 local NoiseGeneration = core.NoiseClass.new(os.time())
 local ExitEvent = core.Event.new("exit")
 
@@ -14,13 +15,14 @@ if not game or not core.IsA(game, "WindowObject") then
 end
 
 ---@class ButtonObject
----@field new fun(name: string, pos: ButtonCoordinates, source: ButtonSourceCode): ButtonObject
+---@field new fun(name: string, pos: ButtonCoordinates, text: string, source: ButtonSourceCode): ButtonObject
 ---@field DisplayButton fun(self: ButtonObject): nil
 ---@field _events {[integer]: Event}
 ---@field hitbox ButtonCoordinates
 ---@field position ButtonCoordinates
 ---@field mouse ButtonCoordinates
 ---@field button PolygonObject
+---@field text string
 local ButtonInstancer = setmetatable({}, nil)
 ButtonInstancer.__index = ButtonInstancer
 core.InstanceType.SetType(ButtonInstancer, "ButtonObject")
@@ -30,7 +32,7 @@ ButtonInstancer.DefaultPoints = ({
 });
 
 ---@return ButtonObject
-function ButtonInstancer.new(name, pos, source)
+function ButtonInstancer.new(name, pos, text, source)
     local mx, my = InputService:GetMousePosition()
     ---@type boolean
     local is_touching_button = false
@@ -39,10 +41,12 @@ function ButtonInstancer.new(name, pos, source)
     local defaults = ButtonInstancer.DefaultPoints
     self.button = game:CreatePolygon(defaults, true)
     self.button:SetPosition(pos.x, pos.y)
+    self.button:SetScale(6, 4, 0)
     self.position = pos or { x = 0, y = 0 }
     self.hitbox = { x = 0, y = 0 }
     self.mouse = { x = mx, y = my }
     self._events = table.create(0, 2)
+    self.text = text
 
     ---@param action string
     ---@param state InputActionState
@@ -63,8 +67,9 @@ function ButtonInstancer.new(name, pos, source)
     table.insert(self._events, TouchingEvent)
     table.insert(self._events, ClickEvent)
 
+    ---@param ... any
     TouchingEvent:Connect(function(...)
-        
+        is_touching_button = ({...})[1]
     end)
 
     return self
@@ -77,24 +82,44 @@ function ButtonInstancer:DisplayButton()
 
     local cmx, cmy = InputService:GetMousePosition()
 
+    ---@return number, number
+    local function GetApplicationMouse()
+        local wx, wy = game:GetPosition()
+        local cmix, cmiy = math.tointeger(cmx), math.tointeger(cmy)
+        local cwx, cwy = cmix - wx, cmiy - wy
+        return cwx, cwy
+    end
+
+    if logs ~= nil and core.typeof(logs) == "FileObject" then
+        local x, y = GetApplicationMouse()
+        local message = string.format("%g, %g", x, y)
+        if message and logs:Read() ~= message then logs:Write(message) end
+        self.mouse.x, self.mouse.y = x, y
+    end
+
+    ---@return boolean
+    local function MouseMatchesHitbox()
+        return false -- default : TODO
+    end
+
     if self._events ~= nil and type(self._events) == "table" then
-        for _, event in ipairs(self._events or {}) do
-            if core.IsA(event, "Event") and event._name == "TouchingEvent" then
-                if self.mouse.x > cmx or self.mouse.x < cmx then
-                    if self.mouse.y > cmy or self.mouse.y < cmy then
-                        self.mouse.x, self.mouse.y = cmx, cmy; event:Fire()
-                    end
-                end
+        for _, SelectedEvent in ipairs(self._events or {}) do
+            if SelectedEvent and MouseMatchesHitbox() then
+                SelectedEvent:Fire(false)
             end
         end
     end
 
     self.button:Render(game)
 
+    local TargetTextPosX <const> = self.button.Position.x * 1.25
+    local TargetTextPosY <const> = self.button.Position.y * 1.15
+    game:DrawText(self.text, TargetTextPosX, TargetTextPosY, 2, 0, 0, 0, 1)
+
     return nil
 end
 
-local TestButton = ButtonInstancer.new("test", { x = 100, y = 100 }, function(name, action, key)
+local TestButton = ButtonInstancer.new("test", { x = 100, y = 100 }, "TEST", function(name, action, key)
     
 end)
 

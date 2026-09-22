@@ -214,7 +214,7 @@ if not ObjWire then return end
 Floor:SetFillMode("solid")
 Object:SetFillMode("wireframe")
 PhysicsCube:SetFillMode("solid")
-ObjWire:SetDamping(0.2)
+-- ObjWire:SetDamping(0.2)
 PhysicsObjectWire:SetMass(20)
 PhysicsObjectWire:SetRestitution(0)
 PhysicsObjectWire:SetFriction(1)
