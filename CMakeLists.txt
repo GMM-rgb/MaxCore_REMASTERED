@@ -71,6 +71,7 @@ set(NATIVE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/backend/storage_interface.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/backend/window_management.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/backend/physics_management.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/backend/native_utils.cpp
 )
 
 find_package(Threads REQUIRED) # includes the `Threads` library
