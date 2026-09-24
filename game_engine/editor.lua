@@ -22,6 +22,7 @@ end
 ---@field position ButtonCoordinates
 ---@field mouse ButtonCoordinates
 ---@field button PolygonObject
+---@field label TextObject
 ---@field text string
 local ButtonInstancer = setmetatable({}, nil)
 ButtonInstancer.__index = ButtonInstancer
@@ -47,6 +48,10 @@ function ButtonInstancer.new(name, pos, text, source)
     self.mouse = { x = mx, y = my }
     self._events = table.create(0, 2)
     self.text = text
+
+    local TargetTextPosX <const> = self.button.Position.x * 1.25
+    local TargetTextPosY <const> = self.button.Position.y * 1.15
+    self.label = game:CreateText(self.text, TargetTextPosX, TargetTextPosY, 2, 0, 0, 0, 1)
 
     ---@param action string
     ---@param state InputActionState
@@ -111,10 +116,7 @@ function ButtonInstancer:DisplayButton()
     end
 
     self.button:Render(game)
-
-    local TargetTextPosX <const> = self.button.Position.x * 1.25
-    local TargetTextPosY <const> = self.button.Position.y * 1.15
-    game:DrawText(self.text, TargetTextPosX, TargetTextPosY, 2, 0, 0, 0, 1)
+    self.label:Render(game)
 
     return nil
 end
