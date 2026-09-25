@@ -34,7 +34,8 @@ set(LUA_LIB_SOURCES ${LUA_SOURCES})
 list(REMOVE_ITEM LUA_LIB_SOURCES "${LUA_SRC_DIR}/lua.c" "${LUA_SRC_DIR}/luac.c")
 
 # Build shared Lua library (lua55)
-add_library(lua_shared SHARED ${LUA_LIB_SOURCES})
+add_library(lua_shared SHARED ${LUA_LIB_SOURCES}
+    backend/platform_module.cpp)
 set_target_properties(lua_shared PROPERTIES PREFIX "" OUTPUT_NAME "lua55")
 
 # FIX: Link C math and dynamic loading library explicitly to Lua on Unix
@@ -72,6 +73,7 @@ set(NATIVE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/backend/window_management.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/backend/physics_management.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/backend/native_utils.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/backend/platform_module.cpp
 )
 
 find_package(Threads REQUIRED) # includes the `Threads` library

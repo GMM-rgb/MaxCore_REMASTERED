@@ -1,6 +1,7 @@
 ---@alias ButtonSourceCode fun(name: string, action: InputActionState, key: KeyName): nil
 ---@alias ButtonCoordinates { x: number, y: number }
 local core <const> = require("max_core").call()
+local platform <const> = require("utils.platform")
 local StorageService = core:LoadService("StorageService")
 local InputService = core:LoadService("InputService")
 local window = core:LoadService("WindowService")
@@ -90,8 +91,7 @@ function ButtonInstancer:DisplayButton()
     ---@return number, number
     local function GetApplicationMouse()
         local wx, wy = game:GetPosition()
-        local cmix, cmiy = math.tointeger(cmx), math.tointeger(cmy)
-        local cwx, cwy = cmix - wx, cmiy - wy
+        local cwx, cwy = cmx - wx, cmy - wy
         return cwx, cwy
     end
 

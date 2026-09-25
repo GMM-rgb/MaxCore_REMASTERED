@@ -1,0 +1,150 @@
+{
+	"configurations" : 
+	[
+		{
+			"abstractTargets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Threads::Threads::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Threads__Threads-Debug-e20210d1cc890a1c4b1a.json",
+					"name" : "Threads::Threads",
+					"projectIndex" : 0
+				}
+			],
+			"directories" : 
+			[
+				{
+					"abstractTargetIndexes" : 
+					[
+						0
+					],
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-fd6451d79dc282e2f566.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"abstractTargetIndexes" : 
+					[
+						0
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "lua_native_engine",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "input_native::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-input_native-Debug-1b1d9df16fda887ace01.json",
+					"name" : "input_native",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "lua_runner::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-lua_runner-Debug-900df7aeff594f5a9307.json",
+					"name" : "lua_runner",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "lua_shared::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-lua_shared-Debug-ffd2a0352184279cff7a.json",
+					"name" : "lua_shared",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "native_utils::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-native_utils-Debug-b132991d7879233574ca.json",
+					"name" : "native_utils",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "physics_management::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-physics_management-Debug-71459d06128eb6e0ab15.json",
+					"name" : "physics_management",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "platform_module::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-platform_module-Debug-64b7cf2d85eeff0a1786.json",
+					"name" : "platform_module",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "sound_service_backend::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-sound_service_backend-Debug-eb5c2c02b90a886fee3d.json",
+					"name" : "sound_service_backend",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "storage_interface::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-storage_interface-Debug-3a7ae2ea66911a7fb8ed.json",
+					"name" : "storage_interface",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "window_management::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-window_management-Debug-6c5955df57e52305229f.json",
+					"name" : "window_management",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build",
+		"source" : "/Users/maximus.farvour/Documents/MaxCore_REMASTERED"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 10
+	}
+}
