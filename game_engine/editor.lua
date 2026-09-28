@@ -1,6 +1,9 @@
 ---@alias ButtonSourceCode fun(name: string, action: InputActionState, key: KeyName): nil
 ---@alias HitboxCoordinates { ["one"]: { x1: number, y1: number }, ["two"]: { x2: number, y2: number }}
 ---@alias ButtonCoordinates { x: number, y: number }
+local io <const> = require("io")
+local math <const> = require("math")
+local table <const> = require("table")
 local string <const> = require("string")
 local platform <const> = require("utils.platform")
 local core <const> = require("max_core").call()
@@ -11,23 +14,41 @@ local runtime = core:LoadService("RunnerService")
 local sound = core:LoadService("SoundService")
 local game = window:CreateWindow("Game Editor", 850, 800)
 local logs = StorageService:CreateFile({ path = "./logs.log" })
+local _, TypeError = io.popen("../_services.d.lua", "r")
 local NoiseGeneration = core.NoiseClass.new(os.time())
 local ExitEventObject = core.Event.new("exit")
 local MachineName = platform:get_os_name()
 local MachineArch = platform:get_arch()
+local MachineInfo = platform:get_info()
 
 sound:SetStorageService(StorageService)
 sound:SetCacheFolder("audio_cache")
 
 local TargetPath = "https://music.youtube.com/watch?v=3churH55vDQ&si=TIZcWDzMLSz60Piv"
-local MusicAudio = sound:LoadSound(tostring(TargetPath))
+local MusicAudio = sound:LoadSound(tostring(TargetPath) or "$PATH")
 MusicAudio:SetLooping(true)
 MusicAudio:SetVolume(1.0)
 MusicAudio:SetPitch(1.0)
 -- MusicAudio:Play()
 
-io.stdout:write(string.format("MACHINE: %s ARCH: %s", MachineName, MachineArch) .. "\n")
-if not game or not core.IsA(game, "WindowObject") then return 0x1 end -- raise error
+local MachineDebugInfo = { MachineName, MachineArch, MachineInfo.is_64bit }
+io.stdout:write(string.format("[MACHINE: %s] | [ARCH: %s] | [64-BIT: %s]", table.unpack(MachineDebugInfo)) .. "\n")
+if not game or not core.IsA(game, "WindowObject") then return 0x1, error() end -- raise error
+
+local DebuggerRuntime = runtime.Heartbeat:Connect(function()
+    for _, file in ipairs(StorageService:ListDirectory("./")) do
+        local DebugContents <const> = file:GetContents()
+        local DumpedContents = string.dump(function(...)
+            return DebugContents
+        end, true)
+
+        if logs ~= nil then
+            local formatted = logs:Read()
+            .. tostring(DumpedContents)
+            logs:Write(formatted)
+        end
+    end
+end, { safe = true, maxFails = 2, priority = 115 }); DebuggerRuntime:Pause()
 
 ---@class ButtonObject
 ---@field new fun(name: string, pos: ButtonCoordinates, text: string, source: ButtonSourceCode): ButtonObject
@@ -174,4 +195,5 @@ end)
 
 InputService:SetGlobalInput(true)
 runtime.Stepped:Connect(TickGame)
+DebuggerRuntime:Resume()
 runtime:KeepAlive()

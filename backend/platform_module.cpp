@@ -3,12 +3,12 @@
 #include <cstring>
 #include <string>
 
-// Lua Header Include (Assumes Lua headers are available in include path)
+// Lua Header Include
 extern "C" {
     #include "lua.h"
     #include "lualib.h"
     #include "lauxlib.h"
-}
+};
 
 // =====================================================================
 // EXPORT & PLATFORM DEFINITIONS
@@ -17,6 +17,7 @@ extern "C" {
     #ifndef NOMINMAX
         #define NOMINMAX
     #endif
+
     #define EXPORT_FN __declspec(dllexport)
     #include <windows.h>
     #include <sysinfoapi.h>
@@ -47,7 +48,6 @@ extern "C" {
         bool is64Bit = false;
         char endianness[8] = "little";
     };
-
 #else
     #define EXPORT_FN __attribute__((visibility("default")))
     #include <unistd.h>

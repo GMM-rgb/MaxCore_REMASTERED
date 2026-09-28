@@ -4,6 +4,9 @@
 -- #service
 local InstanceTyping = require("instance_type")
 
+-- TODO: Fix MacOS (OSX) issue with the window service, 
+-- windows not being able to be re-opened after minimized, etc.
+
 package.path = package.path
     .. ";./services/?.lua"
     .. ";./services/?/init.lua"

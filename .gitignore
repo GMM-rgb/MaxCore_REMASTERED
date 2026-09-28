@@ -3,4 +3,4 @@ yt-dlp.exe
 ffmpeg
 yt-dlp
 app/audio/*
-audio/*
+game_engine/audio_cache/*

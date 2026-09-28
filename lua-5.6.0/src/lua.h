@@ -13,7 +13,7 @@
 #include <stddef.h>
 
 
-#define LUA_COPYRIGHT	LUA_RELEASE "  Copyright (C) 2026"
+#define LUA_COPYRIGHT	LUA_RELEASE " [MaxCore Game Engine] Copyright (C) 2026"
 #define LUA_AUTHORS	"R. Ierusalimschy, L. H. de Figueiredo, W. Celes, F. Maximus"
 
 
