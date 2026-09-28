@@ -5,8 +5,8 @@ local io <const> = require("io")
 local math <const> = require("math")
 local table <const> = require("table")
 local string <const> = require("string")
-local platform <const> = require("utils.platform")
 local core <const> = require("max_core").call()
+local platform <const> = require("utils.platform")
 local StorageService = core:LoadService("StorageService")
 local InputService = core:LoadService("InputService")
 local window = core:LoadService("WindowService")
@@ -21,15 +21,32 @@ local MachineName = platform:get_os_name()
 local MachineArch = platform:get_arch()
 local MachineInfo = platform:get_info()
 
+if type(TypeError) == "string" then
+    io.stdout:write(TypeError)
+    io.stdout:close()
+end
+
 sound:SetStorageService(StorageService)
 sound:SetCacheFolder("audio_cache")
 
-local TargetPath = "https://music.youtube.com/watch?v=3churH55vDQ&si=TIZcWDzMLSz60Piv"
+-- local TargetPath = "https://music.youtube.com/watch?v=8LShXs7yAC0&si=ZkQv-PFN1cy2MZ8p"
+local TargetPath = "https://music.youtube.com/watch?v=IOym7Md8Hcw&si=pC83L1ssgOTbEUwW"
 local MusicAudio = sound:LoadSound(tostring(TargetPath) or "$PATH")
 MusicAudio:SetLooping(true)
 MusicAudio:SetVolume(1.0)
-MusicAudio:SetPitch(1.0)
--- MusicAudio:Play()
+MusicAudio:SetPitch(1.125)
+MusicAudio:Play()
+
+local AudioControls <const> = {
+    [true] = MusicAudio.Pause,
+    [false] = MusicAudio.Resume,
+};
+
+InputService:BindAction("toggle_music", "k", function(name, state, key)
+    if state ~= nil and key ~= nil and state == "Pressed" and key == "k" then
+        AudioControls[MusicAudio:IsPlaying()](MusicAudio)
+    end
+end)
 
 local MachineDebugInfo = { MachineName, MachineArch, MachineInfo.is_64bit }
 io.stdout:write(string.format("[MACHINE: %s] | [ARCH: %s] | [64-BIT: %s]", table.unpack(MachineDebugInfo)) .. "\n")

@@ -508,6 +508,7 @@ setmetatable(MainKit, {
 ---@param _ any?
 ---@param env table?
 ---@return MaxCore
+---Import Components into GameEngine runtime.
 local function call(_, env)
     return {
         MainKit = MainKit,

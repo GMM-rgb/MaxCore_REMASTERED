@@ -7,7 +7,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Threads::Threads::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Threads__Threads-bd59b1a8df6cb986c83f.json",
+					"jsonFile" : "target-Threads__Threads-Debug-a7d32c23075dba6ba140.json",
 					"name" : "Threads::Threads",
 					"projectIndex" : 0
 				}
@@ -20,7 +20,7 @@
 						0
 					],
 					"build" : ".",
-					"jsonFile" : "directory-.-fd6451d79dc282e2f566.json",
+					"jsonFile" : "directory-.-Debug-b23a0b23c080df4d29ba.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.15"
@@ -41,7 +41,7 @@
 					]
 				}
 			],
-			"name" : "",
+			"name" : "Debug",
 			"projects" : 
 			[
 				{
@@ -73,63 +73,63 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "input_native::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-input_native-80b1f4cf19e90f48397d.json",
+					"jsonFile" : "target-input_native-Debug-aafc8dd38c2590417277.json",
 					"name" : "input_native",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "lua_runner::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-lua_runner-9e98466d1ac38a978d87.json",
+					"jsonFile" : "target-lua_runner-Debug-3c27c108bede9988e675.json",
 					"name" : "lua_runner",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "lua_shared::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-lua_shared-fdb55cb03e8fdad6d34a.json",
+					"jsonFile" : "target-lua_shared-Debug-1cb7727d2f10a1a37501.json",
 					"name" : "lua_shared",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "native_utils::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-native_utils-ce24c43b8c9a50ffc2b1.json",
+					"jsonFile" : "target-native_utils-Debug-2dacf5f171f48a82e049.json",
 					"name" : "native_utils",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "physics_management::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-physics_management-0b903c54facb3620ca7f.json",
+					"jsonFile" : "target-physics_management-Debug-03f1bf161e7d3f68a5a7.json",
 					"name" : "physics_management",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "platform_module::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-platform_module-b4e2a27ad9f879f0f812.json",
+					"jsonFile" : "target-platform_module-Debug-3eec5490f657b50e8b7e.json",
 					"name" : "platform_module",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "sound_service_backend::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-sound_service_backend-9d0f74a51c4e28c4c3e3.json",
+					"jsonFile" : "target-sound_service_backend-Debug-41f3ada6cbd4dbad042b.json",
 					"name" : "sound_service_backend",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "storage_interface::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-storage_interface-1cbcac4e3214c4fe314a.json",
+					"jsonFile" : "target-storage_interface-Debug-7cc73e7f103cb7af88aa.json",
 					"name" : "storage_interface",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "window_management::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-window_management-eabff07ebde5706a4aac.json",
+					"jsonFile" : "target-window_management-Debug-0e76d4159c5d5aa3890f.json",
 					"name" : "window_management",
 					"projectIndex" : 0
 				}
@@ -145,6 +145,6 @@
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 10
+		"minor" : 11
 	}
 }
