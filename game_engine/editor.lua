@@ -1,33 +1,47 @@
 ---@alias ButtonSourceCode fun(name: string, action: InputActionState, key: KeyName): nil
+---@alias HitboxCoordinates { ["one"]: { x1: number, y1: number }, ["two"]: { x2: number, y2: number }}
 ---@alias ButtonCoordinates { x: number, y: number }
-local core <const> = require("max_core").call()
+local string <const> = require("string")
 local platform <const> = require("utils.platform")
+local core <const> = require("max_core").call()
 local StorageService = core:LoadService("StorageService")
 local InputService = core:LoadService("InputService")
 local window = core:LoadService("WindowService")
 local runtime = core:LoadService("RunnerService")
+local sound = core:LoadService("SoundService")
 local game = window:CreateWindow("Game Editor", 850, 800)
 local logs = StorageService:CreateFile({ path = "./logs.log" })
 local NoiseGeneration = core.NoiseClass.new(os.time())
-local ExitEvent = core.Event.new("exit")
+local ExitEventObject = core.Event.new("exit")
+local MachineName = platform:get_os_name()
+local MachineArch = platform:get_arch()
 
-if not game or not core.IsA(game, "WindowObject") then
-    return 0x1 -- raise error
-end
+sound:SetStorageService(StorageService)
+sound:SetCacheFolder("audio_cache")
+
+local TargetPath = "https://music.youtube.com/watch?v=3churH55vDQ&si=TIZcWDzMLSz60Piv"
+local MusicAudio = sound:LoadSound(tostring(TargetPath))
+MusicAudio:SetLooping(true)
+MusicAudio:SetVolume(1.0)
+MusicAudio:SetPitch(1.0)
+-- MusicAudio:Play()
+
+io.stdout:write(string.format("MACHINE: %s ARCH: %s", MachineName, MachineArch) .. "\n")
+if not game or not core.IsA(game, "WindowObject") then return 0x1 end -- raise error
 
 ---@class ButtonObject
 ---@field new fun(name: string, pos: ButtonCoordinates, text: string, source: ButtonSourceCode): ButtonObject
 ---@field DisplayButton fun(self: ButtonObject): nil
 ---@field _events {[integer]: Event}
----@field hitbox ButtonCoordinates
+---@field hitbox HitboxCoordinates
 ---@field position ButtonCoordinates
 ---@field mouse ButtonCoordinates
 ---@field button PolygonObject
 ---@field label TextObject
 ---@field text string
 local ButtonInstancer = setmetatable({}, nil)
-ButtonInstancer.__index = ButtonInstancer
 core.InstanceType.SetType(ButtonInstancer, "ButtonObject")
+ButtonInstancer.__index = ButtonInstancer or {}
 ButtonInstancer.DefaultPoints = ({
     { 0, 0 }, { 20, 0 },
     { 20, 10 }, { 0, 10 },
@@ -45,7 +59,7 @@ function ButtonInstancer.new(name, pos, text, source)
     self.button:SetPosition(pos.x, pos.y)
     self.button:SetScale(6, 4, 0)
     self.position = pos or { x = 0, y = 0 }
-    self.hitbox = { x = 0, y = 0 }
+    self.hitbox = { one = { x1 = 0, y1 = 0}, two = { x2 = 0, y2 = 0} }
     self.mouse = { x = mx, y = my }
     self._events = table.create(0, 2)
     self.text = text
@@ -104,7 +118,23 @@ function ButtonInstancer:DisplayButton()
 
     ---@return boolean
     local function MouseMatchesHitbox()
-        return false -- default : TODO
+        local ContainsCursor = false
+
+        for group, coordinates in pairs(self.hitbox) do
+            if type(group) == "string" and group:len() > 0 then
+                for _, coordinate in ipairs(coordinates or {}) do
+                    if coordinate ~= nil and type(coordinate) == "number" then
+                        if (InputService:GetMousePosition()) > coordinate then
+                        
+                        elseif (InputService:GetMousePosition()) < coordinate then
+                            
+                        end
+                    end
+                end
+            end
+        end
+
+        return ContainsCursor
     end
 
     if self._events ~= nil and type(self._events) == "table" then
@@ -127,7 +157,7 @@ end)
 
 local function TickGame()
     if game ~= nil then
-        ExitEvent:Fire(game:IsRunning() or false)
+        ExitEventObject:Fire(game:IsRunning() or false)
         TestButton:DisplayButton()
         InputService:UpdateAll()
         game:SwapBuffers()
@@ -135,7 +165,7 @@ local function TickGame()
 end
 
 ---@param status boolean
-ExitEvent:Connect(function(status)
+ExitEventObject:Connect(function(status)
     if status ~= nil and status == false then
         core.colorPrint("DEBUG", "EXITING...")
         game:Close(); os.exit(0x000, true)

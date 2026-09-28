@@ -36,9 +36,23 @@ list(REMOVE_ITEM LUA_LIB_SOURCES "${LUA_SRC_DIR}/lua.c" "${LUA_SRC_DIR}/luac.c")
 # Build shared Lua library (lua55)
 add_library(lua_shared SHARED ${LUA_LIB_SOURCES}
     backend/platform_module.cpp)
-set_target_properties(lua_shared PROPERTIES PREFIX "" OUTPUT_NAME "lua55")
 
-# FIX: Link C math and dynamic loading library explicitly to Lua on Unix
+set_target_properties(lua_shared PROPERTIES
+    PREFIX ""
+    OUTPUT_NAME "lua55"
+)
+
+# =========================================================================
+# WINDOWS LUA DLL EXPORT CONFIGURATION
+# =========================================================================
+if(WIN32)
+    set_source_files_properties(
+        ${LUA_LIB_SOURCES}
+        PROPERTIES COMPILE_DEFINITIONS LUA_BUILD_AS_DLL
+    )
+endif()
+
+# Link C math and dynamic loading library explicitly to Lua on Unix
 if(UNIX AND NOT APPLE)
     target_link_libraries(lua_shared PRIVATE m dl)
 endif()
@@ -46,13 +60,16 @@ endif()
 # Build custom Lua executable linked to lua_shared
 add_executable(lua_runner "${LUA_SRC_DIR}/lua.c")
 target_link_libraries(lua_runner PRIVATE lua_shared)
-set_target_properties(lua_runner PROPERTIES OUTPUT_NAME "max-core-lua")
+
+set_target_properties(lua_runner PROPERTIES
+    OUTPUT_NAME "max-core-lua"
+)
 
 # =========================================================================
 # PLATFORM COMPILE DEFINITIONS FOR LUA
 # =========================================================================
 if(WIN32)
-    target_compile_definitions(lua_shared PRIVATE LUA_BUILD_AS_DLL)
+    message(STATUS "[Engine] Target OS: Windows")
 elseif(APPLE)
     message(STATUS "[Engine] Enabling LUA_USE_MACOSX for io.popen support")
     target_compile_definitions(lua_shared PRIVATE LUA_USE_MACOSX)
@@ -76,7 +93,8 @@ set(NATIVE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/backend/platform_module.cpp
 )
 
-find_package(Threads REQUIRED) # includes the `Threads` library
+find_package(Threads REQUIRED)
+
 set(PLATFORM_LIBS Threads::Threads lua_shared)
 
 if(WIN32)
@@ -84,20 +102,47 @@ if(WIN32)
     list(APPEND PLATFORM_LIBS winmm user32 urlmon)
 elseif(APPLE)
     message(STATUS "[Engine] Target OS: macOS")
-    list(APPEND PLATFORM_LIBS "-framework CoreAudio" "-framework CoreFoundation" "-framework AudioToolbox" "-framework ApplicationServices" "-framework Cocoa")
+    list(APPEND PLATFORM_LIBS
+        "-framework CoreAudio"
+        "-framework CoreFoundation"
+        "-framework AudioToolbox"
+        "-framework ApplicationServices"
+        "-framework Cocoa"
+    )
 elseif(NOT APPLE AND UNIX)
     message(STATUS "[Engine] Target OS: Linux / Unix")
-    find_package(X11)
-    if(NOT X11_FOUND)
-        message(FATAL_ERROR 
-            "\n[Engine Error] X11 development headers missing!\n"
-            "Please install them using your system package manager:\n"
-            "  Ubuntu/Debian: sudo apt install libx11-dev\n"
-            "  Fedora/RHEL:   sudo dnf install libX11-devel\n"
-            "  Arch Linux:    sudo pacman -S libx11\n"
+
+    # Extract Devbox / Nix environment search paths
+    set(SEARCH_INCLUDES "")
+    set(SEARCH_LIBS "")
+
+    if(DEFINED ENV{CPATH})
+        string(REPLACE ":" ";" SEARCH_INCLUDES "$ENV{CPATH}")
+    endif()
+    if(DEFINED ENV{LIBRARY_PATH})
+        string(REPLACE ":" ";" SEARCH_LIBS "$ENV{LIBRARY_PATH}")
+    endif()
+
+    # Search directly across Nix store outputs and system directories
+    find_path(X11_INCLUDE_DIR NAMES X11/Xlib.h PATHS ${SEARCH_INCLUDES})
+    find_library(X11_LIB NAMES X11 PATHS ${SEARCH_LIBS})
+    find_library(XTST_LIB NAMES Xtst PATHS ${SEARCH_LIBS})
+
+    if(X11_INCLUDE_DIR AND X11_LIB)
+        message(STATUS "[Engine] Found X11 headers at: ${X11_INCLUDE_DIR}")
+        message(STATUS "[Engine] Found libX11 at: ${X11_LIB}")
+        include_directories(${X11_INCLUDE_DIR})
+        list(APPEND PLATFORM_LIBS m dl ${X11_LIB})
+
+        if(XTST_LIB)
+            message(STATUS "[Engine] Found libXtst at: ${XTST_LIB}")
+            list(APPEND PLATFORM_LIBS ${XTST_LIB})
+        endif()
+    else()
+        message(FATAL_ERROR
+            "\n[Engine Error] Could not locate X11 headers or libX11.so!\n"
         )
     endif()
-    list(APPEND PLATFORM_LIBS m dl X11::X11)
 endif()
 
 # =========================================================================
@@ -105,16 +150,24 @@ endif()
 # =========================================================================
 foreach(SOURCE_FILE IN LISTS NATIVE_SOURCES)
     get_filename_component(TARGET_NAME "${SOURCE_FILE}" NAME_WE)
+
     add_library("${TARGET_NAME}" SHARED "${SOURCE_FILE}")
+
     target_link_libraries("${TARGET_NAME}" PRIVATE ${PLATFORM_LIBS})
-    
+
     if(WIN32)
         target_compile_definitions("${TARGET_NAME}" PRIVATE LUA_BUILD_AS_DLL)
     endif()
 
     if(TARGET_NAME STREQUAL "sound_service_backend")
-        set_target_properties("${TARGET_NAME}" PROPERTIES PREFIX "" OUTPUT_NAME "sound_native")
+        set_target_properties("${TARGET_NAME}" PROPERTIES
+            PREFIX ""
+            OUTPUT_NAME "sound_native"
+        )
     else()
-        set_target_properties("${TARGET_NAME}" PROPERTIES PREFIX "" OUTPUT_NAME "${TARGET_NAME}")
+        set_target_properties("${TARGET_NAME}" PROPERTIES
+            PREFIX ""
+            OUTPUT_NAME "${TARGET_NAME}"
+        )
     endif()
 endforeach()

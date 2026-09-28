@@ -1,0 +1,17 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.12.0/.schema/devbox.schema.json",
+  "packages": [
+    "gcc@latest",
+    "cmake@latest",
+    "gnumake@latest",
+    "pkg-config@latest",
+    "xorg.libX11@latest",
+    "xorg.libXtst@latest",
+    "xorg.xorgproto@latest"
+  ],
+  "env": {
+    "CMAKE_PREFIX_PATH": "$DEVBOX_PROJECT_DIR/.devbox/nix/profile/default",
+    "CPATH": "$DEVBOX_PROJECT_DIR/.devbox/nix/profile/default/include",
+    "LIBRARY_PATH": "$DEVBOX_PROJECT_DIR/.devbox/nix/profile/default/lib"
+  }
+}

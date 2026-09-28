@@ -42,7 +42,7 @@ function PlatformService.new()
     return self
 end
 
-function PlatformService:get_os()
+function PlatformService:get_os_name()
     return native_platform.get_os()
 end
 
