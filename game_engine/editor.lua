@@ -15,17 +15,11 @@ local runtime = core:LoadService("RunnerService")
 local sound = core:LoadService("SoundService")
 local game = window:CreateWindow("Game Editor", 850, 800)
 local logs = StorageService:CreateFile({ path = "./logs.log" })
-local _, TypeError = io.popen("../_services.d.lua", "r")
 local NoiseGeneration = core.NoiseClass.new(os.time())
 local ExitEventObject = core.Event.new("exit")
 local MachineName = platform:get_os_name()
 local MachineArch = platform:get_arch()
 local MachineInfo = platform:get_info()
-
-if type(TypeError) == "string" then
-    io.stdout:write(TypeError)
-    io.stdout:close()
-end
 
 sound:SetStorageService(StorageService)
 sound:SetCacheFolder("audio_cache")
