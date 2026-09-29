@@ -24,9 +24,8 @@ local MachineInfo = platform:get_info()
 sound:SetStorageService(StorageService)
 sound:SetCacheFolder("audio_cache")
 
-local TargetPath = "https://music.youtube.com/watch?v=8LShXs7yAC0&si=ZkQv-PFN1cy2MZ8p"
 -- local TargetPath = "https://music.youtube.com/watch?v=IOym7Md8Hcw&si=pC83L1ssgOTbEUwW"
--- local TargetPath = "https://music.youtube.com/watch?v=e3OBPOKtMgA&si=X4oEGel88G-mHgLR"
+local TargetPath = "https://music.youtube.com/watch?v=e3OBPOKtMgA&si=X4oEGel88G-mHgLR"
 local MusicAudio = sound:LoadSound(tostring(TargetPath) or "$PATH")
 MusicAudio:SetLooping(true)
 MusicAudio:SetVolume(0.85)
