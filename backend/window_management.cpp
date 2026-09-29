@@ -217,7 +217,7 @@
         XSetWindowAttributes attrs{};
         attrs.colormap = colormap;
         attrs.border_pixel = 0;
-        attrs.event_mask = ExposureMask | KeyPressMask | StructureNotifyMask;
+        attrs.event_mask = ExposureMask | KeyPressMask | StructureNotifyMask | FocusChangeMask;
 
         Window glxWindow = XCreateWindow(
             display, root, 10, 10, width, height, 1,
@@ -360,6 +360,7 @@ struct NativeWindow {
     int height = 600;
     bool shouldClose = false;
     bool isFullscreen = false;
+    bool hasFocus = false; // updated by WM_SETFOCUS/KILLFOCUS (Win32) and FocusIn/FocusOut (X11); macOS queries NSWindow live instead
     int activeCameraId = -1; // -1 = no camera bound, cube/mesh render falls back to a default camera at the origin
     int activeLightId = -1;  // -1 = no light bound, faces render at flat/full brightness (old behavior)
     int aliasQuality2D = 0;  // anti-aliasing level for 2D primitives (lines, circles, filled polygons); 0 = original hard edges
@@ -388,18 +389,24 @@ static int g_next_camera_id = 1;
 static int g_next_light_id = 1;
 
 #if defined(_WIN32) || defined(_WIN64)
-static LRESULT CALLBACK Win32Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-    NativeWindow* win = reinterpret_cast<NativeWindow*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
-    switch (msg) {
-        case WM_CLOSE:
-            if (win) win->shouldClose = true;
-            return 0;
-        case WM_DESTROY:
-            PostQuitMessage(0);
-            return 0;
+    static LRESULT CALLBACK Win32Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+        NativeWindow* win = reinterpret_cast<NativeWindow*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+        switch (msg) {
+            case WM_SETFOCUS:
+                if (win) win->hasFocus = true;
+                return 0;
+            case WM_KILLFOCUS:
+                if (win) win->hasFocus = false;
+                return 0;
+            case WM_CLOSE:
+                if (win) win->shouldClose = true;
+                return 0;
+            case WM_DESTROY:
+                PostQuitMessage(0);
+                return 0;
+        }
+        return DefWindowProcA(hwnd, msg, wParam, lParam);
     }
-    return DefWindowProcA(hwnd, msg, wParam, lParam);
-}
 #endif
 
 // =========================================================================
@@ -1234,6 +1241,8 @@ static int window_poll_events(lua_State* L) {
             XEvent ev;
             XNextEvent(win->platform.display, &ev);
             if (ev.type == DestroyNotify) win->shouldClose = true;
+            else if (ev.type == FocusIn  && ev.xfocus.window == win->platform.window) win->hasFocus = true;
+            else if (ev.type == FocusOut && ev.xfocus.window == win->platform.window) win->hasFocus = false;
         }
     }
 #endif
@@ -1373,6 +1382,257 @@ static int get_max_text_quality(lua_State* L) {
 }
 
 // =========================================================================
+// TEXT -> CACHED IMAGE (persistent handle, stroke, and render-resolution)
+// =========================================================================
+// window_draw_text above re-rasterizes glyph-by-glyph directly onto the
+// canvas EVERY call -- fine for text that's genuinely redrawn fresh each
+// frame with different content, but wasteful busywork for a TextObject
+// whose string/style rarely changes: it was paying full glyph
+// rasterization cost every single frame with nothing cached in between.
+// These two functions let a caller render text into an offscreen
+// Graphics::ImageBuffer ONCE (registered in g_images under a real,
+// reusable image id), then just blit that id every frame via the
+// existing draw_image/draw_image_scaled -- and critically, a caller
+// that already has an id can pass it back in to be updated IN PLACE
+// (same slot in g_images, same id) instead of leaking a fresh id on
+// every text change.
+
+// Computes the exact pixel footprint window_draw_text's own curX/curY
+// walk would need, so the destination image buffer is sized correctly
+// with no wasted or clipped rows/columns. Mirrors that function's
+// newline/tab handling exactly.
+static void MeasureText(const char* text, int scale, int& outWidth, int& outHeight) {
+    int fontDim = 8 * scale;
+    int tabSpaces = 4;
+    int curX = 0, maxX = 0;
+    int lines = 1;
+    size_t len = std::strlen(text);
+    for (size_t i = 0; i < len; ++i) {
+        char ch = text[i];
+        if (ch == '\n') { maxX = (std::max)(maxX, curX); curX = 0; lines++; continue; }
+        if (ch == '\t') { curX += fontDim * tabSpaces; continue; }
+        if (ch < 32 || ch > 126) continue;
+        curX += fontDim;
+    }
+    maxX = (std::max)(maxX, curX);
+    outWidth = maxX;
+    outHeight = fontDim + (lines - 1) * (fontDim + 2 * scale);
+}
+
+// Rasterizes `text` into `img` (resized/cleared to fit), with the SAME
+// dual hard/antialiased path window_draw_text uses, plus an optional
+// stroke: for each pixel, a small ring of SampleGlyphBilinear probes at
+// `strokeWidth` pixels out (8 directions) finds how close solid glyph
+// material is; where the ring says "close" but this pixel's own fill
+// coverage is low, that's the outline band. Composited with standard
+// premultiplied-alpha "over" math (stroke layer, then fill layer on top)
+// so the edge fades smoothly instead of a hard ring. Note: a stroke
+// wider than the gap between glyphs can get clipped at a glyph cell's
+// own 8x8 boundary (each glyph only samples its own bitmap) -- a
+// cosmetic limit at small-to-moderate strokeWidth, not a functional bug.
+static void RasterizeTextToImage(
+    const char* text, int scale, int quality,
+    uint8_t fr, uint8_t fg, uint8_t fb,
+    bool hasStroke, uint8_t sr, uint8_t sg, uint8_t sb, int strokeWidth,
+    Graphics::ImageBuffer& img
+) {
+    int width = 0, height = 0;
+    MeasureText(text, scale, width, height);
+    img.width = (std::max)(width, 1);
+    img.height = (std::max)(height, 1);
+    img.pixels.assign((size_t)img.width * (size_t)img.height, 0x00000000u);
+    if (width <= 0 || height <= 0) return;
+
+    static const float kRingDirs[8][2] = {
+        {1.0f, 0.0f}, {-1.0f, 0.0f}, {0.0f, 1.0f}, {0.0f, -1.0f},
+        {0.7071f, 0.7071f}, {-0.7071f, 0.7071f}, {0.7071f, -0.7071f}, {-0.7071f, -0.7071f}
+    };
+
+    int fontDim = 8 * scale;
+    int tabSpaces = 4;
+    int curX = 0, curY = 0;
+    size_t len = std::strlen(text);
+
+    for (size_t i = 0; i < len; ++i) {
+        char ch = text[i];
+        if (ch == '\n') { curX = 0; curY += fontDim + (2 * scale); continue; }
+        if (ch == '\t') { curX += fontDim * tabSpaces; continue; }
+        if (ch < 32 || ch > 126) continue;
+
+        const uint8_t* glyph = g_font8x8[ch - 32];
+
+        for (int oy = 0; oy < fontDim; ++oy) {
+            for (int ox = 0; ox < fontDim; ++ox) {
+                float fillCoverage;
+                if (quality <= 0 && !hasStroke) {
+                    // Exact original blocky look when no AA/stroke requested.
+                    int px8 = ox / scale, py8 = oy / scale;
+                    fillCoverage = (glyph[py8] & (1 << (7 - px8))) ? 1.0f : 0.0f;
+                } else {
+                    int effQuality = (std::max)(quality, 1);
+                    if (effQuality > kMaxTextQuality) effQuality = kMaxTextQuality;
+                    float coverage = 0.0f;
+                    for (int sy = 0; sy < effQuality; ++sy) {
+                        for (int sx = 0; sx < effQuality; ++sx) {
+                            float u = (ox + (sx + 0.5f) / effQuality) / (float)scale;
+                            float v = (oy + (sy + 0.5f) / effQuality) / (float)scale;
+                            coverage += SampleGlyphBilinear(glyph, u, v);
+                        }
+                    }
+                    fillCoverage = coverage / (float)(effQuality * effQuality);
+                }
+
+                float ringCoverage = 0.0f;
+                if (hasStroke && strokeWidth > 0) {
+                    for (int d = 0; d < 8; ++d) {
+                        float u = (ox + 0.5f + kRingDirs[d][0] * strokeWidth) / (float)scale;
+                        float v = (oy + 0.5f + kRingDirs[d][1] * strokeWidth) / (float)scale;
+                        ringCoverage = (std::max)(ringCoverage, SampleGlyphBilinear(glyph, u, v));
+                    }
+                }
+
+                float outA = fillCoverage + ringCoverage * (1.0f - fillCoverage);
+                if (outA <= 0.003f) continue;
+
+                float outR = (fr * fillCoverage + sr * ringCoverage * (1.0f - fillCoverage)) / outA;
+                float outG = (fg * fillCoverage + sg * ringCoverage * (1.0f - fillCoverage)) / outA;
+                float outB = (fb * fillCoverage + sb * ringCoverage * (1.0f - fillCoverage)) / outA;
+
+                int drawX = curX + ox;
+                int drawY = curY + oy;
+                if (drawX < 0 || drawX >= img.width || drawY < 0 || drawY >= img.height) continue;
+
+                uint8_t A8 = (uint8_t)(outA * 255.0f + 0.5f);
+                uint8_t R8 = (uint8_t)outR, G8 = (uint8_t)outG, B8 = (uint8_t)outB;
+                img.pixels[drawY * img.width + drawX] = ((uint32_t)A8 << 24) | ((uint32_t)R8 << 16) | ((uint32_t)G8 << 8) | (uint32_t)B8;
+            }
+        }
+        curX += fontDim;
+    }
+}
+
+// existingImgId: pass a previous return value to update THAT SAME image
+// (same id, same g_images slot -- no new allocation, no leaked handle)
+// instead of minting a new one. Pass 0/nil for a fresh image. Returns
+// (imgId, width, height), or nil if the text measures to an empty image
+// (e.g. an empty string).
+static int text_render_to_image(lua_State* L) {
+    int existingImgId = static_cast<int>(luaL_optinteger(L, 1, 0));
+    const char* text = luaL_checkstring(L, 2);
+    int scale = static_cast<int>(luaL_optinteger(L, 3, 1));
+    if (scale < 1) scale = 1;
+    uint8_t fr = static_cast<uint8_t>(luaL_optinteger(L, 4, 255));
+    uint8_t fg = static_cast<uint8_t>(luaL_optinteger(L, 5, 255));
+    uint8_t fb = static_cast<uint8_t>(luaL_optinteger(L, 6, 255));
+    int quality = static_cast<int>(luaL_optinteger(L, 7, 0));
+    if (quality < 0) quality = 0;
+
+    uint8_t sr = static_cast<uint8_t>(luaL_optinteger(L, 8, 0));
+    uint8_t sg = static_cast<uint8_t>(luaL_optinteger(L, 9, 0));
+    uint8_t sb = static_cast<uint8_t>(luaL_optinteger(L, 10, 0));
+    int strokeWidth = static_cast<int>(luaL_optinteger(L, 11, 0));
+    bool hasStroke = !lua_isnoneornil(L, 8) && strokeWidth > 0; // stroke only if a color was actually given AND width > 0
+
+    int width = 0, height = 0;
+    MeasureText(text, scale, width, height);
+    if (width <= 0 || height <= 0) {
+        lua_pushnil(L);
+        return 1;
+    }
+
+    Graphics::ImageBuffer img;
+    RasterizeTextToImage(text, scale, quality, fr, fg, fb, hasStroke, sr, sg, sb, strokeWidth, img);
+
+    int imgId;
+    if (existingImgId > 0 && g_images.find(existingImgId) != g_images.end()) {
+        imgId = existingImgId; // reuse the SAME id/slot -- this is the "catch the pointer" path
+        g_images[imgId] = std::move(img);
+    } else {
+        imgId = g_next_image_id++;
+        g_images[imgId] = std::move(img);
+    }
+
+    lua_pushinteger(L, imgId);
+    lua_pushinteger(L, width);
+    lua_pushinteger(L, height);
+    return 3;
+}
+
+// Blits an image scaled to an arbitrary destination width/height via
+// bilinear filtering, alpha-composited exactly like draw_image. This is
+// what makes "render text bigger than displayed, then downscale" work --
+// e.g. render_text_to_image with a large scale/quality for crisp source
+// detail (matching roughly a system font's pixel density), then draw it
+// back down at the actual on-screen size for smoother edges than 1:1
+// rendering at the small size could produce directly.
+static int image_draw_scaled(lua_State* L) {
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
+    int imgId = static_cast<int>(luaL_checkinteger(L, 2));
+    int dx = static_cast<int>(luaL_checkinteger(L, 3));
+    int dy = static_cast<int>(luaL_checkinteger(L, 4));
+    int destW = static_cast<int>(luaL_checkinteger(L, 5));
+    int destH = static_cast<int>(luaL_checkinteger(L, 6));
+
+    auto itWin = g_windows.find(winId);
+    auto itImg = g_images.find(imgId);
+    if (itWin == g_windows.end() || itImg == g_images.end()) return 0;
+    if (destW <= 0 || destH <= 0) return 0;
+    NativeWindow* win = itWin->second;
+    const Graphics::ImageBuffer& img = itImg->second;
+    if (img.width <= 0 || img.height <= 0) return 0;
+
+    for (int oy = 0; oy < destH; ++oy) {
+        int py = dy + oy;
+        if (py < 0 || py >= win->height) continue;
+        float v = (oy + 0.5f) * (float)img.height / (float)destH;
+
+        for (int ox = 0; ox < destW; ++ox) {
+            int px = dx + ox;
+            if (px < 0 || px >= win->width) continue;
+            float u = (ox + 0.5f) * (float)img.width / (float)destW;
+
+            // Bilinear sample of the source image (with per-channel
+            // premultiplied-by-alpha interpolation so semi-transparent
+            // edges downscale/upscale without dark fringing).
+            float fx = u - 0.5f, fy = v - 0.5f;
+            int x0 = (int)std::floor(fx), y0 = (int)std::floor(fy);
+            float tx = fx - (float)x0, ty = fy - (float)y0;
+
+            auto sampleAt = [&](int gx, int gy, float& a, float& r, float& g, float& b) {
+                if (gx < 0) gx = 0; if (gx >= img.width) gx = img.width - 1;
+                if (gy < 0) gy = 0; if (gy >= img.height) gy = img.height - 1;
+                uint32_t c = img.pixels[gy * img.width + gx];
+                a = ((c >> 24) & 0xFF) / 255.0f;
+                r = ((c >> 16) & 0xFF) * a;
+                g = ((c >> 8) & 0xFF) * a;
+                b = (c & 0xFF) * a;
+            };
+
+            float a00, r00, g00, b00, a10, r10, g10, b10, a01, r01, g01, b01, a11, r11, g11, b11;
+            sampleAt(x0, y0, a00, r00, g00, b00);
+            sampleAt(x0 + 1, y0, a10, r10, g10, b10);
+            sampleAt(x0, y0 + 1, a01, r01, g01, b01);
+            sampleAt(x0 + 1, y0 + 1, a11, r11, g11, b11);
+
+            float aTop = a00 + (a10 - a00) * tx, aBot = a01 + (a11 - a01) * tx;
+            float alpha = aTop + (aBot - aTop) * ty;
+            if (alpha <= 0.003f) continue;
+
+            float rTop = r00 + (r10 - r00) * tx, rBot = r01 + (r11 - r01) * tx;
+            float gTop = g00 + (g10 - g00) * tx, gBot = g01 + (g11 - g01) * tx;
+            float bTop = b00 + (b10 - b00) * tx, bBot = b01 + (b11 - b01) * tx;
+            float rPremul = rTop + (rBot - rTop) * ty;
+            float gPremul = gTop + (gBot - gTop) * ty;
+            float bPremul = bTop + (bBot - bTop) * ty;
+            uint32_t srcColor = ((uint32_t)(rPremul / alpha) << 16) | ((uint32_t)(gPremul / alpha) << 8) | (uint32_t)(bPremul / alpha);
+
+            Graphics::BlendPixel(win->canvasBuffer.data(), win->width, win->height, px, py, srcColor, alpha);
+        }
+    }
+    return 0;
+}
+
+// =========================================================================
 // TEXT RENDERER WITH \n AND \t CONTROL
 // =========================================================================
 // `quality` (last, optional arg) selects the sampling mode: 0 (default)
@@ -1474,6 +1734,109 @@ static int window_draw_text(lua_State* L) {
     lua_pushinteger(L, quality);
     return 1;
 }
+
+// // =========================================================================
+// // TEXT RENDERER WITH \n AND \t CONTROL
+// // =========================================================================
+// // `quality` (last, optional arg) selects the sampling mode: 0 (default)
+// // keeps the exact original behavior -- hard nearest-neighbor blocky
+// // pixels, zero extra cost, byte-for-byte identical to before this
+// // feature existed. 1..kMaxTextQuality switches to the bilinear
+// // supersampled path described above; anything higher is clamped down to
+// // kMaxTextQuality. Returns the quality level actually used, so callers
+// // asking for more than the renderer can do can tell they got capped.
+// static int window_draw_text(lua_State* L) {
+//     int winId = static_cast<int>(luaL_checkinteger(L, 1));
+//     const char* text = luaL_checkstring(L, 2);
+//     int startX = static_cast<int>(luaL_checkinteger(L, 3));
+//     int startY = static_cast<int>(luaL_checkinteger(L, 4));
+//     int scale = static_cast<int>(luaL_optinteger(L, 5, 1));
+//     uint8_t r = static_cast<uint8_t>(luaL_optinteger(L, 6, 255));
+//     uint8_t g = static_cast<uint8_t>(luaL_optinteger(L, 7, 255));
+//     uint8_t b = static_cast<uint8_t>(luaL_optinteger(L, 8, 255));
+
+//     int quality = static_cast<int>(luaL_optinteger(L, 9, 0));
+//     if (quality < 0) quality = 0;
+//     if (quality > kMaxTextQuality) quality = kMaxTextQuality;
+
+//     auto it = g_windows.find(winId);
+//     if (it == g_windows.end()) {
+//         lua_pushinteger(L, quality);
+//         return 1;
+//     }
+//     NativeWindow* win = it->second;
+
+//     uint32_t col = (0xFF << 24) | (r << 16) | (g << 8) | b;
+//     int curX = startX;
+//     int curY = startY;
+//     int fontDim = 8 * scale;
+//     int tabSpaces = 4;
+
+//     size_t len = std::strlen(text);
+//     for (size_t i = 0; i < len; ++i) {
+//         char ch = text[i];
+
+//         if (ch == '\n') {
+//             curX = startX;
+//             curY += fontDim + (2 * scale);
+//             continue;
+//         }
+//         if (ch == '\t') {
+//             curX += fontDim * tabSpaces;
+//             continue;
+//         }
+//         if (ch < 32 || ch > 126) continue;
+
+//         int glyphIdx = ch - 32;
+//         const uint8_t* glyph = g_font8x8[glyphIdx];
+
+//         if (quality <= 0) {
+//             // Original path: hard nearest-neighbor blocky pixels, kept
+//             // exactly as-is so omitting `quality` is a complete no-op.
+//             for (int py = 0; py < 8; ++py) {
+//                 for (int px = 0; px < 8; ++px) {
+//                     if (glyph[py] & (1 << (7 - px))) {
+//                         for (int sy = 0; sy < scale; ++sy) {
+//                             for (int sx = 0; sx < scale; ++sx) {
+//                                 int drawX = curX + (px * scale) + sx;
+//                                 int drawY = curY + (py * scale) + sy;
+//                                 if (drawX >= 0 && drawX < win->width && drawY >= 0 && drawY < win->height) {
+//                                     win->canvasBuffer[drawY * win->width + drawX] = col;
+//                                 }
+//                             }
+//                         }
+//                     }
+//                 }
+//             }
+//         } else {
+//             // Anti-aliased path: bilinear-sample the glyph with
+//             // quality x quality sub-samples per output pixel, averaged
+//             // into a smooth alpha and blended over the existing canvas.
+//             for (int oy = 0; oy < fontDim; ++oy) {
+//                 for (int ox = 0; ox < fontDim; ++ox) {
+//                     float coverage = 0.0f;
+//                     for (int sy = 0; sy < quality; ++sy) {
+//                         for (int sx = 0; sx < quality; ++sx) {
+//                             float u = (ox + (sx + 0.5f) / quality) / (float)scale;
+//                             float v = (oy + (sy + 0.5f) / quality) / (float)scale;
+//                             coverage += SampleGlyphBilinear(glyph, u, v);
+//                         }
+//                     }
+//                     coverage /= (float)(quality * quality);
+//                     if (coverage <= 0.003f) continue; // effectively zero -- skip the blend
+
+//                     int drawX = curX + ox;
+//                     int drawY = curY + oy;
+//                     Graphics::BlendPixel(win->canvasBuffer.data(), win->width, win->height, drawX, drawY, col, coverage);
+//                 }
+//             }
+//         }
+//         curX += fontDim;
+//     }
+
+//     lua_pushinteger(L, quality);
+//     return 1;
+// }
 
 // =========================================================================
 // POLYGON CREATOR (SUPPORTS DIRECT TABLE OR UNPACKED TUPLES)
@@ -2038,6 +2401,317 @@ static int window_swap_buffers(lua_State* L) {
     return 0;
 }
 
+// =========================================================================
+// WINDOW STATE QUERIES (focus / minimized / visible) + FOCUS REQUEST
+// =========================================================================
+// is_focused: true while this window is the one receiving keyboard input.
+//   Win32: tracked from WM_SETFOCUS/WM_KILLFOCUS (seeded from GetFocus).
+//   X11:   tracked from FocusIn/FocusOut -- only updates while
+//          poll_events is being called, same as every other event.
+//   macOS: asked live via -[NSWindow isKeyWindow].
+static int window_is_focused(lua_State* L) {
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
+    auto it = g_windows.find(winId);
+    if (it == g_windows.end()) { lua_pushboolean(L, 0); return 1; }
+    NativeWindow* win = it->second;
+    bool focused = win->hasFocus;
+#if defined(_WIN32) || defined(_WIN64)
+    focused = (GetForegroundWindow() == win->platform.hwnd) || (GetFocus() == win->platform.hwnd);
+#elif defined(__APPLE__)
+    focused = msgSend<bool>(win->platform.window, sel_registerName("isKeyWindow"));
+#endif
+    lua_pushboolean(L, focused ? 1 : 0);
+    return 1;
+}
+
+static int window_is_minimized(lua_State* L) {
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
+    auto it = g_windows.find(winId);
+    if (it == g_windows.end()) { lua_pushboolean(L, 0); return 1; }
+    NativeWindow* win = it->second;
+    bool minimized = false;
+#if defined(_WIN32) || defined(_WIN64)
+    minimized = IsIconic(win->platform.hwnd) != 0;
+#elif defined(__APPLE__)
+    minimized = msgSend<bool>(win->platform.window, sel_registerName("isMiniaturized"));
+#else
+    // ICCCM: a window is iconic when WM_STATE == IconicState (3).
+    Atom wmState = XInternAtom(win->platform.display, "WM_STATE", True);
+    if (wmState != None) {
+        Atom type; int format; unsigned long n = 0, after = 0; unsigned char* data = nullptr;
+        if (XGetWindowProperty(win->platform.display, win->platform.window, wmState, 0, 2, False, wmState,
+                               &type, &format, &n, &after, &data) == Success && data) {
+            if (n >= 1 && *reinterpret_cast<unsigned long*>(data) == 3) minimized = true;
+            XFree(data);
+        }
+    }
+#endif
+    lua_pushboolean(L, minimized ? 1 : 0);
+    return 1;
+}
+
+static int window_is_visible(lua_State* L) {
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
+    auto it = g_windows.find(winId);
+    if (it == g_windows.end()) { lua_pushboolean(L, 0); return 1; }
+    NativeWindow* win = it->second;
+    bool visible = true;
+#if defined(_WIN32) || defined(_WIN64)
+    visible = IsWindowVisible(win->platform.hwnd) != 0 && !IsIconic(win->platform.hwnd);
+#elif defined(__APPLE__)
+    visible = msgSend<bool>(win->platform.window, sel_registerName("isVisible"));
+#else
+    XWindowAttributes attrs;
+    visible = XGetWindowAttributes(win->platform.display, win->platform.window, &attrs) && attrs.map_state == IsViewable;
+#endif
+    lua_pushboolean(L, visible ? 1 : 0);
+    return 1;
+}
+
+// Asks the OS to bring this window forward and give it keyboard focus.
+// Window managers are allowed to refuse (focus-stealing prevention), so
+// this is a request, not a guarantee -- poll is_focused to see the result.
+static int window_focus(lua_State* L) {
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
+    auto it = g_windows.find(winId);
+    if (it == g_windows.end()) return 0;
+    NativeWindow* win = it->second;
+#if defined(_WIN32) || defined(_WIN64)
+    if (IsIconic(win->platform.hwnd)) ShowWindow(win->platform.hwnd, SW_RESTORE);
+    SetForegroundWindow(win->platform.hwnd);
+    SetFocus(win->platform.hwnd);
+#elif defined(__APPLE__)
+    id app = msgSend<id>(reinterpret_cast<id>(objc_getClass("NSApplication")), sel_registerName("sharedApplication"));
+    msgSend<void>(app, sel_registerName("activateIgnoringOtherApps:"), true);
+    msgSend<void>(win->platform.window, sel_registerName("makeKeyAndOrderFront:"), static_cast<id>(nullptr));
+#else
+    XRaiseWindow(win->platform.display, win->platform.window);
+    XSetInputFocus(win->platform.display, win->platform.window, RevertToParent, CurrentTime);
+    XFlush(win->platform.display);
+#endif
+    return 0;
+}
+
+// =========================================================================
+// ALERT / MESSAGE BOX -- modal, blocks until dismissed
+// =========================================================================
+// show_alert(title, message [, style [, buttons [, parentWinId]]])
+//   style:   "info" (default) | "warning" | "error" | "question"
+//   buttons: "ok" (default) | "okcancel" | "yesno"
+//   returns: "ok" | "cancel" | "yes" | "no"
+//
+//   Windows: native MessageBox.
+//   macOS:   NSAlert (runModal).
+//   Linux/X11: tries zenity, then kdialog, then xmessage (whichever is
+//   installed), and if NONE exist (bare X11 / non-official OS) falls
+//   back to a small built-in Xlib dialog -- so an alert always works
+//   as long as an X server is reachable.
+#if !defined(_WIN32) && !defined(_WIN64) && !defined(__APPLE__)
+#include <cstdlib>
+#include <sys/wait.h>
+#include <unistd.h>
+
+// Runs argv (no shell, so message text can't be interpreted as commands).
+// Returns the process exit code, or -1 if it couldn't be launched.
+static int RunExternalDialog(const std::vector<std::string>& args) {
+    pid_t pid = fork();
+    if (pid < 0) return -1;
+    if (pid == 0) {
+        // silence stderr noise from GTK/Qt; keep stdout unused
+        freopen("/dev/null", "w", stderr);
+        freopen("/dev/null", "w", stdout);
+        std::vector<char*> argv;
+        for (auto& a : args) argv.push_back(const_cast<char*>(a.c_str()));
+        argv.push_back(nullptr);
+        execvp(argv[0], argv.data());
+        _exit(127); // exec failed -> tool not installed
+    }
+    int status = 0;
+    if (waitpid(pid, &status, 0) < 0) return -1;
+    return WIFEXITED(status) ? WEXITSTATUS(status) : -1;
+}
+
+// Built-in last-resort dialog: plain Xlib, core font, no toolkit.
+// Returns the index of the clicked button.
+static int XlibFallbackDialog(const std::string& title, const std::string& message,
+                              const std::vector<std::string>& buttons) {
+    Display* dpy = XOpenDisplay(NULL);
+    if (!dpy) return -1;
+    int scr = DefaultScreen(dpy);
+
+    // split message into lines
+    std::vector<std::string> lines;
+    { std::string cur; for (char c : message) { if (c == '\n') { lines.push_back(cur); cur.clear(); } else cur += c; } lines.push_back(cur); }
+
+    XFontStruct* font = XLoadQueryFont(dpy, "fixed");
+    int lineH = font ? (font->ascent + font->descent + 4) : 16;
+    int charW = font ? font->max_bounds.width : 7;
+    size_t longest = title.size();
+    for (auto& l : lines) longest = (std::max)(longest, l.size());
+    int w = (std::max)((int)longest * charW + 40, (int)buttons.size() * 90 + 20);
+    int btnH = 26, btnW = 80;
+    int h = 20 + (int)lines.size() * lineH + 20 + btnH + 15;
+
+    XSetWindowAttributes wa; wa.background_pixel = WhitePixel(dpy, scr);
+    Window win = XCreateWindow(dpy, RootWindow(dpy, scr),
+        (DisplayWidth(dpy, scr) - w) / 2, (DisplayHeight(dpy, scr) - h) / 2, w, h, 1,
+        CopyFromParent, InputOutput, CopyFromParent, CWBackPixel, &wa);
+    XStoreName(dpy, win, title.c_str());
+    XSelectInput(dpy, win, ExposureMask | ButtonPressMask | KeyPressMask);
+    Atom wmDelete = XInternAtom(dpy, "WM_DELETE_WINDOW", False);
+    XSetWMProtocols(dpy, win, &wmDelete, 1);
+
+    // fixed-size + keep on top of siblings where the WM supports it
+    XSizeHints* hints = XAllocSizeHints();
+    hints->flags = PMinSize | PMaxSize; hints->min_width = hints->max_width = w; hints->min_height = hints->max_height = h;
+    XSetWMNormalHints(dpy, win, hints); XFree(hints);
+    Atom wmState = XInternAtom(dpy, "_NET_WM_STATE", False), above = XInternAtom(dpy, "_NET_WM_STATE_ABOVE", False);
+    XChangeProperty(dpy, win, wmState, (Atom)4 /* XA_ATOM */, 32, PropModeReplace, (unsigned char*)&above, 1);
+
+    GC gc = XCreateGC(dpy, win, 0, NULL);
+    if (font) XSetFont(dpy, gc, font->fid);
+    XMapRaised(dpy, win);
+
+    int totalBtnW = (int)buttons.size() * btnW + ((int)buttons.size() - 1) * 10;
+    int bx0 = (w - totalBtnW) / 2, by = h - btnH - 15;
+    int result = -1;
+    bool done = false;
+    while (!done) {
+        XEvent ev; XNextEvent(dpy, &ev);
+        if (ev.type == Expose) {
+            XClearWindow(dpy, win);
+            XSetForeground(dpy, gc, BlackPixel(dpy, scr));
+            for (size_t i = 0; i < lines.size(); ++i)
+                XDrawString(dpy, win, gc, 20, 20 + (int)(i + 1) * lineH - 4, lines[i].c_str(), (int)lines[i].size());
+            for (size_t i = 0; i < buttons.size(); ++i) {
+                int bx = bx0 + (int)i * (btnW + 10);
+                XDrawRectangle(dpy, win, gc, bx, by, btnW, btnH);
+                int tw = (int)buttons[i].size() * charW;
+                XDrawString(dpy, win, gc, bx + (btnW - tw) / 2, by + btnH / 2 + 5, buttons[i].c_str(), (int)buttons[i].size());
+            }
+        } else if (ev.type == ButtonPress) {
+            for (size_t i = 0; i < buttons.size(); ++i) {
+                int bx = bx0 + (int)i * (btnW + 10);
+                if (ev.xbutton.x >= bx && ev.xbutton.x <= bx + btnW && ev.xbutton.y >= by && ev.xbutton.y <= by + btnH) { result = (int)i; done = true; }
+            }
+        } else if (ev.type == KeyPress) {
+            KeySym ks = XLookupKeysym(&ev.xkey, 0);
+            if (ks == 0xff0d /* XK_Return */) { result = 0; done = true; }
+            else if (ks == 0xff1b /*Escape*/) { result = (int)buttons.size() - 1; done = true; }
+        } else if (ev.type == ClientMessage && (Atom)ev.xclient.data.l[0] == wmDelete) {
+            result = (int)buttons.size() - 1; done = true; // closing == last (cancel/no/ok) button
+        }
+    }
+    XFreeGC(dpy, gc);
+    if (font) XFreeFont(dpy, font);
+    XDestroyWindow(dpy, win);
+    XCloseDisplay(dpy);
+    return result;
+}
+#endif
+
+static int window_show_alert(lua_State* L) {
+    std::string title   = luaL_optstring(L, 1, "Alert");
+    std::string message = luaL_optstring(L, 2, "");
+    std::string style   = luaL_optstring(L, 3, "info");
+    std::string buttons = luaL_optstring(L, 4, "ok");
+    int parentId        = static_cast<int>(luaL_optinteger(L, 5, -1));
+    (void)parentId;
+
+    bool okcancel = (buttons == "okcancel");
+    bool yesno    = (buttons == "yesno");
+    const char* answer = "ok";
+
+#if defined(_WIN32) || defined(_WIN64)
+    UINT flags = okcancel ? MB_OKCANCEL : (yesno ? MB_YESNO : MB_OK);
+    flags |= (style == "error") ? MB_ICONERROR : (style == "warning") ? MB_ICONWARNING
+           : (style == "question") ? MB_ICONQUESTION : MB_ICONINFORMATION;
+    HWND owner = NULL;
+    auto pit = g_windows.find(parentId);
+    if (pit != g_windows.end()) owner = pit->second->platform.hwnd;
+    int r = MessageBoxA(owner, message.c_str(), title.c_str(), flags | MB_SETFOREGROUND);
+    answer = (r == IDYES) ? "yes" : (r == IDNO) ? "no" : (r == IDCANCEL) ? "cancel" : "ok";
+
+#elif defined(__APPLE__)
+    id alertClass = reinterpret_cast<id>(objc_getClass("NSAlert"));
+    id alert = msgSend<id>(msgSend<id>(alertClass, sel_registerName("alloc")), sel_registerName("init"));
+    id nsStr = reinterpret_cast<id>(objc_getClass("NSString"));
+    SEL utf8 = sel_registerName("stringWithUTF8String:");
+    msgSend<void>(alert, sel_registerName("setMessageText:"), msgSend<id>(nsStr, utf8, title.c_str()));
+    msgSend<void>(alert, sel_registerName("setInformativeText:"), msgSend<id>(nsStr, utf8, message.c_str()));
+    // NSAlertStyle: Warning=0 (also used for info/question), Informational=1, Critical=2
+    long nsStyle = (style == "error") ? 2 : (style == "warning") ? 0 : 1;
+    msgSend<void>(alert, sel_registerName("setAlertStyle:"), nsStyle);
+    SEL addBtn = sel_registerName("addButtonWithTitle:");
+    if (yesno)         { msgSend<id>(alert, addBtn, msgSend<id>(nsStr, utf8, "Yes")); msgSend<id>(alert, addBtn, msgSend<id>(nsStr, utf8, "No")); }
+    else if (okcancel) { msgSend<id>(alert, addBtn, msgSend<id>(nsStr, utf8, "OK"));  msgSend<id>(alert, addBtn, msgSend<id>(nsStr, utf8, "Cancel")); }
+    else               { msgSend<id>(alert, addBtn, msgSend<id>(nsStr, utf8, "OK")); }
+    id app = msgSend<id>(reinterpret_cast<id>(objc_getClass("NSApplication")), sel_registerName("sharedApplication"));
+    msgSend<void>(app, sel_registerName("activateIgnoringOtherApps:"), true);
+    long resp = msgSend<long>(alert, sel_registerName("runModal")); // 1000 = first button, 1001 = second
+    if (yesno)         answer = (resp == 1000) ? "yes" : "no";
+    else if (okcancel) answer = (resp == 1000) ? "ok" : "cancel";
+    else               answer = "ok";
+
+#else
+    // ---- Linux / X11 / other X11-based systems ----
+    std::vector<std::string> btnLabels = yesno ? std::vector<std::string>{"Yes", "No"}
+                                       : okcancel ? std::vector<std::string>{"OK", "Cancel"}
+                                       : std::vector<std::string>{"OK"};
+    int chosen = -2; // -2 = nothing worked yet, -1 = dismissed, >=0 button index
+
+    // 1) zenity (GNOME/GTK): exit 0 = accepted/first, 1 = second/closed
+    {
+        std::vector<std::string> a = {"zenity"};
+        if (yesno || okcancel) {
+            a.push_back("--question");
+            a.push_back(std::string("--ok-label=") + btnLabels[0]);
+            a.push_back(std::string("--cancel-label=") + btnLabels[1]);
+        } else {
+            a.push_back(style == "error" ? "--error" : style == "warning" ? "--warning" : "--info");
+        }
+        a.push_back("--title=" + title);
+        a.push_back("--no-markup");
+        a.push_back("--text=" + message);
+        int rc = RunExternalDialog(a);
+        if (rc == 0) chosen = 0; else if (rc == 1) chosen = (btnLabels.size() > 1) ? 1 : 0; else if (rc >= 0 && rc != 127) chosen = (int)btnLabels.size() - 1;
+    }
+    // 2) kdialog (KDE)
+    if (chosen == -2) {
+        std::vector<std::string> a = {"kdialog", "--title", title};
+        if (yesno)          { a.push_back("--yesno"); }
+        else if (okcancel)  { a.push_back("--warningcontinuecancel"); }
+        else                { a.push_back(style == "error" ? "--error" : style == "warning" ? "--sorry" : "--msgbox"); }
+        a.push_back(message);
+        int rc = RunExternalDialog(a);
+        if (rc == 0) chosen = 0; else if (rc == 1 || rc == 2) chosen = (btnLabels.size() > 1) ? 1 : 0;
+    }
+    // 3) xmessage (ships with base X11 on most systems)
+    if (chosen == -2) {
+        std::string btnSpec;
+        for (size_t i = 0; i < btnLabels.size(); ++i) btnSpec += (i ? "," : "") + btnLabels[i] + ":" + std::to_string(101 + (int)i);
+        std::vector<std::string> a = {"xmessage", "-center", "-buttons", btnSpec, "-default", btnLabels[0], message};
+        int rc = RunExternalDialog(a);
+        if (rc >= 101 && rc < 101 + (int)btnLabels.size()) chosen = rc - 101;
+        else if (rc >= 0 && rc != 127) chosen = (int)btnLabels.size() - 1;
+    }
+    // 4) built-in Xlib dialog -- always available if an X server is
+    if (chosen == -2) {
+        std::string full = message;
+        chosen = XlibFallbackDialog(title, full, btnLabels);
+        if (chosen == -1) chosen = (int)btnLabels.size() - 1; // couldn't even open display -> report as dismissed
+        if (chosen < 0) chosen = 0;
+    }
+    if (chosen < 0) chosen = 0;
+    if (yesno)         answer = (chosen == 0) ? "yes" : "no";
+    else if (okcancel) answer = (chosen == 0) ? "ok" : "cancel";
+    else               answer = "ok";
+#endif
+
+    lua_pushstring(L, answer);
+    return 1;
+}
+
 static int window_destroy(lua_State* L) {
     int winId = static_cast<int>(luaL_checkinteger(L, 1));
     auto it = g_windows.find(winId);
@@ -2076,6 +2750,11 @@ extern "C" EXPORT_FN int luaopen_window_management(lua_State* L) {
         {"set_position", window_set_position},
         {"get_display_resolution", get_display_resolution},
         {"poll_events", window_poll_events},
+        {"is_focused", window_is_focused},
+        {"is_minimized", window_is_minimized},
+        {"is_visible", window_is_visible},
+        {"focus", window_focus},
+        {"show_alert", window_show_alert},
         {"should_close", window_should_close},
         {"clear_canvas", window_clear_canvas},
         {"draw_rect", window_draw_rect},
@@ -2089,6 +2768,8 @@ extern "C" EXPORT_FN int luaopen_window_management(lua_State* L) {
         {"draw_polygon", window_draw_polygon},
         {"create_image", image_create},
         {"draw_image", window_draw_image},
+        {"draw_image_scaled", image_draw_scaled},
+        {"render_text_to_image", text_render_to_image},
         {"draw_cube", window_draw_cube},
         {"draw_mesh", window_draw_mesh},
         {"create_camera", camera_create},

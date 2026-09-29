@@ -40,6 +40,11 @@ local PhysicsModule = require("sub_modules.physics_object")
 ---@field set_position fun(id: integer, x: integer, y: integer): nil
 ---@field get_display_resolution fun(): integer, integer
 ---@field poll_events fun(): nil
+---@field is_focused fun(id: integer): boolean
+---@field is_minimized fun(id: integer): boolean
+---@field is_visible fun(id: integer): boolean
+---@field focus fun(id: integer): nil
+---@field show_alert fun(title: string, message: string, style: string?, buttons: string?, parentWinId: integer?): string result "ok"|"cancel"|"yes"|"no"
 ---@field should_close fun(id: integer): boolean
 ---@field clear_canvas fun(id: integer, r: integer, g: integer, b: integer): nil
 ---@field draw_rect fun(id: integer, x: integer, y: integer, w: integer, h: integer, r: integer, g: integer, b: integer): nil
@@ -53,6 +58,8 @@ local PhysicsModule = require("sub_modules.physics_object")
 ---@field draw_polygon fun(id: integer, pointsOrFill: table|boolean, ...): nil
 ---@field create_image fun(width: integer, height: integer, pixelArray: table<integer, integer>?): integer
 ---@field draw_image fun(id: integer, imgId: integer, x: integer, y: integer): nil
+---@field draw_image_scaled fun(id: integer, imgId: integer, x: integer, y: integer, destW: integer, destH: integer): nil
+---@field render_text_to_image fun(existingImgId: integer?, text: string, scale: integer?, r: integer?, g: integer?, b: integer?, quality: integer?, strokeR: integer?, strokeG: integer?, strokeB: integer?, strokeWidth: integer?): integer?, integer?, integer?
 ---@field draw_cube fun(id: integer, px: number, py: number, pz: number, rx: number, ry: number, rz: number, sx: number, sy: number, sz: number, r: integer, g: integer, b: integer, fillMode: CubeFillMode|boolean|integer?): nil
 ---@field draw_mesh fun(id: integer, vertices: Vertex3[], faces: MeshFace[], px: number, py: number, pz: number, rx: number, ry: number, rz: number, sx: number, sy: number, sz: number, r: integer, g: integer, b: integer, fillMode: CubeFillMode|boolean|integer?): nil
 ---@field create_camera fun(px: number?, py: number?, pz: number?, fov: number?, nearPlane: number?, farPlane: number?): integer
@@ -400,6 +407,65 @@ function WindowObject:SetDimensions(width, height)
     end
 end
 
+---Whether this window currently has keyboard focus (is the active
+---window). Windows/macOS answer live from the OS; on X11 this is kept up
+---to date by the FocusIn/FocusOut events handled in PollEvents, so call
+---PollEvents every frame (you already do for input/close handling).
+---@return boolean focused
+function WindowObject:IsFocused()
+    if native_ok and type(window_interface) ~= "string" and self._isOpen then
+        return window_interface.is_focused(self._id) and true or false
+    end
+    return false
+end
+
+---Whether the window is minimized/iconified.
+---@return boolean minimized
+function WindowObject:IsMinimized()
+    if native_ok and type(window_interface) ~= "string" and self._isOpen then
+        return window_interface.is_minimized(self._id) and true or false
+    end
+    return false
+end
+
+---Whether the window is actually on screen (mapped and not minimized).
+---@return boolean visible
+function WindowObject:IsVisible()
+    if native_ok and type(window_interface) ~= "string" and self._isOpen then
+        return window_interface.is_visible(self._id) and true or false
+    end
+    return false
+end
+
+---Asks the OS to raise this window and give it keyboard focus. This is a
+---request -- window managers may refuse to let a background app steal
+---focus -- so check IsFocused afterwards if it matters.
+---@return nil
+function WindowObject:Focus()
+    if native_ok and type(window_interface) ~= "string" and self._isOpen then
+        window_interface.focus(self._id)
+    end
+end
+
+---@alias AlertStyle "info"|"warning"|"error"|"question"
+---@alias AlertButtons "ok"|"okcancel"|"yesno"
+---@alias AlertResult "ok"|"cancel"|"yes"|"no"
+
+---Shows a modal alert box owned by this window (Windows uses it as the
+---owner; other platforms show it standalone). Blocks until dismissed.
+---See WindowService.ShowAlert for the parameters.
+---@param title string
+---@param message string
+---@param style AlertStyle?
+---@param buttons AlertButtons?
+---@return AlertResult result
+function WindowObject:ShowAlert(title, message, style, buttons)
+    if native_ok and type(window_interface) ~= "string" then
+        return window_interface.show_alert(tostring(title or "Alert"), tostring(message or ""), style or "info", buttons or "ok", self._id)
+    end
+    return "ok"
+end
+
 ---Toggles borderless fullscreen mode.
 ---@param enable boolean Fullscreen enable status
 ---@return nil
@@ -584,7 +650,7 @@ function WindowObject:DrawCube(px, py, pz, rx, ry, rz, sx, sy, sz, r, g, b, fill
             rx or 0.0, ry or 0.0, rz or 0.0,
             sx or 1.0, sy or 1.0, sz or 1.0,
             r or 0, g or 255, b or 0,
-            fillMode == nil and "solid" or fillMode
+            fillMode == nil and true or fillMode
         )
     end
 end
@@ -1074,6 +1140,37 @@ function WindowObject:RenderObject(gameObject)
     end
 end
 
+-- ---Renders only the 3D scene (CubeObject/MeshObject), projected through
+-- ---the active camera. Call this on its own if you want to control what
+-- ---happens between the 3D pass and the 2D pass yourself (e.g. clearing a
+-- ---depth buffer, applying a post effect) -- otherwise RenderAll already
+-- ---does the right thing by calling this then RenderScene2D in order.
+-- ---@return nil
+-- function WindowObject:RenderScene3D()
+--     for _, obj in ipairs(self._objects3D) do
+--         self:RenderObject(obj)
+--     end
+-- end
+
+-- ---Renders only the 2D scene (Rect/Circle/Line/Text/Polygon/Image), in
+-- ---raw screen-space -- these never go through the camera, so this is
+-- ---the "HUD/UI overlay" pass.
+-- ---@return nil
+-- function WindowObject:RenderScene2D()
+--     for _, obj in ipairs(self._objects2D) do
+--         self:RenderObject(obj)
+--     end
+-- end
+
+-- ---Renders an individual GameObject instance.
+-- ---@param gameObject GameObject Target object implementing a Render method
+-- ---@return nil
+-- function WindowObject:RenderObject(gameObject)
+--     if gameObject and type(gameObject.Render) == "function" then
+--         gameObject:Render(self)
+--     end
+-- end
+
 ---Renders all tracked GameObjects bound to this window context.
 ---@return nil
 function WindowObject:RenderAll()
@@ -1144,6 +1241,26 @@ function WindowService:GetWindow(id)
         return self._windows[id]
     end
     return self._activeWindow
+end
+
+---Shows a modal alert/message box without needing a window -- handy
+---for fatal startup errors ("couldn't open display", missing assets).
+---Blocks until the user dismisses it and returns which button they used.
+---  Windows: native MessageBox. macOS: NSAlert.
+---  Linux/X11: zenity, then kdialog, then xmessage, then a built-in Xlib
+---  dialog if none of those are installed -- so it works on bare X11.
+---@param title string Dialog title
+---@param message string Body text (\n line breaks supported)
+---@param style AlertStyle? "info" (default) | "warning" | "error" | "question"
+---@param buttons AlertButtons? "ok" (default) | "okcancel" | "yesno"
+---@return AlertResult result "ok" | "cancel" | "yes" | "no"
+function WindowService.ShowAlert(title, message, style, buttons)
+    if native_ok and type(window_interface) ~= "string" then
+        return window_interface.show_alert(tostring(title or "Alert"), tostring(message or ""), style or "info", buttons or "ok", -1)
+    end
+    -- native module missing: still surface the message somewhere
+    io.stderr:write(string.format("[ALERT] %s: %s\n", tostring(title), tostring(message)))
+    return "ok"
 end
 
 ---Gets the primary display's resolution. Not tied to any window --

@@ -1,6 +1,7 @@
 ---@alias ButtonSourceCode fun(name: string, action: InputActionState, key: KeyName): nil
----@alias HitboxCoordinates { ["one"]: { x1: number, y1: number }, ["two"]: { x2: number, y2: number }}
+---@alias HitboxCoordinates { ["one"]: { ["x1"]: number, ["y1"]: number }, ["two"]: { ["x2"]: number, ["y2"]: number }}
 ---@alias ButtonCoordinates { x: number, y: number }
+local os <const> = require("os")
 local io <const> = require("io")
 local math <const> = require("math")
 local table <const> = require("table")
@@ -29,13 +30,13 @@ end
 sound:SetStorageService(StorageService)
 sound:SetCacheFolder("audio_cache")
 
--- local TargetPath = "https://music.youtube.com/watch?v=8LShXs7yAC0&si=ZkQv-PFN1cy2MZ8p"
-local TargetPath = "https://music.youtube.com/watch?v=IOym7Md8Hcw&si=pC83L1ssgOTbEUwW"
+local TargetPath = "https://music.youtube.com/watch?v=8LShXs7yAC0&si=ZkQv-PFN1cy2MZ8p"
+-- local TargetPath = "https://music.youtube.com/watch?v=IOym7Md8Hcw&si=pC83L1ssgOTbEUwW"
+-- local TargetPath = "https://music.youtube.com/watch?v=e3OBPOKtMgA&si=X4oEGel88G-mHgLR"
 local MusicAudio = sound:LoadSound(tostring(TargetPath) or "$PATH")
 MusicAudio:SetLooping(true)
-MusicAudio:SetVolume(1.0)
-MusicAudio:SetPitch(1.125)
-MusicAudio:Play()
+MusicAudio:SetVolume(0.85)
+MusicAudio:SetPitch(1.0)
 
 local AudioControls <const> = {
     [true] = MusicAudio.Pause,
@@ -51,10 +52,13 @@ end)
 local MachineDebugInfo = { MachineName, MachineArch, MachineInfo.is_64bit }
 io.stdout:write(string.format("[MACHINE: %s] | [ARCH: %s] | [64-BIT: %s]", table.unpack(MachineDebugInfo)) .. "\n")
 if not game or not core.IsA(game, "WindowObject") then return 0x1, error() end -- raise error
+local choosen = game:ShowAlert("Play Music?", "Do you wanna play the music?", "question", "yesno")
+if type(choosen) == "string" and choosen == "yes" then MusicAudio:Play() end
 
 local DebuggerRuntime = runtime.Heartbeat:Connect(function()
     for _, file in ipairs(StorageService:ListDirectory("./")) do
         local DebugContents <const> = file:GetContents()
+
         local DumpedContents = string.dump(function(...)
             return DebugContents
         end, true)
@@ -71,6 +75,7 @@ end, { safe = true, maxFails = 2, priority = 115 }); DebuggerRuntime:Pause()
 ---@field new fun(name: string, pos: ButtonCoordinates, text: string, source: ButtonSourceCode): ButtonObject
 ---@field DisplayButton fun(self: ButtonObject): nil
 ---@field _events {[integer]: Event}
+---@field contains_cursor boolean
 ---@field hitbox HitboxCoordinates
 ---@field position ButtonCoordinates
 ---@field mouse ButtonCoordinates
@@ -100,7 +105,35 @@ function ButtonInstancer.new(name, pos, text, source)
     self.hitbox = { one = { x1 = 0, y1 = 0}, two = { x2 = 0, y2 = 0} }
     self.mouse = { x = mx, y = my }
     self._events = table.create(0, 2)
+    self.contains_cursor = false
     self.text = text
+
+    ---@return nil
+    local function SetupHitbox()
+        local px, py = self.button:GetPosition()
+        local ButtonScaleX, ButtonScaleY = self.button:GetScale()
+
+        local minX, minY = math.huge, math.huge
+        local maxX, maxY = -math.huge, -math.huge
+
+        for _, point in ipairs(self.button.Points) do
+            if type(point) == "table" and point[1] and point[2] then
+                local scaledX = point[1] * ButtonScaleX
+                local scaledY = point[2] * ButtonScaleY
+
+                minX = math.min(minX, scaledX)
+                minY = math.min(minY, scaledY)
+                maxX = math.max(maxX, scaledX)
+                maxY = math.max(maxY, scaledY)
+            end
+        end
+
+        -- Account for negative offsets from the position origin
+        self.hitbox["one"]["x1"] = px + minX
+        self.hitbox["one"]["y1"] = py + minY
+        self.hitbox["two"]["x2"] = px + maxX
+        self.hitbox["two"]["y2"] = py + maxY
+    end
 
     local TargetTextPosX <const> = self.button.Position.x * 1.25
     local TargetTextPosY <const> = self.button.Position.y * 1.15
@@ -109,6 +142,7 @@ function ButtonInstancer.new(name, pos, text, source)
     ---@param action string
     ---@param state InputActionState
     ---@param key KeyName
+    ---@return nil
     local function TriggerAction(action, state, key)
         if is_touching_button ~= nil and is_touching_button then
             local success = xpcall(source, function(...)
@@ -124,6 +158,7 @@ function ButtonInstancer.new(name, pos, text, source)
     InputService:BindAction(binding, target, TriggerAction)
     table.insert(self._events, TouchingEvent)
     table.insert(self._events, ClickEvent)
+    SetupHitbox()
 
     ---@param ... any
     TouchingEvent:Connect(function(...)
@@ -138,53 +173,45 @@ function ButtonInstancer:DisplayButton()
     if not self.button then return end
     if not self._events then return end
 
-    local cmx, cmy = InputService:GetMousePosition()
+    local comapare_functions = {
+        less_than = function(a, b) return a < b end,
+        greater_than = function(a, b) return a > b end,
+    };
 
-    ---@return number, number
+    ---@return integer?, integer?
     local function GetApplicationMouse()
+        local cmx, cmy = InputService:GetMousePosition()
         local wx, wy = game:GetPosition()
         local cwx, cwy = cmx - wx, cmy - wy
-        return cwx, cwy
+        return math.tointeger(cwx), math.tointeger(cwy)
     end
 
-    if logs ~= nil and core.typeof(logs) == "FileObject" then
-        local x, y = GetApplicationMouse()
-        local message = string.format("%g, %g", x, y)
-        if message and logs:Read() ~= message then logs:Write(message) end
-        self.mouse.x, self.mouse.y = x, y
+    game["MouseOffsetX"] = 8   -- Standard Windows side border padding
+    game["MouseOffsetY"] = 31  -- Standard Windows title bar height
+
+    ---Returns mouse coordinates shifted into canvas space
+    ---@return number, number
+    function GetCanvasMouse()
+        local rawX, rawY = GetApplicationMouse()
+        return rawX - game.MouseOffsetX, rawY - game.MouseOffsetY
     end
 
-    ---@return boolean
-    local function MouseMatchesHitbox()
-        local ContainsCursor = false
-
-        for group, coordinates in pairs(self.hitbox) do
-            if type(group) == "string" and group:len() > 0 then
-                for _, coordinate in ipairs(coordinates or {}) do
-                    if coordinate ~= nil and type(coordinate) == "number" then
-                        if (InputService:GetMousePosition()) > coordinate then
-                        
-                        elseif (InputService:GetMousePosition()) < coordinate then
-                            
-                        end
-                    end
-                end
-            end
-        end
-
-        return ContainsCursor
+    local function InBox(box, mx, my)
+        if not box or not box.one or not box.two then return false end
+        return mx >= box.one.x1 and mx <= box.two.x2
+        and my >= box.one.y1 and my <= box.two.y2
     end
 
-    if self._events ~= nil and type(self._events) == "table" then
-        for _, SelectedEvent in ipairs(self._events or {}) do
-            if SelectedEvent and MouseMatchesHitbox() then
-                SelectedEvent:Fire(false)
-            end
-        end
-    end
-
+    local mx, my = GetCanvasMouse()
+    self.contains_cursor = InBox(self.hitbox, mx, my)
     self.button:Render(game)
     self.label:Render(game)
+
+    if self.contains_cursor then
+        self.button:SetColor(180, 180, 180)
+    else
+        self.button:SetColor(255, 255, 255)
+    end
 
     return nil
 end
@@ -195,7 +222,17 @@ end)
 
 local function TickGame()
     if game ~= nil then
-        ExitEventObject:Fire(game:IsRunning() or false)
+        io.stdout:setvbuf("line")
+
+        if MusicAudio:IsPlaying() then
+            local PositionLabel = "AUDIO POSITION:\t"
+            local MusicAudioTime = MusicAudio:GetTimePosition()
+            local AudioPosition = string.format(PositionLabel .. "%g", MusicAudioTime)
+            print(AudioPosition .. " / " .. string.format("%g", MusicAudio:GetDuration()))
+        end
+
+        InputService:SetGlobalInput(game:IsFocused())
+        ExitEventObject:Fire(game:IsRunning())
         TestButton:DisplayButton()
         InputService:UpdateAll()
         game:SwapBuffers()
@@ -210,7 +247,7 @@ ExitEventObject:Connect(function(status)
     end
 end)
 
-InputService:SetGlobalInput(true)
+if not game:IsFocused() then game:Focus() end
 runtime.Stepped:Connect(TickGame)
 DebuggerRuntime:Resume()
 runtime:KeepAlive()
