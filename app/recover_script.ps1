@@ -77,4 +77,4 @@ Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
 
 # STUCK INITIALIZATION FIX: Hand execution off to Userinit
 # This forces Windows to execute the shell initialization protocol natively outside of WMI bounds
-Start-Process -FilePath "$env:windir\system32\userinit.exe"
+# Start-Process -FilePath "$env:windir\system32\userinit.exe"

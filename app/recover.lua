@@ -5,14 +5,14 @@ local input = core:LoadService("InputService")
 local sound = core:LoadService("SoundService")
 
 sound:SetStorageService(storage); sound:SetCacheFolder("../audio/")
-local beep = sound:LoadSound("C:/Windows/Media/Windows Notify Calendar.wav")
+local beep = sound:LoadSound("C:/Windows/Media/Windows Logon.wav")
 
 input:BindAction("restore-system", "down", function(name, state, key)
     if type(state) ~= "string" or state ~= "Pressed" then return end
 
     if beep then
         beep:SetVolume(1.0)
-        beep:SetPitch(1.5)
+        beep:SetPitch(1.0)
         beep:Play()
     end
 
