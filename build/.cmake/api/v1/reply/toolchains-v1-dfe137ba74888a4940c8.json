@@ -38,7 +38,7 @@
 						"kernel32"
 					]
 				},
-				"path" : "C:/Users/maxim/_C_/bin/cc.exe",
+				"path" : "C:/Users/maxim/_C_/bin/ccache-gcc.exe",
 				"version" : "16.1.0"
 			},
 			"language" : "C",
@@ -88,7 +88,7 @@
 						"kernel32"
 					]
 				},
-				"path" : "C:/Users/maxim/_C_/bin/c++.exe",
+				"path" : "C:/Users/maxim/_C_/bin/ccache-g++.exe",
 				"version" : "16.1.0"
 			},
 			"language" : "CXX",

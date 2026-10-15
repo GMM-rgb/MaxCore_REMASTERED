@@ -15,6 +15,7 @@ local runtime = core:LoadService("RunnerService")
 local sound = core:LoadService("SoundService")
 local game = window:CreateWindow("Game Editor", 850, 800)
 local logs = StorageService:CreateFile({ path = "./logs.log" })
+local VolumeRandomizer = core.RandomClass.new(os.time())
 local NoiseGeneration = core.NoiseClass.new(os.time())
 local ExitEventObject = core.Event.new("exit")
 local MachineName = platform:get_os_name()
@@ -24,45 +25,65 @@ local MachineInfo = platform:get_info()
 sound:SetStorageService(StorageService)
 sound:SetCacheFolder("audio_cache")
 
--- local TargetPath = "https://music.youtube.com/watch?v=IOym7Md8Hcw&si=pC83L1ssgOTbEUwW"
-local TargetPath = "https://music.youtube.com/watch?v=e3OBPOKtMgA&si=X4oEGel88G-mHgLR"
-local MusicAudio = sound:LoadSound(tostring(TargetPath) or "$PATH")
-MusicAudio:SetLooping(true)
-MusicAudio:SetVolume(0.85)
-MusicAudio:SetPitch(1.0)
-
-local AudioControls <const> = {
-    [true] = MusicAudio.Pause,
-    [false] = MusicAudio.Resume,
+---@type { [integer]: SoundObject }
+local MusicAudios = {
+    sound:LoadSound("https://youtu.be/hufF9VzO3z8"),
+    -- sound:LoadSound("https://music.youtube.com/watch?v=dQw4w9WgXcQ&si=BiljwIuqp_dIcWl8"),
+    -- sound:LoadSound("https://music.youtube.com/watch?v=ZEmU5-Bx63I&si=SE4KsGYvfMxZJ3iF"),
 };
 
-InputService:BindAction("toggle_music", "k", function(name, state, key)
-    if state ~= nil and key ~= nil and state == "Pressed" and key == "k" then
-        AudioControls[MusicAudio:IsPlaying()](MusicAudio)
+for _, audio in ipairs(MusicAudios) do
+    audio:SetPitch(2.0); audio:Play()
+end
+
+InputService:BindAction("RandomizeVolume", "1", function(_, state, key)
+    if state ~= nil and key ~= nil and state == "Pressed" and key == "1" then
+        for _, audio in ipairs(MusicAudios or {}) do
+            VolumeRandomizer:SetSeed(os.time() + math.random(0, 100))
+            audio:SetVolume(VolumeRandomizer:NextInteger(1, 10))
+            io.stdout:write(audio:GetVolume() .. "\n")
+        end
     end
 end)
+
+-- InputService:BindAction("IncreasePitch", "up", function (name, state, key)
+--     if key == "up" and state == "Pressed" then
+--         MusicAudio:SetPitch(MusicAudio:GetPitch() + 0.1)
+--     end
+-- end)
+
+-- InputService:BindAction("LowerPitch", "down", function (name, state, key)
+--     if key == "down" and state == "Pressed" then
+--         MusicAudio:SetPitch(MusicAudio:GetPitch() + -0.1)
+--     end
+-- end)
 
 local MachineDebugInfo = { MachineName, MachineArch, MachineInfo.is_64bit }
 io.stdout:write(string.format("[MACHINE: %s] | [ARCH: %s] | [64-BIT: %s]", table.unpack(MachineDebugInfo)) .. "\n")
 if not game or not core.IsA(game, "WindowObject") then return 0x1, error() end -- raise error
-local choosen = game:ShowAlert("Play Music?", "Do you wanna play the music?", "question", "yesno")
-if type(choosen) == "string" and choosen == "yes" then MusicAudio:Play() end
 
-local DebuggerRuntime = runtime.Heartbeat:Connect(function()
-    for _, file in ipairs(StorageService:ListDirectory("./")) do
-        local DebugContents <const> = file:GetContents()
+-- local PitchTextRendering = runtime.RenderStepped:Connect(function()
+--     local xd, xy = game:GetDimensions(); game:ClearCanvas(0, 0, 0);
+--     local PitchDebugText = game:CreateText("NaN", xd / 2, xy / 2, 2, 255, 255, 255)
+--     PitchDebugText:SetText(string.format("PITCH:\t%g", MusicAudio:GetPitch()))
+--     PitchDebugText:Render(game)
+-- end)
 
-        local DumpedContents = string.dump(function(...)
-            return DebugContents
-        end, true)
+-- local DebuggerRuntime = runtime.Heartbeat:Connect(function()
+--     for _, file in ipairs(StorageService:ListDirectory("./")) do
+--         local DebugContents <const> = file:GetContents()
 
-        if logs ~= nil then
-            local formatted = logs:Read()
-            .. tostring(DumpedContents)
-            logs:Write(formatted)
-        end
-    end
-end, { safe = true, maxFails = 2, priority = 115 }); DebuggerRuntime:Pause()
+--         local DumpedContents = string.dump(function(...)
+--             return DebugContents
+--         end, true)
+
+--         if logs ~= nil then
+--             local formatted = logs:Read()
+--             .. tostring(DumpedContents)
+--             logs:Write(formatted)
+--         end
+--     end
+-- end, { safe = true, maxFails = 2, priority = 115 }); DebuggerRuntime:Pause()
 
 ---@class ButtonObject
 ---@field new fun(name: string, pos: ButtonCoordinates, text: string, source: ButtonSourceCode): ButtonObject
@@ -216,14 +237,6 @@ end)
 local function TickGame()
     if game ~= nil then
         io.stdout:setvbuf("line")
-
-        if MusicAudio:IsPlaying() then
-            local PositionLabel = "AUDIO POSITION:\t"
-            local MusicAudioTime = MusicAudio:GetTimePosition()
-            local AudioPosition = string.format(PositionLabel .. "%g", MusicAudioTime)
-            print(AudioPosition .. " / " .. string.format("%g", MusicAudio:GetDuration()))
-        end
-
         InputService:SetGlobalInput(game:IsFocused())
         ExitEventObject:Fire(game:IsRunning())
         TestButton:DisplayButton()
@@ -242,5 +255,5 @@ end)
 
 if not game:IsFocused() then game:Focus() end
 runtime.Stepped:Connect(TickGame)
-DebuggerRuntime:Resume()
+-- DebuggerRuntime:Resume()
 runtime:KeepAlive()
