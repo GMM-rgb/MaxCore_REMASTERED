@@ -1,5 +1,5 @@
 # ==============================================================================
-# SYSTEM RUNTIME RECOVERY SCRIPT (NON-ADMINISTRATOR SAFE + OVERLAY EXCLUSION)
+# LEAK-FREE RECOVERY SCRIPT (NON-ADMINISTRATOR SAFE + RELIABLE INVOCATION)
 # ==============================================================================
 
 # 1. Force-restore default user environment shell pointers in the registry hive
@@ -7,84 +7,74 @@ $RegPath = "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon"
 if (-not (Test-Path $RegPath)) { New-Item -Path $RegPath -Force | Out-Null }
 Set-ItemProperty -Path $RegPath -Name "Shell" -Value "explorer.exe" -Force
 
-# 2. Define native User32.dll window manager interfaces via C# compilation mapping
+# 2. Map Win32 API signatures inside a structured C# string block
 $Signature = @'
     using System;
     using System.Text;
     using System.Runtime.InteropServices;
 
-    public static class Win32WindowRecovery {
+    public static class SafeWin32 {
         public delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
-
-        [DllImport("user32.dll")]
-        public static extern bool EnumWindows(EnumWindowsProc enumProc, IntPtr lParam);
-
-        [DllImport("user32.dll")]
-        public static extern bool IsWindowVisible(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
-
-        [DllImport("user32.dll")]
-        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
-
-        [DllImport("user32.dll")]
-        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
-        [DllImport("user32.dll")]
-        public static extern bool ReleaseCapture();
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
+        [DllImport("user32.dll")] public static extern bool EnumWindows(EnumWindowsProc enumProc, IntPtr lParam);
+        [DllImport("user32.dll")] public static extern bool IsWindowVisible(IntPtr hWnd);
+        [DllImport("user32.dll")] public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+        [DllImport("user32.dll")] public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+        [DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        [DllImport("user32.dll")] public static extern bool ReleaseCapture();
+        [DllImport("user32.dll", CharSet = CharSet.Auto)] public static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
     }
-'@ 
+'@
 
-# Compile the types into active PowerShell memory
-Add-Type -TypeDefinition $Signature
+# 3. Only compile once per shell context window session to permanently fix the memory leak
+if (-not ([Ref].Assembly.GetType("SafeWin32"))) {
+    Add-Type -TypeDefinition $Signature -ErrorAction SilentlyContinue
+}
 
-# 3. Forcibly snap low-level mouse and keyboard input captures away from glitched application hooks
-[Win32WindowRecovery]::ReleaseCapture() | Out-Null
+# 4. Break mouse and keyboard hooks
+[SafeWin32]::ReleaseCapture() | Out-Null
 
-# 4. Enumerate every active top-level user space window on the display topology
+# 5. Enumerate active windows using strict system core filtering exclusions
 $Callback = {
     param([IntPtr]$hWnd, [IntPtr]$lParam)
 
-    # Filter out invisible or hidden system thread workers to protect core OS assets
-    if ([Win32WindowRecovery]::IsWindowVisible($hWnd)) {
+    if ([SafeWin32]::IsWindowVisible($hWnd)) {
         
-        # Pull the internal Win32 class identifier to detect specific software layers
-        $ClassNameBuffer = New-Object System.Text.StringBuilder(256)
-        [Win32WindowRecovery]::GetClassName($hWnd, $ClassNameBuffer, 256) | Out-Null
-        $CurrentClassName = $ClassNameBuffer.ToString()
+        # Pull internal window class string to isolate background assets
+        $Buf = New-Object System.Text.StringBuilder(256)
+        [SafeWin32]::GetClassName($hWnd, $Buf, 256) | Out-Null
+        $Class = $Buf.ToString()
         
-        # SOLUTION EXCLUSION RULE: Skip NVIDIA Overlay widgets entirely so they never surface or harden
-        if ($CurrentClassName -eq "CEF-OSC-WIDGET") {
-            return $true # Instantly skip to the next window loop iteration
+        # SYSTEM EXCLUSION FILTER: Clean ASCII class tracking variables
+        $Exclusions = @(
+            "CEF-OSC-WIDGET",          # NVIDIA Overlay
+            "Shell_TrayWnd",           # Windows Taskbar
+            "Progman",                 # Desktop Wallpaper Background Manager
+            "WorkerW",                 # DWM Display Sub-layers
+            "ApplicationFrameWindow",  # Universal App Frame Wrappers
+            "Cortana"                  # System Search Window Container
+        )
+        
+        if ($Exclusions -contains $Class -or $Class -like "Windows.UI.*") {
+            return $true # Instantly skip system assets safely
         }
 
-        # --- APPLY WINDOW WINDOWING TEMPLATE DEFAULTS ---
-        # WS_OVERLAPPEDWINDOW (0x00CF0000) reconstructs default caption bars, frames, and borders.
-        [Win32WindowRecovery]::SetWindowLong($hWnd, -16, 0x00CF0000) | Out-Null
-
-        # Strip extended exclusivity parameters (Removes WS_EX_TOPMOST rendering states)
-        [Win32WindowRecovery]::SetWindowLong($hWnd, -20, 0x00000100) | Out-Null
-
-        # Command the OS window station manager to render the container inside standard frames (SW_SHOWNORMAL = 1)
-        [Win32WindowRecovery]::ShowWindow($hWnd, 1) | Out-Null
-
-        # Push frame update notification boundaries (SWP_FRAMECHANGED | SWP_NOACTIVATE = 0x0027)
-        # Demote z-axis hierarchy underneath baseline system layers using HWND_NOTOPMOST (-2)
+        # --- APPLY WINDOW DEFAULTS TO USER APPS ONLY ---
+        [SafeWin32]::SetWindowLong($hWnd, -16, 0x00CF0000) | Out-Null
+        [SafeWin32]::SetWindowLong($hWnd, -20, 0x00000100) | Out-Null
+        [SafeWin32]::ShowWindow($hWnd, 1) | Out-Null
+        
         $HWND_NOTOPMOST = [IntPtr](-2)
-        [Win32WindowRecovery]::SetWindowPos($hWnd, $HWND_NOTOPMOST, 100, 100, 1280, 720, 0x0027) | Out-Null
+        [SafeWin32]::SetWindowPos($hWnd, $HWND_NOTOPMOST, 100, 100, 1280, 720, 0x0027) | Out-Null
     }
     return $true
 }
 
-# Invoke the global desktop application loop iteration
-[Win32WindowRecovery]::EnumWindows($Callback, [IntPtr]::Zero) | Out-Null
+# Run the clean non-leaking loop
+[SafeWin32]::EnumWindows($Callback, [IntPtr]::Zero) | Out-Null
 
-# 5. Flush existing dead or corrupted interface loops
+# 6. Reset Shell Core
 Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
 
-# 6. Execute fresh Windows User shell instance completely detached from the Lua application tree
-Invoke-CimMethod -ClassName Win32_Process -MethodName Create -Arguments @{ CommandLine = "$env:windir\explorer.exe" } | Out-Null
+# STUCK INITIALIZATION FIX: Hand execution off to Userinit
+# This forces Windows to execute the shell initialization protocol natively outside of WMI bounds
+Start-Process -FilePath "$env:windir\system32\userinit.exe"
