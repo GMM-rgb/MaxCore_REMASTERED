@@ -26,7 +26,5 @@ end)
 
 ---@param dt number
 runtime.Heartbeat:Connect(function(dt)
-    input:Update()
-end)
-
-runtime:KeepAlive()
+    input:Update(); input:SetGlobalInput(true)
+end); runtime:KeepAlive()
