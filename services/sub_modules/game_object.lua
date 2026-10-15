@@ -35,6 +35,7 @@ end
 ---@field Collided Event Fires (self:Fire(otherGameObject)) every Step for as long as this object's PhysicsBody stays touching another's -- only meaningful once BindPhysics has been called; see WindowObject:StepPhysics
 ---@field Vertices Vertex3[]? Only present on MeshObject (declared here, nilable, so code that takes a plain GameObject -- e.g. WindowObject:BindPhysics's {shape="hull"} path -- can check gameObject.Vertices without the language server complaining); see MeshObject's own (non-nilable) override below
 ---@field Faces MeshFace[]? Only present on MeshObject, same reasoning as Vertices above
+---@field typeof fun(obj: any): string
 local GameObject = {}
 GameObject.__index = GameObject
 InstanceTyping.SetType(GameObject, "GameObject")
@@ -48,6 +49,8 @@ function GameObject.new()
     self.Color = { r = 255, g = 255, b = 255 }
     self.Visible = true
     self.Collided = NewCollidedEvent()
+    self.typeof = InstanceTyping.GetType
+    io.stdout:write("CREATING OBJECT...", tostring(self.typeof) .. "\n")
     return self
 end
 
@@ -151,6 +154,7 @@ function RectObject.new(x, y, w, h, r, g, b)
     self:SetPosition(x or 0, y or 0, 0)
     self.Size = { w = w or 100, h = h or 100 }
     self:SetColor(r or 255, g or 255, b or 255)
+    self.typeof = InstanceTyping.GetType
     return self
 end
 
@@ -199,6 +203,7 @@ function CircleObject.new(cx, cy, radius, fill, r, g, b)
     self.Radius = radius or 50
     self.Fill = fill or false
     self:SetColor(r or 255, g or 255, b or 255)
+    self.typeof = InstanceTyping.GetType
     return self
 end
 
@@ -246,6 +251,7 @@ function LineObject.new(x0, y0, x1, y1, r, g, b)
     self:SetPosition(x0 or 0, y0 or 0, 0)
     self.EndPosition = { x = x1 or 100, y = y1 or 100 }
     self:SetColor(r or 255, g or 255, b or 255)
+    self.typeof = InstanceTyping.GetType
     return self
 end
 
@@ -358,6 +364,7 @@ function PolygonObject.new(points, fill, r, g, b)
     self.Points = points or {}
     self.Fill = fill or false
     self:SetColor(r or 255, g or 255, b or 255)
+    self.typeof = InstanceTyping.GetType
     return self
 end
 
@@ -483,6 +490,7 @@ function CubeObject.new(px, py, pz, size, r, g, b, fillMode)
     local s = size or 1.0
     self:SetScale(s, s, s)
     self:SetColor(r or 0, g or 255, b or 0)
+    self.typeof = InstanceTyping.GetType
     return self
 end
 
@@ -551,6 +559,7 @@ function MeshObject.new(vertices, faces, r, g, b, fillMode)
         FillMode = fillMode == nil and "solid" or fillMode
     }, MeshObject)
     self:SetColor(r or 255, g or 255, b or 255)
+    self.typeof = InstanceTyping.GetType
     return self
 end
 

@@ -7,14 +7,14 @@
 
 # =============================================================================
 # Project: lua_native_engine
-# Configurations: 
+# Configurations: Debug
 # =============================================================================
 # =============================================================================
 
 #############################################
 # Rule for compiling C files.
 
-rule C_COMPILER__lua_shared_unscanned_
+rule C_COMPILER__lua_shared_unscanned_Debug
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}C:\Users\6041464\_c_lang_\bin\ccache-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -24,7 +24,7 @@ rule C_COMPILER__lua_shared_unscanned_
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__lua_shared_unscanned_
+rule CXX_COMPILER__lua_shared_unscanned_Debug
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}C:\Users\6041464\_c_lang_\bin\ccache-g++.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -34,7 +34,7 @@ rule CXX_COMPILER__lua_shared_unscanned_
 #############################################
 # Rule for linking CXX shared library.
 
-rule CXX_SHARED_LIBRARY_LINKER__lua_shared_
+rule CXX_SHARED_LIBRARY_LINKER__lua_shared_Debug
   command = C:\Windows\system32\cmd.exe /C "$PRE_LINK && C:\Users\6041464\_c_lang_\bin\ccache-g++.exe $LANGUAGE_COMPILE_FLAGS $ARCH_FLAGS $LINK_FLAGS -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $in $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX shared library $TARGET_FILE
   restat = $RESTAT
@@ -43,7 +43,7 @@ rule CXX_SHARED_LIBRARY_LINKER__lua_shared_
 #############################################
 # Rule for compiling C files.
 
-rule C_COMPILER__lua_runner_unscanned_
+rule C_COMPILER__lua_runner_unscanned_Debug
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}C:\Users\6041464\_c_lang_\bin\ccache-gcc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -53,7 +53,7 @@ rule C_COMPILER__lua_runner_unscanned_
 #############################################
 # Rule for linking C executable.
 
-rule C_EXECUTABLE_LINKER__lua_runner_
+rule C_EXECUTABLE_LINKER__lua_runner_Debug
   command = C:\Windows\system32\cmd.exe /C "$PRE_LINK && C:\Users\6041464\_c_lang_\bin\ccache-gcc.exe $FLAGS $LINK_FLAGS $in -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking C executable $TARGET_FILE
   restat = $RESTAT
@@ -62,7 +62,7 @@ rule C_EXECUTABLE_LINKER__lua_runner_
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__sound_service_backend_unscanned_
+rule CXX_COMPILER__sound_service_backend_unscanned_Debug
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}C:\Users\6041464\_c_lang_\bin\ccache-g++.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -72,7 +72,7 @@ rule CXX_COMPILER__sound_service_backend_unscanned_
 #############################################
 # Rule for linking CXX shared library.
 
-rule CXX_SHARED_LIBRARY_LINKER__sound_service_backend_
+rule CXX_SHARED_LIBRARY_LINKER__sound_service_backend_Debug
   command = C:\Windows\system32\cmd.exe /C "$PRE_LINK && C:\Users\6041464\_c_lang_\bin\ccache-g++.exe $LANGUAGE_COMPILE_FLAGS $ARCH_FLAGS $LINK_FLAGS -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $in $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX shared library $TARGET_FILE
   restat = $RESTAT
@@ -81,7 +81,7 @@ rule CXX_SHARED_LIBRARY_LINKER__sound_service_backend_
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__input_native_unscanned_
+rule CXX_COMPILER__input_native_unscanned_Debug
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}C:\Users\6041464\_c_lang_\bin\ccache-g++.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -91,7 +91,7 @@ rule CXX_COMPILER__input_native_unscanned_
 #############################################
 # Rule for linking CXX shared library.
 
-rule CXX_SHARED_LIBRARY_LINKER__input_native_
+rule CXX_SHARED_LIBRARY_LINKER__input_native_Debug
   command = C:\Windows\system32\cmd.exe /C "$PRE_LINK && C:\Users\6041464\_c_lang_\bin\ccache-g++.exe $LANGUAGE_COMPILE_FLAGS $ARCH_FLAGS $LINK_FLAGS -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $in $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX shared library $TARGET_FILE
   restat = $RESTAT
@@ -100,7 +100,7 @@ rule CXX_SHARED_LIBRARY_LINKER__input_native_
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__storage_interface_unscanned_
+rule CXX_COMPILER__storage_interface_unscanned_Debug
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}C:\Users\6041464\_c_lang_\bin\ccache-g++.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -110,7 +110,7 @@ rule CXX_COMPILER__storage_interface_unscanned_
 #############################################
 # Rule for linking CXX shared library.
 
-rule CXX_SHARED_LIBRARY_LINKER__storage_interface_
+rule CXX_SHARED_LIBRARY_LINKER__storage_interface_Debug
   command = C:\Windows\system32\cmd.exe /C "$PRE_LINK && C:\Users\6041464\_c_lang_\bin\ccache-g++.exe $LANGUAGE_COMPILE_FLAGS $ARCH_FLAGS $LINK_FLAGS -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $in $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX shared library $TARGET_FILE
   restat = $RESTAT
@@ -119,7 +119,7 @@ rule CXX_SHARED_LIBRARY_LINKER__storage_interface_
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__window_management_unscanned_
+rule CXX_COMPILER__window_management_unscanned_Debug
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}C:\Users\6041464\_c_lang_\bin\ccache-g++.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -129,7 +129,7 @@ rule CXX_COMPILER__window_management_unscanned_
 #############################################
 # Rule for linking CXX shared library.
 
-rule CXX_SHARED_LIBRARY_LINKER__window_management_
+rule CXX_SHARED_LIBRARY_LINKER__window_management_Debug
   command = C:\Windows\system32\cmd.exe /C "$PRE_LINK && C:\Users\6041464\_c_lang_\bin\ccache-g++.exe $LANGUAGE_COMPILE_FLAGS $ARCH_FLAGS $LINK_FLAGS -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $in $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX shared library $TARGET_FILE
   restat = $RESTAT
@@ -138,7 +138,7 @@ rule CXX_SHARED_LIBRARY_LINKER__window_management_
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__physics_management_unscanned_
+rule CXX_COMPILER__physics_management_unscanned_Debug
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}C:\Users\6041464\_c_lang_\bin\ccache-g++.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -148,7 +148,7 @@ rule CXX_COMPILER__physics_management_unscanned_
 #############################################
 # Rule for linking CXX shared library.
 
-rule CXX_SHARED_LIBRARY_LINKER__physics_management_
+rule CXX_SHARED_LIBRARY_LINKER__physics_management_Debug
   command = C:\Windows\system32\cmd.exe /C "$PRE_LINK && C:\Users\6041464\_c_lang_\bin\ccache-g++.exe $LANGUAGE_COMPILE_FLAGS $ARCH_FLAGS $LINK_FLAGS -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $in $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX shared library $TARGET_FILE
   restat = $RESTAT
@@ -157,7 +157,7 @@ rule CXX_SHARED_LIBRARY_LINKER__physics_management_
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__native_utils_unscanned_
+rule CXX_COMPILER__native_utils_unscanned_Debug
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}C:\Users\6041464\_c_lang_\bin\ccache-g++.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -167,7 +167,7 @@ rule CXX_COMPILER__native_utils_unscanned_
 #############################################
 # Rule for linking CXX shared library.
 
-rule CXX_SHARED_LIBRARY_LINKER__native_utils_
+rule CXX_SHARED_LIBRARY_LINKER__native_utils_Debug
   command = C:\Windows\system32\cmd.exe /C "$PRE_LINK && C:\Users\6041464\_c_lang_\bin\ccache-g++.exe $LANGUAGE_COMPILE_FLAGS $ARCH_FLAGS $LINK_FLAGS -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $in $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX shared library $TARGET_FILE
   restat = $RESTAT
@@ -176,7 +176,7 @@ rule CXX_SHARED_LIBRARY_LINKER__native_utils_
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__platform_module_unscanned_
+rule CXX_COMPILER__platform_module_unscanned_Debug
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}C:\Users\6041464\_c_lang_\bin\ccache-g++.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -186,7 +186,7 @@ rule CXX_COMPILER__platform_module_unscanned_
 #############################################
 # Rule for linking CXX shared library.
 
-rule CXX_SHARED_LIBRARY_LINKER__platform_module_
+rule CXX_SHARED_LIBRARY_LINKER__platform_module_Debug
   command = C:\Windows\system32\cmd.exe /C "$PRE_LINK && C:\Users\6041464\_c_lang_\bin\ccache-g++.exe $LANGUAGE_COMPILE_FLAGS $ARCH_FLAGS $LINK_FLAGS -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $in $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX shared library $TARGET_FILE
   restat = $RESTAT

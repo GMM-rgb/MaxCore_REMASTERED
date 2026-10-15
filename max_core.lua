@@ -510,7 +510,7 @@ setmetatable(MainKit, {
 ---@return MaxCore
 ---Import Components into GameEngine runtime.
 local function call(_, env)
-    return {
+    local i = {
         MainKit = MainKit,
         Event = Event,
         task = task,
@@ -551,6 +551,10 @@ local function call(_, env)
         wait = task.wait,
         seed = task.seed,
     };
+
+    InstanceType.SetType(i, "CoreEngine")
+
+    return i
 end
 
 InstanceBuilding.ImportCoreLibrary(call())
