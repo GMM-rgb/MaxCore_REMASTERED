@@ -1,4 +1,4 @@
-local <const> core = require("max_core").call(); core.Load(arg)
+local <const> core = require("max_core").call(); core:Load()
 local WindowService <const> = core:LoadService("WindowService")
 local RuntimeService <const> = core:LoadService("RunnerService")
 local InputService <const> = core:LoadService("InputService")
