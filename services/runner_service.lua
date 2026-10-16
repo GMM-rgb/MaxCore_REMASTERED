@@ -30,7 +30,8 @@ local InstanceType = require("instance_type")
 -- Make Lua look for native modules with the right extension (.dylib on
 -- macOS, .so on Linux, .dll on Windows). Without this, a freshly built
 -- sleep_native.dylib is never found and the pcall below fails silently.
-local NativePaths = require("native_paths"); NativePaths.Apply()
+local NativePaths = require("native_paths")
+NativePaths.Apply()
 
 ---@type table?
 local native, nativeErr = NativePaths.TryRequire("sleep_native")
@@ -48,6 +49,7 @@ local DEFAULTS = {
     maxFails = 3,
     tickRate = 60,
     maxDt = 0.5,
+    maxConcurrent = 8,   -- most overlapping firings of one yieldable connection
     maxWait = 3600 * 24, -- clamp absurd waits (a day) so a bad value can't strand a job forever
 }
 
@@ -103,6 +105,9 @@ local CHANNELS = { "Stepped", "Heartbeat", "RenderStepped" } -- execution order 
 ---@field once boolean | nil
 ---@field safe boolean | nil
 ---@field maxFails number | nil
+---@field yieldable boolean | nil Run each firing of a Connect callback as its own coroutine, so it may call wait() and join()
+---@field reentrant boolean | nil With yieldable: allow a new firing while the previous one is still waiting (default false: skip it)
+---@field maxConcurrent integer | nil With yieldable and reentrant: most firings alive at once (default 8)
 
 ---@class RunnerJob
 ---@field id string
@@ -134,7 +139,14 @@ local CHANNELS = { "Stepped", "Heartbeat", "RenderStepped" } -- execution order 
 ---@field Resume fun(self: RunnerConnection)
 
 ---@class RunnerSignal
----@field Connect fun(self: RunnerSignal, fn: function|string, connectOpts: JobOptions|nil): RunnerConnection
+---@field Connect fun(self: RunnerSignal, fn: function|string|SpawnFn, connectOpts: JobOptions|nil): RunnerConnection
+
+-- Forward declaration: stepCoroutine is defined further down, but
+-- _bindYieldable (above it) needs to start a firing's first slice at once.
+-- A `local function` is only visible AFTER its definition, so without this
+-- the call below would silently resolve to a nil global.
+---@type fun(self: RunnerService, job: RunnerJob): boolean
+local stepCoroutine
 
 ---@class RunnerService
 ---@field Heartbeat RunnerSignal
@@ -301,6 +313,10 @@ function RunnerService:bind(channel, fn, opts)
         error("RunnerService:bind expects a function or a string of Lua code", 2)
     end
 
+    if providedOpts.yieldable then
+        return self:_bindYieldable(activeChannel, executableFn --[[@as SpawnFn]], providedOpts)
+    end
+
     ---@type RunnerJob
     local jobData = {
         id = providedOpts.id or newJobId(activeChannel),
@@ -311,7 +327,7 @@ function RunnerService:bind(channel, fn, opts)
         maxCatchUp = providedOpts.maxCatchUp or DEFAULTS.maxCatchUp,
         maxFails = providedOpts.maxFails or DEFAULTS.maxFails,
         once = providedOpts.once or false,
-        safe = (providedOpts.safe == nil) and DEFAULTS.safe or providedOpts.safe or true,
+        safe = (providedOpts.safe == nil) and DEFAULTS.safe or (providedOpts.safe or true),
         paused = false,
         failCount = 0,
         _lastAcc = 0,
@@ -321,6 +337,99 @@ function RunnerService:bind(channel, fn, opts)
         dead = false,
     }
     return register(self, activeChannel, jobData)
+end
+
+--- Connect a callback that is allowed to wait. Each time the channel fires,
+--- `fn(wait, join)` starts as its OWN coroutine, so it can suspend without
+--- blocking anything else. Used by Connect(fn, { yieldable = true }).
+---
+--- A connection never piles up: while a firing is still waiting, the next
+--- one is skipped (reentrant = false, the default). With reentrant = true,
+--- firings may overlap, but never more than maxConcurrent at once. The excess
+--- is skipped, not queued, so a fast channel cannot grow memory without bound.
+---@param channel string
+---@param fn SpawnFn
+---@param opts JobOptions
+---@return RunnerConnection
+function RunnerService:_bindYieldable(channel, fn, opts)
+    ---@type RunnerJob[]
+    local live = {}
+    local limit = opts.reentrant and (opts.maxConcurrent or DEFAULTS.maxConcurrent) or 1
+    if limit < 1 then limit = 1 end
+    local connected = true
+
+    -- The launcher runs on the channel like any bound callback. It only
+    -- decides whether to start a firing; the firing itself is a Spawn job.
+    local launcher = self:bind(channel, function()
+        if not connected then return end
+        -- Drop firings that are no longer running. A firing is finished when
+        -- its job was removed (dead) OR its coroutine ended, whether it
+        -- returned normally or died with an error.
+        for i = #live, 1, -1 do
+            local j = live[i]
+            if j.dead or (j.co and coroutine.status(j.co) == "dead") then table.remove(live, i) end
+        end
+        if #live >= limit then return end
+
+        local conn = self:Spawn(channel, fn, { tag = opts.tag, priority = opts.priority, maxFails = opts.maxFails })
+        local job = self:_jobOf(conn)
+        live[#live + 1] = job
+        -- Start it now, in the same step the channel fired. Without this the
+        -- firing would not begin until the NEXT step, adding a frame of delay
+        -- to every wait() it makes and stretching a 0.25s cycle to ~0.29s.
+        if stepCoroutine(self, job) then self:_killJob(channel, job) end
+    end, {
+        id = opts.id, tag = opts.tag, priority = opts.priority,
+        interval = opts.interval, maxCatchUp = opts.maxCatchUp,
+        once = opts.once, safe = opts.safe, maxFails = opts.maxFails,
+    })
+
+    ---@type RunnerConnection
+    local conn
+    conn = {
+        id = launcher.id,
+        channel = channel,
+        Connected = true,
+        disconnect = function(connObj)
+            if not connObj.Connected then return end
+            connObj.Connected = false
+            connected = false
+            launcher:disconnect()
+            -- Kill every firing still in flight; they must not outlive the connection.
+            for i = #live, 1, -1 do self:_killJob(channel, live[i]) end
+            live = {}
+        end,
+        Pause = function() launcher:Pause() end,
+        Resume = function() launcher:Resume() end,
+    }
+    return conn
+end
+
+---Finds the job a connection controls (the newest job on its channel with its id).
+---@param conn RunnerConnection
+---@return RunnerJob
+function RunnerService:_jobOf(conn)
+    local list = self._jobs[conn.channel]
+    for i = #list, 1, -1 do
+        if list[i].id == conn.id then return list[i] end
+    end
+    error("RunnerService: internal error, job for connection " .. tostring(conn.id) .. " not found", 2)
+end
+
+---Removes a job from its channel by identity and marks it dead so it is never resumed again.
+---@param channel string
+---@param job RunnerJob
+function RunnerService:_killJob(channel, job)
+    job.dead = true
+    if job.joinHandle then
+        if self._joining[job.joinHandle] == job then self._joining[job.joinHandle] = nil end
+        if self._native then self._native:cancel(job.joinHandle) end
+        job.joinHandle = nil
+    end
+    local list = self._jobs[channel]
+    for i = #list, 1, -1 do
+        if list[i] == job then table.remove(list, i) break end
+    end
 end
 
 --- Spawn a coroutine job. The function receives `wait(seconds)`, which
@@ -471,7 +580,7 @@ end
 ---@param self RunnerService
 ---@param job RunnerJob
 ---@return boolean shouldRemove
-local function stepCoroutine(self, job)
+function stepCoroutine(self, job)
     local co = job.co --[[@as thread]]
     if coroutine.status(co) == "dead" then return true end
 

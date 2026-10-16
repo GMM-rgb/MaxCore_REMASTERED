@@ -6,8 +6,8 @@ local SoundService <const> = core:LoadService("SoundService")
 local window = WindowService:CreateWindow()
 local exit = core.Event.new("exit")
 
-local PitchRandom = core.RandomClass.new(os.time())
-local ErrorSound = SoundService:LoadSound("C:\\yt_RCkUxdRSuEk.wav")
+-- local PitchRandom = core.RandomClass.new(os.time())
+-- local ErrorSound = SoundService:LoadSound("C:\\yt_RCkUxdRSuEk.wav")
 
 ---@param s string
 ---@return table<string>
@@ -24,7 +24,7 @@ end
 
 RuntimeService.Stepped:Connect(function()
     RuntimeService:Spawn("Heartbeat", function(wait)
-        ErrorSound:Play(0); 
+        print("OK")
     end)
 end)
 
