@@ -306,6 +306,7 @@ function TextObject.new(text, x, y, scale, r, g, b, quality)
     self:SetPosition(x or 0, y or 0, 0)
     self.TextScale = scale or 1
     self:SetColor(r or 255, g or 255, b or 255)
+    self.typeof = InstanceTyping.GetType
     return self
 end
 

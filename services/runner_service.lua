@@ -139,7 +139,7 @@ local CHANNELS = { "Stepped", "Heartbeat", "RenderStepped" } -- execution order 
 ---@field Resume fun(self: RunnerConnection)
 
 ---@class RunnerSignal
----@field Connect fun(self: RunnerSignal, fn: function|string|SpawnFn, connectOpts: JobOptions|nil): RunnerConnection
+---@field Connect fun(self: RunnerSignal, fn: fun(dt: number)|string|SpawnFn, connectOpts: JobOptions|nil): RunnerConnection
 
 -- Forward declaration: stepCoroutine is defined further down, but
 -- _bindYieldable (above it) needs to start a firing's first slice at once.
