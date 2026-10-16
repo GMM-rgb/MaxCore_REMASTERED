@@ -4,3 +4,4 @@ ffmpeg
 yt-dlp
 app/audio/*
 game_engine/audio_cache/*
+other/*

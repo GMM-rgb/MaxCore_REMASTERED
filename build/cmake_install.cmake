@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/6041464/documents/maxcore_remastered
+# Install script for directory: C:/Users/6041464/Documents/MaxCore_REMASTERED
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
