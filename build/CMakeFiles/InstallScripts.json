@@ -1,7 +1,7 @@
 {
 	"InstallScripts" : 
 	[
-		"D:/MaxCore_REMASTERED/build/cmake_install.cmake"
+		"/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/cmake_install.cmake"
 	],
 	"Parallel" : false
 }

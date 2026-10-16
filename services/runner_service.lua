@@ -26,6 +26,16 @@ local IS_LOVE = (_G.love ~= nil)
 
 local InstanceType = require("instance_type")
 
+package.cpath = package.cpath
+    .. ";./build/?.dylib"
+    .. ";./build/Release/?.dylib"
+    .. ";./build/Debug/?.dylib"
+    .. ";./build/bin/?.dylib"
+    .. ";./build/bin/Release/?.dylib"
+    .. ";./build/?/?.dylib"
+    .. ";./build/?.so"
+    .. ";./build/?.dll"
+
 -- Optional native module: a real OS sleep + a monotonic clock.
 local okNative, native = pcall(require, "sleep_native")
 if not okNative then native = nil end
