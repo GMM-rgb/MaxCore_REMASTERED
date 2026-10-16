@@ -6,6 +6,8 @@ local SoundService <const> = core:LoadService("SoundService")
 local window = WindowService:CreateWindow()
 local exit = core.Event.new("exit")
 
+local ErrorSound = SoundService:LoadSound("C:\\yt_RCkUxdRSuEk.wav")
+
 ---@param s string
 ---@return table<string>
 function string.split(s)
@@ -16,8 +18,14 @@ function string.split(s)
 end
 
 if window and core.typeof(window) == "WindowObject" then
-    
+
 end
+
+RuntimeService.Stepped:Connect(function()
+    RuntimeService:Spawn("Heartbeat", function(wait)
+        
+    end)
+end)
 
 ---@param dt number
 RuntimeService.Heartbeat:Connect(function(dt)
@@ -30,4 +38,5 @@ exit:Connect(function()
     os.exit(nil, true)
 end)
 
+RuntimeService:Pump(2.0)
 RuntimeService:KeepAlive()

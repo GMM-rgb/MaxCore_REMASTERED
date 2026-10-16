@@ -91,6 +91,8 @@ set(NATIVE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/backend/physics_management.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/backend/native_utils.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/backend/platform_module.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/backend/runtime_backend/scheduler_native.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/backend/runtime_backend/sleep_native.cpp
 )
 
 find_package(Threads REQUIRED)
