@@ -26,25 +26,20 @@ local IS_LOVE = (_G.love ~= nil)
 
 local InstanceType = require("instance_type")
 
-package.cpath = package.cpath
-    .. ";./build/?.dylib"
-    .. ";./build/Release/?.dylib"
-    .. ";./build/Debug/?.dylib"
-    .. ";./build/bin/?.dylib"
-    .. ";./build/bin/Release/?.dylib"
-    .. ";./build/?/?.dylib"
-    .. ";./build/?.so"
-    .. ";./build/?.dll"
-
 -- Optional native module: a real OS sleep + a monotonic clock.
-local okNative, native = pcall(require, "sleep_native")
-if not okNative then native = nil end
+-- Make Lua look for native modules with the right extension (.dylib on
+-- macOS, .so on Linux, .dll on Windows). Without this, a freshly built
+-- sleep_native.dylib is never found and the pcall below fails silently.
+local NativePaths = require("native_paths"); NativePaths.Apply()
+
+---@type table?
+local native, nativeErr = NativePaths.TryRequire("sleep_native")
 
 -- Optional native task scheduler: background worker threads plus a timer
 -- thread that sleeps to the exact next deadline. Without it everything
 -- below still works (single-threaded, Lua-only), minus Async/ReadFile.
-local okSched, schedModule = pcall(require, "scheduler_native")
-if not okSched then schedModule = nil end
+---@type table?
+local schedModule, schedErr = NativePaths.TryRequire("scheduler_native")
 
 local DEFAULTS = {
     safe = true,
@@ -705,6 +700,11 @@ local function idle(self, seconds)
         print("[RunnerService] WARNING: no OS sleep available (native module 'sleep_native' " ..
             "or a global sleep(seconds)). The main loop will busy-wait between frames and " ..
             "use a full CPU core. Build sleep_native.cpp to fix this.")
+        if nativeErr then
+            -- Lua's own message lists every path it searched, which is exactly
+            -- what you need to see when the file exists but is not found.
+            print("[RunnerService] require('sleep_native') said:\n" .. nativeErr)
+        end
     end
 end
 
