@@ -254,6 +254,7 @@ function task.seed(fn, ...)
     end
 end
 
+---@deprecated
 function task.wait(n)
     n = n or 0
     return coroutine.wrap(function()
@@ -263,6 +264,7 @@ function task.wait(n)
 end
 
 function MainKit:Wait(n)
+    ---@diagnostic disable-next-line
     return task.wait(n)
 end
 
@@ -273,6 +275,7 @@ function MainKit:WaitForCondition(condition, timeout)
     local startTime = os.clock()
     while not condition() do
         if os.clock() - startTime > timeout then return false end
+        ---@diagnostic disable-next-line
         task.wait(0.1)
     end colorPrint("SUCCESS", "Condition met within timeout.")
     return true
@@ -548,7 +551,7 @@ local function call(_, env)
         
         -- Shortcuts
         newEvent = Event.new,
-        wait = task.wait,
+        wait = task.wait, --- @diagnostic disable-line
         seed = task.seed,
     };
 
