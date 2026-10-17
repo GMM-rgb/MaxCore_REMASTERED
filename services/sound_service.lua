@@ -1,24 +1,27 @@
 -- #service sound_service.lua
+local NativePaths = require("utils.native_paths")
 local InstanceType = require("instance_type")
 
-package.cpath = package.cpath
-    .. ";./build/?.dylib"
-    .. ";./build/Release/?.dylib"
-    .. ";./build/Debug/?.dylib"
-    .. ";./build/bin/?.dylib"
-    .. ";./build/bin/Release/?.dylib"
-    .. ";./build/?/?.dylib"
-    .. ";./build/?.so"
-    .. ";./build/?.dll"
+-- package.cpath = package.cpath
+--     .. ";./build/?.dylib"
+--     .. ";./build/Release/?.dylib"
+--     .. ";./build/Debug/?.dylib"
+--     .. ";./build/bin/?.dylib"
+--     .. ";./build/bin/Release/?.dylib"
+--     .. ";./build/?/?.dylib"
+--     .. ";./build/?.so"
+--     .. ";./build/?.dll"
 
-local native_ok, sound_native = pcall(require, "sound_native")
+NativePaths.Apply()
 
-if not native_ok then
-    print("\27[33m[SoundService Warning]\27[0m Failed to load sound_native: " .. tostring(sound_native))
+-- local native_ok, sound_native = pcall(require, "sound_native")
+local sound_native, sound_error = NativePaths.TryRequire("sound_native")
+
+if sound_error then
+    print("\27[33m[SoundService Warning]\27[0m Failed to load sound_native: " .. tostring(sound_native), "Error Message:\t(" .. sound_error .. ")")
 end
 
-local IS_LOVE = (_G.love ~= nil) and (_G.love.audio ~= nil)
-
+---@param path string
 local function isUrl(path)
     if type(path) ~= "string" then return false end
     return path:find("^https?://") ~= nil 
@@ -52,12 +55,12 @@ function SoundObject.new(serviceOwner, filePath)
     self._isPaused = false
     self._loveSource = nil
 
-    if IS_LOVE and not isUrl(filePath) then
-        local success, sourceOrErr = pcall(love.audio.newSource, filePath, "static")
-        if success then
-            self._loveSource = sourceOrErr
-        end
-    end
+    -- if IS_LOVE and not isUrl(filePath) then
+    --     local success, sourceOrErr = pcall(love.audio.newSource, filePath, "static")
+    --     if success then
+    --         self._loveSource = sourceOrErr
+    --     end
+    -- end
 
     return self
 end
@@ -74,19 +77,7 @@ end
 function SoundObject:Play(startTime)
     self._isPaused = false
 
-    if IS_LOVE and self._loveSource then
-        self._loveSource:stop()
-        self._loveSource:setVolume(self:_GetEffectiveVolume())
-        self._loveSource:setPitch(self._pitch)
-        self._loveSource:setLooping(self._loop)
-        if self._loveSource.setPosition then
-            self._loveSource:setPosition(self._panning, 0, 0)
-        end
-        if startTime then
-            self._loveSource:seek(math.max(0, startTime), "seconds")
-        end
-        self._loveSource:play()
-    elseif native_ok and type(sound_native.play) == "function" then
+    if type(sound_native.play) == "function" then
         local targetTime = startTime and math.max(0, startTime) or -1.0
         sound_native.play(self._path, self:_GetEffectiveVolume(), self._pitch, self._loop, self._panning, targetTime)
     end
@@ -95,9 +86,7 @@ end
 ---@param self SoundObject
 function SoundObject:Pause()
     self._isPaused = true
-    if IS_LOVE and self._loveSource then
-        self._loveSource:pause()
-    elseif native_ok and type(sound_native.pause) == "function" then
+    if type(sound_native.pause) == "function" then
         sound_native.pause(self._path)
     end
 end
@@ -107,23 +96,17 @@ function SoundObject:Resume()
     if not self._isPaused then return end
     self._isPaused = false
 
-    if IS_LOVE and self._loveSource then
-        self._loveSource:play()
-    elseif native_ok then
-        if type(sound_native.resume) == "function" then
-            sound_native.resume(self._path)
-        else
-            self:Play()
-        end
+    if type(sound_native.resume) == "function" then
+        sound_native.resume(self._path)
+    else
+        self:Play()
     end
 end
 
 ---@param self SoundObject
 function SoundObject:Stop()
     self._isPaused = false
-    if IS_LOVE and self._loveSource then
-        self._loveSource:stop()
-    elseif native_ok and type(sound_native.stop) == "function" then
+    if type(sound_native.stop) == "function" then
         sound_native.stop(self._path)
     end
 end
@@ -133,9 +116,7 @@ end
 function SoundObject:SetVolume(vol)
     self._volume = math.max(0, vol)
 
-    if IS_LOVE and self._loveSource then
-        self._loveSource:setVolume(self:_GetEffectiveVolume())
-    elseif native_ok and type(sound_native.set_volume) == "function" then
+    if type(sound_native.set_volume) == "function" then
         sound_native.set_volume(self._path, self:_GetEffectiveVolume())
     end
 end
@@ -151,9 +132,7 @@ end
 function SoundObject:SetPitch(pitch)
     self._pitch = math.max(0.01, pitch)
 
-    if IS_LOVE and self._loveSource then
-        self._loveSource:setPitch(self._pitch)
-    elseif native_ok and type(sound_native.set_pitch) == "function" then
+    if type(sound_native.set_pitch) == "function" then
         sound_native.set_pitch(self._path, self._pitch)
     end
 end
@@ -169,9 +148,7 @@ end
 function SoundObject:SetLooping(shouldLoop)
     self._loop = not not shouldLoop
 
-    if IS_LOVE and self._loveSource then
-        self._loveSource:setLooping(self._loop)
-    elseif native_ok and type(sound_native.set_looping) == "function" then
+    if type(sound_native.set_looping) == "function" then
         sound_native.set_looping(self._path, self._loop)
     end
 end
@@ -187,11 +164,7 @@ end
 function SoundObject:SetPan(pan)
     self._panning = math.max(-1.0, math.min(1.0, pan))
 
-    if IS_LOVE and self._loveSource then
-        if self._loveSource.setPosition then
-            self._loveSource:setPosition(self._panning, 0, 0)
-        end
-    elseif native_ok and type(sound_native.set_pan) == "function" then
+    if type(sound_native.set_pan) == "function" then
         sound_native.set_pan(self._path, self._panning)
     end
 end
@@ -199,9 +172,7 @@ end
 ---@param self SoundObject
 ---@return boolean
 function SoundObject:IsPlaying()
-    if IS_LOVE and self._loveSource then
-        return self._loveSource:isPlaying()
-    elseif native_ok and type(sound_native.is_playing) == "function" then
+    if type(sound_native.is_playing) == "function" then
         return sound_native.is_playing(self._path)
     end
     return false
@@ -223,11 +194,7 @@ end
 function SoundObject:SetTimePosition(seconds)
     local targetTime = math.max(0, seconds)
 
-    if IS_LOVE and self._loveSource then
-        if self._loveSource.seek then
-            self._loveSource:seek(targetTime, "seconds")
-        end
-    elseif native_ok and type(sound_native.set_time_position) == "function" then
+    if type(sound_native.set_time_position) == "function" then
         sound_native.set_time_position(self._path, targetTime)
     end
 end
@@ -235,11 +202,7 @@ end
 ---@param self SoundObject
 ---@return number|unknown
 function SoundObject:GetTimePosition()
-    if IS_LOVE and self._loveSource then
-        if self._loveSource.tell then
-            return self._loveSource:tell("seconds")
-        end
-    elseif native_ok and type(sound_native.get_time_position) == "function" then
+    if type(sound_native.get_time_position) == "function" then
         return sound_native.get_time_position(self._path)
     end
     return 0.0
@@ -247,11 +210,7 @@ end
 
 ---@param self SoundObject
 function SoundObject:GetDuration()
-    if IS_LOVE and self._loveSource then
-        if self._loveSource.getDuration then
-            return self._loveSource:getDuration("seconds")
-        end
-    elseif native_ok and type(sound_native.get_duration) == "function" then
+    if type(sound_native.get_duration) == "function" then
         return sound_native.get_duration(self._path)
     end
     return 0.0
@@ -293,7 +252,7 @@ function SoundService:SetCacheFolder(subfolder)
     assert(type(subfolder) == "string" and subfolder ~= "", "Cache folder path must be a non-empty string")
     self._cacheSubFolder = subfolder
 
-    if native_ok and type(sound_native.set_cache_dir) == "function" then
+    if type(sound_native.set_cache_dir) == "function" then
         local fullCachePath = subfolder
         
         if self._storageStorage then
@@ -350,7 +309,7 @@ function SoundService:LoadSound(filePath)
         local soundObj = SoundObject.new(self, filePath)
         
         -- Trigger immediate download and miniaudio RAM decoding
-        if native_ok and type(sound_native.load) == "function" then
+        if type(sound_native.load) == "function" then
             sound_native.load(filePath)
         end
         
@@ -364,9 +323,7 @@ end
 function SoundService:SetMasterVolume(vol)
     self._masterVolume = math.max(0, vol)
 
-    if IS_LOVE then
-        love.audio.setVolume(self._masterVolume)
-    elseif native_ok and type(sound_native.set_master_volume) == "function" then
+    if type(sound_native.set_master_volume) == "function" then
         sound_native.set_master_volume(self._masterVolume)
     end
 
@@ -381,9 +338,7 @@ function SoundService:GetMasterVolume()
 end
 
 function SoundService:StopAll()
-    if IS_LOVE then
-        love.audio.stop()
-    elseif native_ok and type(sound_native.stop_all) == "function" then
+    if type(sound_native.stop_all) == "function" then
         sound_native.stop_all()
     end
 end
@@ -399,7 +354,7 @@ function SoundService:ClearAudioCache()
 
     collectgarbage("collect")
 
-    if native_ok and type(sound_native.clear_cache) == "function" then
+    if type(sound_native.clear_cache) == "function" then
         sound_native.clear_cache()
     end
 

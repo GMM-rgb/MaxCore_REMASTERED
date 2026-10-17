@@ -30,7 +30,7 @@ local InstanceType = require("instance_type")
 -- Make Lua look for native modules with the right extension (.dylib on
 -- macOS, .so on Linux, .dll on Windows). Without this, a freshly built
 -- sleep_native.dylib is never found and the pcall below fails silently.
-local NativePaths = require("native_paths")
+local NativePaths = require("utils.native_paths")
 NativePaths.Apply()
 
 ---@type table?

@@ -14,6 +14,7 @@ package.cpath = package.cpath
     .. ";./build/bin/?.so"
 
 ---@alias PlatformMemoryInfo { ["total_mb"]: integer, ["available_mb"]: integer }
+---@alias PlatformWindowMetrics { ["notch_height"]: integer, ["title_bar_height"]: integer, ["border_left"]: integer, ["border_top"]: integer, ["border_right"]: integer, ["border_bottom"]: integer }
 
 ---@class PlatformInfo
 ---@field os string
@@ -23,12 +24,17 @@ package.cpath = package.cpath
 ---@field ram_available_mb integer
 ---@field is_64bit boolean
 ---@field endianness "little" | "big"
+---@field notch_height integer
+---@field title_bar_height integer
 
 ---@class NativePlatformInterface
 ---@field get_os fun(): string
 ---@field get_arch fun(): string
 ---@field get_cpu_cores fun(): integer
 ---@field get_memory_info fun(): PlatformMemoryInfo
+---@field get_notch_height fun(): integer
+---@field get_title_bar_height fun(): integer
+---@field get_window_metrics fun(): PlatformWindowMetrics
 ---@field get_info fun(): PlatformInfo
 
 ---@type NativePlatformInterface
@@ -56,6 +62,18 @@ end
 
 function PlatformService:get_memory_info()
     return native_platform.get_memory_info()
+end
+
+function PlatformService:get_notch_height()
+    return native_platform.get_notch_height()
+end
+
+function PlatformService:get_title_bar_height()
+    return native_platform.get_title_bar_height()
+end
+
+function PlatformService:get_window_metrics()
+    return native_platform.get_window_metrics()
 end
 
 function PlatformService:get_info()
