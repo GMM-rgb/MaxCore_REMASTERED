@@ -58,6 +58,12 @@ local CHANNELS = { "Stepped", "Heartbeat", "RenderStepped" } -- execution order 
 ---@class Logger
 ---@field log fun(self: Logger, ...: any)
 
+---The channels a job can run on, in the order they execute within a frame.
+---@alias RunnerChannel
+---| '"Stepped"' # runs first each frame (input, physics, game logic)
+---| '"Heartbeat"' # runs after Stepped (the default channel)
+---| '"RenderStepped"' # runs last, right before drawing
+
 ---A finished background task, as handed back by join().
 ---@class TaskEvent
 ---@field handle integer The packed task handle this event belongs to
@@ -96,18 +102,40 @@ local CHANNELS = { "Stepped", "Heartbeat", "RenderStepped" } -- execution order 
 ---The function body given to Spawn.
 ---@alias SpawnFn fun(wait: SpawnWait, join: SpawnJoin)
 
+---A Connect callback registered with { yieldable = true }. It gets the same
+---first argument as a plain Connect callback (the frame's dt, or the interval
+---if one was set), followed by wait and join.
+---@alias YieldFn fun(dt: number, wait: SpawnWait, join: SpawnJoin)
+
+---Options common to every job: Connect, yieldable Connect and Spawn.
 ---@class JobOptions
----@field id string | nil
----@field tag string | nil
----@field priority number | nil
----@field interval number | nil
----@field maxCatchUp number | nil
----@field once boolean | nil
----@field safe boolean | nil
----@field maxFails number | nil
----@field yieldable boolean | nil Run each firing of a Connect callback as its own coroutine, so it may call wait() and join()
+---@field id string | nil Name for the job; generated if omitted
+---@field tag string | nil Free-form label, e.g. "main", for finding jobs later
+---@field priority number | nil Lower runs first within a channel (default 0)
+---@field interval number | nil Run every `interval` seconds instead of every frame; dt is then the interval
+---@field maxCatchUp number | nil Most missed intervals to replay after a stall before dropping the backlog
+---@field once boolean | nil Remove the job after its first run
+---@field safe boolean | nil Catch errors so one failure does not stop the frame (default true)
+---@field maxFails number | nil Errors tolerated before the job is removed (default 3, math.huge = never)
+---@field yieldable boolean | nil Connect only: run each firing as its own coroutine so it may wait() and join()
 ---@field reentrant boolean | nil With yieldable: allow a new firing while the previous one is still waiting (default false: skip it)
 ---@field maxConcurrent integer | nil With yieldable and reentrant: most firings alive at once (default 8)
+---@field key string | nil Spawn only: names this job. While a job with the same key is alive, `whenRunning` decides what a new Spawn does
+---@field whenRunning WhenRunning | nil Spawn only, needs key: what to do if that key is already running (default "skip")
+
+---Options for a plain Connect callback, which receives only dt.
+---@class ConnectOptions : JobOptions
+---@field yieldable false | nil Leave out (or false) for a plain callback
+
+---Options for a Connect callback that may wait() and join(): each firing runs as its own coroutine.
+---@class YieldableConnectOptions : JobOptions
+---@field yieldable true Makes the callback receive (dt, wait, join)
+
+---What Spawn does when a job with the same key is still alive.
+---@alias WhenRunning
+---| '"skip"' # keep the running job, start nothing, return the existing connection
+---| '"replace"' # kill the running job and start the new one
+---| '"allow"' # start another anyway (same as giving no key)
 
 ---@class RunnerJob
 ---@field id string
@@ -125,6 +153,9 @@ local CHANNELS = { "Stepped", "Heartbeat", "RenderStepped" } -- execution order 
 ---@field co thread | nil
 ---@field wakeAt number | nil Scheduler-clock time this coroutine should next resume (nil = ready now)
 ---@field sleptSince number | nil Scheduler-clock time it started waiting, used to report how long it waited
+---@field onFail fun(job: RunnerJob)? Called once each time this coroutine dies with an error; lets a yieldable connection total failures across its firings
+---@field key string? Spawn key this job holds; released when the job ends
+---@field channel RunnerChannel Channel this job is registered on
 ---@field seq number Insertion order, used as a stable tie-breaker when sorting by priority
 ---@field joinHandle integer? Native task handle this job is suspended on
 ---@field joinEvent TaskEvent? The result waiting to be handed to join() when the job resumes
@@ -132,14 +163,21 @@ local CHANNELS = { "Stepped", "Heartbeat", "RenderStepped" } -- execution order 
 
 ---@class RunnerConnection
 ---@field id string
----@field channel string
+---@field channel RunnerChannel
 ---@field Connected boolean
 ---@field disconnect fun(self: RunnerConnection)
 ---@field Pause fun(self: RunnerConnection)
 ---@field Resume fun(self: RunnerConnection)
 
+---One of the frame channels (Stepped, Heartbeat, RenderStepped).
+---Connect has two shapes, picked by `yieldable` in the options:
+---  Heartbeat:Connect(function(dt) ... end)                         dt only
+---  Heartbeat:Connect(function(dt, wait, join) ... end, { yieldable = true })
 ---@class RunnerSignal
----@field Connect fun(self: RunnerSignal, fn: fun(dt: number)|string|SpawnFn, connectOpts: JobOptions|nil): RunnerConnection
+---@field Connect fun(self: RunnerSignal, fn: fun(dt: number)|YieldFn|string, connectOpts: JobOptions|nil): RunnerConnection
+---@overload fun(self: RunnerSignal, fn: fun(dt: number), connectOpts: ConnectOptions?): RunnerConnection
+---@overload fun(self: RunnerSignal, fn: YieldFn, connectOpts: YieldableConnectOptions): RunnerConnection
+---@overload fun(self: RunnerSignal, fn: string, connectOpts: ConnectOptions?): RunnerConnection
 
 -- Forward declaration: stepCoroutine is defined further down, but
 -- _bindYieldable (above it) needs to start a firing's first slice at once.
@@ -154,11 +192,12 @@ local stepCoroutine
 ---@field RenderStepped RunnerSignal
 ---@field _log fun(...: any)
 ---@field _running boolean
----@field _jobs table<string, RunnerJob[]>
+---@field _jobs table<RunnerChannel, RunnerJob[]>
 ---@field _tickRate number
 ---@field _maxDt number
 ---@field _now number Scheduler clock in seconds. Advances by the (clamped) dt of every Step.
 ---@field _seq number
+---@field _keys table<string, RunnerJob> Live Spawn jobs by key, so a repeated Spawn can skip or replace instead of piling up
 ---@field _warnedNoSleep boolean
 ---@field _native RunnerNative? Native scheduler (nil when scheduler_native is unavailable)
 ---@field _joining table<integer, RunnerJob> Jobs suspended on a background task, by packed native handle
@@ -200,6 +239,7 @@ function RunnerService.new(opts)
     self._jobs = { Heartbeat = {}, Stepped = {}, RenderStepped = {} }
     self._now = 0
     self._seq = 0
+    self._keys = {}
     self._warnedNoSleep = false
     self._joining = {}
     self._ready = {}
@@ -209,7 +249,7 @@ function RunnerService.new(opts)
         if okNew then self._native = inst end
     end
 
-    ---@param channelName string
+    ---@param channelName RunnerChannel
     ---@return RunnerSignal
     local function makeSignal(channelName)
         ---@type RunnerSignal
@@ -227,6 +267,18 @@ function RunnerService.new(opts)
     return self
 end
 
+---Marks a job dead and releases the Spawn key it held, so the name can be
+---used again. EVERY way a job can end goes through here (explicit disconnect,
+---finishing, erroring, being killed, service destroy). Releasing the key in
+---just some of those paths would leave a name blocked forever.
+---@param self RunnerService
+---@param job RunnerJob
+local function retire(self, job)
+    job.dead = true
+    local key = job.key
+    if key and self._keys[key] == job then self._keys[key] = nil end
+end
+
 -- Jobs sort by priority, then by insertion order, so equal-priority jobs
 -- always run in the order they were added (table.sort alone is not stable).
 ---@param a RunnerJob
@@ -238,7 +290,7 @@ local function byPriority(a, b)
 end
 
 ---@param self RunnerService
----@param channel string
+---@param channel RunnerChannel
 ---@param job RunnerJob
 ---@return RunnerConnection
 local function register(self, channel, job)
@@ -250,6 +302,7 @@ local function register(self, channel, job)
     self._seq = self._seq + 1
     job.seq = self._seq
     job.dead = false
+    job.channel = channel
     list[#list + 1] = job
     table.sort(list, byPriority)
 
@@ -262,7 +315,7 @@ local function register(self, channel, job)
         disconnect = function(connObj)
             if not connObj.Connected then return end
             connObj.Connected = false
-            job.dead = true -- a job removed mid-Step must not get resumed again this frame
+            retire(self, job) -- a job removed mid-Step must not get resumed again this frame
             if job.joinHandle then
                 if self._joining[job.joinHandle] == job then self._joining[job.joinHandle] = nil end
                 if self._native then self._native:cancel(job.joinHandle) end
@@ -292,13 +345,21 @@ end
 
 --- Connect a plain callback to a channel. Runs every frame (or every
 --- `interval` seconds). Cannot call wait(); use Spawn for that.
----@param channel string
+---@param channel RunnerChannel?
 ---@param fn function|string
 ---@param opts JobOptions|nil
 ---@return RunnerConnection
 function RunnerService:bind(channel, fn, opts)
     local providedOpts = opts or {}
+    ---@type RunnerChannel
     local activeChannel = channel or "Heartbeat"
+
+    -- An explicit nil check, not `a == nil and DEFAULTS.safe or a`: that idiom
+    -- returns the default whenever the value is false, so safe = false could
+    -- never be requested. This keeps it a real boolean either way.
+    ---@type boolean
+    local safe = DEFAULTS.safe
+    if providedOpts.safe ~= nil then safe = providedOpts.safe end
 
     local executableFn = fn
     if type(fn) == "string" then
@@ -314,7 +375,7 @@ function RunnerService:bind(channel, fn, opts)
     end
 
     if providedOpts.yieldable then
-        return self:_bindYieldable(activeChannel, executableFn --[[@as SpawnFn]], providedOpts)
+        return self:_bindYieldable(activeChannel, executableFn --[[@as YieldFn]], providedOpts)
     end
 
     ---@type RunnerJob
@@ -327,40 +388,93 @@ function RunnerService:bind(channel, fn, opts)
         maxCatchUp = providedOpts.maxCatchUp or DEFAULTS.maxCatchUp,
         maxFails = providedOpts.maxFails or DEFAULTS.maxFails,
         once = providedOpts.once or false,
-        safe = (providedOpts.safe == nil) and DEFAULTS.safe or (providedOpts.safe or true),
+        safe = safe or true,
         paused = false,
         failCount = 0,
         _lastAcc = 0,
         co = nil,
         wakeAt = nil,
+        key = nil,
+        channel = activeChannel,
         seq = 0,
         dead = false,
     }
     return register(self, activeChannel, jobData)
 end
 
+---Returns "file:line:" for the first stack frame outside this file, i.e. the
+---caller's own code, or "" if none is found. `error(msg, level)` cannot be
+---trusted here: tail calls (Connect returns self:bind(...)) remove frames, so a
+---fixed level lands in a different place depending on how the caller invoked us.
+---@return string
+local function callerLocation()
+    local here = debug.getinfo(1, "S").source
+    for level = 2, 12 do
+        local info = debug.getinfo(level, "Sl")
+        if not info then break end
+        if info.source ~= here and info.currentline and info.currentline > 0 then
+            return ("%s:%d:"):format(info.short_src, info.currentline)
+        end
+    end
+    return ""
+end
+
 --- Connect a callback that is allowed to wait. Each time the channel fires,
---- `fn(wait, join)` starts as its OWN coroutine, so it can suspend without
---- blocking anything else. Used by Connect(fn, { yieldable = true }).
+--- `fn(dt, wait, join)` starts as its OWN coroutine, so it can suspend without
+--- blocking anything else. `dt` is the same number a plain Connect callback gets. Used by Connect(fn, { yieldable = true }).
 ---
 --- A connection never piles up: while a firing is still waiting, the next
 --- one is skipped (reentrant = false, the default). With reentrant = true,
 --- firings may overlap, but never more than maxConcurrent at once. The excess
 --- is skipped, not queued, so a fast channel cannot grow memory without bound.
----@param channel string
----@param fn SpawnFn
+---@param channel RunnerChannel
+---@param fn YieldFn
 ---@param opts JobOptions
 ---@return RunnerConnection
 function RunnerService:_bindYieldable(channel, fn, opts)
+    -- Catch the old shape up front. Before dt was added, a yieldable callback
+    -- was written function(wait) or function(wait, join). Under the new
+    -- (dt, wait, join) order that puts a NUMBER in `wait`, which fails later,
+    -- every frame, as "attempt to call a number value". Say what changed once,
+    -- at Connect time. Deliberately narrow so valid code is never rejected:
+    -- only a function whose FIRST parameter is literally named wait or join.
+    -- Stripped bytecode has no names, so it is never flagged.
+    local info = debug.getinfo(fn, "u")
+    if info and info.nparams >= 1 and not info.isvararg then
+        local first = debug.getlocal(fn, 1)
+        if first == "wait" or first == "join" then
+            error(callerLocation() .. " " .. ("Connect with { yieldable = true } now calls your function as (dt, wait, join), " ..
+                "but its first parameter is named %q. Write function(dt, wait) ... end. " ..
+                "(Spawn is unchanged and still takes (wait, join).)"):format(first), 0)
+        end
+    end
+
     ---@type RunnerJob[]
     local live = {}
     local limit = opts.reentrant and (opts.maxConcurrent or DEFAULTS.maxConcurrent) or 1
     if limit < 1 then limit = 1 end
     local connected = true
+    -- Each firing is a fresh coroutine job whose own failCount starts at 0, so
+    -- maxFails could never be reached by counting per job. Count here instead,
+    -- across every firing of this connection, exactly like a plain callback
+    -- counts across frames.
+    local maxFails = opts.maxFails or DEFAULTS.maxFails
+    local failures = 0
+    ---@type RunnerConnection?
+    local self_conn = nil
+
+    ---@param _ RunnerJob
+    local function onFail(_)
+        failures = failures + 1
+        if failures >= maxFails and self_conn and self_conn.Connected then
+            -- Same outcome as a plain callback hitting maxFails: it is removed.
+            self_conn:disconnect()
+        end
+    end
 
     -- The launcher runs on the channel like any bound callback. It only
     -- decides whether to start a firing; the firing itself is a Spawn job.
-    local launcher = self:bind(channel, function()
+    local launcher = self:bind(channel, function(dt)
         if not connected then return end
         -- Drop firings that are no longer running. A firing is finished when
         -- its job was removed (dead) OR its coroutine ended, whether it
@@ -371,8 +485,13 @@ function RunnerService:_bindYieldable(channel, fn, opts)
         end
         if #live >= limit then return end
 
-        local conn = self:Spawn(channel, fn, { tag = opts.tag, priority = opts.priority, maxFails = opts.maxFails })
+        -- Spawn calls its body as (wait, join). Close over THIS frame's dt so the
+        -- user's function sees (dt, wait, join), matching a plain Connect.
+        ---@type SpawnFn
+        local body = function(wait, join) fn(dt, wait, join) end
+        local conn = self:Spawn(channel, body, { tag = opts.tag, priority = opts.priority, maxFails = opts.maxFails })
         local job = self:_jobOf(conn)
+        job.onFail = onFail
         live[#live + 1] = job
         -- Start it now, in the same step the channel fired. Without this the
         -- firing would not begin until the NEXT step, adding a frame of delay
@@ -402,6 +521,7 @@ function RunnerService:_bindYieldable(channel, fn, opts)
         Pause = function() launcher:Pause() end,
         Resume = function() launcher:Resume() end,
     }
+    self_conn = conn
     return conn
 end
 
@@ -417,10 +537,10 @@ function RunnerService:_jobOf(conn)
 end
 
 ---Removes a job from its channel by identity and marks it dead so it is never resumed again.
----@param channel string
+---@param channel RunnerChannel
 ---@param job RunnerJob
 function RunnerService:_killJob(channel, job)
-    job.dead = true
+    retire(self, job)
     if job.joinHandle then
         if self._joining[job.joinHandle] == job then self._joining[job.joinHandle] = nil end
         if self._native then self._native:cancel(job.joinHandle) end
@@ -444,15 +564,38 @@ end
 ---
 --- The job starts on the NEXT step (not inside this call), so Spawn always
 --- returns immediately, even if the function waits or errors right away.
----@param channel string
+---@param channel RunnerChannel?
 ---@param fn SpawnFn
 ---@param opts JobOptions|nil
 ---@return RunnerConnection
 function RunnerService:Spawn(channel, fn, opts)
+    ---@type RunnerChannel
     local activeChannel = channel or "Heartbeat"
     local providedOpts = opts or {}
     if type(fn) ~= "function" then
         error("RunnerService:Spawn expects a function", 2)
+    end
+
+    -- A key names this job. If one with the same key is still alive, either
+    -- hand back the running one ("skip"), kill it first ("replace"), or carry
+    -- on and start another ("allow"). This is what stops a Connect callback
+    -- that calls Spawn from starting a new job every frame.
+    local key = providedOpts.key
+    local policy = providedOpts.whenRunning or "skip"
+    if key ~= nil then
+        if type(key) ~= "string" then
+            error("Spawn option `key` must be a string, got " .. type(key), 2)
+        end
+        if policy ~= "skip" and policy ~= "replace" and policy ~= "allow" then
+            error(('Spawn option `whenRunning` must be "skip", "replace" or "allow", got %q'):format(tostring(policy)), 2)
+        end
+        local running = self._keys[key]
+        if running and not running.dead and policy ~= "allow" then
+            if policy == "skip" then
+                return self:_connectionFor(running)
+            end
+            self:_killJob(running.channel, running) -- "replace"
+        end
     end
 
     local job -- forward declaration so wait() can reach its own job
@@ -498,17 +641,41 @@ function RunnerService:Spawn(channel, fn, opts)
         maxCatchUp = DEFAULTS.maxCatchUp,
         maxFails = providedOpts.maxFails or DEFAULTS.maxFails,
         once = false,
-        safe = true,
+        safe = true, -- fixed: a coroutine's errors are always caught by stepCoroutine, so the `safe` option does not apply
         paused = false,
         failCount = 0,
         _lastAcc = 0,
         co = coroutine.create(function() fn(wait, join) end),
         wakeAt = nil, -- ready immediately: first slice runs on the next Step
         sleptSince = nil,
+        key = key,
+        channel = activeChannel,
         seq = 0,
         dead = false,
     }
-    return register(self, activeChannel, job)
+    local conn = register(self, activeChannel, job)
+    if key ~= nil and policy ~= "allow" then self._keys[key] = job end
+    return conn
+end
+
+---Builds a connection object for a job that is already running, so Spawn can
+---hand back the existing one when it skips a duplicate.
+---@param job RunnerJob
+---@return RunnerConnection
+function RunnerService:_connectionFor(job)
+    ---@type RunnerConnection
+    return {
+        id = job.id,
+        channel = job.channel,
+        Connected = not job.dead,
+        disconnect = function(connObj)
+            if not connObj.Connected then return end
+            connObj.Connected = false
+            self:_killJob(job.channel, job)
+        end,
+        Pause = function() job.paused = true end,
+        Resume = function() job.paused = false end,
+    }
 end
 
 --- True when background threads are available.
@@ -614,6 +781,7 @@ function stepCoroutine(self, job)
     if not ok then
         job.failCount = job.failCount + 1
         logError("Job Error", debug.traceback(co, tostring(tag)))
+        if job.onFail then job.onFail(job) end
         -- A coroutine that errored is dead; there is nothing to retry.
         return true
     end
@@ -744,7 +912,7 @@ function RunnerService:Step(dt)
                 if not currentJob.dead then
                     local shouldRemove = executeJob(self, currentJob, dt)
                     if shouldRemove and not currentJob.dead then
-                        currentJob.dead = true
+                        retire(self, currentJob)
                         for j = #channelList, 1, -1 do
                             if channelList[j] == currentJob then
                                 table.remove(channelList, j)
@@ -856,7 +1024,7 @@ function RunnerService:destroy()
     end
     self._joining, self._ready = {}, {}
     for _, list in pairs(self._jobs) do
-        for i = 1, #list do list[i].dead = true end
+        for i = 1, #list do retire(self, list[i]) end
     end
     self._jobs = { Heartbeat = {}, Stepped = {}, RenderStepped = {} }
 end
