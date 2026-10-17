@@ -33,7 +33,62 @@ file(GLOB LUA_SOURCES "${LUA_SRC_DIR}/*.c")
 set(LUA_LIB_SOURCES ${LUA_SOURCES})
 list(REMOVE_ITEM LUA_LIB_SOURCES "${LUA_SRC_DIR}/lua.c" "${LUA_SRC_DIR}/luac.c")
 
-# Build shared Lua library (lua55)
+# =========================================================================
+# PLATFORM LIBS & FRAMEWORKS DEFINITION
+# =========================================================================
+find_package(Threads REQUIRED)
+set(PLATFORM_LIBS Threads::Threads)
+
+if(WIN32)
+    message(STATUS "[Engine] Target OS: Windows")
+    list(APPEND PLATFORM_LIBS winmm user32 urlmon)
+elseif(APPLE)
+    message(STATUS "[Engine] Target OS: macOS")
+    list(APPEND PLATFORM_LIBS
+        "-framework CoreAudio"
+        "-framework CoreFoundation"
+        "-framework AudioToolbox"
+        "-framework ApplicationServices"
+        "-framework Cocoa"
+        "-lobjc"
+    )
+elseif(UNIX)
+    message(STATUS "[Engine] Target OS: Linux / Unix")
+
+    set(SEARCH_INCLUDES "")
+    set(SEARCH_LIBS "")
+
+    if(DEFINED ENV{CPATH})
+        string(REPLACE ":" ";" SEARCH_INCLUDES "$ENV{CPATH}")
+    endif()
+    if(DEFINED ENV{LIBRARY_PATH})
+        string(REPLACE ":" ";" SEARCH_LIBS "$ENV{LIBRARY_PATH}")
+    endif()
+
+    find_path(X11_INCLUDE_DIR NAMES X11/Xlib.h PATHS ${SEARCH_INCLUDES})
+    find_library(X11_LIB NAMES X11 PATHS ${SEARCH_LIBS})
+    find_library(XTST_LIB NAMES Xtst PATHS ${SEARCH_LIBS})
+
+    if(X11_INCLUDE_DIR AND X11_LIB)
+        message(STATUS "[Engine] Found X11 headers at: ${X11_INCLUDE_DIR}")
+        message(STATUS "[Engine] Found libX11 at: ${X11_LIB}")
+        include_directories(${X11_INCLUDE_DIR})
+        list(APPEND PLATFORM_LIBS m dl ${X11_LIB})
+
+        if(XTST_LIB)
+            message(STATUS "[Engine] Found libXtst at: ${XTST_LIB}")
+            list(APPEND PLATFORM_LIBS ${XTST_LIB})
+        endif()
+    else()
+        message(FATAL_ERROR
+            "\n[Engine Error] Could not locate X11 headers or libX11.so!\n"
+        )
+    endif()
+endif()
+
+# =========================================================================
+# BUILD SHARED LUA LIBRARY & RUNNER
+# =========================================================================
 add_library(lua_shared SHARED ${LUA_LIB_SOURCES}
     backend/platform_module.cpp)
 
@@ -42,19 +97,15 @@ set_target_properties(lua_shared PROPERTIES
     OUTPUT_NAME "lua55"
 )
 
-# =========================================================================
-# WINDOWS LUA DLL EXPORT CONFIGURATION
-# =========================================================================
+# Link platform-specific libs/frameworks to lua_shared so platform_module symbols resolve
+target_link_libraries(lua_shared PRIVATE ${PLATFORM_LIBS})
+
+# Windows Lua DLL Export Configuration
 if(WIN32)
     set_source_files_properties(
         ${LUA_LIB_SOURCES}
         PROPERTIES COMPILE_DEFINITIONS LUA_BUILD_AS_DLL
     )
-endif()
-
-# Link C math and dynamic loading library explicitly to Lua on Unix
-if(UNIX AND NOT APPLE)
-    target_link_libraries(lua_shared PRIVATE m dl)
 endif()
 
 # Build custom Lua executable linked to lua_shared
@@ -95,57 +146,8 @@ set(NATIVE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/backend/runtime_backend/sleep_native.cpp
 )
 
-find_package(Threads REQUIRED)
-
-set(PLATFORM_LIBS Threads::Threads lua_shared)
-
-if(WIN32)
-    message(STATUS "[Engine] Target OS: Windows")
-    list(APPEND PLATFORM_LIBS winmm user32 urlmon)
-elseif(APPLE)
-    message(STATUS "[Engine] Target OS: macOS")
-    list(APPEND PLATFORM_LIBS
-        "-framework CoreAudio"
-        "-framework CoreFoundation"
-        "-framework AudioToolbox"
-        "-framework ApplicationServices"
-        "-framework Cocoa"
-    )
-elseif(NOT APPLE AND UNIX)
-    message(STATUS "[Engine] Target OS: Linux / Unix")
-
-    # Extract Devbox / Nix environment search paths
-    set(SEARCH_INCLUDES "")
-    set(SEARCH_LIBS "")
-
-    if(DEFINED ENV{CPATH})
-        string(REPLACE ":" ";" SEARCH_INCLUDES "$ENV{CPATH}")
-    endif()
-    if(DEFINED ENV{LIBRARY_PATH})
-        string(REPLACE ":" ";" SEARCH_LIBS "$ENV{LIBRARY_PATH}")
-    endif()
-
-    # Search directly across Nix store outputs and system directories
-    find_path(X11_INCLUDE_DIR NAMES X11/Xlib.h PATHS ${SEARCH_INCLUDES})
-    find_library(X11_LIB NAMES X11 PATHS ${SEARCH_LIBS})
-    find_library(XTST_LIB NAMES Xtst PATHS ${SEARCH_LIBS})
-
-    if(X11_INCLUDE_DIR AND X11_LIB)
-        message(STATUS "[Engine] Found X11 headers at: ${X11_INCLUDE_DIR}")
-        message(STATUS "[Engine] Found libX11 at: ${X11_LIB}")
-        include_directories(${X11_INCLUDE_DIR})
-        list(APPEND PLATFORM_LIBS m dl ${X11_LIB})
-
-        if(XTST_LIB)
-            message(STATUS "[Engine] Found libXtst at: ${XTST_LIB}")
-            list(APPEND PLATFORM_LIBS ${XTST_LIB})
-        endif()
-    else()
-        message(FATAL_ERROR
-            "\n[Engine Error] Could not locate X11 headers or libX11.so!\n"
-        )
-    endif()
-endif()
+# All native modules need lua_shared + platform libs
+list(APPEND PLATFORM_LIBS lua_shared)
 
 # =========================================================================
 # MODULE TARGET GENERATION

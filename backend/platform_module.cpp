@@ -195,7 +195,8 @@ static PlatformWindowInfo GatherWindowInformation() {
         if (mainScreen) {
             SEL safeAreaSel = sel_getUid("safeAreaInsets");
             struct NSEdgeInsets { double top; double left; double bottom; double right; } insets = {0, 0, 0, 0};
-            if (((bool(*)(id, SEL))objc_msgSend)(mainScreen, sel_getUid("respondsToSelector:"), safeAreaSel)) {
+            // Fixed function pointer cast to accept 3 arguments (self, op, arg)
+            if (((bool(*)(id, SEL, SEL))objc_msgSend)(mainScreen, sel_getUid("respondsToSelector:"), safeAreaSel)) {
                 insets = ((struct NSEdgeInsets(*)(id, SEL))objc_msgSend)(mainScreen, safeAreaSel);
             }
             winInfo.notchHeight = static_cast<int>(insets.top);
