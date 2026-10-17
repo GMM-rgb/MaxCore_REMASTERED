@@ -27,6 +27,7 @@ extern "C" {
     #include <objc/message.h>
     #include <sys/sysctl.h>
     #include <TargetConditionals.h>
+    #include <mach/mach.h>
 #else
     #define EXPORT_FN __attribute__((visibility("default")))
     #include <unistd.h>
@@ -60,6 +61,7 @@ struct PlatformWindowInfo {
 static PlatformSystemInfo GatherSystemInformation() {
     PlatformSystemInfo info{};
 
+    // Detect Endianness at runtime
     union {
         uint32_t val;
         uint8_t bytes[4];
@@ -121,6 +123,18 @@ static PlatformSystemInfo GatherSystemInformation() {
         info.totalRamMB = mem / (1024 * 1024);
     }
 
+    // Fixed macOS available memory retrieval via Mach host statistics
+    mach_port_t host_port = mach_host_self();
+    vm_size_t page_size = 0;
+    if (host_page_size(host_port, &page_size) == KERN_SUCCESS) {
+        vm_statistics64_data_t vm_stats;
+        mach_msg_type_number_t count = HOST_VM_INFO64_COUNT;
+        if (host_statistics64(host_port, HOST_VM_INFO64, (host_info64_t)&vm_stats, &count) == KERN_SUCCESS) {
+            uint64_t available_bytes = (uint64_t)(vm_stats.free_count + vm_stats.inactive_count) * page_size;
+            info.availableRamMB = available_bytes / (1024 * 1024);
+        }
+    }
+
 #if defined(__x86_64__)
     std::strncpy(info.cpuArchitecture, "x86_64", sizeof(info.cpuArchitecture));
     info.is64Bit = true;
@@ -171,7 +185,7 @@ static PlatformWindowInfo GatherWindowInformation() {
     winInfo.borderBottom = (cyFrame > 0) ? cyFrame : 8;
     winInfo.titleBarHeight = (caption > 0) ? caption : 30;
     winInfo.borderTop = winInfo.titleBarHeight + winInfo.borderBottom;
-    winInfo.notchHeight = 0; // Windows desktops don't feature hardware camera notches
+    winInfo.notchHeight = 0;
 
 #elif defined(__APPLE__)
     Class clsNSScreen = objc_getClass("NSScreen");

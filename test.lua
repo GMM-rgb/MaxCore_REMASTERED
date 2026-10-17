@@ -10,7 +10,6 @@ local RandomColor = core.RandomClass.new(os.time())
 local window = WindowService:CreateWindow("window")
 local exit = core.Event.new("exit")
 
-
 local StringModify = StorageService:GetFile("./services/sub_modules/lua_string_modify.lua"):Read()
 if type(StringModify) ~= "string" then return end
 load(StringModify, "string-modify", "bt")()
