@@ -51,7 +51,7 @@ local DEFAULTS = {
     maxDt = 0.5,
     maxConcurrent = 8,   -- most overlapping firings of one yieldable connection
     maxWait = 3600 * 24, -- clamp absurd waits (a day) so a bad value can't strand a job forever
-}
+};
 
 local CHANNELS = { "Stepped", "Heartbeat", "RenderStepped" } -- execution order within a frame
 
@@ -333,7 +333,7 @@ local function register(self, channel, job)
         end,
         Pause = function() job.paused = true end,
         Resume = function() job.paused = false end,
-    }
+    };
     return conn
 end
 
@@ -398,7 +398,7 @@ function RunnerService:bind(channel, fn, opts)
         channel = activeChannel,
         seq = 0,
         dead = false,
-    }
+    };
     return register(self, activeChannel, jobData)
 end
 
@@ -520,7 +520,7 @@ function RunnerService:_bindYieldable(channel, fn, opts)
         end,
         Pause = function() launcher:Pause() end,
         Resume = function() launcher:Resume() end,
-    }
+    };
     self_conn = conn
     return conn
 end
@@ -652,7 +652,7 @@ function RunnerService:Spawn(channel, fn, opts)
         channel = activeChannel,
         seq = 0,
         dead = false,
-    }
+    };
     local conn = register(self, activeChannel, job)
     if key ~= nil and policy ~= "allow" then self._keys[key] = job end
     return conn
@@ -1017,6 +1017,7 @@ function RunnerService:KeepAlive()
 end
 
 function RunnerService:destroy()
+    -- print("Destroying & Shutting down runtime...")
     self._running = false
     if self._native then
         pcall(self._native.shutdown, self._native)  -- joins workers + timer thread

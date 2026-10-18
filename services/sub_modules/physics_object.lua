@@ -732,7 +732,7 @@ function PhysicsWorld:CreateHullBody(vertices, faces, px, py, pz, mass, isStatic
 end
 
 ---Destroys the world and every body in it.
-function PhysicsWorld:Destroy()
+function PhysicsWorld:destroy()
     if physics_ok and type(physics_interface) ~= "string" then
         physics_interface.destroy_world(self._id)
     end

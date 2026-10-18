@@ -26,6 +26,7 @@
 #include <lua.hpp>
 #include "task_scheduler.hpp"
 
+#include <iostream>
 #include <fstream>
 #include <memory>
 #include <string>
@@ -60,7 +61,10 @@ int s_gc(lua_State* L) {
     return 0;
 }
 
-int s_shutdown(lua_State* L) { return s_gc(L); }
+int s_shutdown(lua_State* L) {
+    std::cout << "[Engine Debug] INFO: shutting down runtime... " << L << std::endl;
+    return s_gc(L);
+}
 
 int s_now(lua_State* L) {
     lua_pushnumber(L, check(L, 1)->scheduler->Now());
