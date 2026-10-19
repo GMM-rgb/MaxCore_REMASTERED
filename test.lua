@@ -53,20 +53,23 @@ RuntimeService.RenderStepped:Connect(function(dt, wait, join)
         exit:Fire(); return
     end
 
-    local UpdateDelta = wait(dt)
+    dt = wait()
+
+    local ry = WorldGameFloor.Rotation.y + dt * math.rad(35.0)
+    WorldGameFloor:SetRotation(WorldGameFloor.Rotation.x, ry, WorldGameFloor.Rotation.z)
 
     WindowElement:SwapBuffers()
     WindowElement:ClearCanvas()
     WindowElement:RenderObject(WorldGameFloor)
     WindowElement:RenderObject(PlayerModel)
-    WindowElement:StepPhysics(UpdateDelta)
+    WindowElement:StepPhysics(dt)
 
     if WindowElement:IsFocused() ~= InputService:GetGlobalInput() then
         InputService:SetGlobalInput(WindowElement:IsFocused() or false)
     end
 
     InputService:Update(); collectgarbage("collect")
-end, { yieldable = true, maxFails = math.huge, tag = "main" })
+end, { yieldable = true, maxFails = math.huge, tag = "main-thread-signal" })
 
 RuntimeService:Spawn("Heartbeat", function(wait, join)
     while true and type(wait) == "function" do

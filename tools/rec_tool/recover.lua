@@ -5,7 +5,7 @@ local input = core:LoadService("InputService")
 local sound = core:LoadService("SoundService")
 local window = core:LoadService("WindowService")
 
-sound:SetStorageService(storage); sound:SetCacheFolder("../audio/")
+sound:SetStorageService(storage); sound:SetCacheFolder("../cache/audio/")
 local beep = sound:LoadSound("C:/Windows/Media/Windows Logon.wav")
 
 input:BindAction("restore-system", "down", function(name, state, key)
