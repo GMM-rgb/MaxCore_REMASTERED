@@ -32,37 +32,62 @@ WorldGameFloor:SetFillMode("solid")
 WorldGameFloor:SetScale(10, 0.5, 10)
 WorldGameFloor:SetColor(255, 255, 255)
 
----@type {[1]: number, [2]: number, [3]: number}[]
-local PlayerModelConfiguration = {
-    { 0, 0, 0 }, { -5, -5, 0 }, { -10, 0, 0 },
-};
+-- ---@type {[1]: number, [2]: number, [3]: number}[]
+-- local PlayerModelConfiguration = {
+--     { 0, 0, 0 }, { -5, -5, 0 }, { -10, 0, 0 },
+-- };
 
-local PlayerModel = WindowElement:CreateMesh()
-PlayerModel:SetVertices(PlayerModelConfiguration)
-PlayerModel:SetFaces({{1}, {1}, {1}})
-PlayerModel:SetPosition(0, -10, 0)
+-- local PlayerModel = WindowElement:CreateMesh()
+-- PlayerModel:SetVertices(PlayerModelConfiguration)
+-- PlayerModel:SetFaces({{1}, {1}, {1}})
+-- PlayerModel:SetPosition(0, -10, 0)
+-- PlayerModel:SetFillMode("point")
+
+local PlayerModel = WindowElement:CreateCube(0, -5, 0)
 PlayerModel:SetFillMode("point")
+PlayerModel:SetScale(1, 3, 1)
+PlayerModel.Visible = true
 
-local GameCamera = WindowElement:CreateCamera(0, -10, 20, 90)
-if GameCamera ~= nil then WindowElement:SetActiveCamera(GameCamera) end
+local EditorCamera = WindowElement:CreateCamera(2.0, -10, 30, 70)
+local GameCamera = WindowElement:CreateCamera(0, -10, 20, 70, 0.1, 100)
 local MainLight = WindowElement:CreateLight(nil, 10, nil, 0.25, 1.0)
 if MainLight ~= nil then WindowElement:SetActiveLight(MainLight) end
+
+if not EditorCamera or not GameCamera then return end
+-- WindowElement:SetActiveCamera(GameCamera)
+WindowElement:SetActiveCamera(EditorCamera)
 
 RuntimeService.RenderStepped:Connect(function(dt, wait, join)
     if WindowElement == nil or not WindowElement:IsRunning() then
         exit:Fire(); return
     end
 
-    dt = wait()
+    _, dt = pcall(wait, nil)
 
-    local ry = WorldGameFloor.Rotation.y + dt * math.rad(35.0)
+    local ry = WorldGameFloor.Rotation.y + dt * math.rad(45.0)
     WorldGameFloor:SetRotation(WorldGameFloor.Rotation.x, ry, WorldGameFloor.Rotation.z)
 
     WindowElement:SwapBuffers()
     WindowElement:ClearCanvas()
+    WindowElement:StepPhysics(dt)
+
+    if GameCamera then
+        local cx, cy, cz = GameCamera:GetPosition()
+        local x, y, z = PlayerModel:GetPosition()
+        local _, dy, _ = PlayerModel:GetScale()
+
+        if cx ~= x or cy ~= y + dy or cz ~= z then
+            GameCamera:SetPosition(x, y + dy, z)
+            print(GameCamera:GetPosition())
+        else
+            goto skip_camera
+        end
+    end
+
+    ::skip_camera::
+
     WindowElement:RenderObject(WorldGameFloor)
     WindowElement:RenderObject(PlayerModel)
-    WindowElement:StepPhysics(dt)
 
     if WindowElement:IsFocused() ~= InputService:GetGlobalInput() then
         InputService:SetGlobalInput(WindowElement:IsFocused() or false)
@@ -76,7 +101,7 @@ RuntimeService:Spawn("Heartbeat", function(wait, join)
         local DeltaTime = wait()
         local memory = platform:get_memory_info()
         local in_use = memory["total_mb"] - memory["available_mb"]
-        -- print(in_use .. " MB / " .. memory["total_mb"] .. " MB")
+        print(in_use .. " MB / " .. memory["total_mb"] .. " MB")
         -- print("DELTA:\t", DeltaTime)
     end
 end, { safe = true, reentrant = true, key = "inline-main" })
