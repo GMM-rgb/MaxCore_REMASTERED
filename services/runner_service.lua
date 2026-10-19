@@ -555,7 +555,7 @@ end
 --- Spawn a coroutine job. The function receives `wait(seconds)`, which
 --- suspends only this job and returns how many seconds actually passed.
 ---
----     runner:Spawn("Heartbeat", function(wait)
+---     RunnerService:Spawn("Heartbeat", function(wait)
 ---         while true do
 ---             doSomething()
 ---             wait(0.5)

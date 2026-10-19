@@ -29,7 +29,7 @@ end
 
 WorldGameFloor = WindowElement:CreateCube(0, 0, 0, 1)
 WorldGameFloor:SetFillMode("solid")
-WorldGameFloor:SetScale(-10, 0.5, 10)
+WorldGameFloor:SetScale(10, 0.5, 10)
 WorldGameFloor:SetColor(255, 255, 255)
 
 ---@type {[1]: number, [2]: number, [3]: number}[]
@@ -48,7 +48,7 @@ if GameCamera ~= nil then WindowElement:SetActiveCamera(GameCamera) end
 local MainLight = WindowElement:CreateLight(nil, 10, nil, 0.25, 1.0)
 if MainLight ~= nil then WindowElement:SetActiveLight(MainLight) end
 
-RuntimeService.RenderStepped:Connect(function(dt, wait, _)
+RuntimeService.RenderStepped:Connect(function(dt, wait, join)
     if WindowElement == nil or not WindowElement:IsRunning() then
         exit:Fire(); return
     end
@@ -83,16 +83,6 @@ exit:Connect(function()
     if PhysicsWorld then PhysicsWorld:destroy() end
     RuntimeService:destroy(); os.exit(true, true)
 end)
-
--- for i, v in pairs(RuntimeService._jobs) do
---     for ii, vv in ipairs(v) do
---         vv = vv --- @type RunnerJob
-
---         for key, job_value in pairs(vv) do
---             print(key, job_value)
---         end
---     end
--- end
 
 io.stdout:setvbuf("line")
 RuntimeService:Pump(0.02)
