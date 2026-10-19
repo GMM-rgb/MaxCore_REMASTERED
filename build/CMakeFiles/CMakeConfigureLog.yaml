@@ -5822,8 +5822,13 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
+<<<<<<< Updated upstream
       source: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-kzf1a0"
       binary: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-kzf1a0"
+=======
+      source: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-r6edob"
+      binary: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-r6edob"
+>>>>>>> Stashed changes
     cmakeVariables:
       CMAKE_CXX_FLAGS: ""
       CMAKE_CXX_FLAGS_DEBUG: "-g"
@@ -5834,10 +5839,17 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
+<<<<<<< Updated upstream
         Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-kzf1a0'
         
         Run Build Command(s): C:/Users/maxim/_C_/bin/ninja.exe -v cmTC_bc8a2
         [1/2] C:\\Users\\maxim\\_C_\\bin\\ccache-g++.exe   -v -o CMakeFiles/cmTC_bc8a2.dir/CMakeCXXCompilerABI.cpp.obj -c C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp
+=======
+        Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-r6edob'
+        
+        Run Build Command(s): C:/Users/maxim/AppData/Roaming/Python/Python313/Scripts/ninja.exe -v cmTC_64523
+        [1/2] C:\\Users\\maxim\\_C_\\bin\\c++.exe   -v -o CMakeFiles/cmTC_64523.dir/CMakeCXXCompilerABI.cpp.obj -c C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp
+>>>>>>> Stashed changes
         Using built-in specs.
         COLLECT_GCC=C:\\Users\\maxim\\_C_\\bin\\g++.exe
         Target: x86_64-w64-mingw32
@@ -5845,8 +5857,13 @@ events:
         Thread model: posix
         Supported LTO compression algorithms: zlib
         gcc version 16.1.0 (GCC) 
+<<<<<<< Updated upstream
         COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_8130a.dir/CMakeCXXCompilerABI.cpp.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_8130a.dir/'
          C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1plus.exe -quiet -v -iprefix C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_8130a.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -fdiagnostics-color=always -o C:\\Users\\maxim\\AppData\\Local\\Temp\\ccNUyOTT.s
+=======
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_64523.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_64523.dir/'
+         C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1plus.exe -quiet -v -iprefix C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_64523.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -o C:\\Users\\maxim\\AppData\\Local\\Temp\\ccflWnyv.s
+>>>>>>> Stashed changes
         GNU C++20 (GCC) version 16.1.0 (x86_64-w64-mingw32)
         	compiled by GNU C version 16.1.0, GMP version 6.3.0, MPFR version 4.2.2, MPC version 1.4.1, isl version none
         GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
@@ -5867,6 +5884,7 @@ events:
          C:/Users/maxim/_C_/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../include
         End of search list.
         Compiler executable checksum: f7f6d01bf4e14c224f03d6f976a58854
+<<<<<<< Updated upstream
         COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_8130a.dir/CMakeCXXCompilerABI.cpp.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_8130a.dir/'
          as -v -o CMakeFiles/cmTC_8130a.dir/CMakeCXXCompilerABI.cpp.obj C:\\Users\\maxim\\AppData\\Local\\Temp\\ccNUyOTT.s
         GNU assembler version 2.46.0 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.46.0.20260210
@@ -5874,6 +5892,15 @@ events:
         LIBRARY_PATH=C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../lib/gcc/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../
         COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_8130a.dir/CMakeCXXCompilerABI.cpp.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_8130a.dir/CMakeCXXCompilerABI.cpp.'
         [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\ccache-g++.exe  -v -Wl,-v CMakeFiles/cmTC_bc8a2.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_bc8a2.exe -Wl,--out-implib,libcmTC_bc8a2.dll.a -Wl,--major-image-version,0,--minor-image-version,0   && cd ."
+=======
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_64523.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_64523.dir/'
+         as -v -o CMakeFiles/cmTC_64523.dir/CMakeCXXCompilerABI.cpp.obj C:\\Users\\maxim\\AppData\\Local\\Temp\\ccflWnyv.s
+        GNU assembler version 2.46.0 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.46.0.20260210
+        COMPILER_PATH=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../libexec/gcc/
+        LIBRARY_PATH=C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../lib/gcc/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_64523.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_64523.dir/CMakeCXXCompilerABI.cpp.'
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\c++.exe  -v -Wl,-v CMakeFiles/cmTC_64523.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_64523.exe -Wl,--out-implib,libcmTC_64523.dll.a -Wl,--major-image-version,0,--minor-image-version,0   && cd ."
+>>>>>>> Stashed changes
         Using built-in specs.
         COLLECT_GCC=C:\\Users\\maxim\\_C_\\bin\\g++.exe
         COLLECT_LTO_WRAPPER=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/lto-wrapper.exe
@@ -5884,12 +5911,21 @@ events:
         gcc version 16.1.0 (GCC) 
         COMPILER_PATH=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../libexec/gcc/
         LIBRARY_PATH=C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../lib/gcc/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../
+<<<<<<< Updated upstream
         COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_bc8a2.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_bc8a2.'
          C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_bc8a2.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_bc8a2.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_bc8a2.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
         collect2 version 16.1.0
         C:\\Users\\maxim\\_C_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_bc8a2.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_bc8a2.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_bc8a2.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
         GNU ld (GNU Binutils) 2.46.0.20260210
         COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_bc8a2.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_bc8a2.'
+=======
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_64523.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_64523.'
+         C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_64523.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_64523.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_64523.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
+        collect2 version 16.1.0
+        C:\\Users\\maxim\\_C_\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_64523.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_64523.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_64523.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o\x0d
+        GNU ld (GNU Binutils) 2.46.0.20260210\x0d
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_64523.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_64523.'\x0d
+>>>>>>> Stashed changes
         
       exitCode: 0
   -
@@ -5928,10 +5964,17 @@ events:
       Parsed CXX implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
+<<<<<<< Updated upstream
         ignore line: [Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-kzf1a0']
         ignore line: []
         ignore line: [Run Build Command(s): C:/Users/maxim/_C_/bin/ninja.exe -v cmTC_bc8a2]
         ignore line: [[1/2] C:\\Users\\maxim\\_C_\\bin\\ccache-g++.exe   -v -o CMakeFiles/cmTC_bc8a2.dir/CMakeCXXCompilerABI.cpp.obj -c C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp]
+=======
+        ignore line: [Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-r6edob']
+        ignore line: []
+        ignore line: [Run Build Command(s): C:/Users/maxim/AppData/Roaming/Python/Python313/Scripts/ninja.exe -v cmTC_64523]
+        ignore line: [[1/2] C:\\Users\\maxim\\_C_\\bin\\c++.exe   -v -o CMakeFiles/cmTC_64523.dir/CMakeCXXCompilerABI.cpp.obj -c C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp]
+>>>>>>> Stashed changes
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=C:\\Users\\maxim\\_C_\\bin\\g++.exe]
         ignore line: [Target: x86_64-w64-mingw32]
@@ -5939,8 +5982,13 @@ events:
         ignore line: [Thread model: posix]
         ignore line: [Supported LTO compression algorithms: zlib]
         ignore line: [gcc version 16.1.0 (GCC) ]
+<<<<<<< Updated upstream
         ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_8130a.dir/CMakeCXXCompilerABI.cpp.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_8130a.dir/']
         ignore line: [ C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1plus.exe -quiet -v -iprefix C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_8130a.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -fdiagnostics-color=always -o C:\\Users\\maxim\\AppData\\Local\\Temp\\ccNUyOTT.s]
+=======
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_64523.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_64523.dir/']
+        ignore line: [ C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1plus.exe -quiet -v -iprefix C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_64523.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -o C:\\Users\\maxim\\AppData\\Local\\Temp\\ccflWnyv.s]
+>>>>>>> Stashed changes
         ignore line: [GNU C++20 (GCC) version 16.1.0 (x86_64-w64-mingw32)]
         ignore line: [	compiled by GNU C version 16.1.0  GMP version 6.3.0  MPFR version 4.2.2  MPC version 1.4.1  isl version none]
         ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
@@ -5961,8 +6009,13 @@ events:
         ignore line: [ C:/Users/maxim/_C_/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../include]
         ignore line: [End of search list.]
         ignore line: [Compiler executable checksum: f7f6d01bf4e14c224f03d6f976a58854]
+<<<<<<< Updated upstream
         ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_8130a.dir/CMakeCXXCompilerABI.cpp.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_8130a.dir/']
         ignore line: [ as -v -o CMakeFiles/cmTC_8130a.dir/CMakeCXXCompilerABI.cpp.obj C:\\Users\\maxim\\AppData\\Local\\Temp\\ccNUyOTT.s]
+=======
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_64523.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_64523.dir/']
+        ignore line: [ as -v -o CMakeFiles/cmTC_64523.dir/CMakeCXXCompilerABI.cpp.obj C:\\Users\\maxim\\AppData\\Local\\Temp\\ccflWnyv.s]
+>>>>>>> Stashed changes
         ignore line: [GNU assembler version 2.46.0 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.46.0.20260210]
         ignore line: [COMPILER_PATH=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/]
         ignore line: [C:/Users/maxim/_C_/bin/../libexec/gcc/]
@@ -5970,8 +6023,13 @@ events:
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/]
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/]
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../]
+<<<<<<< Updated upstream
         ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_8130a.dir/CMakeCXXCompilerABI.cpp.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_8130a.dir/CMakeCXXCompilerABI.cpp.']
         ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\ccache-g++.exe  -v -Wl -v CMakeFiles/cmTC_bc8a2.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_bc8a2.exe -Wl --out-implib libcmTC_bc8a2.dll.a -Wl --major-image-version 0 --minor-image-version 0   && cd ."]
+=======
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_64523.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_64523.dir/CMakeCXXCompilerABI.cpp.']
+        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\c++.exe  -v -Wl -v CMakeFiles/cmTC_64523.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_64523.exe -Wl --out-implib libcmTC_64523.dll.a -Wl --major-image-version 0 --minor-image-version 0   && cd ."]
+>>>>>>> Stashed changes
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=C:\\Users\\maxim\\_C_\\bin\\g++.exe]
         ignore line: [COLLECT_LTO_WRAPPER=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/lto-wrapper.exe]
@@ -5986,15 +6044,24 @@ events:
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/]
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/]
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../]
+<<<<<<< Updated upstream
         ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_bc8a2.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_bc8a2.']
         link line: [ C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_bc8a2.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_bc8a2.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_bc8a2.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
+=======
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_64523.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_64523.']
+        link line: [ C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_64523.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_64523.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_64523.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
+>>>>>>> Stashed changes
           arg [C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe] ==> ignore
           arg [--sysroot=/w64devkit] ==> ignore
           arg [-m] ==> ignore
           arg [i386pep] ==> ignore
           arg [-Bdynamic] ==> search dynamic
           arg [-o] ==> ignore
+<<<<<<< Updated upstream
           arg [cmTC_bc8a2.exe] ==> ignore
+=======
+          arg [cmTC_64523.exe] ==> ignore
+>>>>>>> Stashed changes
           arg [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o] ==> obj [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o]
           arg [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o] ==> obj [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o]
           arg [-LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0] ==> dir [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0]
@@ -6002,9 +6069,15 @@ events:
           arg [-LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib] ==> dir [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib]
           arg [-LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../..] ==> dir [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../..]
           arg [-v] ==> ignore
+<<<<<<< Updated upstream
           arg [CMakeFiles/cmTC_bc8a2.dir/CMakeCXXCompilerABI.cpp.obj] ==> ignore
           arg [--out-implib] ==> ignore
           arg [libcmTC_bc8a2.dll.a] ==> ignore
+=======
+          arg [CMakeFiles/cmTC_64523.dir/CMakeCXXCompilerABI.cpp.obj] ==> ignore
+          arg [--out-implib] ==> ignore
+          arg [libcmTC_64523.dll.a] ==> ignore
+>>>>>>> Stashed changes
           arg [--major-image-version] ==> ignore
           arg [0] ==> ignore
           arg [--minor-image-version] ==> ignore
@@ -6027,7 +6100,11 @@ events:
           arg [-lkernel32] ==> lib [kernel32]
           arg [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> obj [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
         ignore line: [collect2 version 16.1.0]
+<<<<<<< Updated upstream
         ignore line: [C:\\Users\\maxim\\_C_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_bc8a2.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_bc8a2.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_bc8a2.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
+=======
+        ignore line: [C:\\Users\\maxim\\_C_\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_64523.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_64523.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_64523.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o\x0d]
+>>>>>>> Stashed changes
         linker tool for 'CXX': C:/Users/maxim/_C_/bin/ld.exe
         remove lib [msvcrt]
         remove lib [msvcrt]
@@ -6063,8 +6140,13 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
+<<<<<<< Updated upstream
       source: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-bjkfwv"
       binary: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-bjkfwv"
+=======
+      source: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-l7b74n"
+      binary: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-l7b74n"
+>>>>>>> Stashed changes
     cmakeVariables:
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
       CMAKE_C_FLAGS: ""
@@ -6074,10 +6156,17 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
+<<<<<<< Updated upstream
         Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-bjkfwv'
         
         Run Build Command(s): C:/Users/maxim/_C_/bin/ninja.exe -v cmTC_f6f50
         [1/2] C:\\Users\\maxim\\_C_\\bin\\ccache-gcc.exe   -v -o CMakeFiles/cmTC_f6f50.dir/CMakeCCompilerABI.c.obj -c C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCCompilerABI.c
+=======
+        Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-l7b74n'
+        
+        Run Build Command(s): C:/Users/maxim/AppData/Roaming/Python/Python313/Scripts/ninja.exe -v cmTC_d7feb
+        [1/2] C:\\Users\\maxim\\_C_\\bin\\cc.exe   -v -o CMakeFiles/cmTC_d7feb.dir/CMakeCCompilerABI.c.obj -c C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCCompilerABI.c
+>>>>>>> Stashed changes
         Using built-in specs.
         COLLECT_GCC=C:\\Users\\maxim\\_C_\\bin\\gcc.exe
         Target: x86_64-w64-mingw32
@@ -6085,8 +6174,13 @@ events:
         Thread model: posix
         Supported LTO compression algorithms: zlib
         gcc version 16.1.0 (GCC) 
+<<<<<<< Updated upstream
         COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_7c5ed.dir/CMakeCCompilerABI.c.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_7c5ed.dir/'
          C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1.exe -quiet -v -iprefix C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_7c5ed.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -fdiagnostics-color=always -o C:\\Users\\maxim\\AppData\\Local\\Temp\\cc5ZheAh.s
+=======
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_d7feb.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_d7feb.dir/'
+         C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1.exe -quiet -v -iprefix C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_d7feb.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -o C:\\Users\\maxim\\AppData\\Local\\Temp\\ccXH2ud5.s
+>>>>>>> Stashed changes
         GNU C23 (GCC) version 16.1.0 (x86_64-w64-mingw32)
         	compiled by GNU C version 16.1.0, GMP version 6.3.0, MPFR version 4.2.2, MPC version 1.4.1, isl version none
         GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
@@ -6101,6 +6195,7 @@ events:
          C:/Users/maxim/_C_/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../include
         End of search list.
         Compiler executable checksum: 8a982ec85e01dbe37739a0ea63d0f848
+<<<<<<< Updated upstream
         COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_7c5ed.dir/CMakeCCompilerABI.c.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_7c5ed.dir/'
          as -v -o CMakeFiles/cmTC_7c5ed.dir/CMakeCCompilerABI.c.obj C:\\Users\\maxim\\AppData\\Local\\Temp\\cc5ZheAh.s
         GNU assembler version 2.46.0 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.46.0.20260210
@@ -6108,6 +6203,15 @@ events:
         LIBRARY_PATH=C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../lib/gcc/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../
         COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_7c5ed.dir/CMakeCCompilerABI.c.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_7c5ed.dir/CMakeCCompilerABI.c.'
         [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\ccache-gcc.exe  -v -Wl,-v CMakeFiles/cmTC_f6f50.dir/CMakeCCompilerABI.c.obj -o cmTC_f6f50.exe -Wl,--out-implib,libcmTC_f6f50.dll.a -Wl,--major-image-version,0,--minor-image-version,0   && cd ."
+=======
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_d7feb.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_d7feb.dir/'
+         as -v -o CMakeFiles/cmTC_d7feb.dir/CMakeCCompilerABI.c.obj C:\\Users\\maxim\\AppData\\Local\\Temp\\ccXH2ud5.s
+        GNU assembler version 2.46.0 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.46.0.20260210
+        COMPILER_PATH=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../libexec/gcc/
+        LIBRARY_PATH=C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../lib/gcc/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_d7feb.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_d7feb.dir/CMakeCCompilerABI.c.'
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\cc.exe  -v -Wl,-v CMakeFiles/cmTC_d7feb.dir/CMakeCCompilerABI.c.obj -o cmTC_d7feb.exe -Wl,--out-implib,libcmTC_d7feb.dll.a -Wl,--major-image-version,0,--minor-image-version,0   && cd ."
+>>>>>>> Stashed changes
         Using built-in specs.
         COLLECT_GCC=C:\\Users\\maxim\\_C_\\bin\\gcc.exe
         COLLECT_LTO_WRAPPER=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/lto-wrapper.exe
@@ -6118,12 +6222,21 @@ events:
         gcc version 16.1.0 (GCC) 
         COMPILER_PATH=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../libexec/gcc/
         LIBRARY_PATH=C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../lib/gcc/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../
+<<<<<<< Updated upstream
         COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_f6f50.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_f6f50.'
          C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_f6f50.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_f6f50.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_f6f50.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
         collect2 version 16.1.0
         C:\\Users\\maxim\\_C_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_f6f50.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_f6f50.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_f6f50.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
         GNU ld (GNU Binutils) 2.46.0.20260210
         COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_f6f50.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_f6f50.'
+=======
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_d7feb.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_d7feb.'
+         C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_d7feb.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_d7feb.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_d7feb.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
+        collect2 version 16.1.0
+        C:\\Users\\maxim\\_C_\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_d7feb.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_d7feb.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_d7feb.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o\x0d
+        GNU ld (GNU Binutils) 2.46.0.20260210\x0d
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_d7feb.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_d7feb.'\x0d
+>>>>>>> Stashed changes
         
       exitCode: 0
   -
@@ -6156,10 +6269,17 @@ events:
       Parsed C implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
+<<<<<<< Updated upstream
         ignore line: [Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-bjkfwv']
         ignore line: []
         ignore line: [Run Build Command(s): C:/Users/maxim/_C_/bin/ninja.exe -v cmTC_f6f50]
         ignore line: [[1/2] C:\\Users\\maxim\\_C_\\bin\\ccache-gcc.exe   -v -o CMakeFiles/cmTC_f6f50.dir/CMakeCCompilerABI.c.obj -c C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCCompilerABI.c]
+=======
+        ignore line: [Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-l7b74n']
+        ignore line: []
+        ignore line: [Run Build Command(s): C:/Users/maxim/AppData/Roaming/Python/Python313/Scripts/ninja.exe -v cmTC_d7feb]
+        ignore line: [[1/2] C:\\Users\\maxim\\_C_\\bin\\cc.exe   -v -o CMakeFiles/cmTC_d7feb.dir/CMakeCCompilerABI.c.obj -c C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCCompilerABI.c]
+>>>>>>> Stashed changes
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=C:\\Users\\maxim\\_C_\\bin\\gcc.exe]
         ignore line: [Target: x86_64-w64-mingw32]
@@ -6167,8 +6287,13 @@ events:
         ignore line: [Thread model: posix]
         ignore line: [Supported LTO compression algorithms: zlib]
         ignore line: [gcc version 16.1.0 (GCC) ]
+<<<<<<< Updated upstream
         ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_7c5ed.dir/CMakeCCompilerABI.c.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_7c5ed.dir/']
         ignore line: [ C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1.exe -quiet -v -iprefix C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_7c5ed.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -fdiagnostics-color=always -o C:\\Users\\maxim\\AppData\\Local\\Temp\\cc5ZheAh.s]
+=======
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_d7feb.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_d7feb.dir/']
+        ignore line: [ C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1.exe -quiet -v -iprefix C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_d7feb.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -o C:\\Users\\maxim\\AppData\\Local\\Temp\\ccXH2ud5.s]
+>>>>>>> Stashed changes
         ignore line: [GNU C23 (GCC) version 16.1.0 (x86_64-w64-mingw32)]
         ignore line: [	compiled by GNU C version 16.1.0  GMP version 6.3.0  MPFR version 4.2.2  MPC version 1.4.1  isl version none]
         ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
@@ -6183,8 +6308,13 @@ events:
         ignore line: [ C:/Users/maxim/_C_/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../include]
         ignore line: [End of search list.]
         ignore line: [Compiler executable checksum: 8a982ec85e01dbe37739a0ea63d0f848]
+<<<<<<< Updated upstream
         ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_7c5ed.dir/CMakeCCompilerABI.c.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_7c5ed.dir/']
         ignore line: [ as -v -o CMakeFiles/cmTC_7c5ed.dir/CMakeCCompilerABI.c.obj C:\\Users\\maxim\\AppData\\Local\\Temp\\cc5ZheAh.s]
+=======
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_d7feb.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_d7feb.dir/']
+        ignore line: [ as -v -o CMakeFiles/cmTC_d7feb.dir/CMakeCCompilerABI.c.obj C:\\Users\\maxim\\AppData\\Local\\Temp\\ccXH2ud5.s]
+>>>>>>> Stashed changes
         ignore line: [GNU assembler version 2.46.0 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.46.0.20260210]
         ignore line: [COMPILER_PATH=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/]
         ignore line: [C:/Users/maxim/_C_/bin/../libexec/gcc/]
@@ -6192,8 +6322,13 @@ events:
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/]
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/]
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../]
+<<<<<<< Updated upstream
         ignore line: [COLLECT_GCC_OPTIONS='-fdiagnostics-color=always' '-v' '-c' '-o' 'CMakeFiles/cmTC_7c5ed.dir/CMakeCCompilerABI.c.obj' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_7c5ed.dir/CMakeCCompilerABI.c.']
         ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\ccache-gcc.exe  -v -Wl -v CMakeFiles/cmTC_f6f50.dir/CMakeCCompilerABI.c.obj -o cmTC_f6f50.exe -Wl --out-implib libcmTC_f6f50.dll.a -Wl --major-image-version 0 --minor-image-version 0   && cd ."]
+=======
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_d7feb.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_d7feb.dir/CMakeCCompilerABI.c.']
+        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\cc.exe  -v -Wl -v CMakeFiles/cmTC_d7feb.dir/CMakeCCompilerABI.c.obj -o cmTC_d7feb.exe -Wl --out-implib libcmTC_d7feb.dll.a -Wl --major-image-version 0 --minor-image-version 0   && cd ."]
+>>>>>>> Stashed changes
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=C:\\Users\\maxim\\_C_\\bin\\gcc.exe]
         ignore line: [COLLECT_LTO_WRAPPER=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/lto-wrapper.exe]
@@ -6208,15 +6343,24 @@ events:
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/]
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/]
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../]
+<<<<<<< Updated upstream
         ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_f6f50.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_f6f50.']
         link line: [ C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_f6f50.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_f6f50.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_f6f50.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
+=======
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_d7feb.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_d7feb.']
+        link line: [ C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_d7feb.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_d7feb.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_d7feb.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
+>>>>>>> Stashed changes
           arg [C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe] ==> ignore
           arg [--sysroot=/w64devkit] ==> ignore
           arg [-m] ==> ignore
           arg [i386pep] ==> ignore
           arg [-Bdynamic] ==> search dynamic
           arg [-o] ==> ignore
+<<<<<<< Updated upstream
           arg [cmTC_f6f50.exe] ==> ignore
+=======
+          arg [cmTC_d7feb.exe] ==> ignore
+>>>>>>> Stashed changes
           arg [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o] ==> obj [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o]
           arg [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o] ==> obj [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o]
           arg [-LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0] ==> dir [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0]
@@ -6224,9 +6368,15 @@ events:
           arg [-LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib] ==> dir [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib]
           arg [-LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../..] ==> dir [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../..]
           arg [-v] ==> ignore
+<<<<<<< Updated upstream
           arg [CMakeFiles/cmTC_f6f50.dir/CMakeCCompilerABI.c.obj] ==> ignore
           arg [--out-implib] ==> ignore
           arg [libcmTC_f6f50.dll.a] ==> ignore
+=======
+          arg [CMakeFiles/cmTC_d7feb.dir/CMakeCCompilerABI.c.obj] ==> ignore
+          arg [--out-implib] ==> ignore
+          arg [libcmTC_d7feb.dll.a] ==> ignore
+>>>>>>> Stashed changes
           arg [--major-image-version] ==> ignore
           arg [0] ==> ignore
           arg [--minor-image-version] ==> ignore
@@ -6248,7 +6398,11 @@ events:
           arg [-lkernel32] ==> lib [kernel32]
           arg [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> obj [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
         ignore line: [collect2 version 16.1.0]
+<<<<<<< Updated upstream
         ignore line: [C:\\Users\\maxim\\_C_\\bin/ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_f6f50.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_f6f50.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_f6f50.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
+=======
+        ignore line: [C:\\Users\\maxim\\_C_\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_d7feb.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_d7feb.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_d7feb.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o\x0d]
+>>>>>>> Stashed changes
         linker tool for 'C': C:/Users/maxim/_C_/bin/ld.exe
         remove lib [msvcrt]
         remove lib [msvcrt]
@@ -6286,8 +6440,13 @@ events:
     checks:
       - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
     directories:
+<<<<<<< Updated upstream
       source: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-b4vjbk"
       binary: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-b4vjbk"
+=======
+      source: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-mzq54n"
+      binary: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-mzq54n"
+>>>>>>> Stashed changes
     cmakeVariables:
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
       CMAKE_C_FLAGS: ""
@@ -6297,11 +6456,19 @@ events:
       variable: "CMAKE_HAVE_LIBC_PTHREAD"
       cached: true
       stdout: |
+<<<<<<< Updated upstream
         Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-b4vjbk'
         
         Run Build Command(s): C:/Users/maxim/_C_/bin/ninja.exe -v cmTC_0a022
         [1/2] C:\\Users\\maxim\\_C_\\bin\\ccache-gcc.exe -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_0a022.dir/src.c.obj -c D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-b4vjbk/src.c
         [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\ccache-gcc.exe   CMakeFiles/cmTC_0a022.dir/src.c.obj -o cmTC_0a022.exe -Wl,--out-implib,libcmTC_0a022.dll.a -Wl,--major-image-version,0,--minor-image-version,0  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 && cd ."
+=======
+        Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-mzq54n'
+        
+        Run Build Command(s): C:/Users/maxim/AppData/Roaming/Python/Python313/Scripts/ninja.exe -v cmTC_a28cf
+        [1/2] C:\\Users\\maxim\\_C_\\bin\\cc.exe -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_a28cf.dir/src.c.obj -c D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-mzq54n/src.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\cc.exe   CMakeFiles/cmTC_a28cf.dir/src.c.obj -o cmTC_a28cf.exe -Wl,--out-implib,libcmTC_a28cf.dll.a -Wl,--major-image-version,0,--minor-image-version,0  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 && cd ."
+>>>>>>> Stashed changes
         
       exitCode: 0
 ...

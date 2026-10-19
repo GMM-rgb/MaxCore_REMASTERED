@@ -431,6 +431,20 @@ build CMakeFiles/lua_shared.dir/lua-5.6.0/src/lzio.c.obj: C_COMPILER__lua_shared
   OBJECT_FILE_DIR = CMakeFiles\lua_shared.dir\lua-5.6.0\src
   TARGET_COMPILE_PDB = CMakeFiles\lua_shared.dir\
   TARGET_PDB = lua55.pdb
+<<<<<<< Updated upstream
+=======
+  TARGET_SUPPORT_DIR = CMakeFiles\lua_shared.dir
+
+build CMakeFiles/lua_shared.dir/backend/platform_module.cpp.obj: CXX_COMPILER__lua_shared_unscanned_ D$:/MaxCore_REMASTERED/backend/platform_module.cpp || cmake_object_order_depends_target_lua_shared
+  DEFINES = -Dlua_shared_EXPORTS
+  DEP_FILE = CMakeFiles\lua_shared.dir\backend\platform_module.cpp.obj.d
+  FLAGS = -std=gnu++17
+  INCLUDES = -ID:/MaxCore_REMASTERED/lua-5.6.0/src
+  OBJECT_DIR = CMakeFiles\lua_shared.dir
+  OBJECT_FILE_DIR = CMakeFiles\lua_shared.dir\backend
+  TARGET_COMPILE_PDB = CMakeFiles\lua_shared.dir\
+  TARGET_PDB = lua55.pdb
+>>>>>>> Stashed changes
   TARGET_SUPPORT_DIR = CMakeFiles\lua_shared.dir
 
 
@@ -629,6 +643,255 @@ build storage_interface.dll libstorage_interface.dll.a: CXX_SHARED_LIBRARY_LINKE
   TARGET_PDB = storage_interface.pdb
   TARGET_SUPPORT_DIR = CMakeFiles\storage_interface.dir
 
+<<<<<<< Updated upstream
+=======
+# =============================================================================
+# Object build statements for SHARED_LIBRARY target window_management
+
+
+#############################################
+# Order-only phony target for window_management
+
+build cmake_object_order_depends_target_window_management: phony || cmake_object_order_depends_target_lua_shared
+
+build CMakeFiles/window_management.dir/backend/window_management.cpp.obj: CXX_COMPILER__window_management_unscanned_ D$:/MaxCore_REMASTERED/backend/window_management.cpp || cmake_object_order_depends_target_window_management
+  DEFINES = -DLUA_BUILD_AS_DLL -Dwindow_management_EXPORTS
+  DEP_FILE = CMakeFiles\window_management.dir\backend\window_management.cpp.obj.d
+  FLAGS = -std=gnu++17
+  INCLUDES = -ID:/MaxCore_REMASTERED/lua-5.6.0/src
+  OBJECT_DIR = CMakeFiles\window_management.dir
+  OBJECT_FILE_DIR = CMakeFiles\window_management.dir\backend
+  TARGET_COMPILE_PDB = CMakeFiles\window_management.dir\
+  TARGET_PDB = window_management.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\window_management.dir
+
+
+# =============================================================================
+# Link build statements for SHARED_LIBRARY target window_management
+
+
+#############################################
+# Link the shared library window_management.dll
+
+build window_management.dll libwindow_management.dll.a: CXX_SHARED_LIBRARY_LINKER__window_management_ CMakeFiles/window_management.dir/backend/window_management.cpp.obj | liblua55.dll.a || lua55.dll
+  LINK_FLAGS = -shared
+  LINK_LIBRARIES = -lwinmm  -luser32  -lurlmon  liblua55.dll.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  OBJECT_DIR = CMakeFiles\window_management.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  RESTAT = 1
+  TARGET_COMPILE_PDB = CMakeFiles\window_management.dir\
+  TARGET_FILE = window_management.dll
+  TARGET_IMPLIB = libwindow_management.dll.a
+  TARGET_PDB = window_management.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\window_management.dir
+
+# =============================================================================
+# Object build statements for SHARED_LIBRARY target physics_management
+
+
+#############################################
+# Order-only phony target for physics_management
+
+build cmake_object_order_depends_target_physics_management: phony || cmake_object_order_depends_target_lua_shared
+
+build CMakeFiles/physics_management.dir/backend/physics_management.cpp.obj: CXX_COMPILER__physics_management_unscanned_ D$:/MaxCore_REMASTERED/backend/physics_management.cpp || cmake_object_order_depends_target_physics_management
+  DEFINES = -DLUA_BUILD_AS_DLL -Dphysics_management_EXPORTS
+  DEP_FILE = CMakeFiles\physics_management.dir\backend\physics_management.cpp.obj.d
+  FLAGS = -std=gnu++17
+  INCLUDES = -ID:/MaxCore_REMASTERED/lua-5.6.0/src
+  OBJECT_DIR = CMakeFiles\physics_management.dir
+  OBJECT_FILE_DIR = CMakeFiles\physics_management.dir\backend
+  TARGET_COMPILE_PDB = CMakeFiles\physics_management.dir\
+  TARGET_PDB = physics_management.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\physics_management.dir
+
+
+# =============================================================================
+# Link build statements for SHARED_LIBRARY target physics_management
+
+
+#############################################
+# Link the shared library physics_management.dll
+
+build physics_management.dll libphysics_management.dll.a: CXX_SHARED_LIBRARY_LINKER__physics_management_ CMakeFiles/physics_management.dir/backend/physics_management.cpp.obj | liblua55.dll.a || lua55.dll
+  LINK_FLAGS = -shared
+  LINK_LIBRARIES = -lwinmm  -luser32  -lurlmon  liblua55.dll.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  OBJECT_DIR = CMakeFiles\physics_management.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  RESTAT = 1
+  TARGET_COMPILE_PDB = CMakeFiles\physics_management.dir\
+  TARGET_FILE = physics_management.dll
+  TARGET_IMPLIB = libphysics_management.dll.a
+  TARGET_PDB = physics_management.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\physics_management.dir
+
+# =============================================================================
+# Object build statements for SHARED_LIBRARY target native_utils
+
+
+#############################################
+# Order-only phony target for native_utils
+
+build cmake_object_order_depends_target_native_utils: phony || cmake_object_order_depends_target_lua_shared
+
+build CMakeFiles/native_utils.dir/backend/native_utils.cpp.obj: CXX_COMPILER__native_utils_unscanned_ D$:/MaxCore_REMASTERED/backend/native_utils.cpp || cmake_object_order_depends_target_native_utils
+  DEFINES = -DLUA_BUILD_AS_DLL -Dnative_utils_EXPORTS
+  DEP_FILE = CMakeFiles\native_utils.dir\backend\native_utils.cpp.obj.d
+  FLAGS = -std=gnu++17
+  INCLUDES = -ID:/MaxCore_REMASTERED/lua-5.6.0/src
+  OBJECT_DIR = CMakeFiles\native_utils.dir
+  OBJECT_FILE_DIR = CMakeFiles\native_utils.dir\backend
+  TARGET_COMPILE_PDB = CMakeFiles\native_utils.dir\
+  TARGET_PDB = native_utils.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\native_utils.dir
+
+
+# =============================================================================
+# Link build statements for SHARED_LIBRARY target native_utils
+
+
+#############################################
+# Link the shared library native_utils.dll
+
+build native_utils.dll libnative_utils.dll.a: CXX_SHARED_LIBRARY_LINKER__native_utils_ CMakeFiles/native_utils.dir/backend/native_utils.cpp.obj | liblua55.dll.a || lua55.dll
+  LINK_FLAGS = -shared
+  LINK_LIBRARIES = -lwinmm  -luser32  -lurlmon  liblua55.dll.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  OBJECT_DIR = CMakeFiles\native_utils.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  RESTAT = 1
+  TARGET_COMPILE_PDB = CMakeFiles\native_utils.dir\
+  TARGET_FILE = native_utils.dll
+  TARGET_IMPLIB = libnative_utils.dll.a
+  TARGET_PDB = native_utils.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\native_utils.dir
+
+# =============================================================================
+# Object build statements for SHARED_LIBRARY target platform_module
+
+
+#############################################
+# Order-only phony target for platform_module
+
+build cmake_object_order_depends_target_platform_module: phony || cmake_object_order_depends_target_lua_shared
+
+build CMakeFiles/platform_module.dir/backend/platform_module.cpp.obj: CXX_COMPILER__platform_module_unscanned_ D$:/MaxCore_REMASTERED/backend/platform_module.cpp || cmake_object_order_depends_target_platform_module
+  DEFINES = -DLUA_BUILD_AS_DLL -Dplatform_module_EXPORTS
+  DEP_FILE = CMakeFiles\platform_module.dir\backend\platform_module.cpp.obj.d
+  FLAGS = -std=gnu++17
+  INCLUDES = -ID:/MaxCore_REMASTERED/lua-5.6.0/src
+  OBJECT_DIR = CMakeFiles\platform_module.dir
+  OBJECT_FILE_DIR = CMakeFiles\platform_module.dir\backend
+  TARGET_COMPILE_PDB = CMakeFiles\platform_module.dir\
+  TARGET_PDB = platform_module.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\platform_module.dir
+
+
+# =============================================================================
+# Link build statements for SHARED_LIBRARY target platform_module
+
+
+#############################################
+# Link the shared library platform_module.dll
+
+build platform_module.dll libplatform_module.dll.a: CXX_SHARED_LIBRARY_LINKER__platform_module_ CMakeFiles/platform_module.dir/backend/platform_module.cpp.obj | liblua55.dll.a || lua55.dll
+  LINK_FLAGS = -shared
+  LINK_LIBRARIES = -lwinmm  -luser32  -lurlmon  liblua55.dll.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  OBJECT_DIR = CMakeFiles\platform_module.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  RESTAT = 1
+  TARGET_COMPILE_PDB = CMakeFiles\platform_module.dir\
+  TARGET_FILE = platform_module.dll
+  TARGET_IMPLIB = libplatform_module.dll.a
+  TARGET_PDB = platform_module.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\platform_module.dir
+
+# =============================================================================
+# Object build statements for SHARED_LIBRARY target scheduler_native
+
+
+#############################################
+# Order-only phony target for scheduler_native
+
+build cmake_object_order_depends_target_scheduler_native: phony || cmake_object_order_depends_target_lua_shared
+
+build CMakeFiles/scheduler_native.dir/backend/runtime_backend/scheduler_native.cpp.obj: CXX_COMPILER__scheduler_native_unscanned_ D$:/MaxCore_REMASTERED/backend/runtime_backend/scheduler_native.cpp || cmake_object_order_depends_target_scheduler_native
+  DEFINES = -DLUA_BUILD_AS_DLL -Dscheduler_native_EXPORTS
+  DEP_FILE = CMakeFiles\scheduler_native.dir\backend\runtime_backend\scheduler_native.cpp.obj.d
+  FLAGS = -std=gnu++17
+  INCLUDES = -ID:/MaxCore_REMASTERED/lua-5.6.0/src
+  OBJECT_DIR = CMakeFiles\scheduler_native.dir
+  OBJECT_FILE_DIR = CMakeFiles\scheduler_native.dir\backend\runtime_backend
+  TARGET_COMPILE_PDB = CMakeFiles\scheduler_native.dir\
+  TARGET_PDB = scheduler_native.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\scheduler_native.dir
+
+
+# =============================================================================
+# Link build statements for SHARED_LIBRARY target scheduler_native
+
+
+#############################################
+# Link the shared library scheduler_native.dll
+
+build scheduler_native.dll libscheduler_native.dll.a: CXX_SHARED_LIBRARY_LINKER__scheduler_native_ CMakeFiles/scheduler_native.dir/backend/runtime_backend/scheduler_native.cpp.obj | liblua55.dll.a || lua55.dll
+  LINK_FLAGS = -shared
+  LINK_LIBRARIES = -lwinmm  -luser32  -lurlmon  liblua55.dll.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  OBJECT_DIR = CMakeFiles\scheduler_native.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  RESTAT = 1
+  TARGET_COMPILE_PDB = CMakeFiles\scheduler_native.dir\
+  TARGET_FILE = scheduler_native.dll
+  TARGET_IMPLIB = libscheduler_native.dll.a
+  TARGET_PDB = scheduler_native.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\scheduler_native.dir
+
+# =============================================================================
+# Object build statements for SHARED_LIBRARY target sleep_native
+
+
+#############################################
+# Order-only phony target for sleep_native
+
+build cmake_object_order_depends_target_sleep_native: phony || cmake_object_order_depends_target_lua_shared
+
+build CMakeFiles/sleep_native.dir/backend/runtime_backend/sleep_native.cpp.obj: CXX_COMPILER__sleep_native_unscanned_ D$:/MaxCore_REMASTERED/backend/runtime_backend/sleep_native.cpp || cmake_object_order_depends_target_sleep_native
+  DEFINES = -DLUA_BUILD_AS_DLL -Dsleep_native_EXPORTS
+  DEP_FILE = CMakeFiles\sleep_native.dir\backend\runtime_backend\sleep_native.cpp.obj.d
+  FLAGS = -std=gnu++17
+  INCLUDES = -ID:/MaxCore_REMASTERED/lua-5.6.0/src
+  OBJECT_DIR = CMakeFiles\sleep_native.dir
+  OBJECT_FILE_DIR = CMakeFiles\sleep_native.dir\backend\runtime_backend
+  TARGET_COMPILE_PDB = CMakeFiles\sleep_native.dir\
+  TARGET_PDB = sleep_native.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\sleep_native.dir
+
+
+# =============================================================================
+# Link build statements for SHARED_LIBRARY target sleep_native
+
+
+#############################################
+# Link the shared library sleep_native.dll
+
+build sleep_native.dll libsleep_native.dll.a: CXX_SHARED_LIBRARY_LINKER__sleep_native_ CMakeFiles/sleep_native.dir/backend/runtime_backend/sleep_native.cpp.obj | liblua55.dll.a || lua55.dll
+  LINK_FLAGS = -shared
+  LINK_LIBRARIES = -lwinmm  -luser32  -lurlmon  liblua55.dll.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  OBJECT_DIR = CMakeFiles\sleep_native.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  RESTAT = 1
+  TARGET_COMPILE_PDB = CMakeFiles\sleep_native.dir\
+  TARGET_FILE = sleep_native.dll
+  TARGET_IMPLIB = libsleep_native.dll.a
+  TARGET_PDB = sleep_native.pdb
+  TARGET_SUPPORT_DIR = CMakeFiles\sleep_native.dir
+
+>>>>>>> Stashed changes
 
 #############################################
 # Utility command for edit_cache
