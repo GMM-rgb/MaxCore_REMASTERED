@@ -453,7 +453,7 @@ xpcall(CreatePlatforms, print)
 
 ---@type JobOptions
 local TickConfiguration = { safe = true, maxFails = 1 }
-RuntimeService.Stepped:Connect(tick, TickConfiguration)
+RuntimeService.RenderStepped:Connect(tick, TickConfiguration)
 ProgramExit:Connect(function()
     -- "%[([^%]]+)%]"
     windows.GameApplication:Close()
