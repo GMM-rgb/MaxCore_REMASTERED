@@ -1,12 +1,13 @@
+
 # ==============================================================================
 # MaxCore - Desktop Window Recovery
-# User-level execution | Per-window error handling | Win32 via Add-Type
+# Non-elevated | Window relationship aware | Per-window error handling
 # ==============================================================================
 
 $ErrorActionPreference = 'Continue'
 
-# 1. Compile Win32 declarations once in this PowerShell process.
-#    This does not persist across separate powershell.exe invocations.
+# 1. Win32 declarations.
+#    Add-Type compiles these once per PowerShell process.
 
 if (-not ('SafeWin32' -as [type])) {
     $Signature = @'
@@ -32,32 +33,40 @@ public static class SafeWin32
         EnumWindowsProc callback, IntPtr lParam);
 
     [DllImport("user32.dll")]
+    public static extern bool IsWindow(IntPtr hWnd);
+
+    [DllImport("user32.dll")]
     public static extern bool IsWindowVisible(IntPtr hWnd);
 
     [DllImport("user32.dll")]
-    public static extern bool IsWindow(IntPtr hWnd);
+    public static extern IntPtr GetParent(IntPtr hWnd);
 
-    [DllImport("user32.dll", SetLastError = true)]
-    public static extern IntPtr GetWindowLongPtrW(
-        IntPtr hWnd, int nIndex);
+    [DllImport("user32.dll")]
+    public static extern IntPtr GetWindow(IntPtr hWnd, uint command);
+
+    [DllImport("user32.dll")]
+    public static extern bool IsChild(
+        IntPtr parent, IntPtr child);
+
+    [DllImport("user32.dll", EntryPoint = "GetWindowLongPtrW",
+        SetLastError = true)]
+    public static extern IntPtr GetWindowLongPtr64(
+        IntPtr hWnd, int index);
 
     [DllImport("user32.dll", EntryPoint = "GetWindowLongW",
         SetLastError = true)]
     public static extern int GetWindowLong32(
-        IntPtr hWnd, int nIndex);
+        IntPtr hWnd, int index);
 
-    [DllImport("user32.dll", SetLastError = true)]
-    public static extern IntPtr SetWindowLongPtrW(
-        IntPtr hWnd, int nIndex, IntPtr value);
+    [DllImport("user32.dll", EntryPoint = "SetWindowLongPtrW",
+        SetLastError = true)]
+    public static extern IntPtr SetWindowLongPtr64(
+        IntPtr hWnd, int index, IntPtr value);
 
     [DllImport("user32.dll", EntryPoint = "SetWindowLongW",
         SetLastError = true)]
     public static extern int SetWindowLong32(
-        IntPtr hWnd, int nIndex, int value);
-
-    [DllImport("user32.dll", SetLastError = true)]
-    public static extern bool GetWindowRect(
-        IntPtr hWnd, out RECT rect);
+        IntPtr hWnd, int index, int value);
 
     [DllImport("user32.dll", SetLastError = true)]
     public static extern bool SetWindowPos(
@@ -74,39 +83,37 @@ public static class SafeWin32
 
     [DllImport("user32.dll")]
     public static extern bool ReleaseCapture();
-
-    [DllImport("user32.dll", SetLastError = true)]
-    public static extern uint GetWindowThreadProcessId(
-        IntPtr hWnd, out uint processId);
 }
 '@
 
     Add-Type -TypeDefinition $Signature -ErrorAction Stop
 }
 
-# 2. Win32 constants.
-$GWL_STYLE       = -16
-$GWL_EXSTYLE     = -20
+# 2. Constants.
 
-$WS_CAPTION      = 0x00C00000
-$WS_THICKFRAME   = 0x00040000
-$WS_MINIMIZEBOX  = 0x00020000
-$WS_MAXIMIZEBOX  = 0x00010000
-$WS_SYSMENU      = 0x00080000
-$WS_POPUP        = [long]0x80000000
+$GWL_STYLE          = -16
+$GWL_EXSTYLE        = -20
 
-$WS_EX_TOPMOST   = 0x00000008
+$WS_CHILD           = 0x40000000
+$WS_POPUP           = [long]0x80000000
+$WS_CAPTION         = 0x00C00000
+$WS_THICKFRAME      = 0x00040000
+$WS_MINIMIZEBOX     = 0x00020000
+$WS_MAXIMIZEBOX     = 0x00010000
+$WS_SYSMENU         = 0x00080000
+$WS_EX_TOPMOST      = 0x00000008
 
-$SW_RESTORE      = 9
+$GW_OWNER           = 4
+$SW_RESTORE         = 9
 
-$SWP_NOZORDER    = 0x0004
-$SWP_FRAMECHANGED = 0x0020
-$SWP_NOOWNERZORDER = 0x0200
+$SWP_NOZORDER       = 0x0004
+$SWP_FRAMECHANGED   = 0x0020
+$SWP_NOOWNERZORDER  = 0x0200
 
-$TargetX = 100
-$TargetY = 100
-$TargetWidth = 1280
-$TargetHeight = 720
+$TargetX            = 100
+$TargetY            = 100
+$TargetWidth        = 1280
+$TargetHeight       = 720
 
 $Exclusions = @(
     'CEF-OSC-WIDGET',
@@ -117,7 +124,7 @@ $Exclusions = @(
     'Cortana'
 )
 
-# 3. Architecture-safe window-style wrappers.
+# 3. Architecture-compatible style wrappers.
 
 function Get-WindowStyle {
     param(
@@ -126,10 +133,14 @@ function Get-WindowStyle {
     )
 
     if ([IntPtr]::Size -eq 8) {
-        return [SafeWin32]::GetWindowLongPtrW($Handle, $Index).ToInt64()
+        return [SafeWin32]::GetWindowLongPtr64(
+            $Handle, $Index
+        ).ToInt64()
     }
 
-    return [long][SafeWin32]::GetWindowLong32($Handle, $Index)
+    return [long][SafeWin32]::GetWindowLong32(
+        $Handle, $Index
+    )
 }
 
 function Set-WindowStyle {
@@ -141,24 +152,29 @@ function Set-WindowStyle {
 
     if ([IntPtr]::Size -eq 8) {
         $Value = [IntPtr]::new($Style)
-        [void][SafeWin32]::SetWindowLongPtrW($Handle, $Index, $Value)
+
+        [void][SafeWin32]::SetWindowLongPtr64(
+            $Handle, $Index, $Value
+        )
     }
     else {
         [void][SafeWin32]::SetWindowLong32(
-            $Handle, $Index, [int]$Style)
+            $Handle, $Index, [int]$Style
+        )
     }
 }
 
-# 4. Release the current mouse capture if present.
-#    This does not disable system-wide input hooks.
+# 4. Reset counters.
 
+$script:Processed   = 0
+$script:Owned       = 0
+$script:Skipped     = 0
+$script:Failed      = 0
+
+# Release current mouse capture if applicable.
 [void][SafeWin32]::ReleaseCapture()
 
-# 5. Track results without stopping on individual window failures.
-
-$script:Processed = 0
-$script:Skipped = 0
-$script:Failed = 0
+# 5. Enumerate visible top-level windows.
 
 $Callback = [SafeWin32+EnumWindowsProc]{
     param(
@@ -167,18 +183,20 @@ $Callback = [SafeWin32+EnumWindowsProc]{
     )
 
     try {
-        if (-not [SafeWin32]::IsWindow($hWnd)) {
-            $script:Skipped++
-            return $true
-        }
-
-        if (-not [SafeWin32]::IsWindowVisible($hWnd)) {
+        if (
+            -not [SafeWin32]::IsWindow($hWnd) -or
+            -not [SafeWin32]::IsWindowVisible($hWnd)
+        ) {
             $script:Skipped++
             return $true
         }
 
         $Buffer = [System.Text.StringBuilder]::new(256)
-        [void][SafeWin32]::GetClassNameW($hWnd, $Buffer, 256)
+
+        [void][SafeWin32]::GetClassNameW(
+            $hWnd, $Buffer, 256
+        )
+
         $Class = $Buffer.ToString()
 
         if (
@@ -189,15 +207,29 @@ $Callback = [SafeWin32+EnumWindowsProc]{
             return $true
         }
 
-        # Avoid rewriting window styles belonging to another process
-        # when the window is already in a protected or unsupported state.
-        # Cross-process window operations can fail due to permissions.
-
         $Style = Get-WindowStyle -Handle $hWnd -Index $GWL_STYLE
 
-        # Convert popup-style windows into standard overlapped windows.
-        # Preserve unrelated style bits.
+        # EnumWindows returns top-level windows, not every child control.
+        # Never remove WS_CHILD or independently reposition embedded controls.
+        if (($Style -band $WS_CHILD) -ne 0) {
+            $script:Skipped++
+            return $true
+        }
+
+        # Determine whether this top-level window has an owner.
+        $Owner = [SafeWin32]::GetWindow($hWnd, $GW_OWNER)
+
+        if ($Owner -ne [IntPtr]::Zero) {
+            # Keep owned dialogs attached to their application.
+            # Do not force their styles or geometry independently.
+            $script:Owned++
+            return $true
+        }
+
+        # Independent top-level window: convert to a conventional
+        # resizable window while preserving unrelated style bits.
         $Style = $Style -band (-bnot $WS_POPUP)
+
         $Style = $Style -bor (
             $WS_CAPTION -bor
             $WS_THICKFRAME -bor
@@ -206,19 +238,23 @@ $Callback = [SafeWin32+EnumWindowsProc]{
             $WS_MAXIMIZEBOX
         )
 
-        Set-WindowStyle -Handle $hWnd -Index $GWL_STYLE -Style $Style
+        Set-WindowStyle -Handle $hWnd `
+            -Index $GWL_STYLE -Style $Style
 
-        # Remove topmost status without changing unrelated extended styles.
-        $ExStyle = Get-WindowStyle -Handle $hWnd -Index $GWL_EXSTYLE
+        # Remove topmost status while preserving other extended styles.
+        $ExStyle = Get-WindowStyle `
+            -Handle $hWnd -Index $GWL_EXSTYLE
+
         $ExStyle = $ExStyle -band (-bnot $WS_EX_TOPMOST)
 
-        Set-WindowStyle -Handle $hWnd -Index $GWL_EXSTYLE -Style $ExStyle
+        Set-WindowStyle -Handle $hWnd `
+            -Index $GWL_EXSTYLE -Style $ExStyle
 
-        # Restore minimized windows before applying the requested geometry.
         [void][SafeWin32]::ShowWindow($hWnd, $SW_RESTORE)
 
-        # SWP_NOZORDER preserves the existing Z-order.
-        $Flags = $SWP_NOZORDER -bor $SWP_NOOWNERZORDER -bor $SWP_FRAMECHANGED
+        $Flags = $SWP_NOZORDER -bor
+                 $SWP_NOOWNERZORDER -bor
+                 $SWP_FRAMECHANGED
 
         $Success = [SafeWin32]::SetWindowPos(
             $hWnd,
@@ -238,6 +274,7 @@ $Callback = [SafeWin32+EnumWindowsProc]{
         $script:Processed++
     }
     catch {
+        # One failing window must not stop the enumeration.
         $script:Failed++
     }
 
@@ -245,13 +282,21 @@ $Callback = [SafeWin32+EnumWindowsProc]{
 }
 
 try {
-    [void][SafeWin32]::EnumWindows($Callback, [IntPtr]::Zero)
+    [void][SafeWin32]::EnumWindows(
+        $Callback, [IntPtr]::Zero
+    )
 }
 finally {
     $Callback = $null
 }
 
+# 6. Report results.
+
 Write-Output (
-    'Recovery finished. Processed={0}; Skipped={1}; Failed={2}' -f
-    $script:Processed, $script:Skipped, $script:Failed
+    'Recovery complete: Independent={0}; OwnedSkipped={1}; ' +
+    'Skipped={2}; Failed={3}' -f
+    $script:Processed,
+    $script:Owned,
+    $script:Skipped,
+    $script:Failed
 )
