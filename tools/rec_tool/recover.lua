@@ -18,7 +18,7 @@ input:BindAction("restore-system", "down", function(name, state, key)
     end
 
     -- Dynamically resolve paths and execute the win32 recovery script
-    local absolute_script_path <const> = storage:GetFile("experimental.ps1"):GetPath()
+    local absolute_script_path <const> = storage:GetFile("./powershell/experimental.ps1"):GetPath()
     local command = string.format('powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%s"', absolute_script_path)
     io.stdout:write(absolute_script_path .. "\t" .. command .. "\n")
     local success = os.execute(command); io.stdout:write("SYSTEM RECOVERY INITIALIZED:\t", tostring(success) .. "\n")
