@@ -1,6 +1,6 @@
+local <const> core = require("max_core").call()
 local <const> platform = require("utils.platform")
 local <const> VectorMath = require("utils.vector_math.vector_utils")
-local <const> core = require("max_core").call(); core:Load()
 local <const> StorageService = core:LoadService("StorageService")
 local <const> WindowService = core:LoadService("WindowService")
 local <const> RuntimeService = core:LoadService("RunnerService")
@@ -22,6 +22,12 @@ local function calculate_mouse_position(x, y)
     local window_notch_height = platform and platform:get_title_bar_height()
     local converted_x, converted_y = x - window_x - 7, y - window_y - window_notch_height - 7
     return converted_x, converted_y
+end
+
+local my_table = { "hello", "there", "guys" }
+
+for _, v in kpairs(my_table) do
+    print(v)
 end
 
 WorldGameFloor = WindowElement:CreateCube(0, 0, 0, 1)
