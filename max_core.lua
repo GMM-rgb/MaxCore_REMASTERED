@@ -18,6 +18,16 @@
 --                          MASTER SERVICE REGISTRY
 -- =========================================================================
 
+local LUA_BUILTINS = {
+    _G = true, _ENV = true, _VERSION = true, assert = true, collectgarbage = true,
+    dofile = true, error = true, getmetatable = true, ipairs = true, utf8 = true,
+    load = true, loadfile = true, next = true, pairs = true, require = true,
+    pcall = true, print = true, rawequal = true, rawget = true, arg = true,
+    rawlen = true, rawset = true, select = true, setmetatable = true,
+    tonumber = true, tostring = true, type = true, xpcall = true, debug = true,
+    math = true, table = true, string = true, coroutine = true, os = true
+};
+
 ---@class CoreServices
 ---@field RunnerService RunnerService
 ---@field runner_service RunnerService
@@ -75,6 +85,8 @@ local RandomDataModel = require("utils.instance_creator.random")
 local InstanceType = require("instance_type")
 
 local framework_package = {
+    VERSION = "1.6.0-REMASTERED",
+
     ---@generic T
     ---@param t T[]
     ---@param start_even? boolean
@@ -511,7 +523,7 @@ function MainKit:ResolveService(name)
     if not success then error("Failed to load discovered service: " .. tostring(module)) end
 
     local instance = type(module) == "table" and type(module.new) == "function" and module.new() or module
-    
+
     self._cache[actual] = instance
     return instance
 end
@@ -522,7 +534,20 @@ local function init_global_api(api_source)
         error("init_global_api expected a table, got " .. type(api_source), 2)
     end
 
+    for name, builtin in pairs(LUA_BUILTINS) do
+        local function set(v) LUA_BUILTINS[name] = v end
+        if env[name] then set(true) else set(false) end
+    end
+
     for key, value in pairs(api_source) do
+        local invalid = false
+
+        for i, v in pairs(LUA_BUILTINS) do
+            if i == key then invalid = true end
+        end
+
+        if invalid then break end
+
         if value ~= nil then
             env[key] = value
         else
