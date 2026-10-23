@@ -66,12 +66,37 @@
 ---@field task task
 ---@field IsA IsFn
 
+local env = _ENV or _G
 local isDeveloper = false
 local isDebugMode <const> = false
 local PlayerManager = require("utils.player_managment.players")
 local InstanceBuilding = require("utils.instance_creator.instancer")
 local RandomDataModel = require("utils.instance_creator.random")
 local InstanceType = require("instance_type")
+
+local framework_package = {
+    ---@generic T
+    ---@param t T[]
+    ---@param start_even? boolean
+    ---@return fun(tbl: T[], i: integer): integer, T iterator # The loop iterator function
+    ---@return T[] state # The table state passed back to the iterator
+    ---@return integer initial_index # The starting index offset
+    kpairs = function(t, start_even)
+        if type(t) ~= "table" then
+            error("bad argument #1 to 'kpairs' (table expected, got " .. type(t) .. ")", 2)
+        end
+        if start_even ~= nil and type(start_even) ~= "boolean" then
+            error("bad argument #2 to 'kpairs' (boolean expected, got " .. type(start_even) .. ")", 2)
+        end
+
+        local initial_index = start_even and 0 or -1
+
+        return function(tbl, i)
+            i = i + 2; local v = tbl[i]
+            if v ~= nil then return i, v end
+        end, t, initial_index
+    end,
+};
 
 -- =========================================================================
 --      SYSTEM PATH BOOTSTRAPPER (Auto-inject environment folders)
@@ -491,6 +516,21 @@ function MainKit:ResolveService(name)
     return instance
 end
 
+---@param api_source table # the lookup table containing methods, functions, and properties
+local function init_global_api(api_source)
+    if type(api_source) ~= "table" then
+        error("init_global_api expected a table, got " .. type(api_source), 2)
+    end
+
+    for key, value in pairs(api_source) do
+        if value ~= nil then
+            env[key] = value
+        else
+            error("[RuntimeException]: Key '" .. tostring(key) .. "' cannot be assigned a nil value during initialization", 2) 
+        end
+    end
+end
+
 -- =========================================================================
 -- GLOBAL FRAMEWORK INTERFACES
 -- =========================================================================
@@ -556,6 +596,7 @@ local function call(_, env)
     };
 
     InstanceType.SetType(i, "CoreEngine")
+    init_global_api(framework_package)
 
     return i
 end

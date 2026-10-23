@@ -13,9 +13,6 @@ local exit = core.Event.new("exit")
 
 local PhysicsWorld = WindowElement:CreatePhysicsWorld(0, 9.81, 0)
 local AliasingQaulityEffective = WindowElement:SetAliasingQuality("3d", 4.0)
-local StringModify = StorageService:GetFile("./services/sub_modules/lua_string_modify.lua"):Read()
-if type(StringModify) ~= "string" then return end
-load(StringModify, "string-modify", "bt")()
 
 ---@param x number
 ---@param y number
@@ -101,7 +98,7 @@ RuntimeService:Spawn("Heartbeat", function(wait, join)
         local DeltaTime = wait()
         local memory = platform:get_memory_info()
         local in_use = memory["total_mb"] - memory["available_mb"]
-        print(in_use .. " MB / " .. memory["total_mb"] .. " MB")
+        -- print(in_use .. " MB / " .. memory["total_mb"] .. " MB")
         -- print("DELTA:\t", DeltaTime)
     end
 end, { safe = true, reentrant = true, key = "inline-main" })
