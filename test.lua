@@ -12,7 +12,7 @@ if not WindowElement then return end
 local exit = core.Event.new("exit")
 
 local PhysicsWorld = WindowElement:CreatePhysicsWorld(0, 9.81, 0)
-local AliasingQaulityEffective = WindowElement:SetAliasingQuality("3d", 4.0)
+local AliasingQuality = WindowElement:SetAliasingQuality("3d", 4.0)
 
 ---@param x number
 ---@param y number
