@@ -24,9 +24,17 @@ input:BindAction("restore-system", "down", function(name, state, key)
     local success = os.execute(command); io.stdout:write("SYSTEM RECOVERY INITIALIZED:\t", tostring(success) .. "\n")
 end)
 
+input:BindAction("trigger-meta", "up", function(name, state, key)
+    input:SimulateKey("meta", state == "Pressed")
+end)
+
+input:BindAction("trigger-alt", "space", function(name, state, key)
+    input:SimulateKey("alt", state == "Pressed")
+end)
+
+input:SetGlobalInput(true)
+
 ---@param dt number
-runtime.Heartbeat:Connect(function(dt)
-    input:UpdateAll()
-    input:SetGlobalInput(true)
-    -- input:SimulateKey("meta", true)
-end); runtime:KeepAlive()
+runtime.Heartbeat:Connect(function(dt, wait, join)
+    input:UpdateAll(); dt = wait()
+end, { yieldable = true, reentrant = true, priority = 1 }); runtime:KeepAlive()
