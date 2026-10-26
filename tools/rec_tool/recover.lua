@@ -17,11 +17,18 @@ input:BindAction("restore-system", "down", function(name, state, key)
         beep:Play(0)
     end
 
-    -- Dynamically resolve paths and execute the win32 recovery script
+    -- Dynamically resolve paths
     local absolute_script_path <const> = storage:GetFile("./powershell/experimental.ps1"):GetPath()
-    local command = string.format('powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%s"', absolute_script_path)
+    
+    -- Use 'cmd.exe /c start /b' to spawn PowerShell asynchronously (non-blocking)
+    -- This prevents low-end hardware from stalling while PowerShell initializes.
+    local command = string.format('cmd.exe /c start /b powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%s"', absolute_script_path)
+    
     io.stdout:write(absolute_script_path .. "\t" .. command .. "\n")
-    local success = os.execute(command); io.stdout:write("SYSTEM RECOVERY INITIALIZED:\t", tostring(success) .. "\n")
+    
+    -- os.execute with 'start /b' returns immediately instead of waiting for PowerShell to finish
+    os.execute(command)
+    io.stdout:write("SYSTEM RECOVERY INITIALIZED ASYNCHRONOUSLY.\n")
 end)
 
 input:BindAction("trigger-meta", "up", function(name, state, key)
