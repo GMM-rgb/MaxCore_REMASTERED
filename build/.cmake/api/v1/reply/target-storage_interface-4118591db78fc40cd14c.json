@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "physics_management.dylib"
+			"path" : "storage_interface.dylib"
 		}
 	],
 	"backtrace" : 1,
@@ -65,13 +65,13 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -std=gnu++17 -arch arm64 -fPIC"
+					"fragment" : "-std=gnu++17 -arch arm64 -fPIC"
 				}
 			],
 			"defines" : 
 			[
 				{
-					"define" : "physics_management_EXPORTS"
+					"define" : "storage_interface_EXPORTS"
 				}
 			],
 			"includes" : 
@@ -103,7 +103,7 @@
 			"id" : "lua_shared::@6890427a1f51a3e7e1df"
 		}
 	],
-	"id" : "physics_management::@6890427a1f51a3e7e1df",
+	"id" : "storage_interface::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -189,8 +189,8 @@
 			"id" : "lua_shared::@6890427a1f51a3e7e1df"
 		}
 	],
-	"name" : "physics_management",
-	"nameOnDisk" : "physics_management.dylib",
+	"name" : "storage_interface",
+	"nameOnDisk" : "storage_interface.dylib",
 	"paths" : 
 	{
 		"build" : ".",
@@ -215,7 +215,7 @@
 				1
 			],
 			"compileGroupIndex" : 0,
-			"path" : "backend/physics_management.cpp",
+			"path" : "backend/storage_interface.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

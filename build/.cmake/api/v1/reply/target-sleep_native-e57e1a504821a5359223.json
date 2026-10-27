@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "sound_native.dylib"
+			"path" : "sleep_native.dylib"
 		}
 	],
 	"backtrace" : 1,
@@ -65,13 +65,13 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -std=gnu++17 -arch arm64 -fPIC"
+					"fragment" : "-std=gnu++17 -arch arm64 -fPIC"
 				}
 			],
 			"defines" : 
 			[
 				{
-					"define" : "sound_service_backend_EXPORTS"
+					"define" : "sleep_native_EXPORTS"
 				}
 			],
 			"includes" : 
@@ -103,7 +103,7 @@
 			"id" : "lua_shared::@6890427a1f51a3e7e1df"
 		}
 	],
-	"id" : "sound_service_backend::@6890427a1f51a3e7e1df",
+	"id" : "sleep_native::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -189,8 +189,8 @@
 			"id" : "lua_shared::@6890427a1f51a3e7e1df"
 		}
 	],
-	"name" : "sound_service_backend",
-	"nameOnDisk" : "sound_native.dylib",
+	"name" : "sleep_native",
+	"nameOnDisk" : "sleep_native.dylib",
 	"paths" : 
 	{
 		"build" : ".",
@@ -215,7 +215,7 @@
 				1
 			],
 			"compileGroupIndex" : 0,
-			"path" : "backend/sound_service_backend.cpp",
+			"path" : "backend/runtime_backend/sleep_native.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

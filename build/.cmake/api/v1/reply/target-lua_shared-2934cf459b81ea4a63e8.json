@@ -68,7 +68,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -arch arm64 -fPIC"
+					"fragment" : " -arch arm64 -fPIC"
 				}
 			],
 			"defines" : 
@@ -129,7 +129,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -std=gnu++17 -arch arm64 -fPIC"
+					"fragment" : "-std=gnu++17 -arch arm64 -fPIC"
 				}
 			],
 			"defines" : 

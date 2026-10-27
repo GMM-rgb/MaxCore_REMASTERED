@@ -24,73 +24,109 @@ package.cpath = package.cpath .. ";" .. table.concat(cpath_patterns, ";")
 ---@field simulate_key fun(keyCode: integer, isDown: boolean)
 ---@field simulate_mouse_move fun(x: number, y: number, absolute?: boolean)
 ---@field toggle_lock_key fun(keyCode: integer)
----
----@alias KeyName 
----| "a" 
----| "b" 
----| "c" 
----| "d" 
----| "e" 
----| "f" 
----| "g" 
----| "h" 
----| "i" 
----| "j" 
----| "k" 
----| "l" 
+
+---@alias KeyName
+---| "a"
+---| "b"
+---| "c"
+---| "d"
+---| "e"
+---| "f"
+---| "g"
+---| "h"
+---| "i"
+---| "j"
+---| "k"
+---| "l"
 ---| "m"
----| "n" 
----| "o" 
----| "p" 
----| "q" 
----| "r" 
----| "s" 
----| "t" 
----| "u" 
----| "v" 
----| "w" 
----| "x" 
----| "y" 
+---| "n"
+---| "o"
+---| "p"
+---| "q"
+---| "r"
+---| "s"
+---| "t"
+---| "u"
+---| "v"
+---| "w"
+---| "x"
+---| "y"
 ---| "z"
----| "0" 
----| "1" 
----| "2" 
----| "3" 
----| "4" 
----| "5" 
----| "6" 
----| "7" 
----| "8" 
+---| "0"
+---| "1"
+---| "2"
+---| "3"
+---| "4"
+---| "5"
+---| "6"
+---| "7"
+---| "8"
 ---| "9"
----| "tab" 
----| "space" 
----| "return" 
----| "enter" 
----| "escape" 
----| "shift" 
----| "ctrl" 
----| "alt"
----| "capslock" 
----| "numlock" 
+---| "tab"
+---| "space"
+---| "return"
+---| "enter"
+---| "escape"
+---| "backspace"
+---| "delete"
+---| "insert"
+---| "home"
+---| "end"
+---| "pageup"
+---| "pagedown"
+---| "f1"
+---| "f2"
+---| "f3"
+---| "f4"
+---| "f5"
+---| "f6"
+---| "f7"
+---| "f8"
+---| "f9"
+---| "f10"
+---| "f11"
+---| "f12"
+---| "capslock"
+---| "numlock"
 ---| "scrolllock"
+---| "shift"
+---| "ctrl"
+---| "alt"
+---| "lshift"
+---| "rshift"
+---| "lctrl"
+---| "rctrl"
+---| "lalt"
+---| "ralt"
 ---| "super"
----| "win" 
----| "cmd" 
----| "meta" 
----| "lsuper" 
----| "lwin" 
----| "lcmd" 
----| "lmeta" 
----| "rsuper" 
----| "rwin" 
----| "rcmd" 
+---| "win"
+---| "cmd"
+---| "meta"
+---| "lsuper"
+---| "lwin"
+---| "lcmd"
+---| "lmeta"
+---| "rsuper"
+---| "rwin"
+---| "rcmd"
 ---| "rmeta"
----| "left" 
----| "up" 
----| "right" 
+---| "left"
+---| "up"
+---| "right"
 ---| "down"
----| "mouse1" 
----| "mouse2" 
+---| "minus"
+---| "equals"
+---| "leftbracket"
+---| "rightbracket"
+---| "backslash"
+---| "semicolon"
+---| "apostrophe"
+---| "grave"
+---| "comma"
+---| "period"
+---| "slash"
+---| "mouse1"
+---| "mouse2"
 ---| "mouse3"
 
 ---@type boolean, InputNativeLib|string
@@ -153,10 +189,59 @@ local active_instances = setmetatable({}, { __mode = "k" })
 
 ---@class InputService
 ---@field _actions table<string, ActionBinding>
+---@field inputKeys table<integer, KeyName>
 ---@field _isGlobal boolean
 local InputService = {}
 InputService.__index = InputService
 InstanceType.SetType(InputService, "InputService")
+
+InputService.inputKeys = {
+    -- Letters
+    "a", "b", "c", "d", "e", "f",
+    "g", "h", "i", "j", "k", "l",
+    "m", "n", "o", "p", "q", "r",
+    "s", "t", "u", "v", "w", "x",
+    "y", "z",
+
+    -- Numbers
+    "0", "1", "2", "3", "4",
+    "5", "6", "7", "8", "9",
+
+    -- Common keys
+    "tab", "space", "return", "enter", "escape",
+    "backspace", "delete", "insert", "home", "end",
+    "pageup", "pagedown",
+
+    -- Function keys
+    "f1", "f2", "f3", "f4", "f5", "f6",
+    "f7", "f8", "f9", "f10", "f11", "f12",
+
+    -- Lock keys
+    "capslock", "numlock", "scrolllock",
+
+    -- Modifiers
+    "shift", "ctrl", "alt",
+    "lshift", "rshift",
+    "lctrl", "rctrl",
+    "lalt", "ralt",
+
+    -- Super / Windows / Command / Meta
+    "super", "win", "cmd", "meta",
+    "lsuper", "lwin", "lcmd", "lmeta",
+    "rsuper", "rwin", "rcmd", "rmeta",
+
+    -- Arrows
+    "left", "up", "right", "down",
+
+    -- Punctuation
+    "minus", "equals",
+    "leftbracket", "rightbracket",
+    "backslash", "semicolon", "apostrophe",
+    "grave", "comma", "period", "slash",
+
+    -- Mouse buttons
+    "mouse1", "mouse2", "mouse3",
+};
 
 function InputService.new()
     local self = setmetatable({}, InputService)

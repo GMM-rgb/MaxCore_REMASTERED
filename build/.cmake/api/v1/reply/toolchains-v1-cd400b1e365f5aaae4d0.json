@@ -26,7 +26,7 @@
 					],
 					"linkLibraries" : []
 				},
-				"path" : "/usr/bin/clang",
+				"path" : "/usr/bin/cc",
 				"version" : "21.0.0.21000334"
 			},
 			"language" : "C",
@@ -64,7 +64,7 @@
 						"c++"
 					]
 				},
-				"path" : "/usr/bin/clang++",
+				"path" : "/usr/bin/c++",
 				"version" : "21.0.0.21000334"
 			},
 			"language" : "CXX",
@@ -76,7 +76,6 @@
 				"cc",
 				"cpp",
 				"cxx",
-				"m",
 				"mm",
 				"mpp",
 				"CPP",

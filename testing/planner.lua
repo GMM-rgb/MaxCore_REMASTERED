@@ -1,7 +1,22 @@
 os.native_execute("max-core-lua -v", { detached = false, wait = true })
+local <const> RuntimeService = EngineCore:LoadService("RunnerService")
 local <const> StorageService = EngineCore:LoadService("StorageService")
 local <const> WindowService = EngineCore:LoadService("WindowService")
+local <const> InputService = EngineCore:LoadService("InputService")
 if not StorageService._debug then StorageService:SetDebug(true) end
 
 local DirectoryFiles = StorageService:ListDirectory(StorageService:GetBaseDirectory())
 local PlannerData = StorageService:CreateFile({ path = "./planner_data.config" })
+local ToolWindow = WindowService:CreateWindow("Planning Tool", 800, 800) or nil
+if not ToolWindow or EngineCore.typeof(ToolWindow) ~= "WindowObject" then return end
+
+---@return table<string>
+local function ListenInput()
+    local lines = {} --- @type table<string>
+
+    
+
+    return lines
+end
+
+RuntimeService:KeepAlive()
