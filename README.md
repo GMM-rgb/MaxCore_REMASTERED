@@ -7,6 +7,11 @@
 ```lua
 EngineCore: EngineCore
 ```
+
+```lua
+kpairs(t: table, step: boolean): function
+```
+
 > **NOTE:** the above syntax 
 > is not literal Lua syntax,
 > it's just type reference.
