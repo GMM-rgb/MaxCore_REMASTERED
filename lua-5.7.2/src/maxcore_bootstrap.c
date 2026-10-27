@@ -1,7 +1,7 @@
 /*
 ** $Id: maxcore_bootstrap.c $
 ** MaxCore Game Engine bootstrapper
-** 
+** See Copyright Notice in max_core.lua
 */
 
 #include "maxcore_bootstrap.h"
