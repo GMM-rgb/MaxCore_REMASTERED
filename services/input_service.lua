@@ -259,13 +259,13 @@ local active_instances = setmetatable({}, { __mode = "k" })
 ---@class InputService
 ---@field _actions table<string, ActionBinding>
 ---@field _isGlobal boolean
----@field inputKeys KeyName[]
+---@field InputKeys KeyName[]
 local InputService = {}
 InputService.__index = InputService
 InstanceType.SetType(InputService, "InputService")
 
 ---@type KeyName[]
-InputService.inputKeys = {
+InputService.InputKeys = {
     -- Letters
     "a", "b", "c", "d", "e", "f",
     "g", "h", "i", "j", "k", "l",
