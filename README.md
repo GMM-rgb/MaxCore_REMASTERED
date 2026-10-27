@@ -2,7 +2,7 @@
 
 ## Documentation
 
-### Globala
+### Globals
 
 ```lua
 EngineCore: EngineCore
