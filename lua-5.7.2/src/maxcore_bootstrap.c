@@ -1,5 +1,5 @@
 /*
-** $Id: maxcore_bootstrap.c
+** $Id: maxcore_bootstrap.c $
 ** MaxCore Game Engine bootstrapper
 ** 
 */
