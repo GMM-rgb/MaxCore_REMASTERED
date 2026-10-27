@@ -206,25 +206,21 @@ void MaxCore_Initialize(lua_State *L) {
   int module_index;
 
   status = luaL_loadfile(L, "./max_core.lua");
-  if (status != LUA_OK)
-    lua_error(L);
-
+  if (status != LUA_OK) lua_error(L);
   status = lua_pcall(L, 0, 1, 0);
-  if (status != LUA_OK)
-    lua_error(L);
+  if (status != LUA_OK) lua_error(L);
 
-  if (!lua_istable(L, -1))
+  if (!lua_istable(L, -1)) {
     luaL_error(L, "max_core.lua must return a module table");
+  }
 
   module_index = lua_gettop(L);
 
   /* Cache the module so require("max_core") won't execute it again. */
   lua_getglobal(L, "package");
-  if (!lua_istable(L, -1))
-    luaL_error(L, "package library is unavailable during MaxCore startup");
+  if (!lua_istable(L, -1)) { luaL_error(L, "package library is unavailable during MaxCore startup"); }
   lua_getfield(L, -1, "loaded");
-  if (!lua_istable(L, -1))
-    luaL_error(L, "package.loaded is unavailable during MaxCore startup");
+  if (!lua_istable(L, -1)) { luaL_error(L, "package.loaded is unavailable during MaxCore startup"); }
   lua_pushvalue(L, module_index);
   lua_setfield(L, -2, "max_core");
   lua_pop(L, 2);
