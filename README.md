@@ -2,6 +2,15 @@
 
 ## Documentation
 
+### Globala
+
+```lua
+EngineCore: EngineCore
+```
+> **NOTE:** the above syntax 
+> is not literal Lua syntax,
+> it's just type reference.
+
 ### CoreLib Importing
 
 Import the core library and initialize the engine:
