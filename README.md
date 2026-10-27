@@ -25,7 +25,7 @@ os.native_execute(command: string, options: table): (sucess: boolean|integer|nil
 Load a service using the initialized core instance:
 
 ```lua
-local storage = core:LoadService("StorageService")
+local storage = core:LoadService(name: string)
 ```
 
 ## Service Usage
