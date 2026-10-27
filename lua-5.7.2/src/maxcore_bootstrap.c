@@ -1,5 +1,7 @@
 /*
-    
+** $Id: maxcore_bootstrap.c
+** MaxCore Game Engine bootstrapper
+** 
 */
 
 #include "maxcore_bootstrap.h"
