@@ -16,14 +16,6 @@ kpairs(t: table, step: boolean): function
 > is not literal Lua syntax,
 > it's just type reference.
 
-### CoreLib Importing
-
-Import the core library and initialize the engine:
-
-```lua
-local core <const> = require("max_core").call()
-```
-
 ### Service Loading
 
 Load a service using the initialized core instance:
