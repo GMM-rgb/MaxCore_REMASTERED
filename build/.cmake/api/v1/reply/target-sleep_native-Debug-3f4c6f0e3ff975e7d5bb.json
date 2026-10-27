@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "native_utils.dylib"
+			"path" : "sleep_native.dylib"
 		}
 	],
 	"backtrace" : 1,
@@ -26,19 +26,19 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 240,
+				"line" : 390,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 241,
+				"line" : 398,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 56,
+				"line" : 129,
 				"parent" : 0
 			}
 		]
@@ -65,13 +65,13 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-std=gnu++17 -arch arm64 -fPIC"
+					"fragment" : "-g -std=gnu++17 -arch arm64 -fPIC"
 				}
 			],
 			"defines" : 
 			[
 				{
-					"define" : "native_utils_EXPORTS"
+					"define" : "sleep_native_EXPORTS"
 				}
 			],
 			"includes" : 
@@ -103,7 +103,7 @@
 			"id" : "lua_shared::@6890427a1f51a3e7e1df"
 		}
 	],
-	"id" : "native_utils::@6890427a1f51a3e7e1df",
+	"id" : "sleep_native::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -189,8 +189,8 @@
 			"id" : "lua_shared::@6890427a1f51a3e7e1df"
 		}
 	],
-	"name" : "native_utils",
-	"nameOnDisk" : "native_utils.dylib",
+	"name" : "sleep_native",
+	"nameOnDisk" : "sleep_native.dylib",
 	"paths" : 
 	{
 		"build" : ".",
@@ -215,7 +215,7 @@
 				1
 			],
 			"compileGroupIndex" : 0,
-			"path" : "backend/native_utils.cpp",
+			"path" : "backend/runtime_backend/sleep_native.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

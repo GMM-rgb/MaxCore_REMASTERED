@@ -7,15 +7,15 @@ C_DEFINES = -DLUA_USE_MACOSX -Dlua_shared_EXPORTS
 
 C_INCLUDES = -I/Users/maximus.farvour/Documents/MaxCore_REMASTERED/lua-5.7.2/src
 
-C_FLAGSarm64 =  -arch arm64 -fPIC
+C_FLAGSarm64 = -g -arch arm64 -fPIC
 
-C_FLAGS =  -arch arm64 -fPIC
+C_FLAGS = -g -arch arm64 -fPIC
 
 CXX_DEFINES = -DLUA_USE_MACOSX -Dlua_shared_EXPORTS
 
 CXX_INCLUDES = -I/Users/maximus.farvour/Documents/MaxCore_REMASTERED/lua-5.7.2/src
 
-CXX_FLAGSarm64 = -std=gnu++17 -arch arm64 -fPIC
+CXX_FLAGSarm64 = -g -std=gnu++17 -arch arm64 -fPIC
 
-CXX_FLAGS = -std=gnu++17 -arch arm64 -fPIC
+CXX_FLAGS = -g -std=gnu++17 -arch arm64 -fPIC
 

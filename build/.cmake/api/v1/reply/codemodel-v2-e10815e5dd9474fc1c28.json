@@ -7,7 +7,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Threads::Threads::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Threads__Threads-924240992a72493bc66f.json",
+					"jsonFile" : "target-Threads__Threads-Debug-d5a0ed7261c24298ae01.json",
 					"name" : "Threads::Threads",
 					"projectIndex" : 0
 				}
@@ -20,7 +20,7 @@
 						0
 					],
 					"build" : ".",
-					"jsonFile" : "directory-.-b23a0b23c080df4d29ba.json",
+					"jsonFile" : "directory-.-Debug-b23a0b23c080df4d29ba.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.15"
@@ -43,7 +43,7 @@
 					]
 				}
 			],
-			"name" : "",
+			"name" : "Debug",
 			"projects" : 
 			[
 				{
@@ -77,77 +77,77 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "input_native::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-input_native-67d6244ad491b77293df.json",
+					"jsonFile" : "target-input_native-Debug-7f583b5d7144a1f02c81.json",
 					"name" : "input_native",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "lua_runner::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-lua_runner-5799958cd3fcf25228d2.json",
+					"jsonFile" : "target-lua_runner-Debug-611c062846b2cf31ee2c.json",
 					"name" : "lua_runner",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "lua_shared::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-lua_shared-33415091394149051496.json",
+					"jsonFile" : "target-lua_shared-Debug-d563eedb4648c0d41512.json",
 					"name" : "lua_shared",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "native_utils::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-native_utils-8795d83f7938d7ffe776.json",
+					"jsonFile" : "target-native_utils-Debug-c2ba3f2aeef787bd6aed.json",
 					"name" : "native_utils",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "physics_management::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-physics_management-b952b12fe7287548fed8.json",
+					"jsonFile" : "target-physics_management-Debug-55a25184d8c5804a715b.json",
 					"name" : "physics_management",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "platform_module::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-platform_module-d57ea3da40a572f83193.json",
+					"jsonFile" : "target-platform_module-Debug-47459d8f8fd3bf58f2ae.json",
 					"name" : "platform_module",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "scheduler_native::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-scheduler_native-d269b345f3fce33ff4d0.json",
+					"jsonFile" : "target-scheduler_native-Debug-77c4faa549ec6810677a.json",
 					"name" : "scheduler_native",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "sleep_native::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-sleep_native-5d6922533ad01f76b967.json",
+					"jsonFile" : "target-sleep_native-Debug-3f4c6f0e3ff975e7d5bb.json",
 					"name" : "sleep_native",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "sound_service_backend::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-sound_service_backend-3d8871894033bf7ac62b.json",
+					"jsonFile" : "target-sound_service_backend-Debug-5204950bb868877b20b6.json",
 					"name" : "sound_service_backend",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "storage_interface::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-storage_interface-2e0d22d1793428f07fb3.json",
+					"jsonFile" : "target-storage_interface-Debug-b3b22a5e58d8e0e790c6.json",
 					"name" : "storage_interface",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "window_management::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-window_management-e3c211f11cc6794d2218.json",
+					"jsonFile" : "target-window_management-Debug-58d52dc40feecdbce69b.json",
 					"name" : "window_management",
 					"projectIndex" : 0
 				}

@@ -39,11 +39,11 @@
 			[
 				{
 					"name" : "HELPSTRING",
-					"value" : "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel ..."
+					"value" : "Build type for single-configuration generators (Makefile Generators, Ninja, etc.). Typical values: Debug, Release, RelWithDebInfo, MinSizeRel; custom build types may also be defined."
 				}
 			],
 			"type" : "STRING",
-			"value" : ""
+			"value" : "Debug"
 		},
 		{
 			"name" : "CMAKE_CACHEFILE_DIR",
@@ -155,10 +155,10 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "CXX compiler"
+					"value" : "Full path to the compiler used for language <LANG>. Set by CMake during compiler detection on the first configure; users may override on the command line to select a specific toolchain."
 				}
 			],
-			"type" : "STRING",
+			"type" : "FILEPATH",
 			"value" : "/usr/bin/clang++"
 		},
 		{
@@ -251,10 +251,10 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "C compiler"
+					"value" : "Full path to the compiler used for language <LANG>. Set by CMake during compiler detection on the first configure; users may override on the command line to select a specific toolchain."
 				}
 			],
-			"type" : "STRING",
+			"type" : "FILEPATH",
 			"value" : "/usr/bin/clang"
 		},
 		{
@@ -491,11 +491,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "Enable/Disable output of compile commands during generation."
+					"value" : "Enable output of a compile_commands.json file listing the exact compiler invocation for each translation unit. Implemented by the Makefile and Ninja generators; ignored elsewhere."
 				}
 			],
 			"type" : "BOOL",
-			"value" : ""
+			"value" : "TRUE"
 		},
 		{
 			"name" : "CMAKE_EXTRA_GENERATOR",
@@ -1232,6 +1232,18 @@
 			],
 			"type" : "INTERNAL",
 			"value" : "[TRUE][v()]"
+		},
+		{
+			"name" : "MAXCORE_EXPERIMENTAL_METADATA",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Enable experimental runtime LuaLS metadata generation"
+				}
+			],
+			"type" : "BOOL",
+			"value" : "OFF"
 		},
 		{
 			"name" : "lua_native_engine_BINARY_DIR",

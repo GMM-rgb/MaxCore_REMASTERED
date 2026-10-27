@@ -27,25 +27,31 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 181,
+				"line" : 286,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 190,
+				"line" : 295,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 208,
+				"line" : 340,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 305,
 				"parent" : 0
 			},
 			{
 				"command" : 3,
 				"file" : 0,
-				"line" : 56,
+				"line" : 129,
 				"parent" : 0
 			}
 		]
@@ -68,7 +74,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : " -arch arm64"
+					"fragment" : "-g -arch arm64"
 				}
 			],
 			"defines" : 
@@ -76,12 +82,16 @@
 				{
 					"backtrace" : 3,
 					"define" : "LUA_USE_MACOSX"
+				},
+				{
+					"backtrace" : 4,
+					"define" : "MAXCORE_LUA_SRC_DIR=\"/Users/maximus.farvour/Documents/MaxCore_REMASTERED/lua-5.7.2/src\""
 				}
 			],
 			"includes" : 
 			[
 				{
-					"backtrace" : 4,
+					"backtrace" : 5,
 					"path" : "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/lua-5.7.2/src"
 				}
 			],
@@ -105,6 +115,10 @@
 	{
 		"commandFragments" : 
 		[
+			{
+				"fragment" : "-g",
+				"role" : "flags"
+			},
 			{
 				"fragment" : "-Wl,-search_paths_first -Wl,-headerpad_max_install_names",
 				"role" : "flags"

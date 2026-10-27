@@ -27,25 +27,25 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 154,
+				"line" : 254,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 164,
+				"line" : 268,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 207,
+				"line" : 336,
 				"parent" : 0
 			},
 			{
 				"command" : 3,
 				"file" : 0,
-				"line" : 56,
+				"line" : 129,
 				"parent" : 0
 			}
 		]
@@ -68,7 +68,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : " -arch arm64 -fPIC"
+					"fragment" : "-g -arch arm64 -fPIC"
 				}
 			],
 			"defines" : 
@@ -129,7 +129,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-std=gnu++17 -arch arm64 -fPIC"
+					"fragment" : "-g -std=gnu++17 -arch arm64 -fPIC"
 				}
 			],
 			"defines" : 
