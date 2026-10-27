@@ -1,4 +1,4 @@
-local core <const> = require("max_core").call()
+local core <const> = require("lua-5.7.2.src.max_core").call()
 local VectorUtility = require("utils.vector_math.vector_utils")
 local SoundService = core:LoadService("SoundService")
 local InputService = core:LoadService("InputService")

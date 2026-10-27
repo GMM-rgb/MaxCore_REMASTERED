@@ -1,6 +1,6 @@
 local <const> math = require("math")
 local <const> string = require("string")
-local EngineCore = require("max_core").call()
+local EngineCore = require("lua-5.7.2.src.max_core").call()
 local BaseInterface = setmetatable({}, nil)
 BaseInterface.__index = BaseInterface
 BaseInterface.Instance = {}

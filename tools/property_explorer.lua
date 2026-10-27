@@ -1,4 +1,4 @@
-local EngineCore = require("max_core").call(); EngineCore:Load()
+local EngineCore = require("lua-5.7.2.src.max_core").call(); EngineCore:Load()
 local WindowService = EngineCore:LoadService("WindowService")
 local RuntimeService = EngineCore:LoadService("RunnerService")
 local PropertyWindow = WindowService:CreateWindow(nil, 300, 700)

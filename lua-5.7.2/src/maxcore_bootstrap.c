@@ -9,13 +9,15 @@
 #include "lauxlib.h"
 #include "lualib.h"
 
-#ifdef MAXCORE_EXPERIMENTAL_METADATA
-
 #include <ctype.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#ifdef _WIN32
+#include <windows.h>
+#else
 
 #if defined(_WIN32)
 #include <direct.h>
@@ -328,16 +330,40 @@ static int generate_engine_meta(lua_State *L) {
 
 #endif /* MAXCORE_EXPERIMENTAL_METADATA */
 
+#ifndef PATH_SEP
+    #define PATH_SEP '/'
+#endif
+
+#ifdef _WIN32
+    #include <windows.h>
+#else
+    #include <unistd.h>
+    #include <limits.h>
+
+    #ifndef PATH_MAX
+        #define PATH_MAX 4096
+    #endif
+#endif
+
 void MaxCore_Initialize(lua_State *L) {
     int status;
     int module_index;
+    char path[PATH_MAX];
 
-    /* Load the editable project-root module. */
-    status = luaL_loadfile(L, "./max_core.lua");
+    // Copy the compile-time path of this source file
+    snprintf(path, sizeof(path), "%s", __FILE__);
 
-    if (status != LUA_OK) {
-        lua_error(L);
-        return;
+    // Find the last slash (works for both / and \ depending on OS)
+    char *last_slash = strrchr(path, '/');
+    char *last_backslash = strrchr(path, '\\');
+    if (last_backslash > last_slash) last_slash = last_backslash;
+    if (last_slash) { *(last_slash + 1)	= '\0'; }
+
+    strcat(path, "../../max_core.lua");
+
+    // Load the file using the absolute/relative source-anchored path
+    if (luaL_loadfile(L, path) != LUA_OK) {
+        lua_error(L); return;
     }
 
     status = lua_pcall(L, 0, 1, 0);

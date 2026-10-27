@@ -1,4 +1,4 @@
-local core = require("max_core").call()
+local core = require("lua-5.7.2.src.max_core").call()
 local storage = core:LoadService("StorageService")
 local runtime = core:LoadService("RunnerService")
 local input = core:LoadService("InputService")

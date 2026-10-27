@@ -720,7 +720,7 @@ static int pmain (lua_State *L) {
     lua_setfield(L, LUA_REGISTRYINDEX, "LUA_NOENV");
   }
   luai_openlibs(L);  /* open standard libraries */
-  MaxCore_Initialize(L);  /* initialize EngineCore from ./max_core.lua */
+  MaxCore_Initialize(L);  /* initialize EngineCore from max_core.lua */
   createargtable(L, argv, argc, script);  /* create table 'arg' */
   lua_gc(L, LUA_GCRESTART);  /* start GC... */
   lua_gc(L, LUA_GCGEN);  /* ...in generational mode */

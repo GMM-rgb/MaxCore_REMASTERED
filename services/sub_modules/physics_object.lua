@@ -14,7 +14,7 @@ local InstanceTyping = require("instance_type")
 local _EventClass = nil
 local function NewCollidedEvent()
     if not _EventClass then
-        _EventClass = require("max_core").call().Event
+        _EventClass = require("lua-5.7.2.src.max_core").call().Event
     end
     return _EventClass.new("Collided")
 end
