@@ -19,4 +19,12 @@ local function ListenInput()
     return lines
 end
 
+InputService:BindAction("test", "comma", function(name, state, key)
+    if state == "Pressed" then print("hi") end
+end)
+
+RuntimeService.Heartbeat:Connect(function(dt, wait, join)
+    InputService:UpdateAll(); dt = wait()
+end, { yieldable = true, whenRunning = "skip" })
+
 RuntimeService:KeepAlive()

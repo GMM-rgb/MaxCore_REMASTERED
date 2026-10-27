@@ -617,14 +617,12 @@ static int l_simulate_mouse_move(lua_State* L) {
                 CurrentTime
             );
         } else {
-            XWarpPointer(
+            XTestFakeRelativeMotionEvent(
                 display,
-                None,
-                None,
-                0, 0,
-                0, 0,
+                -1,
                 static_cast<int>(x),
-                static_cast<int>(y)
+                static_cast<int>(y),
+                CurrentTime
             );
         }
 
@@ -642,6 +640,14 @@ static int l_simulate_mouse_move(lua_State* L) {
 
 static int l_toggle_lock_key(lua_State* L) {
     const int vk = ReadKeyArgument(L, 1, false);
+
+    if (vk != 0x14 && vk != 0x90 && vk != 0x91) {
+        return luaL_argerror(
+            L,
+            1,
+            "expected capslock, numlock, or scrolllock"
+        );
+    }
 
     SimulateKeyCode(vk, true);
     SimulateKeyCode(vk, false);
@@ -778,6 +784,10 @@ static int l_update(lua_State* L) {
             g_mouseX = static_cast<float>(point.x);
             g_mouseY = static_cast<float>(point.y);
         }
+    } else {
+        for (int i = 0; i < 512; ++i) {
+            g_currKeys[i] = false;
+        }
     }
 
 // -------------------------------------------------------------------------
@@ -841,13 +851,12 @@ static int l_update(lua_State* L) {
             }
         }
 
-        // Caps Lock is latched. Poll the AlphaShift modifier flag rather than
-        // relying on CGEventSourceKeyState for keycode 0x39.
-        const CGEventFlags modifierFlags = CGEventSourceFlagsState(
-            kCGEventSourceStateCombinedSessionState
+        // IsKeyDown/Pressed/Released represent the physical key event state,
+        // not whether Caps Lock's latched mode is enabled.
+        g_currKeys[0x14] = CGEventSourceKeyState(
+            kCGEventSourceStateHIDSystemState,
+            0x39
         );
-        g_currKeys[0x14] =
-            (modifierFlags & kCGEventFlagMaskAlphaShift) != 0;
 
         // Retain existing mouse indices.
         g_currKeys[1] = CGEventSourceButtonState(
@@ -876,6 +885,10 @@ static int l_update(lua_State* L) {
 
             g_mouseX = static_cast<float>(point.x);
             g_mouseY = static_cast<float>(point.y);
+        }
+    } else {
+        for (int i = 0; i < 512; ++i) {
+            g_currKeys[i] = false;
         }
     }
 
@@ -945,11 +958,26 @@ static int l_update(lua_State* L) {
                 g_mouseX = static_cast<float>(rootX);
                 g_mouseY = static_cast<float>(rootY);
             }
+        } else {
+            for (int i = 0; i < 512; ++i) {
+                g_currKeys[i] = false;
+            }
         }
 
         XCloseDisplay(display);
+    } else {
+        for (int i = 0; i < 512; ++i) {
+            g_currKeys[i] = false;
+        }
     }
 #endif
+
+    // Generic modifier names mean either physical side on every platform.
+    // Windows already reports these aggregate VK states, while macOS/X11
+    // resolve the generic virtual keys to the left-side key only.
+    g_currKeys[0x10] = g_currKeys[0x10] || g_currKeys[0xA0] || g_currKeys[0xA1];
+    g_currKeys[0x11] = g_currKeys[0x11] || g_currKeys[0xA2] || g_currKeys[0xA3];
+    g_currKeys[0x12] = g_currKeys[0x12] || g_currKeys[0xA4] || g_currKeys[0xA5];
 
     return 0;
 }
@@ -976,7 +1004,7 @@ extern "C" INPUT_EXPORT int luaopen_input_native(lua_State* L) {
         {"simulate_mouse_move", l_simulate_mouse_move},
         {"toggle_lock_key", l_toggle_lock_key},
 
-        {nullptr, nullptr},
+        {NULL, NULL}
     };
 
     luaL_newlib(L, funcs);
