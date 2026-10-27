@@ -37,6 +37,8 @@
     #define EXPORT_FN
 #endif
 
+using namespace std::chrono;
+
 namespace {
 
 constexpr const char* kMeta = "MaxCore.SchedulerNative";
