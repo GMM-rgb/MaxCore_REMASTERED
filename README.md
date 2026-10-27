@@ -5,7 +5,7 @@
 ### Globals
 
 ```lua
-EngineCore: EngineCore
+EngineCore: EngineCore|MaxCore
 ```
 
 ```lua
@@ -16,11 +16,11 @@ kpairs(t: table, step: boolean): function
 os.native_execute(command: string, options: table): (sucess: boolean|integer|nil, error: string|nil)
 ```
 
-> **NOTE:** the above syntax 
+> _**NOTE:**_ the above syntax 
 > is not literal Lua syntax,
-> it's just type reference.
+> it's just a type reference.
 
-### Service Loading
+### Service Loading Reference
 
 Load a service using the initialized core instance:
 
