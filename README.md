@@ -12,6 +12,10 @@ EngineCore: EngineCore
 kpairs(t: table, step: boolean): function
 ```
 
+```lua
+os.native_execute(command: string, options: table): (sucess: boolean|integer|nil, error: string|nil)
+```
+
 > **NOTE:** the above syntax 
 > is not literal Lua syntax,
 > it's just type reference.
