@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MAXCORE_BOOTSTRAP_H
 #define MAXCORE_BOOTSTRAP_H
 
