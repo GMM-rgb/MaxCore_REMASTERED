@@ -45,6 +45,12 @@ RunnerService.RenderStepped -> RunnerSignal
 ```lua
 -- signal methods
 RunnerSignal.Connect: fun(thread: function|string|thread, options: JobOptions): RunnerConnection
+-- connection methods
+RunnerConnection.disconnect -> fun(self: RunnerConnection): nil
+RunnerConnection.Pause -> fun(self: RunnerConnection): nil
+RunnerConnection.Resume -> fun(self: RunnerConnection): nil
+-- connection properties
+RunnerConnection.Connected -> boolean
 ```
 
 > The `Connect` method is expanded from the base RunnerSignal.
