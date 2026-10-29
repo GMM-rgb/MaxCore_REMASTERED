@@ -36,6 +36,14 @@ The `RunnerService`, also known as the runtime service, provides utilities for m
 
 **Methods:** *Documented methods coming soon.*
 
+```lua
+-- stepped property
+RunnerService.Stepped -> RunnerSignal
+
+```
+
+[!image]()
+
 ### SoundService
 
 `SoundService` provides native integration with the operating system and audio hardware.
