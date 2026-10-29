@@ -40,7 +40,7 @@ The `RunnerService`, also known as the runtime service, provides utilities for m
 -- properties
 RunnerService.Stepped -> RunnerSignal
 RunnerService.Heartbeat -> RunnerSignal
-
+RunnerService.RenderStepped -> RunnerSignal
 ```
 
 ```lua
