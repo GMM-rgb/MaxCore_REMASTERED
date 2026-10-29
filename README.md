@@ -36,7 +36,7 @@ Functions passed through the `Connect` method are:
 * `wait: function(s: number): number`
 * `join: function(id: integer): TaskEvent`
 
-**Methods:** *Documented methods coming soon.*
+**Methods:** *FULL Documented methods will be coming soon.*
 
 ```lua
 -- properties
