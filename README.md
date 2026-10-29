@@ -22,10 +22,8 @@ os.native_execute(command: string, options: table): (sucess: boolean|integer|nil
 
 ### Service Loading Reference
 
-Load a service using the initialized core instance:
-
 ```lua
-local ServiceObject = core:LoadService(name: string)
+local ServiceObject = EngineCore:LoadService(name: string)
 ```
 
 ## Service Usage
