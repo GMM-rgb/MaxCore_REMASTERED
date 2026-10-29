@@ -11,11 +11,11 @@ if not ToolWindow or EngineCore.typeof(ToolWindow) ~= "WindowObject" then return
 local WindowFocused = EngineCore.Event.new("window-focus-change")
 local InputChanged = EngineCore.Event.new("input-changed-value")
 local InputListenerConnection = nil --- @type RunnerConnection?
-local ListenerRunning = false
-local ComposedInput = ""
+local ListenerRunning, ComposedInput = false, string.char(0)
 
 local BlacklistedKeys = {
-    "return", "enter",
+    ["return"] = "return",
+    ["enter"] = "enter",
 };
 
 local special_keys = {
@@ -23,7 +23,6 @@ local special_keys = {
     ["return"] = "\n",
     ["enter"] = "\n",
 };
-
 
 ---@param state InputActionState
 local function ClearInputListener(_, state, _)
@@ -67,10 +66,13 @@ end, { yieldable = true, whenRunning = "skip" })
 
 ---@param value string
 InputChanged:Connect(function(value, ...)
+    ComposedInput = ComposedInput .. value
     ToolWindow:ClearCanvas(); ToolWindow:SwapBuffers()
-    ToolWindow:DrawText(value, 0, 0, 2)
+    ComposedText = ToolWindow:CreateText(ComposedInput, 0, 0, 2)
+    ToolWindow:RenderObject(ComposedText);
 end)
 
 InitalizeInputListener()
+InputService:ToggleLockKey("capslock")
 InputService:BindAction("clear", "enter", ClearInputListener)
 RuntimeService:KeepAlive()

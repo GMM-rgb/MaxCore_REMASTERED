@@ -19,9 +19,7 @@ local InstanceTyping = require("instance_type")
 -- constructed guarantees max_core.lua has long since finished loading.
 local _EventClass = nil
 local function NewCollidedEvent()
-    if not _EventClass then
-        _EventClass = require("lua-5.7.2.src.max_core").call().Event
-    end
+    if not _EventClass then _EventClass = EngineCore.Event end
     return _EventClass.new("Collided")
 end
 

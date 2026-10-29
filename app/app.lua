@@ -1,10 +1,9 @@
-local core <const> = require("lua-5.7.2.src.max_core").call()
-local storage = core:LoadService("StorageService")
-local runtime = core:LoadService("RunnerService")
-local window = core:LoadService("WindowService")
-local sound = core:LoadService("SoundService")
-local input = core:LoadService("InputService")
-local click = core.Event.new("PlayerClickEvent")
+local storage = EngineCore:LoadService("StorageService")
+local runtime = EngineCore:LoadService("RunnerService")
+local window = EngineCore:LoadService("WindowService")
+local sound = EngineCore:LoadService("SoundService")
+local input = EngineCore:LoadService("InputService")
+local click = EngineCore.Event.new("PlayerClickEvent")
 local app = window:CreateWindow("Engine", 800, 800)
 local logs = window:CreateWindow("Logger", 400, 500)
 local mpw = app and app:CreatePhysicsWorld()
@@ -29,7 +28,7 @@ local data = {
     events = {},
 };
 
-if GameData ~= nil and core.typeof(GameData) == "FileObject" then
+if GameData ~= nil and EngineCore.typeof(GameData) == "FileObject" then
 
 end
 
@@ -47,14 +46,14 @@ local BorderElementPoints = {
 };
 
 coroutine.wrap(function(...)
-    if app ~= nil and core.typeof(app) == "WindowObject" then
+    if app ~= nil and EngineCore.typeof(app) == "WindowObject" then
         local args = { ... }
         local dc <const> = 255
         local ct <const> = { dc, dc, dc }
         local cx <const>, cy <const> = app:GetDimensions()
         local toolbar = app:CreatePolygon(BorderElementPoints, true, 171, 212, 161)
-        local ObjectPosChange = core.Event.new("ObjectPositionChanged")
-        local noiseGen = core.NoiseClass.new(os.time())
+        local ObjectPosChange = EngineCore.Event.new("ObjectPositionChanged")
+        local noiseGen = EngineCore.NoiseClass.new(os.time())
         local tooltip = app:CreateText()
         local textpos = { 10, 17.5 }
         local MeshVertices = {
@@ -66,7 +65,7 @@ coroutine.wrap(function(...)
 
         app:SetAliasingQuality("3d", window:GetMaxAliasingQuality() - 2)
 
-        if logs ~= nil and core.IsA(logs, "WindowObject") then
+        if logs ~= nil and EngineCore.IsA(logs, "WindowObject") then
             local NewLogsPositionX <const>, NewLogsPositionY <const> = app:GetPosition()
             logs:SetPosition(NewLogsPositionX + table.pack(app:GetDimensions())[1], NewLogsPositionY)
         end
@@ -153,8 +152,8 @@ coroutine.wrap(function(...)
         for CubeInstanceIndex = 1, #CubeConfiguration.positions do
             local InstancedCube = app:CreateCube(nil, nil, nil, CubeConfiguration.sizes[CubeInstanceIndex], nil, nil, nil, "solid")
             InstancedCube:SetPosition(table.unpack(CubeConfiguration.positions[CubeInstanceIndex]))
-            InstancedCube:SetColor(core.RandomClass.new(os.time() + math.random(100)):NextColor())
-            CubePhysicBodies[core.RandomClass.new():NextInteger(0, os.time())] = app:BindPhysics(InstancedCube)
+            InstancedCube:SetColor(EngineCore.RandomClass.new(os.time() + math.random(100)):NextColor())
+            CubePhysicBodies[EngineCore.RandomClass.new():NextInteger(0, os.time())] = app:BindPhysics(InstancedCube)
             table.insert(ProjectedCubes, InstancedCube)
         end
 
@@ -181,7 +180,7 @@ coroutine.wrap(function(...)
         input:BindAction("ChangeCubeColors", "f", function(name, state, key)
             if state == "Pressed" then
                 for _, cube in pairs(ProjectedCubes) do
-                    local RandomGeneratorInstance = core.RandomClass.new()
+                    local RandomGeneratorInstance = EngineCore.RandomClass.new()
                     cube:SetColor(RandomGeneratorInstance:NextColor())
                 end
             end
@@ -199,14 +198,14 @@ input:SetGlobalInput(true)
 
 ---@param deltaTime number
 runtime.RenderStepped:Connect(function(deltaTime)
-    if mpw ~= nil and core.typeof(mpw) == "PhysicsWorld" then
+    if mpw ~= nil and EngineCore.typeof(mpw) == "PhysicsWorld" then
         mpw:Step(deltaTime)
     end
 end)
 
 runtime.Stepped:Connect(function(dt)
-    if logs and core.typeof(logs) == "WindowObject" then
-        if app ~= nil and core.typeof(app) == "WindowObject" then
+    if logs and EngineCore.typeof(logs) == "WindowObject" then
+        if app ~= nil and EngineCore.typeof(app) == "WindowObject" then
             if not logs:IsRunning() then
                 return
             else

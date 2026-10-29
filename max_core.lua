@@ -61,7 +61,7 @@ local LUA_BUILTINS = {
 ---@class MaxCore : LoadServiceFunction
 ---@field PlayerDataModel PlayerDataModel
 ---@field wait fun(duration: number | integer)
----@field colorPrint fun(level: LogLevel, message: string)
+---@field ColorPrint fun(level: LogLevel, ...: string?)
 ---@field Load fun(self: MaxCore)
 ---@field sleep fun(time: number)
 ---@field Instance InstanceBuilder
@@ -130,7 +130,7 @@ if not package.cpath:find("luarocks") then
 end
 
 if _G.arg ~= nil and type(arg) == "table" and #arg > 0 then
-    for ArgumentIndex, ArgumentName in pairs(arg or {}) do
+    for _, ArgumentName in pairs(arg or {}) do
         if ArgumentName and ArgumentName == "-dev" then
             isDeveloper = true; break
         end
@@ -177,8 +177,8 @@ local lenum = {
 ---@alias LogLevel "ERROR" | "INFO" | "WARNING" | "DEBUG" | "SUCCESS" | "CRITICAL" | "RED" | "GREEN" | "BLUE
 
 ---@param level LogLevel
----@param message string
-local function colorPrint(level, message)
+---@param ... string?
+local function ColorPrint(level, ...)
     local colorKeywords = {
         ERROR = "31",
         INFO = "36",
@@ -193,6 +193,13 @@ local function colorPrint(level, message)
     };
 
     local code = colorKeywords[level] or "37"
+    local input = { ... }
+    local message = ""
+
+    for i, v in ipairs(input) do
+        message = message .. (i > 1 and "\t" or "") .. tostring(v)
+    end
+
     print("\27[" .. code .. "m" .. message .. "\27[0m")
 end
 
@@ -266,7 +273,7 @@ function task.seed(fn, ...)
     local s, err = coroutine.resume(coro, ...)
 
     if not s then
-        colorPrint("ERROR", "Task Error: " .. err)
+        ColorPrint("ERROR", "Task Error: " .. err)
     end
 
     local oldCoro = coro
@@ -276,17 +283,17 @@ function task.seed(fn, ...)
 
     if coroutine.status(coro) == "dead" then
         if MainKit.debugMode then
-            colorPrint("DEBUG", "Thread task completed. - MAXCORE.LUA - " .. tostring(getLine()))
+            ColorPrint("DEBUG", "Thread task completed. - MAXCORE.LUA - " .. tostring(getLine()))
         end
         local trySuccess, errorClose = pcall(function()
             if success then
-                colorPrint("INFO", "Closed old coroutine runtime thread.")
+                ColorPrint("INFO", "Closed old coroutine runtime thread.")
             end
         end)
         if errorClose then
-            colorPrint("CRITICAL", "Closing failed on coroutine thread." .. errorClose)
+            ColorPrint("CRITICAL", "Closing failed on coroutine thread." .. errorClose)
         elseif trySuccess then
-            colorPrint("SUCCESS", "Success on pcall coroutine thread.")
+            ColorPrint("SUCCESS", "Success on pcall coroutine thread.")
         end
     end
 end
@@ -314,7 +321,7 @@ function MainKit:WaitForCondition(condition, timeout)
         if os.clock() - startTime > timeout then return false end
         ---@diagnostic disable-next-line
         task.wait(0.1)
-    end colorPrint("SUCCESS", "Condition met within timeout.")
+    end ColorPrint("SUCCESS", "Condition met within timeout.")
     return true
 end
 
@@ -334,7 +341,7 @@ function MainKit:destroy(identifier, scope)
             task.seed(function()
                 if targetScope[varName] ~= nil then
                     targetScope[varName] = nil
-                    colorPrint("SUCCESS", "Variable destroyed: " .. varName)
+                    ColorPrint("SUCCESS", "Variable destroyed: " .. varName)
                     collectgarbage()
                 end
             end)
@@ -358,7 +365,7 @@ function MainKit:destroy(identifier, scope)
         if _G[varName] ~= nil then
             _G[varName] = nil
             collectgarbage()
-            colorPrint("SUCCESS", "Object Variable destroyed successfully: " .. varName)
+            ColorPrint("SUCCESS", "Object Variable destroyed successfully: " .. varName)
         end
     end)
 end
@@ -390,7 +397,7 @@ InstanceType.SetType(Event, "Event")
 ---@return Event
 function Event.new(EventName)
     local FormatedEventName = tostring(EventName or "EventObject")
-    if MainKit.debugMode then colorPrint("DEBUG", "Created Event: " .. FormatedEventName) end
+    if MainKit.debugMode then ColorPrint("DEBUG", "Created Event: " .. FormatedEventName) end
     return setmetatable({ _listeners = {}, _nextId = 1, _name = FormatedEventName, _connected = false }, Event)
 end
 
@@ -433,7 +440,7 @@ function Event:RenameEvent(TargetNameSelection)
     end, 10)
 
     if RenamingSucess ~= nil and type(RenamingSucess) == "boolean" and RenamingSucess then
-        colorPrint("INFO", "RENAMED EVENT:\t" .. PreviousObjectName .. " => " .. tostring(self._name))
+        ColorPrint("INFO", "RENAMED EVENT:\t" .. PreviousObjectName .. " => " .. tostring(self._name))
     end
 end
 
@@ -584,7 +591,7 @@ local function call(_, env)
         task = task,
         lenum = lenum,
         sleep = sleep,
-        colorPrint = colorPrint,
+        ColorPrint = ColorPrint,
         Instance = InstanceBuilding,
         RandomClass = RandomDataModel.Random,
         PseudoClass = RandomDataModel.Pseudo,
