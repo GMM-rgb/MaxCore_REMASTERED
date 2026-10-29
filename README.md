@@ -90,6 +90,8 @@ InputService.UpdateAll -> fun(): nil -- alternative to update, updates bindings 
 InputService._ResolveTarget -> fun(target: string): (string?, integer)
 ```
 
+---
+
 > **Note:** The signatures above use type-annotation notation for documentation. They are not necessarily literal Lua call syntax.
 
 ## Building
