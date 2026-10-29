@@ -37,12 +37,16 @@ The `RunnerService`, also known as the runtime service, provides utilities for m
 **Methods:** *Documented methods coming soon.*
 
 ```lua
--- stepped property
+-- properties
 RunnerService.Stepped -> RunnerSignal
+RunnerService.Heartbeat -> RunnerSignal
 
 ```
 
-[!image]()
+```lua
+-- signal methods
+RunnerSignal.Connect: fun(thread: function|string|thread, options: JobOptions): RunnerConnection
+```
 
 ### SoundService
 
