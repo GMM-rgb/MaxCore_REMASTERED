@@ -82,6 +82,12 @@ InputService.Update -> fun(): nil -- updates input(s) bindings within the curren
 InputService.UpdateAll -> fun(): nil -- alternative to update, updates bindings outside the application
 ```
 
+**Backend Wrapper Methods:**
+
+```lua
+InputService._ResolveTarget -> fun(target: string): (string?, integer)
+```
+
 > **Note:** The signatures above use type-annotation notation for documentation. They are not necessarily literal Lua call syntax.
 
 ## Building
