@@ -1,6 +1,6 @@
 # MaxCore REMASTERED
 
-### Globals
+### Global Environment Variables
 
 ```lua
 EngineCore: EngineCore|MaxCore
