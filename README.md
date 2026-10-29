@@ -51,11 +51,15 @@ RunnerSignal.Connect: fun(thread: function|string|thread, options: JobOptions): 
 
 > The `Connect` method is expanded from the base RunnerSignal.
 
+---
+
 ### SoundService
 
 `SoundService` provides native integration with the operating system and audio hardware.
 
 **Methods:** *Documented methods coming soon.*
+
+---
 
 ### StorageService
 
@@ -63,11 +67,15 @@ RunnerSignal.Connect: fun(thread: function|string|thread, options: JobOptions): 
 
 **Methods:** *Documented methods coming soon.*
 
+---
+
 ### WindowService
 
 `WindowService` provides window-management functionality.
 
 **Methods:** *Documented methods coming soon.*
+
+---
 
 ### InputService
 
@@ -89,8 +97,6 @@ InputService.UpdateAll -> fun(): nil -- alternative to update, updates bindings 
 ```lua
 InputService._ResolveTarget -> fun(target: string): (string?, integer)
 ```
-
----
 
 > **Note:** The signatures above use type-annotation notation for documentation. They are not necessarily literal Lua call syntax.
 
