@@ -1,7 +1,5 @@
 # MaxCore REMASTERED
 
-## Documentation
-
 ### Globals
 
 ```lua
