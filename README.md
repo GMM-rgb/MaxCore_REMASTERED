@@ -31,6 +31,7 @@ local ServiceObject = EngineCore:LoadService(name: string)
 ### RunnerService
 
 The `RunnerService`, also known as the runtime service, provides utilities for maintaining active runtime processes and binding runtime simulations to `deltaTime` events.
+Functions passed through the `Connect` method are `delta: number` and `wait: function(s: number): number` and `join: function(id: integer): TaskEvent`.
 
 **Methods:** *Documented methods coming soon.*
 
