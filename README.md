@@ -104,7 +104,7 @@ MaxCore includes an experimental option for generating LuaLS metadata from the l
 
 This feature is disabled by default and is not required for normal engine operation.
 
-> To Enable:
+>> Enabling Signature:
 
 ```bash
 cmake -S . -B build -DMAXCORE_EXPERIMENTAL_METADATA=ON
@@ -112,3 +112,4 @@ cmake --build build
 ```
 
 The generated metadata is experimental and may not fully represent every API member or function signature. The existing `MaxCore` type definition remains the preferred source for API documentation and static analysis.
+
