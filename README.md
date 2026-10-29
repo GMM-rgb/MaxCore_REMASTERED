@@ -48,6 +48,8 @@ RunnerService.RenderStepped -> RunnerSignal
 RunnerSignal.Connect: fun(thread: function|string|thread, options: JobOptions): RunnerConnection
 ```
 
+> The `Connect` method is expanded from the base RunnerSignal.
+
 ### SoundService
 
 `SoundService` provides native integration with the operating system and audio hardware.
