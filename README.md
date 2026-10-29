@@ -81,8 +81,8 @@ InputService:GetGlobalInput(): boolean
 ```
 
 ```lua
-InputService.Update -- updates input(s) bindings within the current environment
-InputService.UpdateAll -- alternative to update, updates bindings outside the application
+InputService.Update -> fun(): nil -- updates input(s) bindings within the current environment
+InputService.UpdateAll -> fun(): nil -- alternative to update, updates bindings outside the application
 ```
 
 > **Note:** The signatures above use type-annotation notation for documentation. They are not necessarily literal Lua call syntax.
