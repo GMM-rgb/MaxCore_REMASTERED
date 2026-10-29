@@ -1,4 +1,4 @@
-# MaxCore REMASTERED — Edition
+# MaxCore REMASTERED
 
 ## Documentation
 
@@ -76,11 +76,8 @@ RunnerSignal.Connect: fun(thread: function|string|thread, options: JobOptions): 
 **Methods:**
 
 ```lua
-InputService:SetGlobalInput(target: boolean): void
-InputService:GetGlobalInput(): boolean
-```
-
-```lua
+InputService.SetGlobalInput -> fun(target: boolean): nil
+InputService.GetGlobalInput -> fun(): 
 InputService.Update -> fun(): nil -- updates input(s) bindings within the current environment
 InputService.UpdateAll -> fun(): nil -- alternative to update, updates bindings outside the application
 ```
