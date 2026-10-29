@@ -22,8 +22,6 @@
 -- `sleep_native` module). If that module isn't available it falls back to a
 -- bounded wait that still yields to the OS where it can, and warns once.
 
-local IS_LOVE = (_G.love ~= nil)
-
 local InstanceType = require("instance_type")
 
 -- Optional native module: a real OS sleep + a monotonic clock.
@@ -174,7 +172,7 @@ local CHANNELS = { "Stepped", "Heartbeat", "RenderStepped" } -- execution order 
 ---  Heartbeat:Connect(function(dt) ... end)                         dt only
 ---  Heartbeat:Connect(function(dt, wait, join) ... end, { yieldable = true })
 ---@class RunnerSignal
----@field Connect fun(self: RunnerSignal, fn: fun(dt: number)|YieldFn|string, connectOpts: JobOptions|nil): RunnerConnection
+---@field Connect fun(self: RunnerSignal, fn: fun(dt: number)|YieldFn|string, connectOpts: JobOptions|nil): RunnerConnection, RunnerJob
 ---@overload fun(self: RunnerSignal, fn: fun(dt: number), connectOpts: ConnectOptions?): RunnerConnection
 ---@overload fun(self: RunnerSignal, fn: YieldFn, connectOpts: YieldableConnectOptions): RunnerConnection
 ---@overload fun(self: RunnerSignal, fn: string, connectOpts: ConnectOptions?): RunnerConnection
@@ -292,7 +290,7 @@ end
 ---@param self RunnerService
 ---@param channel RunnerChannel
 ---@param job RunnerJob
----@return RunnerConnection
+---@return RunnerConnection, RunnerJob
 local function register(self, channel, job)
     local list = self._jobs[channel]
     if not list then
@@ -334,7 +332,7 @@ local function register(self, channel, job)
         Pause = function() job.paused = true end,
         Resume = function() job.paused = false end,
     };
-    return conn
+    return conn, job
 end
 
 ---@param prefix string
@@ -348,7 +346,7 @@ end
 ---@param channel RunnerChannel?
 ---@param fn function|string
 ---@param opts JobOptions|nil
----@return RunnerConnection
+---@return RunnerConnection, RunnerJob
 function RunnerService:bind(channel, fn, opts)
     local providedOpts = opts or {}
     ---@type RunnerChannel
@@ -430,7 +428,7 @@ end
 ---@param channel RunnerChannel
 ---@param fn YieldFn
 ---@param opts JobOptions
----@return RunnerConnection
+---@return RunnerConnection, RunnerJob
 function RunnerService:_bindYieldable(channel, fn, opts)
     -- Catch the old shape up front. Before dt was added, a yieldable callback
     -- was written function(wait) or function(wait, join). Under the new
@@ -522,7 +520,7 @@ function RunnerService:_bindYieldable(channel, fn, opts)
         Resume = function() launcher:Resume() end,
     };
     self_conn = conn
-    return conn
+    return conn, self:_jobOf(conn)
 end
 
 ---Finds the job a connection controls (the newest job on its channel with its id).
@@ -988,8 +986,6 @@ end
 --- Main loop. Sleeps between frames instead of spinning. Wrapped in pcall
 --- so Ctrl+C / cancellation doesn't dump a traceback.
 function RunnerService:KeepAlive()
-    if IS_LOVE then return end
-
     local clock = newClock(self)
     local lastTime = clock()
     local targetFrameTime = 1 / self._tickRate

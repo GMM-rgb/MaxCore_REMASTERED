@@ -35,6 +35,8 @@ Functions passed through the `Connect` method are:
 * `wait: function(s: number): number`
 * `join: function(id: integer): TaskEvent`
 
+**TIP:** The scheduler for the runtime service is sequenced through Stepped -> Hearbeat -> RenderStepped (which occurs last just before the frame is fully rendered.)
+
 ```lua
 -- properties
 RunnerService.Stepped -> RunnerSignal
