@@ -37,8 +37,6 @@ Functions passed through the `Connect` method are:
 * `wait: function(s: number): number`
 * `join: function(id: integer): TaskEvent`
 
-<p>**Methods:**</p> *FULL Documented methods will be coming soon.*
-
 ```lua
 -- properties
 RunnerService.Stepped -> RunnerSignal
