@@ -72,7 +72,8 @@ RunnerSignal.Connect: fun(thread: function|string|thread, options: JobOptions): 
 ### InputService
 
 `InputService` provides input-related functionality, including global input control, and input simulation, etc.
-eg. can be used as creating an auto clicker for the application or outside the sandbox virtual machine.
+
+(eg. can be used as creating an auto clicker for the application or outside the sandbox virtual machine.)
 
 **Methods:**
 
