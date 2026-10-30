@@ -338,7 +338,7 @@ WindowObject.__index = WindowObject
 InstanceTyping.SetType(WindowObject, "WindowObject")
 
 ---@class WindowService
----@field public _windows table<integer, WindowObject>
+---@field public _windows table<integer, WindowObject> # do not update this outside scope, this could cause severe problems!
 ---@field private _activeWindow WindowObject?
 local WindowService = {}
 WindowService.__index = WindowService

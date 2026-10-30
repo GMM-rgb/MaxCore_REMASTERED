@@ -11,7 +11,6 @@ EditorWindow:SetAliasingQuality("2d", 4)
 local left_eye = EditorWindow:CreateCircle(100, 100, 40, false)
 local right_eye = EditorWindow:CreateCircle(200, 100, 40, false)
 local face = { left_eye, right_eye } --- @type table<GameObject>
-
 for _, obj in ipairs(face) do EditorWindow:RenderObject(obj) end
 
 local InputListener = setmetatable({}, nil)
