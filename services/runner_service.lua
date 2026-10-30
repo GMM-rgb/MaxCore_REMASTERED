@@ -258,9 +258,9 @@ function RunnerService.new(opts)
         }
     end
 
-    self.Heartbeat = makeSignal("Heartbeat")
-    self.Stepped = makeSignal("Stepped")
-    self.RenderStepped = makeSignal("RenderStepped")
+    for _, channel in ipairs(CHANNELS) do
+        self[channel] = makeSignal(channel)
+    end
 
     return self
 end
@@ -565,7 +565,7 @@ end
 ---@param channel RunnerChannel?
 ---@param fn SpawnFn
 ---@param opts JobOptions|nil
----@return RunnerConnection
+---@return RunnerConnection, RunnerJob
 function RunnerService:Spawn(channel, fn, opts)
     ---@type RunnerChannel
     local activeChannel = channel or "Heartbeat"
@@ -653,16 +653,16 @@ function RunnerService:Spawn(channel, fn, opts)
     };
     local conn = register(self, activeChannel, job)
     if key ~= nil and policy ~= "allow" then self._keys[key] = job end
-    return conn
+    return conn, job
 end
 
 ---Builds a connection object for a job that is already running, so Spawn can
 ---hand back the existing one when it skips a duplicate.
 ---@param job RunnerJob
----@return RunnerConnection
+---@return RunnerConnection, RunnerJob
 function RunnerService:_connectionFor(job)
     ---@type RunnerConnection
-    return {
+    local conn = {
         id = job.id,
         channel = job.channel,
         Connected = not job.dead,
@@ -673,7 +673,7 @@ function RunnerService:_connectionFor(job)
         end,
         Pause = function() job.paused = true end,
         Resume = function() job.paused = false end,
-    }
+    }; return conn, job
 end
 
 --- True when background threads are available.

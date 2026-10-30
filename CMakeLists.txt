@@ -365,16 +365,13 @@ set(NATIVE_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/backend/storage_interface.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/backend/window_management.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/backend/physics_management.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/backend/native_utils.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/backend/platform_module.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/backend/runtime_backend/scheduler_native.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/backend/runtime_backend/sleep_native.cpp"
 )
 
 # All native modules need lua_shared + platform libraries.
-list(APPEND PLATFORM_LIBS
-    lua_shared
-)
+list(APPEND PLATFORM_LIBS lua_shared)
 
 # =========================================================================
 # MODULE TARGET GENERATION

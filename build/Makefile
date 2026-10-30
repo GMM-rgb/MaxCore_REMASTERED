@@ -208,19 +208,6 @@ physics_management/fast:
 .PHONY : physics_management/fast
 
 #=============================================================================
-# Target rules for targets named native_utils
-
-# Build rule for target.
-native_utils: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 native_utils
-.PHONY : native_utils
-
-# fast build rule for target.
-native_utils/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/native_utils.dir/build.make CMakeFiles/native_utils.dir/build
-.PHONY : native_utils/fast
-
-#=============================================================================
 # Target rules for targets named platform_module
 
 # Build rule for target.
@@ -282,30 +269,6 @@ backend/input_native.s: backend/input_native.cpp.s
 backend/input_native.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/input_native.dir/build.make CMakeFiles/input_native.dir/backend/input_native.cpp.s
 .PHONY : backend/input_native.cpp.s
-
-backend/native_utils.o: backend/native_utils.cpp.o
-.PHONY : backend/native_utils.o
-
-# target to build an object file
-backend/native_utils.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/native_utils.dir/build.make CMakeFiles/native_utils.dir/backend/native_utils.cpp.o
-.PHONY : backend/native_utils.cpp.o
-
-backend/native_utils.i: backend/native_utils.cpp.i
-.PHONY : backend/native_utils.i
-
-# target to preprocess a source file
-backend/native_utils.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/native_utils.dir/build.make CMakeFiles/native_utils.dir/backend/native_utils.cpp.i
-.PHONY : backend/native_utils.cpp.i
-
-backend/native_utils.s: backend/native_utils.cpp.s
-.PHONY : backend/native_utils.s
-
-# target to generate assembly for a file
-backend/native_utils.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/native_utils.dir/build.make CMakeFiles/native_utils.dir/backend/native_utils.cpp.s
-.PHONY : backend/native_utils.cpp.s
 
 backend/physics_management.o: backend/physics_management.cpp.o
 .PHONY : backend/physics_management.o
@@ -1305,7 +1268,6 @@ help:
 	@echo "... input_native"
 	@echo "... lua_runner"
 	@echo "... lua_shared"
-	@echo "... native_utils"
 	@echo "... physics_management"
 	@echo "... platform_module"
 	@echo "... scheduler_native"
@@ -1316,9 +1278,6 @@ help:
 	@echo "... backend/input_native.o"
 	@echo "... backend/input_native.i"
 	@echo "... backend/input_native.s"
-	@echo "... backend/native_utils.o"
-	@echo "... backend/native_utils.i"
-	@echo "... backend/native_utils.s"
 	@echo "... backend/physics_management.o"
 	@echo "... backend/physics_management.i"
 	@echo "... backend/physics_management.s"
