@@ -12,10 +12,9 @@ local InstanceTyping = require("instance_type")
 -- until the first PhysicsBody is actually constructed, by which point
 -- max_core.lua has long finished loading.
 local _EventClass = nil
+
 local function NewCollidedEvent()
-    if not _EventClass then
-        _EventClass = require("lua-5.7.2.src.max_core").call().Event
-    end
+    if not _EventClass then _EventClass = EngineCore.Event end
     return _EventClass.new("Collided")
 end
 

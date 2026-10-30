@@ -20,69 +20,18 @@ events:
     names:
       - "uname"
     candidate_directories:
-      - "/Users/maximus.farvour/.unity/bin/"
-      - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/"
-      - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin/"
-      - "/Users/maximus.farvour/miniforge3/bin/"
-      - "/Users/maximus.farvour/miniforge3/condabin/"
-      - "/usr/local/bin/"
-      - "/opt/homebrew/bin/"
-      - "/opt/homebrew/sbin/"
-      - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
-      - "/System/Cryptexes/App/usr/bin/"
       - "/usr/bin/"
       - "/bin/"
       - "/usr/sbin/"
       - "/sbin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
-      - "/pkg/env/global/bin/"
-      - "/Library/Apple/usr/bin/"
-      - "/usr/local/share/dotnet/"
-      - "/Users/maximus.farvour/.dotnet/tools/"
-      - "/Library/Frameworks/Mono.framework/Versions/Current/Commands/"
-      - "/Users/maximus.farvour/.cargo/bin/"
-    searched_directories:
-      - "/Users/maximus.farvour/.unity/bin/uname"
-      - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/uname"
-      - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin/uname"
-      - "/Users/maximus.farvour/miniforge3/bin/uname"
-      - "/Users/maximus.farvour/miniforge3/condabin/uname"
-      - "/usr/local/bin/uname"
-      - "/opt/homebrew/bin/uname"
-      - "/opt/homebrew/sbin/uname"
-      - "/Library/Frameworks/Python.framework/Versions/3.13/bin/uname"
-      - "/System/Cryptexes/App/usr/bin/uname"
+      - "/usr/local/bin/"
     found: "/usr/bin/uname"
     search_context:
       ENV{PATH}:
-        - "/Users/maximus.farvour/.unity/bin"
-        - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build"
-        - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin"
-        - "/Users/maximus.farvour/miniforge3/bin"
-        - "/Users/maximus.farvour/miniforge3/condabin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/opt/homebrew/bin"
-        - "/opt/homebrew/sbin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
-        - "/usr/local/bin"
-        - "/System/Cryptexes/App/usr/bin"
         - "/usr/bin"
         - "/bin"
         - "/usr/sbin"
         - "/sbin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/pkg/env/global/bin"
-        - "/Library/Apple/usr/bin"
-        - "/usr/local/share/dotnet"
-        - "~/.dotnet/tools"
-        - "/Library/Frameworks/Mono.framework/Versions/Current/Commands"
-        - "/Users/maximus.farvour/.cargo/bin"
   -
     kind: "message-v1"
     backtrace:
@@ -111,181 +60,22 @@ events:
       - "make"
       - "smake"
     candidate_directories:
-      - "/Users/maximus.farvour/.unity/bin/"
-      - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/"
-      - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin/"
-      - "/Users/maximus.farvour/miniforge3/bin/"
-      - "/Users/maximus.farvour/miniforge3/condabin/"
-      - "/usr/local/bin/"
-      - "/opt/homebrew/bin/"
-      - "/opt/homebrew/sbin/"
-      - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
-      - "/System/Cryptexes/App/usr/bin/"
       - "/usr/bin/"
       - "/bin/"
       - "/usr/sbin/"
       - "/sbin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
-      - "/pkg/env/global/bin/"
-      - "/Library/Apple/usr/bin/"
-      - "/usr/local/share/dotnet/"
-      - "/Users/maximus.farvour/.dotnet/tools/"
-      - "/Library/Frameworks/Mono.framework/Versions/Current/Commands/"
-      - "/Users/maximus.farvour/.cargo/bin/"
     searched_directories:
-      - "/Users/maximus.farvour/.unity/bin/gmake"
-      - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/gmake"
-      - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin/gmake"
-      - "/Users/maximus.farvour/miniforge3/bin/gmake"
-      - "/Users/maximus.farvour/miniforge3/condabin/gmake"
-      - "/usr/local/bin/gmake"
-      - "/opt/homebrew/bin/gmake"
-      - "/opt/homebrew/sbin/gmake"
-      - "/Library/Frameworks/Python.framework/Versions/3.13/bin/gmake"
-      - "/System/Cryptexes/App/usr/bin/gmake"
       - "/usr/bin/gmake"
       - "/bin/gmake"
       - "/usr/sbin/gmake"
       - "/sbin/gmake"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/gmake"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/gmake"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/gmake"
-      - "/pkg/env/global/bin/gmake"
-      - "/Library/Apple/usr/bin/gmake"
-      - "/usr/local/share/dotnet/gmake"
-      - "/Users/maximus.farvour/.dotnet/tools/gmake"
-      - "/Library/Frameworks/Mono.framework/Versions/Current/Commands/gmake"
-      - "/Users/maximus.farvour/.cargo/bin/gmake"
-      - "/Users/maximus.farvour/.unity/bin/make"
-      - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/make"
-      - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin/make"
-      - "/Users/maximus.farvour/miniforge3/bin/make"
-      - "/Users/maximus.farvour/miniforge3/condabin/make"
-      - "/usr/local/bin/make"
-      - "/opt/homebrew/bin/make"
-      - "/opt/homebrew/sbin/make"
-      - "/Library/Frameworks/Python.framework/Versions/3.13/bin/make"
-      - "/System/Cryptexes/App/usr/bin/make"
     found: "/usr/bin/make"
     search_context:
       ENV{PATH}:
-        - "/Users/maximus.farvour/.unity/bin"
-        - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build"
-        - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin"
-        - "/Users/maximus.farvour/miniforge3/bin"
-        - "/Users/maximus.farvour/miniforge3/condabin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/opt/homebrew/bin"
-        - "/opt/homebrew/sbin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
-        - "/usr/local/bin"
-        - "/System/Cryptexes/App/usr/bin"
         - "/usr/bin"
         - "/bin"
         - "/usr/sbin"
         - "/sbin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/pkg/env/global/bin"
-        - "/Library/Apple/usr/bin"
-        - "/usr/local/share/dotnet"
-        - "~/.dotnet/tools"
-        - "/Library/Frameworks/Mono.framework/Versions/Current/Commands"
-        - "/Users/maximus.farvour/.cargo/bin"
-  -
-    kind: "find-v1"
-    backtrace:
-      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompiler.cmake:73 (find_program)"
-      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:69 (_cmake_find_compiler)"
-      - "CMakeLists.txt:3 (project)"
-    mode: "program"
-    variable: "CMAKE_CXX_COMPILER"
-    description: "CXX compiler"
-    settings:
-      SearchFramework: "FIRST"
-      SearchAppBundle: "FIRST"
-      CMAKE_FIND_USE_CMAKE_PATH: true
-      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
-      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
-      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
-      CMAKE_FIND_USE_INSTALL_PREFIX: true
-    names:
-      - "c++"
-      - "g++"
-      - "cl"
-      - "bcc"
-      - "icpx"
-      - "icx"
-      - "clang++"
-    candidate_directories:
-      - "/Users/maximus.farvour/.unity/bin/"
-      - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/"
-      - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin/"
-      - "/Users/maximus.farvour/miniforge3/bin/"
-      - "/Users/maximus.farvour/miniforge3/condabin/"
-      - "/usr/local/bin/"
-      - "/opt/homebrew/bin/"
-      - "/opt/homebrew/sbin/"
-      - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
-      - "/System/Cryptexes/App/usr/bin/"
-      - "/usr/bin/"
-      - "/bin/"
-      - "/usr/sbin/"
-      - "/sbin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
-      - "/pkg/env/global/bin/"
-      - "/Library/Apple/usr/bin/"
-      - "/usr/local/share/dotnet/"
-      - "/Users/maximus.farvour/.dotnet/tools/"
-      - "/Library/Frameworks/Mono.framework/Versions/Current/Commands/"
-      - "/Users/maximus.farvour/.cargo/bin/"
-    searched_directories:
-      - "/Users/maximus.farvour/.unity/bin/c++"
-      - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/c++"
-      - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin/c++"
-      - "/Users/maximus.farvour/miniforge3/bin/c++"
-      - "/Users/maximus.farvour/miniforge3/condabin/c++"
-      - "/usr/local/bin/c++"
-      - "/opt/homebrew/bin/c++"
-      - "/opt/homebrew/sbin/c++"
-      - "/Library/Frameworks/Python.framework/Versions/3.13/bin/c++"
-      - "/System/Cryptexes/App/usr/bin/c++"
-    found: "/usr/bin/c++"
-    search_context:
-      ENV{PATH}:
-        - "/Users/maximus.farvour/.unity/bin"
-        - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build"
-        - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin"
-        - "/Users/maximus.farvour/miniforge3/bin"
-        - "/Users/maximus.farvour/miniforge3/condabin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/opt/homebrew/bin"
-        - "/opt/homebrew/sbin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
-        - "/usr/local/bin"
-        - "/System/Cryptexes/App/usr/bin"
-        - "/usr/bin"
-        - "/bin"
-        - "/usr/sbin"
-        - "/sbin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/pkg/env/global/bin"
-        - "/Library/Apple/usr/bin"
-        - "/usr/local/share/dotnet"
-        - "~/.dotnet/tools"
-        - "/Library/Frameworks/Mono.framework/Versions/Current/Commands"
-        - "/Users/maximus.farvour/.cargo/bin"
   -
     kind: "find-v1"
     backtrace:
@@ -313,32 +103,10 @@ events:
     found: "/opt/homebrew/share/cmake/Modules/CMakeCXXCompilerId.cpp.in"
     search_context:
       ENV{PATH}:
-        - "/Users/maximus.farvour/.unity/bin"
-        - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build"
-        - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin"
-        - "/Users/maximus.farvour/miniforge3/bin"
-        - "/Users/maximus.farvour/miniforge3/condabin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/opt/homebrew/bin"
-        - "/opt/homebrew/sbin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
-        - "/usr/local/bin"
-        - "/System/Cryptexes/App/usr/bin"
         - "/usr/bin"
         - "/bin"
         - "/usr/sbin"
         - "/sbin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/pkg/env/global/bin"
-        - "/Library/Apple/usr/bin"
-        - "/usr/local/share/dotnet"
-        - "~/.dotnet/tools"
-        - "/Library/Frameworks/Mono.framework/Versions/Current/Commands"
-        - "/Users/maximus.farvour/.cargo/bin"
   -
     kind: "message-v1"
     backtrace:
@@ -348,7 +116,7 @@ events:
       - "CMakeLists.txt:3 (project)"
     message: |
       Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
-      Compiler: /usr/bin/c++ 
+      Compiler: /usr/bin/clang++ 
       Build flags: 
       Id flags:  
       
@@ -368,7 +136,7 @@ events:
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
       - "CMakeLists.txt:3 (project)"
     message: |
-      Detecting CXX compiler apple sysroot: "/usr/bin/c++" "-E" "apple-sdk.cpp"
+      Detecting CXX compiler apple sysroot: "/usr/bin/clang++" "-E" "apple-sdk.cpp"
         # 1 "apple-sdk.cpp"
         # 1 "<built-in>" 1
         # 1 "<built-in>" 3
@@ -423,57 +191,16 @@ events:
       - "ar"
     candidate_directories:
       - "/usr/bin/"
-      - "/Users/maximus.farvour/.unity/bin/"
-      - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/"
-      - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin/"
-      - "/Users/maximus.farvour/miniforge3/bin/"
-      - "/Users/maximus.farvour/miniforge3/condabin/"
-      - "/usr/local/bin/"
-      - "/opt/homebrew/bin/"
-      - "/opt/homebrew/sbin/"
-      - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
-      - "/System/Cryptexes/App/usr/bin/"
       - "/bin/"
       - "/usr/sbin/"
       - "/sbin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
-      - "/pkg/env/global/bin/"
-      - "/Library/Apple/usr/bin/"
-      - "/usr/local/share/dotnet/"
-      - "/Users/maximus.farvour/.dotnet/tools/"
-      - "/Library/Frameworks/Mono.framework/Versions/Current/Commands/"
-      - "/Users/maximus.farvour/.cargo/bin/"
     found: "/usr/bin/ar"
     search_context:
       ENV{PATH}:
-        - "/Users/maximus.farvour/.unity/bin"
-        - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build"
-        - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin"
-        - "/Users/maximus.farvour/miniforge3/bin"
-        - "/Users/maximus.farvour/miniforge3/condabin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/opt/homebrew/bin"
-        - "/opt/homebrew/sbin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
-        - "/usr/local/bin"
-        - "/System/Cryptexes/App/usr/bin"
         - "/usr/bin"
         - "/bin"
         - "/usr/sbin"
         - "/sbin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/pkg/env/global/bin"
-        - "/Library/Apple/usr/bin"
-        - "/usr/local/share/dotnet"
-        - "~/.dotnet/tools"
-        - "/Library/Frameworks/Mono.framework/Versions/Current/Commands"
-        - "/Users/maximus.farvour/.cargo/bin"
   -
     kind: "find-v1"
     backtrace:
@@ -495,57 +222,16 @@ events:
       - "ranlib"
     candidate_directories:
       - "/usr/bin/"
-      - "/Users/maximus.farvour/.unity/bin/"
-      - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/"
-      - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin/"
-      - "/Users/maximus.farvour/miniforge3/bin/"
-      - "/Users/maximus.farvour/miniforge3/condabin/"
-      - "/usr/local/bin/"
-      - "/opt/homebrew/bin/"
-      - "/opt/homebrew/sbin/"
-      - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
-      - "/System/Cryptexes/App/usr/bin/"
       - "/bin/"
       - "/usr/sbin/"
       - "/sbin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
-      - "/pkg/env/global/bin/"
-      - "/Library/Apple/usr/bin/"
-      - "/usr/local/share/dotnet/"
-      - "/Users/maximus.farvour/.dotnet/tools/"
-      - "/Library/Frameworks/Mono.framework/Versions/Current/Commands/"
-      - "/Users/maximus.farvour/.cargo/bin/"
     found: "/usr/bin/ranlib"
     search_context:
       ENV{PATH}:
-        - "/Users/maximus.farvour/.unity/bin"
-        - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build"
-        - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin"
-        - "/Users/maximus.farvour/miniforge3/bin"
-        - "/Users/maximus.farvour/miniforge3/condabin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/opt/homebrew/bin"
-        - "/opt/homebrew/sbin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
-        - "/usr/local/bin"
-        - "/System/Cryptexes/App/usr/bin"
         - "/usr/bin"
         - "/bin"
         - "/usr/sbin"
         - "/sbin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/pkg/env/global/bin"
-        - "/Library/Apple/usr/bin"
-        - "/usr/local/share/dotnet"
-        - "~/.dotnet/tools"
-        - "/Library/Frameworks/Mono.framework/Versions/Current/Commands"
-        - "/Users/maximus.farvour/.cargo/bin"
   -
     kind: "find-v1"
     backtrace:
@@ -567,57 +253,16 @@ events:
       - "strip"
     candidate_directories:
       - "/usr/bin/"
-      - "/Users/maximus.farvour/.unity/bin/"
-      - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/"
-      - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin/"
-      - "/Users/maximus.farvour/miniforge3/bin/"
-      - "/Users/maximus.farvour/miniforge3/condabin/"
-      - "/usr/local/bin/"
-      - "/opt/homebrew/bin/"
-      - "/opt/homebrew/sbin/"
-      - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
-      - "/System/Cryptexes/App/usr/bin/"
       - "/bin/"
       - "/usr/sbin/"
       - "/sbin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
-      - "/pkg/env/global/bin/"
-      - "/Library/Apple/usr/bin/"
-      - "/usr/local/share/dotnet/"
-      - "/Users/maximus.farvour/.dotnet/tools/"
-      - "/Library/Frameworks/Mono.framework/Versions/Current/Commands/"
-      - "/Users/maximus.farvour/.cargo/bin/"
     found: "/usr/bin/strip"
     search_context:
       ENV{PATH}:
-        - "/Users/maximus.farvour/.unity/bin"
-        - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build"
-        - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin"
-        - "/Users/maximus.farvour/miniforge3/bin"
-        - "/Users/maximus.farvour/miniforge3/condabin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/opt/homebrew/bin"
-        - "/opt/homebrew/sbin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
-        - "/usr/local/bin"
-        - "/System/Cryptexes/App/usr/bin"
         - "/usr/bin"
         - "/bin"
         - "/usr/sbin"
         - "/sbin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/pkg/env/global/bin"
-        - "/Library/Apple/usr/bin"
-        - "/usr/local/share/dotnet"
-        - "~/.dotnet/tools"
-        - "/Library/Frameworks/Mono.framework/Versions/Current/Commands"
-        - "/Users/maximus.farvour/.cargo/bin"
   -
     kind: "find-v1"
     backtrace:
@@ -639,57 +284,16 @@ events:
       - "ld"
     candidate_directories:
       - "/usr/bin/"
-      - "/Users/maximus.farvour/.unity/bin/"
-      - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/"
-      - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin/"
-      - "/Users/maximus.farvour/miniforge3/bin/"
-      - "/Users/maximus.farvour/miniforge3/condabin/"
-      - "/usr/local/bin/"
-      - "/opt/homebrew/bin/"
-      - "/opt/homebrew/sbin/"
-      - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
-      - "/System/Cryptexes/App/usr/bin/"
       - "/bin/"
       - "/usr/sbin/"
       - "/sbin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
-      - "/pkg/env/global/bin/"
-      - "/Library/Apple/usr/bin/"
-      - "/usr/local/share/dotnet/"
-      - "/Users/maximus.farvour/.dotnet/tools/"
-      - "/Library/Frameworks/Mono.framework/Versions/Current/Commands/"
-      - "/Users/maximus.farvour/.cargo/bin/"
     found: "/usr/bin/ld"
     search_context:
       ENV{PATH}:
-        - "/Users/maximus.farvour/.unity/bin"
-        - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build"
-        - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin"
-        - "/Users/maximus.farvour/miniforge3/bin"
-        - "/Users/maximus.farvour/miniforge3/condabin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/opt/homebrew/bin"
-        - "/opt/homebrew/sbin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
-        - "/usr/local/bin"
-        - "/System/Cryptexes/App/usr/bin"
         - "/usr/bin"
         - "/bin"
         - "/usr/sbin"
         - "/sbin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/pkg/env/global/bin"
-        - "/Library/Apple/usr/bin"
-        - "/usr/local/share/dotnet"
-        - "~/.dotnet/tools"
-        - "/Library/Frameworks/Mono.framework/Versions/Current/Commands"
-        - "/Users/maximus.farvour/.cargo/bin"
   -
     kind: "find-v1"
     backtrace:
@@ -711,57 +315,16 @@ events:
       - "nm"
     candidate_directories:
       - "/usr/bin/"
-      - "/Users/maximus.farvour/.unity/bin/"
-      - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/"
-      - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin/"
-      - "/Users/maximus.farvour/miniforge3/bin/"
-      - "/Users/maximus.farvour/miniforge3/condabin/"
-      - "/usr/local/bin/"
-      - "/opt/homebrew/bin/"
-      - "/opt/homebrew/sbin/"
-      - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
-      - "/System/Cryptexes/App/usr/bin/"
       - "/bin/"
       - "/usr/sbin/"
       - "/sbin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
-      - "/pkg/env/global/bin/"
-      - "/Library/Apple/usr/bin/"
-      - "/usr/local/share/dotnet/"
-      - "/Users/maximus.farvour/.dotnet/tools/"
-      - "/Library/Frameworks/Mono.framework/Versions/Current/Commands/"
-      - "/Users/maximus.farvour/.cargo/bin/"
     found: "/usr/bin/nm"
     search_context:
       ENV{PATH}:
-        - "/Users/maximus.farvour/.unity/bin"
-        - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build"
-        - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin"
-        - "/Users/maximus.farvour/miniforge3/bin"
-        - "/Users/maximus.farvour/miniforge3/condabin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/opt/homebrew/bin"
-        - "/opt/homebrew/sbin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
-        - "/usr/local/bin"
-        - "/System/Cryptexes/App/usr/bin"
         - "/usr/bin"
         - "/bin"
         - "/usr/sbin"
         - "/sbin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/pkg/env/global/bin"
-        - "/Library/Apple/usr/bin"
-        - "/usr/local/share/dotnet"
-        - "~/.dotnet/tools"
-        - "/Library/Frameworks/Mono.framework/Versions/Current/Commands"
-        - "/Users/maximus.farvour/.cargo/bin"
   -
     kind: "find-v1"
     backtrace:
@@ -783,57 +346,16 @@ events:
       - "objdump"
     candidate_directories:
       - "/usr/bin/"
-      - "/Users/maximus.farvour/.unity/bin/"
-      - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/"
-      - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin/"
-      - "/Users/maximus.farvour/miniforge3/bin/"
-      - "/Users/maximus.farvour/miniforge3/condabin/"
-      - "/usr/local/bin/"
-      - "/opt/homebrew/bin/"
-      - "/opt/homebrew/sbin/"
-      - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
-      - "/System/Cryptexes/App/usr/bin/"
       - "/bin/"
       - "/usr/sbin/"
       - "/sbin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
-      - "/pkg/env/global/bin/"
-      - "/Library/Apple/usr/bin/"
-      - "/usr/local/share/dotnet/"
-      - "/Users/maximus.farvour/.dotnet/tools/"
-      - "/Library/Frameworks/Mono.framework/Versions/Current/Commands/"
-      - "/Users/maximus.farvour/.cargo/bin/"
     found: "/usr/bin/objdump"
     search_context:
       ENV{PATH}:
-        - "/Users/maximus.farvour/.unity/bin"
-        - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build"
-        - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin"
-        - "/Users/maximus.farvour/miniforge3/bin"
-        - "/Users/maximus.farvour/miniforge3/condabin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/opt/homebrew/bin"
-        - "/opt/homebrew/sbin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
-        - "/usr/local/bin"
-        - "/System/Cryptexes/App/usr/bin"
         - "/usr/bin"
         - "/bin"
         - "/usr/sbin"
         - "/sbin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/pkg/env/global/bin"
-        - "/Library/Apple/usr/bin"
-        - "/usr/local/share/dotnet"
-        - "~/.dotnet/tools"
-        - "/Library/Frameworks/Mono.framework/Versions/Current/Commands"
-        - "/Users/maximus.farvour/.cargo/bin"
   -
     kind: "find-v1"
     backtrace:
@@ -855,81 +377,21 @@ events:
       - "objcopy"
     candidate_directories:
       - "/usr/bin/"
-      - "/Users/maximus.farvour/.unity/bin/"
-      - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/"
-      - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin/"
-      - "/Users/maximus.farvour/miniforge3/bin/"
-      - "/Users/maximus.farvour/miniforge3/condabin/"
-      - "/usr/local/bin/"
-      - "/opt/homebrew/bin/"
-      - "/opt/homebrew/sbin/"
-      - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
-      - "/System/Cryptexes/App/usr/bin/"
       - "/bin/"
       - "/usr/sbin/"
       - "/sbin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
-      - "/pkg/env/global/bin/"
-      - "/Library/Apple/usr/bin/"
-      - "/usr/local/share/dotnet/"
-      - "/Users/maximus.farvour/.dotnet/tools/"
-      - "/Library/Frameworks/Mono.framework/Versions/Current/Commands/"
-      - "/Users/maximus.farvour/.cargo/bin/"
     searched_directories:
       - "/usr/bin/objcopy"
-      - "/Users/maximus.farvour/.unity/bin/objcopy"
-      - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/objcopy"
-      - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin/objcopy"
-      - "/Users/maximus.farvour/miniforge3/bin/objcopy"
-      - "/Users/maximus.farvour/miniforge3/condabin/objcopy"
-      - "/usr/local/bin/objcopy"
-      - "/opt/homebrew/bin/objcopy"
-      - "/opt/homebrew/sbin/objcopy"
-      - "/Library/Frameworks/Python.framework/Versions/3.13/bin/objcopy"
-      - "/System/Cryptexes/App/usr/bin/objcopy"
       - "/bin/objcopy"
       - "/usr/sbin/objcopy"
       - "/sbin/objcopy"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/objcopy"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/objcopy"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/objcopy"
-      - "/pkg/env/global/bin/objcopy"
-      - "/Library/Apple/usr/bin/objcopy"
-      - "/usr/local/share/dotnet/objcopy"
-      - "/Users/maximus.farvour/.dotnet/tools/objcopy"
-      - "/Library/Frameworks/Mono.framework/Versions/Current/Commands/objcopy"
-      - "/Users/maximus.farvour/.cargo/bin/objcopy"
     found: false
     search_context:
       ENV{PATH}:
-        - "/Users/maximus.farvour/.unity/bin"
-        - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build"
-        - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin"
-        - "/Users/maximus.farvour/miniforge3/bin"
-        - "/Users/maximus.farvour/miniforge3/condabin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/opt/homebrew/bin"
-        - "/opt/homebrew/sbin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
-        - "/usr/local/bin"
-        - "/System/Cryptexes/App/usr/bin"
         - "/usr/bin"
         - "/bin"
         - "/usr/sbin"
         - "/sbin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/pkg/env/global/bin"
-        - "/Library/Apple/usr/bin"
-        - "/usr/local/share/dotnet"
-        - "~/.dotnet/tools"
-        - "/Library/Frameworks/Mono.framework/Versions/Current/Commands"
-        - "/Users/maximus.farvour/.cargo/bin"
   -
     kind: "find-v1"
     backtrace:
@@ -951,81 +413,21 @@ events:
       - "readelf"
     candidate_directories:
       - "/usr/bin/"
-      - "/Users/maximus.farvour/.unity/bin/"
-      - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/"
-      - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin/"
-      - "/Users/maximus.farvour/miniforge3/bin/"
-      - "/Users/maximus.farvour/miniforge3/condabin/"
-      - "/usr/local/bin/"
-      - "/opt/homebrew/bin/"
-      - "/opt/homebrew/sbin/"
-      - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
-      - "/System/Cryptexes/App/usr/bin/"
       - "/bin/"
       - "/usr/sbin/"
       - "/sbin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
-      - "/pkg/env/global/bin/"
-      - "/Library/Apple/usr/bin/"
-      - "/usr/local/share/dotnet/"
-      - "/Users/maximus.farvour/.dotnet/tools/"
-      - "/Library/Frameworks/Mono.framework/Versions/Current/Commands/"
-      - "/Users/maximus.farvour/.cargo/bin/"
     searched_directories:
       - "/usr/bin/readelf"
-      - "/Users/maximus.farvour/.unity/bin/readelf"
-      - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/readelf"
-      - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin/readelf"
-      - "/Users/maximus.farvour/miniforge3/bin/readelf"
-      - "/Users/maximus.farvour/miniforge3/condabin/readelf"
-      - "/usr/local/bin/readelf"
-      - "/opt/homebrew/bin/readelf"
-      - "/opt/homebrew/sbin/readelf"
-      - "/Library/Frameworks/Python.framework/Versions/3.13/bin/readelf"
-      - "/System/Cryptexes/App/usr/bin/readelf"
       - "/bin/readelf"
       - "/usr/sbin/readelf"
       - "/sbin/readelf"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/readelf"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/readelf"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/readelf"
-      - "/pkg/env/global/bin/readelf"
-      - "/Library/Apple/usr/bin/readelf"
-      - "/usr/local/share/dotnet/readelf"
-      - "/Users/maximus.farvour/.dotnet/tools/readelf"
-      - "/Library/Frameworks/Mono.framework/Versions/Current/Commands/readelf"
-      - "/Users/maximus.farvour/.cargo/bin/readelf"
     found: false
     search_context:
       ENV{PATH}:
-        - "/Users/maximus.farvour/.unity/bin"
-        - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build"
-        - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin"
-        - "/Users/maximus.farvour/miniforge3/bin"
-        - "/Users/maximus.farvour/miniforge3/condabin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/opt/homebrew/bin"
-        - "/opt/homebrew/sbin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
-        - "/usr/local/bin"
-        - "/System/Cryptexes/App/usr/bin"
         - "/usr/bin"
         - "/bin"
         - "/usr/sbin"
         - "/sbin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/pkg/env/global/bin"
-        - "/Library/Apple/usr/bin"
-        - "/usr/local/share/dotnet"
-        - "~/.dotnet/tools"
-        - "/Library/Frameworks/Mono.framework/Versions/Current/Commands"
-        - "/Users/maximus.farvour/.cargo/bin"
   -
     kind: "find-v1"
     backtrace:
@@ -1047,81 +449,21 @@ events:
       - "dlltool"
     candidate_directories:
       - "/usr/bin/"
-      - "/Users/maximus.farvour/.unity/bin/"
-      - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/"
-      - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin/"
-      - "/Users/maximus.farvour/miniforge3/bin/"
-      - "/Users/maximus.farvour/miniforge3/condabin/"
-      - "/usr/local/bin/"
-      - "/opt/homebrew/bin/"
-      - "/opt/homebrew/sbin/"
-      - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
-      - "/System/Cryptexes/App/usr/bin/"
       - "/bin/"
       - "/usr/sbin/"
       - "/sbin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
-      - "/pkg/env/global/bin/"
-      - "/Library/Apple/usr/bin/"
-      - "/usr/local/share/dotnet/"
-      - "/Users/maximus.farvour/.dotnet/tools/"
-      - "/Library/Frameworks/Mono.framework/Versions/Current/Commands/"
-      - "/Users/maximus.farvour/.cargo/bin/"
     searched_directories:
       - "/usr/bin/dlltool"
-      - "/Users/maximus.farvour/.unity/bin/dlltool"
-      - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/dlltool"
-      - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin/dlltool"
-      - "/Users/maximus.farvour/miniforge3/bin/dlltool"
-      - "/Users/maximus.farvour/miniforge3/condabin/dlltool"
-      - "/usr/local/bin/dlltool"
-      - "/opt/homebrew/bin/dlltool"
-      - "/opt/homebrew/sbin/dlltool"
-      - "/Library/Frameworks/Python.framework/Versions/3.13/bin/dlltool"
-      - "/System/Cryptexes/App/usr/bin/dlltool"
       - "/bin/dlltool"
       - "/usr/sbin/dlltool"
       - "/sbin/dlltool"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/dlltool"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/dlltool"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/dlltool"
-      - "/pkg/env/global/bin/dlltool"
-      - "/Library/Apple/usr/bin/dlltool"
-      - "/usr/local/share/dotnet/dlltool"
-      - "/Users/maximus.farvour/.dotnet/tools/dlltool"
-      - "/Library/Frameworks/Mono.framework/Versions/Current/Commands/dlltool"
-      - "/Users/maximus.farvour/.cargo/bin/dlltool"
     found: false
     search_context:
       ENV{PATH}:
-        - "/Users/maximus.farvour/.unity/bin"
-        - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build"
-        - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin"
-        - "/Users/maximus.farvour/miniforge3/bin"
-        - "/Users/maximus.farvour/miniforge3/condabin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/opt/homebrew/bin"
-        - "/opt/homebrew/sbin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
-        - "/usr/local/bin"
-        - "/System/Cryptexes/App/usr/bin"
         - "/usr/bin"
         - "/bin"
         - "/usr/sbin"
         - "/sbin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/pkg/env/global/bin"
-        - "/Library/Apple/usr/bin"
-        - "/usr/local/share/dotnet"
-        - "~/.dotnet/tools"
-        - "/Library/Frameworks/Mono.framework/Versions/Current/Commands"
-        - "/Users/maximus.farvour/.cargo/bin"
   -
     kind: "find-v1"
     backtrace:
@@ -1143,81 +485,21 @@ events:
       - "addr2line"
     candidate_directories:
       - "/usr/bin/"
-      - "/Users/maximus.farvour/.unity/bin/"
-      - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/"
-      - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin/"
-      - "/Users/maximus.farvour/miniforge3/bin/"
-      - "/Users/maximus.farvour/miniforge3/condabin/"
-      - "/usr/local/bin/"
-      - "/opt/homebrew/bin/"
-      - "/opt/homebrew/sbin/"
-      - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
-      - "/System/Cryptexes/App/usr/bin/"
       - "/bin/"
       - "/usr/sbin/"
       - "/sbin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
-      - "/pkg/env/global/bin/"
-      - "/Library/Apple/usr/bin/"
-      - "/usr/local/share/dotnet/"
-      - "/Users/maximus.farvour/.dotnet/tools/"
-      - "/Library/Frameworks/Mono.framework/Versions/Current/Commands/"
-      - "/Users/maximus.farvour/.cargo/bin/"
     searched_directories:
       - "/usr/bin/addr2line"
-      - "/Users/maximus.farvour/.unity/bin/addr2line"
-      - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/addr2line"
-      - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin/addr2line"
-      - "/Users/maximus.farvour/miniforge3/bin/addr2line"
-      - "/Users/maximus.farvour/miniforge3/condabin/addr2line"
-      - "/usr/local/bin/addr2line"
-      - "/opt/homebrew/bin/addr2line"
-      - "/opt/homebrew/sbin/addr2line"
-      - "/Library/Frameworks/Python.framework/Versions/3.13/bin/addr2line"
-      - "/System/Cryptexes/App/usr/bin/addr2line"
       - "/bin/addr2line"
       - "/usr/sbin/addr2line"
       - "/sbin/addr2line"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/addr2line"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/addr2line"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/addr2line"
-      - "/pkg/env/global/bin/addr2line"
-      - "/Library/Apple/usr/bin/addr2line"
-      - "/usr/local/share/dotnet/addr2line"
-      - "/Users/maximus.farvour/.dotnet/tools/addr2line"
-      - "/Library/Frameworks/Mono.framework/Versions/Current/Commands/addr2line"
-      - "/Users/maximus.farvour/.cargo/bin/addr2line"
     found: false
     search_context:
       ENV{PATH}:
-        - "/Users/maximus.farvour/.unity/bin"
-        - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build"
-        - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin"
-        - "/Users/maximus.farvour/miniforge3/bin"
-        - "/Users/maximus.farvour/miniforge3/condabin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/opt/homebrew/bin"
-        - "/opt/homebrew/sbin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
-        - "/usr/local/bin"
-        - "/System/Cryptexes/App/usr/bin"
         - "/usr/bin"
         - "/bin"
         - "/usr/sbin"
         - "/sbin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/pkg/env/global/bin"
-        - "/Library/Apple/usr/bin"
-        - "/usr/local/share/dotnet"
-        - "~/.dotnet/tools"
-        - "/Library/Frameworks/Mono.framework/Versions/Current/Commands"
-        - "/Users/maximus.farvour/.cargo/bin"
   -
     kind: "find-v1"
     backtrace:
@@ -1239,137 +521,21 @@ events:
       - "tapi"
     candidate_directories:
       - "/usr/bin/"
-      - "/Users/maximus.farvour/.unity/bin/"
-      - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/"
-      - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin/"
-      - "/Users/maximus.farvour/miniforge3/bin/"
-      - "/Users/maximus.farvour/miniforge3/condabin/"
-      - "/usr/local/bin/"
-      - "/opt/homebrew/bin/"
-      - "/opt/homebrew/sbin/"
-      - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
-      - "/System/Cryptexes/App/usr/bin/"
       - "/bin/"
       - "/usr/sbin/"
       - "/sbin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
-      - "/pkg/env/global/bin/"
-      - "/Library/Apple/usr/bin/"
-      - "/usr/local/share/dotnet/"
-      - "/Users/maximus.farvour/.dotnet/tools/"
-      - "/Library/Frameworks/Mono.framework/Versions/Current/Commands/"
-      - "/Users/maximus.farvour/.cargo/bin/"
     searched_directories:
       - "/usr/bin/tapi"
-      - "/Users/maximus.farvour/.unity/bin/tapi"
-      - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/tapi"
-      - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin/tapi"
-      - "/Users/maximus.farvour/miniforge3/bin/tapi"
-      - "/Users/maximus.farvour/miniforge3/condabin/tapi"
-      - "/usr/local/bin/tapi"
-      - "/opt/homebrew/bin/tapi"
-      - "/opt/homebrew/sbin/tapi"
-      - "/Library/Frameworks/Python.framework/Versions/3.13/bin/tapi"
-      - "/System/Cryptexes/App/usr/bin/tapi"
       - "/bin/tapi"
       - "/usr/sbin/tapi"
       - "/sbin/tapi"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/tapi"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/tapi"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/tapi"
-      - "/pkg/env/global/bin/tapi"
-      - "/Library/Apple/usr/bin/tapi"
-      - "/usr/local/share/dotnet/tapi"
-      - "/Users/maximus.farvour/.dotnet/tools/tapi"
-      - "/Library/Frameworks/Mono.framework/Versions/Current/Commands/tapi"
-      - "/Users/maximus.farvour/.cargo/bin/tapi"
     found: false
     search_context:
       ENV{PATH}:
-        - "/Users/maximus.farvour/.unity/bin"
-        - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build"
-        - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin"
-        - "/Users/maximus.farvour/miniforge3/bin"
-        - "/Users/maximus.farvour/miniforge3/condabin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/opt/homebrew/bin"
-        - "/opt/homebrew/sbin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
-        - "/usr/local/bin"
-        - "/System/Cryptexes/App/usr/bin"
         - "/usr/bin"
         - "/bin"
         - "/usr/sbin"
         - "/sbin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/pkg/env/global/bin"
-        - "/Library/Apple/usr/bin"
-        - "/usr/local/share/dotnet"
-        - "~/.dotnet/tools"
-        - "/Library/Frameworks/Mono.framework/Versions/Current/Commands"
-        - "/Users/maximus.farvour/.cargo/bin"
-  -
-    kind: "find-v1"
-    backtrace:
-      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCompiler.cmake:54 (find_program)"
-      - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCCompiler.cmake:64 (_cmake_find_compiler)"
-      - "CMakeLists.txt:3 (project)"
-    mode: "program"
-    variable: "CMAKE_C_COMPILER"
-    description: "C compiler"
-    settings:
-      SearchFramework: "FIRST"
-      SearchAppBundle: "FIRST"
-      CMAKE_FIND_USE_CMAKE_PATH: true
-      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
-      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
-      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
-      CMAKE_FIND_USE_INSTALL_PREFIX: true
-    names:
-      - "cc"
-      - "gcc"
-      - "cl"
-      - "bcc"
-      - "xlc"
-      - "icx"
-      - "clang"
-    candidate_directories:
-      - "/usr/bin/"
-    found: "/usr/bin/cc"
-    search_context:
-      ENV{PATH}:
-        - "/Users/maximus.farvour/.unity/bin"
-        - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build"
-        - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin"
-        - "/Users/maximus.farvour/miniforge3/bin"
-        - "/Users/maximus.farvour/miniforge3/condabin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/opt/homebrew/bin"
-        - "/opt/homebrew/sbin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
-        - "/usr/local/bin"
-        - "/System/Cryptexes/App/usr/bin"
-        - "/usr/bin"
-        - "/bin"
-        - "/usr/sbin"
-        - "/sbin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/pkg/env/global/bin"
-        - "/Library/Apple/usr/bin"
-        - "/usr/local/share/dotnet"
-        - "~/.dotnet/tools"
-        - "/Library/Frameworks/Mono.framework/Versions/Current/Commands"
-        - "/Users/maximus.farvour/.cargo/bin"
   -
     kind: "find-v1"
     backtrace:
@@ -1397,32 +563,10 @@ events:
     found: "/opt/homebrew/share/cmake/Modules/CMakeCCompilerId.c.in"
     search_context:
       ENV{PATH}:
-        - "/Users/maximus.farvour/.unity/bin"
-        - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build"
-        - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin"
-        - "/Users/maximus.farvour/miniforge3/bin"
-        - "/Users/maximus.farvour/miniforge3/condabin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/opt/homebrew/bin"
-        - "/opt/homebrew/sbin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
-        - "/usr/local/bin"
-        - "/System/Cryptexes/App/usr/bin"
         - "/usr/bin"
         - "/bin"
         - "/usr/sbin"
         - "/sbin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/pkg/env/global/bin"
-        - "/Library/Apple/usr/bin"
-        - "/usr/local/share/dotnet"
-        - "~/.dotnet/tools"
-        - "/Library/Frameworks/Mono.framework/Versions/Current/Commands"
-        - "/Users/maximus.farvour/.cargo/bin"
   -
     kind: "message-v1"
     backtrace:
@@ -1432,7 +576,7 @@ events:
       - "CMakeLists.txt:3 (project)"
     message: |
       Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
-      Compiler: /usr/bin/cc 
+      Compiler: /usr/bin/clang 
       Build flags: 
       Id flags:  
       
@@ -1452,7 +596,7 @@ events:
       - "/opt/homebrew/share/cmake/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
       - "CMakeLists.txt:3 (project)"
     message: |
-      Detecting C compiler apple sysroot: "/usr/bin/cc" "-E" "apple-sdk.c"
+      Detecting C compiler apple sysroot: "/usr/bin/clang" "-E" "apple-sdk.c"
         # 1 "apple-sdk.c"
         # 1 "<built-in>" 1
         # 1 "<built-in>" 3
@@ -1506,69 +650,17 @@ events:
     names:
       - "install_name_tool"
     candidate_directories:
-      - "/Users/maximus.farvour/.unity/bin/"
-      - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/"
-      - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin/"
-      - "/Users/maximus.farvour/miniforge3/bin/"
-      - "/Users/maximus.farvour/miniforge3/condabin/"
-      - "/usr/local/bin/"
-      - "/opt/homebrew/bin/"
-      - "/opt/homebrew/sbin/"
-      - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
-      - "/System/Cryptexes/App/usr/bin/"
       - "/usr/bin/"
       - "/bin/"
       - "/usr/sbin/"
       - "/sbin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
-      - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
-      - "/pkg/env/global/bin/"
-      - "/Library/Apple/usr/bin/"
-      - "/usr/local/share/dotnet/"
-      - "/Users/maximus.farvour/.dotnet/tools/"
-      - "/Library/Frameworks/Mono.framework/Versions/Current/Commands/"
-      - "/Users/maximus.farvour/.cargo/bin/"
-    searched_directories:
-      - "/Users/maximus.farvour/.unity/bin/install_name_tool"
-      - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/install_name_tool"
-      - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin/install_name_tool"
-      - "/Users/maximus.farvour/miniforge3/bin/install_name_tool"
-      - "/Users/maximus.farvour/miniforge3/condabin/install_name_tool"
-      - "/usr/local/bin/install_name_tool"
-      - "/opt/homebrew/bin/install_name_tool"
-      - "/opt/homebrew/sbin/install_name_tool"
-      - "/Library/Frameworks/Python.framework/Versions/3.13/bin/install_name_tool"
-      - "/System/Cryptexes/App/usr/bin/install_name_tool"
     found: "/usr/bin/install_name_tool"
     search_context:
       ENV{PATH}:
-        - "/Users/maximus.farvour/.unity/bin"
-        - "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build"
-        - "/Users/maximus.farvour/.nvm/versions/node/v16.20.2/bin"
-        - "/Users/maximus.farvour/miniforge3/bin"
-        - "/Users/maximus.farvour/miniforge3/condabin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/usr/local/bin"
-        - "/opt/homebrew/bin"
-        - "/opt/homebrew/sbin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
-        - "/usr/local/bin"
-        - "/System/Cryptexes/App/usr/bin"
         - "/usr/bin"
         - "/bin"
         - "/usr/sbin"
         - "/sbin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
-        - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/pkg/env/global/bin"
-        - "/Library/Apple/usr/bin"
-        - "/usr/local/share/dotnet"
-        - "~/.dotnet/tools"
-        - "/Library/Frameworks/Mono.framework/Versions/Current/Commands"
-        - "/Users/maximus.farvour/.cargo/bin"
       CMAKE_INSTALL_PREFIX: "/usr/local"
   -
     kind: "try_compile-v1"
@@ -1579,8 +671,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-3NEDxL"
-      binary: "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-3NEDxL"
+      source: "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-O0YVgF"
+      binary: "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-O0YVgF"
     cmakeVariables:
       CMAKE_CXX_FLAGS: ""
       CMAKE_CXX_FLAGS_DEBUG: "-g"
@@ -1594,19 +686,19 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: false
       stdout: |
-        Change Dir: '/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-3NEDxL'
+        Change Dir: '/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-O0YVgF'
         
-        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_a93a6/fast
-        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_a93a6.dir/build.make CMakeFiles/cmTC_a93a6.dir/build
-        Building CXX object CMakeFiles/cmTC_a93a6.dir/CMakeCXXCompilerABI.cpp.o
-        /usr/bin/c++   -arch arm64   -v -Wl,-v -MD -MT CMakeFiles/cmTC_a93a6.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_a93a6.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_a93a6.dir/CMakeCXXCompilerABI.cpp.o -c /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_e5b27/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_e5b27.dir/build.make CMakeFiles/cmTC_e5b27.dir/build
+        Building CXX object CMakeFiles/cmTC_e5b27.dir/CMakeCXXCompilerABI.cpp.o
+        /usr/bin/clang++   -arch arm64   -v -Wl,-v -MD -MT CMakeFiles/cmTC_e5b27.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_e5b27.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_e5b27.dir/CMakeCXXCompilerABI.cpp.o -c /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp
         Apple clang version 21.0.0 (clang-2100.3.34.2)
         Target: arm64-apple-darwin27.2.0
         Thread model: posix
         InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
         clang++: warning: -Wl,-v: 'linker' input unused [-Wunused-command-line-argument]
         ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"
-         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple arm64-apple-macosx27.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -fno-sized-deallocation -target-sdk-version=27.0 -fdepfile-entry=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/SDKSettings.json -fvisibility-inlines-hidden-static-local-var -fno-modulemap-allow-subdirectory-search -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -enable-tlsdesc -target-cpu apple-m1 -target-feature +v8.5a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +ccpp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +flagm -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb -fdebug-compilation-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-3NEDxL -target-linker-version 1166.2 -v -fcoverage-compilation-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-3NEDxL -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21 -dependency-file CMakeFiles/cmTC_a93a6.dir/CMakeCXXCompilerABI.cpp.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_a93a6.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1 -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks -Wno-elaborated-enum-base -fdeprecated-macro -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -Wno-error=allocator-wrappers -fdwarf2-cfi-asm -o CMakeFiles/cmTC_a93a6.dir/CMakeCXXCompilerABI.cpp.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple arm64-apple-macosx27.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -fno-sized-deallocation -target-sdk-version=27.0 -fdepfile-entry=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/SDKSettings.json -fvisibility-inlines-hidden-static-local-var -fno-modulemap-allow-subdirectory-search -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -enable-tlsdesc -target-cpu apple-m1 -target-feature +v8.5a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +ccpp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +flagm -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb -fdebug-compilation-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-O0YVgF -target-linker-version 1166.2 -v -fcoverage-compilation-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-O0YVgF -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21 -dependency-file CMakeFiles/cmTC_e5b27.dir/CMakeCXXCompilerABI.cpp.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_e5b27.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1 -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks -Wno-elaborated-enum-base -fdeprecated-macro -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -Wno-error=allocator-wrappers -fdwarf2-cfi-asm -o CMakeFiles/cmTC_e5b27.dir/CMakeCXXCompilerABI.cpp.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp
         clang -cc1 version 21.0.0 (clang-2100.3.34.2) default target arm64-apple-darwin27.2.0
         ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include"
         ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks"
@@ -1620,13 +712,13 @@ events:
          /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks (framework directory)
          /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks (framework directory)
         End of search list.
-        Linking CXX executable cmTC_a93a6
-        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a93a6.dir/link.txt --verbose=1
+        Linking CXX executable cmTC_e5b27
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e5b27.dir/link.txt --verbose=1
         Apple clang version 21.0.0 (clang-2100.3.34.2)
         Target: arm64-apple-darwin27.2.0
         Thread model: posix
         InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
-         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 27.0.0 27.0 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_a93a6 -L/usr/local/lib -v CMakeFiles/cmTC_a93a6.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/lib/darwin/libclang_rt.osx.a
+         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 27.0.0 27.0 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_e5b27 -L/usr/local/lib -v CMakeFiles/cmTC_e5b27.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/lib/darwin/libclang_rt.osx.a
         @(#)PROGRAM:ld PROJECT:ld-27037.1
         BUILD 12:05:32 Aug 17 2026
         configured to support archs: armv6 armv7 armv7s arm64 arm64e arm64_32 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em armv8m.main armv8.1m.main
@@ -1638,7 +730,7 @@ events:
         	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/swift
         Framework search paths:
         	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks
-        /usr/bin/c++  -arch arm64  -v -Wl,-v CMakeFiles/cmTC_a93a6.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_a93a6
+        /usr/bin/clang++  -arch arm64  -v -Wl,-v CMakeFiles/cmTC_e5b27.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_e5b27
         
       exitCode: 0
   -
@@ -1684,19 +776,19 @@ events:
       Parsed CXX implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
-        ignore line: [Change Dir: '/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-3NEDxL']
+        ignore line: [Change Dir: '/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-O0YVgF']
         ignore line: []
-        ignore line: [Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_a93a6/fast]
-        ignore line: [/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_a93a6.dir/build.make CMakeFiles/cmTC_a93a6.dir/build]
-        ignore line: [Building CXX object CMakeFiles/cmTC_a93a6.dir/CMakeCXXCompilerABI.cpp.o]
-        ignore line: [/usr/bin/c++   -arch arm64   -v -Wl -v -MD -MT CMakeFiles/cmTC_a93a6.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_a93a6.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_a93a6.dir/CMakeCXXCompilerABI.cpp.o -c /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_e5b27/fast]
+        ignore line: [/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_e5b27.dir/build.make CMakeFiles/cmTC_e5b27.dir/build]
+        ignore line: [Building CXX object CMakeFiles/cmTC_e5b27.dir/CMakeCXXCompilerABI.cpp.o]
+        ignore line: [/usr/bin/clang++   -arch arm64   -v -Wl -v -MD -MT CMakeFiles/cmTC_e5b27.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_e5b27.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_e5b27.dir/CMakeCXXCompilerABI.cpp.o -c /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [Apple clang version 21.0.0 (clang-2100.3.34.2)]
         ignore line: [Target: arm64-apple-darwin27.2.0]
         ignore line: [Thread model: posix]
         ignore line: [InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin]
         ignore line: [clang++: warning: -Wl -v: 'linker' input unused [-Wunused-command-line-argument]]
         ignore line: [ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"]
-        ignore line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple arm64-apple-macosx27.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -fno-sized-deallocation -target-sdk-version=27.0 -fdepfile-entry=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/SDKSettings.json -fvisibility-inlines-hidden-static-local-var -fno-modulemap-allow-subdirectory-search -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -enable-tlsdesc -target-cpu apple-m1 -target-feature +v8.5a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +ccpp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +flagm -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb -fdebug-compilation-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-3NEDxL -target-linker-version 1166.2 -v -fcoverage-compilation-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-3NEDxL -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21 -dependency-file CMakeFiles/cmTC_a93a6.dir/CMakeCXXCompilerABI.cpp.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_a93a6.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1 -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks -Wno-elaborated-enum-base -fdeprecated-macro -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -Wno-error=allocator-wrappers -fdwarf2-cfi-asm -o CMakeFiles/cmTC_a93a6.dir/CMakeCXXCompilerABI.cpp.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple arm64-apple-macosx27.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -fno-sized-deallocation -target-sdk-version=27.0 -fdepfile-entry=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/SDKSettings.json -fvisibility-inlines-hidden-static-local-var -fno-modulemap-allow-subdirectory-search -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -enable-tlsdesc -target-cpu apple-m1 -target-feature +v8.5a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +ccpp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +flagm -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb -fdebug-compilation-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-O0YVgF -target-linker-version 1166.2 -v -fcoverage-compilation-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-O0YVgF -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21 -dependency-file CMakeFiles/cmTC_e5b27.dir/CMakeCXXCompilerABI.cpp.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_e5b27.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/c++/v1 -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks -Wno-elaborated-enum-base -fdeprecated-macro -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -Wno-error=allocator-wrappers -fdwarf2-cfi-asm -o CMakeFiles/cmTC_e5b27.dir/CMakeCXXCompilerABI.cpp.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [clang -cc1 version 21.0.0 (clang-2100.3.34.2) default target arm64-apple-darwin27.2.0]
         ignore line: [ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include"]
         ignore line: [ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks"]
@@ -1710,14 +802,14 @@ events:
         ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks (framework directory)]
         ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks (framework directory)]
         ignore line: [End of search list.]
-        ignore line: [Linking CXX executable cmTC_a93a6]
-        ignore line: [/opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a93a6.dir/link.txt --verbose=1]
+        ignore line: [Linking CXX executable cmTC_e5b27]
+        ignore line: [/opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e5b27.dir/link.txt --verbose=1]
         ignore line: [Apple clang version 21.0.0 (clang-2100.3.34.2)]
         ignore line: [Target: arm64-apple-darwin27.2.0]
         ignore line: [Thread model: posix]
         ignore line: [InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin]
-        link line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 27.0.0 27.0 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_a93a6 -L/usr/local/lib -v CMakeFiles/cmTC_a93a6.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/lib/darwin/libclang_rt.osx.a] ==> linker [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld]
-        link line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 27.0.0 27.0 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_a93a6 -L/usr/local/lib -v CMakeFiles/cmTC_a93a6.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/lib/darwin/libclang_rt.osx.a]
+        link line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 27.0.0 27.0 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_e5b27 -L/usr/local/lib -v CMakeFiles/cmTC_e5b27.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/lib/darwin/libclang_rt.osx.a] ==> linker [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld]
+        link line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 27.0.0 27.0 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_e5b27 -L/usr/local/lib -v CMakeFiles/cmTC_e5b27.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/lib/darwin/libclang_rt.osx.a]
           arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld] ==> ignore
           arg [-demangle] ==> ignore
           arg [-lto_library] ==> ignore, skip following value
@@ -1734,10 +826,10 @@ events:
           arg [-mllvm] ==> ignore
           arg [-enable-linkonceodr-outlining] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_a93a6] ==> ignore
+          arg [cmTC_e5b27] ==> ignore
           arg [-L/usr/local/lib] ==> dir [/usr/local/lib]
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_a93a6.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+          arg [CMakeFiles/cmTC_e5b27.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
           arg [-lc++] ==> lib [c++]
           arg [-lSystem] ==> lib [System]
           arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/lib/darwin/libclang_rt.osx.a] ==> lib [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/lib/darwin/libclang_rt.osx.a]
@@ -1780,8 +872,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-WOZRw8"
-      binary: "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-WOZRw8"
+      source: "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-VvEnaL"
+      binary: "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-VvEnaL"
     cmakeVariables:
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
       CMAKE_C_FLAGS: ""
@@ -1794,18 +886,18 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: false
       stdout: |
-        Change Dir: '/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-WOZRw8'
+        Change Dir: '/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-VvEnaL'
         
-        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_41459/fast
-        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_41459.dir/build.make CMakeFiles/cmTC_41459.dir/build
-        Building C object CMakeFiles/cmTC_41459.dir/CMakeCCompilerABI.c.o
-        /usr/bin/cc   -arch arm64   -v -Wl,-v -MD -MT CMakeFiles/cmTC_41459.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_41459.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_41459.dir/CMakeCCompilerABI.c.o -c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_9289e/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_9289e.dir/build.make CMakeFiles/cmTC_9289e.dir/build
+        Building C object CMakeFiles/cmTC_9289e.dir/CMakeCCompilerABI.c.o
+        /usr/bin/clang   -arch arm64   -v -Wl,-v -MD -MT CMakeFiles/cmTC_9289e.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_9289e.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_9289e.dir/CMakeCCompilerABI.c.o -c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c
         Apple clang version 21.0.0 (clang-2100.3.34.2)
         Target: arm64-apple-darwin27.2.0
         Thread model: posix
         InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
         clang: warning: -Wl,-v: 'linker' input unused [-Wunused-command-line-argument]
-         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple arm64-apple-macosx27.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -fno-sized-deallocation -target-sdk-version=27.0 -fdepfile-entry=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/SDKSettings.json -fvisibility-inlines-hidden-static-local-var -fno-modulemap-allow-subdirectory-search -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -enable-tlsdesc -target-cpu apple-m1 -target-feature +v8.5a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +ccpp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +flagm -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb -fdebug-compilation-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-WOZRw8 -target-linker-version 1166.2 -v -fcoverage-compilation-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-WOZRw8 -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21 -dependency-file CMakeFiles/cmTC_41459.dir/CMakeCCompilerABI.c.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_41459.dir/CMakeCCompilerABI.c.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks -Wno-elaborated-enum-base -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -Wno-error=allocator-wrappers -fdwarf2-cfi-asm -o CMakeFiles/cmTC_41459.dir/CMakeCCompilerABI.c.o -x c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c
+         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple arm64-apple-macosx27.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -fno-sized-deallocation -target-sdk-version=27.0 -fdepfile-entry=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/SDKSettings.json -fvisibility-inlines-hidden-static-local-var -fno-modulemap-allow-subdirectory-search -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -enable-tlsdesc -target-cpu apple-m1 -target-feature +v8.5a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +ccpp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +flagm -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb -fdebug-compilation-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-VvEnaL -target-linker-version 1166.2 -v -fcoverage-compilation-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-VvEnaL -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21 -dependency-file CMakeFiles/cmTC_9289e.dir/CMakeCCompilerABI.c.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_9289e.dir/CMakeCCompilerABI.c.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks -Wno-elaborated-enum-base -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -Wno-error=allocator-wrappers -fdwarf2-cfi-asm -o CMakeFiles/cmTC_9289e.dir/CMakeCCompilerABI.c.o -x c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c
         clang -cc1 version 21.0.0 (clang-2100.3.34.2) default target arm64-apple-darwin27.2.0
         ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include"
         ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks"
@@ -1818,13 +910,13 @@ events:
          /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks (framework directory)
          /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks (framework directory)
         End of search list.
-        Linking C executable cmTC_41459
-        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_41459.dir/link.txt --verbose=1
+        Linking C executable cmTC_9289e
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9289e.dir/link.txt --verbose=1
         Apple clang version 21.0.0 (clang-2100.3.34.2)
         Target: arm64-apple-darwin27.2.0
         Thread model: posix
         InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
-         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 27.0.0 27.0 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_41459 -L/usr/local/lib -v CMakeFiles/cmTC_41459.dir/CMakeCCompilerABI.c.o -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/lib/darwin/libclang_rt.osx.a
+         "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 27.0.0 27.0 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_9289e -L/usr/local/lib -v CMakeFiles/cmTC_9289e.dir/CMakeCCompilerABI.c.o -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/lib/darwin/libclang_rt.osx.a
         @(#)PROGRAM:ld PROJECT:ld-27037.1
         BUILD 12:05:32 Aug 17 2026
         configured to support archs: armv6 armv7 armv7s arm64 arm64e arm64_32 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em armv8m.main armv8.1m.main
@@ -1836,7 +928,7 @@ events:
         	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/lib/swift
         Framework search paths:
         	/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks
-        /usr/bin/cc  -arch arm64  -v -Wl,-v CMakeFiles/cmTC_41459.dir/CMakeCCompilerABI.c.o -o cmTC_41459
+        /usr/bin/clang  -arch arm64  -v -Wl,-v CMakeFiles/cmTC_9289e.dir/CMakeCCompilerABI.c.o -o cmTC_9289e
         
       exitCode: 0
   -
@@ -1880,18 +972,18 @@ events:
       Parsed C implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
-        ignore line: [Change Dir: '/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-WOZRw8']
+        ignore line: [Change Dir: '/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-VvEnaL']
         ignore line: []
-        ignore line: [Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_41459/fast]
-        ignore line: [/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_41459.dir/build.make CMakeFiles/cmTC_41459.dir/build]
-        ignore line: [Building C object CMakeFiles/cmTC_41459.dir/CMakeCCompilerABI.c.o]
-        ignore line: [/usr/bin/cc   -arch arm64   -v -Wl -v -MD -MT CMakeFiles/cmTC_41459.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_41459.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_41459.dir/CMakeCCompilerABI.c.o -c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c]
+        ignore line: [Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_9289e/fast]
+        ignore line: [/Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_9289e.dir/build.make CMakeFiles/cmTC_9289e.dir/build]
+        ignore line: [Building C object CMakeFiles/cmTC_9289e.dir/CMakeCCompilerABI.c.o]
+        ignore line: [/usr/bin/clang   -arch arm64   -v -Wl -v -MD -MT CMakeFiles/cmTC_9289e.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_9289e.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_9289e.dir/CMakeCCompilerABI.c.o -c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c]
         ignore line: [Apple clang version 21.0.0 (clang-2100.3.34.2)]
         ignore line: [Target: arm64-apple-darwin27.2.0]
         ignore line: [Thread model: posix]
         ignore line: [InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin]
         ignore line: [clang: warning: -Wl -v: 'linker' input unused [-Wunused-command-line-argument]]
-        ignore line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple arm64-apple-macosx27.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -fno-sized-deallocation -target-sdk-version=27.0 -fdepfile-entry=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/SDKSettings.json -fvisibility-inlines-hidden-static-local-var -fno-modulemap-allow-subdirectory-search -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -enable-tlsdesc -target-cpu apple-m1 -target-feature +v8.5a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +ccpp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +flagm -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb -fdebug-compilation-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-WOZRw8 -target-linker-version 1166.2 -v -fcoverage-compilation-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-WOZRw8 -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21 -dependency-file CMakeFiles/cmTC_41459.dir/CMakeCCompilerABI.c.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_41459.dir/CMakeCCompilerABI.c.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks -Wno-elaborated-enum-base -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -Wno-error=allocator-wrappers -fdwarf2-cfi-asm -o CMakeFiles/cmTC_41459.dir/CMakeCCompilerABI.c.o -x c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c]
+        ignore line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang" -cc1 -triple arm64-apple-macosx27.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -fno-sized-deallocation -target-sdk-version=27.0 -fdepfile-entry=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/SDKSettings.json -fvisibility-inlines-hidden-static-local-var -fno-modulemap-allow-subdirectory-search -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -enable-tlsdesc -target-cpu apple-m1 -target-feature +v8.5a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +ccpp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +flagm -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb -fdebug-compilation-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-VvEnaL -target-linker-version 1166.2 -v -fcoverage-compilation-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-VvEnaL -resource-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21 -dependency-file CMakeFiles/cmTC_9289e.dir/CMakeCCompilerABI.c.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_9289e.dir/CMakeCCompilerABI.c.o -sys-header-deps -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks -internal-iframework /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks -Wno-elaborated-enum-base -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -Wno-error=allocator-wrappers -fdwarf2-cfi-asm -o CMakeFiles/cmTC_9289e.dir/CMakeCCompilerABI.c.o -x c /opt/homebrew/share/cmake/Modules/CMakeCCompilerABI.c]
         ignore line: [clang -cc1 version 21.0.0 (clang-2100.3.34.2) default target arm64-apple-darwin27.2.0]
         ignore line: [ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/local/include"]
         ignore line: [ignoring nonexistent directory "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/Library/Frameworks"]
@@ -1904,14 +996,14 @@ events:
         ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks (framework directory)]
         ignore line: [ /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/SubFrameworks (framework directory)]
         ignore line: [End of search list.]
-        ignore line: [Linking C executable cmTC_41459]
-        ignore line: [/opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_41459.dir/link.txt --verbose=1]
+        ignore line: [Linking C executable cmTC_9289e]
+        ignore line: [/opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9289e.dir/link.txt --verbose=1]
         ignore line: [Apple clang version 21.0.0 (clang-2100.3.34.2)]
         ignore line: [Target: arm64-apple-darwin27.2.0]
         ignore line: [Thread model: posix]
         ignore line: [InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin]
-        link line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 27.0.0 27.0 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_41459 -L/usr/local/lib -v CMakeFiles/cmTC_41459.dir/CMakeCCompilerABI.c.o -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/lib/darwin/libclang_rt.osx.a] ==> linker [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld]
-        link line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 27.0.0 27.0 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_41459 -L/usr/local/lib -v CMakeFiles/cmTC_41459.dir/CMakeCCompilerABI.c.o -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/lib/darwin/libclang_rt.osx.a]
+        link line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 27.0.0 27.0 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_9289e -L/usr/local/lib -v CMakeFiles/cmTC_9289e.dir/CMakeCCompilerABI.c.o -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/lib/darwin/libclang_rt.osx.a] ==> linker [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld]
+        link line: [ "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld" -demangle -lto_library /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 27.0.0 27.0 -syslibroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_9289e -L/usr/local/lib -v CMakeFiles/cmTC_9289e.dir/CMakeCCompilerABI.c.o -lSystem /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/lib/darwin/libclang_rt.osx.a]
           arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld] ==> ignore
           arg [-demangle] ==> ignore
           arg [-lto_library] ==> ignore, skip following value
@@ -1928,10 +1020,10 @@ events:
           arg [-mllvm] ==> ignore
           arg [-enable-linkonceodr-outlining] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_41459] ==> ignore
+          arg [cmTC_9289e] ==> ignore
           arg [-L/usr/local/lib] ==> dir [/usr/local/lib]
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_41459.dir/CMakeCCompilerABI.c.o] ==> ignore
+          arg [CMakeFiles/cmTC_9289e.dir/CMakeCCompilerABI.c.o] ==> ignore
           arg [-lSystem] ==> lib [System]
           arg [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/lib/darwin/libclang_rt.osx.a] ==> lib [/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/21/lib/darwin/libclang_rt.osx.a]
         linker tool for 'C': /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld 
@@ -1975,8 +1067,8 @@ events:
     checks:
       - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
     directories:
-      source: "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-14Qu4A"
-      binary: "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-14Qu4A"
+      source: "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-LQyPKR"
+      binary: "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-LQyPKR"
     cmakeVariables:
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
       CMAKE_C_FLAGS: ""
@@ -1989,15 +1081,15 @@ events:
       variable: "CMAKE_HAVE_LIBC_PTHREAD"
       cached: true
       stdout: |
-        Change Dir: '/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-14Qu4A'
+        Change Dir: '/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-LQyPKR'
         
-        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_19e2e/fast
-        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_19e2e.dir/build.make CMakeFiles/cmTC_19e2e.dir/build
-        Building C object CMakeFiles/cmTC_19e2e.dir/src.c.o
-        /usr/bin/cc -DCMAKE_HAVE_LIBC_PTHREAD  -arch arm64 -MD -MT CMakeFiles/cmTC_19e2e.dir/src.c.o -MF CMakeFiles/cmTC_19e2e.dir/src.c.o.d -o CMakeFiles/cmTC_19e2e.dir/src.c.o -c /Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-14Qu4A/src.c
-        Linking C executable cmTC_19e2e
-        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_19e2e.dir/link.txt --verbose=1
-        /usr/bin/cc  -arch arm64 CMakeFiles/cmTC_19e2e.dir/src.c.o -o cmTC_19e2e
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_b70a1/fast
+        /Applications/Xcode.app/Contents/Developer/usr/bin/make  -f CMakeFiles/cmTC_b70a1.dir/build.make CMakeFiles/cmTC_b70a1.dir/build
+        Building C object CMakeFiles/cmTC_b70a1.dir/src.c.o
+        /usr/bin/clang -DCMAKE_HAVE_LIBC_PTHREAD  -arch arm64 -MD -MT CMakeFiles/cmTC_b70a1.dir/src.c.o -MF CMakeFiles/cmTC_b70a1.dir/src.c.o.d -o CMakeFiles/cmTC_b70a1.dir/src.c.o -c /Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-LQyPKR/src.c
+        Linking C executable cmTC_b70a1
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b70a1.dir/link.txt --verbose=1
+        /usr/bin/clang  -arch arm64 CMakeFiles/cmTC_b70a1.dir/src.c.o -o cmTC_b70a1
         
       exitCode: 0
 ...

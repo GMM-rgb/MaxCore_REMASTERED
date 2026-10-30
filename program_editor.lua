@@ -6,6 +6,14 @@ local <const> WindowService = EngineCore:LoadService("WindowService")
 local EditorWindow = WindowService:CreateWindow("Program Editor Mode")
 if EditorWindow == nil then error("editor window unavailable") return end
 
+EditorWindow:SetAliasingQuality("2d", 4)
+
+local left_eye = EditorWindow:CreateCircle(100, 100, 40, false)
+local right_eye = EditorWindow:CreateCircle(200, 100, 40, false)
+local face = { left_eye, right_eye } --- @type table<GameObject>
+
+for _, obj in ipairs(face) do EditorWindow:RenderObject(obj) end
+
 local InputListener = setmetatable({}, nil)
 
 function InputListener.new()
@@ -15,7 +23,10 @@ function InputListener.new()
 end
 
 function InputListener:_bind()
-    InputUpdateEvent:Connect(function()
+    ---@param s InputActionState
+    ---@param k KeyName
+    ---@param ... any
+    InputUpdateEvent:Connect(function(s, k, ...)
 
     end)
 end
@@ -30,8 +41,8 @@ end, { reentrant = false, once = true })
 
 local CoreConnection, CoreJob = RunnerService.RenderStepped:Connect(function(dt, wait, join)
     if EditorWindow and EditorWindow:IsRunning() then EditorWindow:SwapBuffers()
-    elseif EditorWindow then EditorWindow:Close(); ProgramEditorExit:Fire(true) end
-    EditorWindow:Focus()
+    elseif EditorWindow then ProgramEditorExit:Fire(true) end
 end, { priority = 0, yieldable = true, whenRunning = "allow" })
 
-RunnerService:KeepAlive()
+print(tostring(RunnerService:_jobOf(CoreConnection).id))
+RunnerService:KeepAlive(); WindowService:CloseAll()

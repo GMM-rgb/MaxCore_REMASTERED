@@ -338,7 +338,7 @@ WindowObject.__index = WindowObject
 InstanceTyping.SetType(WindowObject, "WindowObject")
 
 ---@class WindowService
----@field private _windows table<integer, WindowObject>
+---@field public _windows table<integer, WindowObject>
 ---@field private _activeWindow WindowObject?
 local WindowService = {}
 WindowService.__index = WindowService
@@ -1261,6 +1261,61 @@ function WindowService.ShowAlert(title, message, style, buttons)
     -- native module missing: still surface the message somewhere
     io.stderr:write(string.format("[ALERT] %s: %s\n", tostring(title), tostring(message)))
     return "ok"
+end
+
+---@param centerX number Center X coordinate of the circle.
+---@param centerY number Center Y coordinate of the circle.
+---@param radius number Circle radius.
+---@param startDegree? number Starting angle in degrees.
+---@param endDegree? number Ending angle in degrees.
+---@param quality? integer Number of segments for a full circle.
+---@param fill? boolean Whether to fill the shape.
+---@param r? integer Red color component (0-255).
+---@param g? integer Green color component (0-255).
+---@param b? integer Blue color component (0-255).
+---@return PolygonObject circle The generated polygon.
+---@return number actualCenterX Calculated center X coordinate.
+---@return number actualCenterY Calculated center Y coordinate.
+function WindowObject:CreateCircleAdvanced(centerX, centerY, radius, startDegree, endDegree, quality, fill, r, g, b)
+    startDegree = startDegree or 0
+    endDegree = endDegree or 360
+    quality = math.max(3, math.floor(quality or 48))
+
+    if fill == nil then
+        fill = true
+    end
+
+    r = r or 255
+    g = g or 255
+    b = b or 255
+
+    assert(radius > 0, "Radius must be greater than zero")
+    assert(endDegree > startDegree, "endDegree must exceed startDegree")
+
+    local sweep = endDegree - startDegree
+    local segments = math.max(1, math.ceil(quality * sweep / 360))
+    local points = {}
+
+    for i = 0, segments do
+        local angle = math.rad(startDegree + sweep * i / segments)
+
+        points[#points + 1] = centerX + math.cos(angle) * radius
+        points[#points + 1] = centerY + math.sin(angle) * radius
+    end
+
+    if fill and sweep < 360 then
+        points[#points + 1] = centerX
+        points[#points + 1] = centerY
+    end
+
+    local circle = self:CreatePolygon(points, fill, r, g, b)
+
+    local positionX, positionY = circle:GetPosition()
+
+    local actualCenterX = positionX + radius
+    local actualCenterY = positionY + radius
+
+    return circle, actualCenterX, actualCenterY
 end
 
 ---Gets the primary display's resolution. Not tied to any window --
