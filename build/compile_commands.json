@@ -241,12 +241,6 @@
 },
 {
   "directory": "C:/Users/6041464/Documents/MaxCore_REMASTERED/build",
-  "command": "C:\\Users\\6041464\\_c_lang\\w64devkit\\bin\\ccache-g++.exe -DLUA_BUILD_AS_DLL -Dnative_utils_EXPORTS -IC:/Users/6041464/Documents/MaxCore_REMASTERED/lua-5.7.2/src -g -std=gnu++17 -o CMakeFiles\\native_utils.dir\\backend\\native_utils.cpp.obj -c C:\\Users\\6041464\\Documents\\MaxCore_REMASTERED\\backend\\native_utils.cpp",
-  "file": "C:/Users/6041464/Documents/MaxCore_REMASTERED/backend/native_utils.cpp",
-  "output": "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/native_utils.dir/backend/native_utils.cpp.obj"
-},
-{
-  "directory": "C:/Users/6041464/Documents/MaxCore_REMASTERED/build",
   "command": "C:\\Users\\6041464\\_c_lang\\w64devkit\\bin\\ccache-g++.exe -DLUA_BUILD_AS_DLL -Dplatform_module_EXPORTS -IC:/Users/6041464/Documents/MaxCore_REMASTERED/lua-5.7.2/src -g -std=gnu++17 -o CMakeFiles\\platform_module.dir\\backend\\platform_module.cpp.obj -c C:\\Users\\6041464\\Documents\\MaxCore_REMASTERED\\backend\\platform_module.cpp",
   "file": "C:/Users/6041464/Documents/MaxCore_REMASTERED/backend/platform_module.cpp",
   "output": "C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/platform_module.dir/backend/platform_module.cpp.obj"
