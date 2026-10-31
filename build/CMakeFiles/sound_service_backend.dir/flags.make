@@ -6,7 +6,7 @@ CXX_DEFINES = -Dsound_service_backend_EXPORTS
 
 CXX_INCLUDES = -I/Users/maximus.farvour/Documents/MaxCore_REMASTERED/lua-5.7.2/src
 
-CXX_FLAGSarm64 = -std=gnu++17 -arch arm64 -fPIC
+CXX_FLAGSarm64 = -O3 -DNDEBUG -std=gnu++17 -arch arm64 -fPIC
 
-CXX_FLAGS = -std=gnu++17 -arch arm64 -fPIC
+CXX_FLAGS = -O3 -DNDEBUG -std=gnu++17 -arch arm64 -fPIC
 

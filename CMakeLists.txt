@@ -1,9 +1,11 @@
+
 cmake_minimum_required(VERSION 3.15)
 
-project(lua_native_engine CXX C)
+project(lua_native_engine C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 # =========================================================================
 # EXPERIMENTAL FEATURES
@@ -20,6 +22,7 @@ option(
 # =========================================================================
 
 file(GLOB LUA_DIRS
+    CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/lua-*/src"
 )
 
@@ -98,6 +101,10 @@ if(NOT EXISTS "${MAXCORE_BOOTSTRAP_H}")
     )
 endif()
 
+# =========================================================================
+# OUTPUT DIRECTORIES
+# =========================================================================
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
@@ -129,6 +136,7 @@ message(STATUS
 include_directories("${LUA_SRC_DIR}")
 
 file(GLOB LUA_SOURCES
+    CONFIGURE_DEPENDS
     "${LUA_SRC_DIR}/*.c"
 )
 
@@ -173,78 +181,63 @@ elseif(APPLE)
         "-lobjc"
     )
 
-elseif(UNIX)
-    message(STATUS "[Engine] Target OS: Linux / Unix")
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    message(STATUS "[Engine] Target OS: Linux")
 
-    set(SEARCH_INCLUDES "")
-    set(SEARCH_LIBS "")
+    # ---------------------------------------------------------------------
+    # X11 DISCOVERY
+    # ---------------------------------------------------------------------
 
-    if(DEFINED ENV{CPATH})
-        string(
-            REPLACE ":"
-            ";"
-            SEARCH_INCLUDES
-            "$ENV{CPATH}"
+    find_package(X11 REQUIRED)
+
+    if(NOT X11_FOUND)
+        message(FATAL_ERROR
+            "[Engine Error] X11 is required but could not be located."
         )
     endif()
 
-    if(DEFINED ENV{LIBRARY_PATH})
-        string(
-            REPLACE ":"
-            ";"
-            SEARCH_LIBS
-            "$ENV{LIBRARY_PATH}"
-        )
-    endif()
-
-    find_path(X11_INCLUDE_DIR
-        NAMES X11/Xlib.h
-        PATHS ${SEARCH_INCLUDES}
+    message(STATUS
+        "[Engine] Found X11 headers at: ${X11_INCLUDE_DIR}"
     )
 
-    find_library(X11_LIB
-        NAMES X11
-        PATHS ${SEARCH_LIBS}
+    message(STATUS
+        "[Engine] Found X11 libraries: ${X11_LIBRARIES}"
     )
+
+    include_directories(${X11_INCLUDE_DIR})
+
+    list(APPEND PLATFORM_LIBS
+        m
+        dl
+        X11::X11
+    )
+
+    # ---------------------------------------------------------------------
+    # XTEST DISCOVERY (OPTIONAL)
+    # ---------------------------------------------------------------------
 
     find_library(XTST_LIB
         NAMES Xtst
-        PATHS ${SEARCH_LIBS}
     )
 
-    if(X11_INCLUDE_DIR AND X11_LIB)
+    if(XTST_LIB)
         message(STATUS
-            "[Engine] Found X11 headers at: ${X11_INCLUDE_DIR}"
+            "[Engine] Found libXtst: ${XTST_LIB}"
         )
-
-        message(STATUS
-            "[Engine] Found libX11 at: ${X11_LIB}"
-        )
-
-        include_directories("${X11_INCLUDE_DIR}")
 
         list(APPEND PLATFORM_LIBS
-            m
-            dl
-            "${X11_LIB}"
+            "${XTST_LIB}"
         )
-
-        if(XTST_LIB)
-            message(STATUS
-                "[Engine] Found libXtst at: ${XTST_LIB}"
-            )
-
-            list(APPEND PLATFORM_LIBS
-                "${XTST_LIB}"
-            )
-        endif()
-
     else()
-        message(FATAL_ERROR
-            "\n[Engine Error] Could not locate X11 headers "
-            "or libX11!\n"
+        message(STATUS
+            "[Engine] libXtst not found; optional XTest support unavailable."
         )
     endif()
+
+else()
+    message(FATAL_ERROR
+        "[Engine Error] Unsupported target platform: ${CMAKE_SYSTEM_NAME}"
+    )
 endif()
 
 # =========================================================================
@@ -301,7 +294,6 @@ set_target_properties(lua_runner PROPERTIES
 )
 
 # Supply the selected source directory to the optional metadata generator.
-# The escaped quotes ensure the macro expands to a C string literal.
 target_compile_definitions(lua_runner PRIVATE
     "MAXCORE_LUA_SRC_DIR=\"${LUA_SRC_DIR}\""
 )
@@ -326,7 +318,7 @@ endif()
 # =========================================================================
 
 if(WIN32)
-    message(STATUS "[Engine] Target OS: Windows")
+    message(STATUS "[Engine] Using Windows Lua configuration")
 
 elseif(APPLE)
     message(STATUS
@@ -341,7 +333,7 @@ elseif(APPLE)
         LUA_USE_MACOSX
     )
 
-elseif(UNIX)
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     message(STATUS
         "[Engine] Enabling LUA_USE_LINUX for io.popen support"
     )

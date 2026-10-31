@@ -6,7 +6,7 @@ C_DEFINES = -DLUA_USE_MACOSX -DMAXCORE_LUA_SRC_DIR=\"/Users/maximus.farvour/Docu
 
 C_INCLUDES = -I/Users/maximus.farvour/Documents/MaxCore_REMASTERED/lua-5.7.2/src
 
-C_FLAGSarm64 =  -arch arm64
+C_FLAGSarm64 = -O3 -DNDEBUG -arch arm64 -fPIE
 
-C_FLAGS =  -arch arm64
+C_FLAGS = -O3 -DNDEBUG -arch arm64 -fPIE
 
