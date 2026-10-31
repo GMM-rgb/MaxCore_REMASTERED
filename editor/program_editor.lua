@@ -18,7 +18,7 @@ local function smile_face(scale, x, y)
     scale = scale or 1
     x = x or 0
     y = y or 0
-    
+
     local FaceBackground = EditorWindow:CreateCircle(200, 200, 100, false)
     FaceBackground:SetScale(scale, scale)
     FaceBackground:SetPosition(x, y)
@@ -67,13 +67,21 @@ InputService:BindAction("create-smile", "mouse1", function(actionName, state, ke
         local RandomSize = EngineCore.RandomClass.new(os.time())
         local mouse_x, mouse_y = EditorWindow:GetMousePosition()
         smile_face(RandomSize:NextNumber(0.25, 1), mouse_x, mouse_y)
+        io.stdout:write(mouse_x, "\t", mouse_y, "\n")
     end
 end)
+
+EditorWindow:CreateMesh({
+    
+}, {
+
+}, 255, 255, 255, "wireframe")
 
 ---@class EditorInterface
 ---@field private _objects table<integer, GameObject>
 ---@field private _window WindowObject?
 local EditorInterface = {}
+EditorInterface.__index = EditorInterface
 EditorInterface._objects = {}
 
 ---@class configuration_values

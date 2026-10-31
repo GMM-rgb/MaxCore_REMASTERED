@@ -108,27 +108,55 @@ InputService._ResolveTarget -> fun(target: string): (string?, integer)
 
 ## Building
 
-Configure and build the project using CMake:
+MaxCore REMASTERED uses CMake for configuring and building the engine.
+
+### Linux (Devbox)
+
+Linux development uses [Devbox](https://www.jetify.com/devbox) to provide a reproducible build environment with the required compiler toolchain and X11 development dependencies.
+
+**Requirements:**
+- [Devbox](https://www.jetify.com/devbox)
+- Git
+
+**Build process:**
+
+```bash
+# Initialize the development environment
+devbox install
+
+# Configure and compile the project
+devbox run build
+```
+
+Alternatively, enter the development environment manually:
+
+```bash
+devbox shell
+
+cmake -S . -B build
+cmake --build build --parallel
+```
+
+### Windows / macOS / Other Linux Environments
+
+Install CMake and the required platform development dependencies, then execute:
 
 ```bash
 cmake -S . -B build
-cmake --build build
+cmake --build build --parallel
 ```
-
-## Extras
 
 ### Experimental Runtime Metadata Generation
 
-MaxCore includes an experimental option for generating LuaLS metadata from the live `EngineCore` table.
+Experimental LuaLS metadata generation is disabled by default.
 
-This feature is disabled by default and is not required for normal engine operation.
-
-> Enabling Signature:
+To enable it:
 
 ```bash
-cmake -S . -B build -DMAXCORE_EXPERIMENTAL_METADATA=ON
-cmake --build build
+cmake -S . -B build \
+    -DMAXCORE_EXPERIMENTAL_METADATA=ON
+
+cmake --build build --parallel
 ```
 
-The generated metadata is experimental and may not fully represent every API member or function signature. The existing `MaxCore` type definition remains the preferred source for API documentation and static analysis.
-
+The generated metadata is experimental and may not fully represent every API member or function signature. The existing MaxCore type definition remains the preferred source for API documentation and static analysis.
