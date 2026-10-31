@@ -38,6 +38,7 @@ local PhysicsModule = require("sub_modules.physics_object")
 ---@field set_fullscreen fun(id: integer, enable: boolean): nil
 ---@field get_position fun(id: integer): integer, integer
 ---@field set_position fun(id: integer, x: integer, y: integer): nil
+---@field get_mouse_position fun(id: integer): number, number
 ---@field get_display_resolution fun(): integer, integer
 ---@field poll_events fun(): nil
 ---@field is_focused fun(id: integer): boolean
@@ -1201,6 +1202,12 @@ function WindowObject:Close()
         self._isOpen = false
         self._objects = {}
     end
+end
+
+---@param self WindowObject
+---@return number, number
+function WindowObject:GetMousePosition()
+    return window_interface.get_mouse_position(self._id)
 end
 
 -- =========================================================================

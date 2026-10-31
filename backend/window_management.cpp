@@ -410,6 +410,133 @@ static int g_next_light_id = 1;
 #endif
 
 // =========================================================================
+// WINDOW-RELATIVE MOUSE POSITION
+// Returns coordinates relative to the window's client/content area.
+// Origin: top-left.
+// =========================================================================
+
+static int window_get_mouse_position(lua_State* L) {
+    const int winId = static_cast<int>(luaL_checkinteger(L, 1));
+
+    auto it = g_windows.find(winId);
+
+    if (it == g_windows.end()) {
+        lua_pushnil(L);
+        lua_pushnil(L);
+        return 2;
+    }
+
+    NativeWindow* win = it->second;
+
+#if defined(_WIN32) || defined(_WIN64)
+
+    POINT point{};
+
+    if (!GetCursorPos(&point) ||
+        !ScreenToClient(win->platform.hwnd, &point)) {
+        lua_pushnil(L);
+        lua_pushnil(L);
+        return 2;
+    }
+
+    const double x = static_cast<double>(point.x);
+    const double y = static_cast<double>(point.y);
+
+    lua_pushnumber(L, x);
+    lua_pushnumber(L, y);
+    return 2;
+
+#elif defined(__APPLE__)
+
+    // Retrieve the mouse position in Cocoa window coordinates.
+    const CGPoint windowPoint = msgSend<CGPoint>(
+        win->platform.window,
+        sel_registerName("mouseLocationOutsideOfEventStream")
+    );
+
+    // Retrieve the window's content view.
+    id contentView = msgSend<id>(
+        win->platform.window,
+        sel_registerName("contentView")
+    );
+
+    if (!contentView) {
+        lua_pushnil(L);
+        lua_pushnil(L);
+        return 2;
+    }
+
+    // Convert from window coordinates into content-view coordinates.
+    const CGPoint localPoint = msgSend<CGPoint>(
+        contentView,
+        sel_registerName("convertPoint:fromView:"),
+        windowPoint,
+        static_cast<id>(nullptr)
+    );
+
+    const CGRect bounds = msgSend<CGRect>(
+        contentView,
+        sel_registerName("bounds")
+    );
+
+    const bool flipped = msgSend<bool>(
+        contentView,
+        sel_registerName("isFlipped")
+    );
+
+    // Convert to top-left-origin coordinates.
+    const double x =
+        static_cast<double>(localPoint.x - bounds.origin.x);
+
+    const double y = flipped
+        ? static_cast<double>(localPoint.y - bounds.origin.y)
+        : static_cast<double>(
+            bounds.origin.y + bounds.size.height - localPoint.y
+        );
+
+    lua_pushnumber(L, x);
+    lua_pushnumber(L, y);
+    return 2;
+
+#else
+
+    Window rootReturn;
+    Window childReturn;
+
+    int rootX = 0;
+    int rootY = 0;
+    int windowX = 0;
+    int windowY = 0;
+
+    unsigned int mask = 0;
+
+    if (!XQueryPointer(
+        win->platform.display,
+        win->platform.window,
+        &rootReturn,
+        &childReturn,
+        &rootX,
+        &rootY,
+        &windowX,
+        &windowY,
+        &mask
+    )) {
+        lua_pushnil(L);
+        lua_pushnil(L);
+        return 2;
+    }
+
+    const double x = static_cast<double>(windowX);
+    const double y = static_cast<double>(windowY);
+
+    lua_pushnumber(L, x);
+    lua_pushnumber(L, y);
+    return 2;
+
+#endif
+}
+
+// =========================================================================
 // HELPER RASTERIZER FOR FILLED TRIANGLES
 // =========================================================================
 static void FillTriangle(uint32_t* buffer, int width, int height, Graphics::Vec2 p0, Graphics::Vec2 p1, Graphics::Vec2 p2, uint32_t color, int quality = 0) {
@@ -1271,7 +1398,6 @@ static int window_clear_canvas(lua_State* L) {
         // makes separately-drawn cube/mesh objects occlude each other
         // correctly by distance instead of whichever was drawn last (see
         // NativeWindow::depthBuffer). Call this once per frame, before
-        // your 3D draw calls, same as you already do for the canvas.
         std::fill(it->second->depthBuffer.begin(), it->second->depthBuffer.end(), kDepthFar);
     }
     return 0;
@@ -1283,6 +1409,7 @@ static int window_draw_rect(lua_State* L) {
     int ry = static_cast<int>(luaL_checkinteger(L, 3));
     int rw = static_cast<int>(luaL_checkinteger(L, 4));
     int rh = static_cast<int>(luaL_checkinteger(L, 5));
+
     uint32_t col = (0xFF << 24) | (static_cast<uint8_t>(luaL_optinteger(L, 6, 255)) << 16) 
                                 | (static_cast<uint8_t>(luaL_optinteger(L, 7, 255)) << 8) 
                                 | static_cast<uint8_t>(luaL_optinteger(L, 8, 255));
@@ -2748,6 +2875,7 @@ extern "C" EXPORT_FN int luaopen_window_management(lua_State* L) {
         {"set_fullscreen", window_set_fullscreen},
         {"get_position", window_get_position},
         {"set_position", window_set_position},
+        {"get_mouse_position", window_get_mouse_position},
         {"get_display_resolution", get_display_resolution},
         {"poll_events", window_poll_events},
         {"is_focused", window_is_focused},

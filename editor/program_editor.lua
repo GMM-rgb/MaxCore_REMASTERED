@@ -1,12 +1,74 @@
 local InputUpdateEvent = EngineCore.Event.new("input-update")
 local ProgramEditorExit = EngineCore.Event.new("program-exit")
-local <const> RunnerService = EngineCore:LoadService("RunnerService")
+local platform = require("utils.platform")
+local <const> SoundService = EngineCore:LoadService("SoundService")
 local <const> InputService = EngineCore:LoadService("InputService")
+local <const> RunnerService = EngineCore:LoadService("RunnerService")
 local <const> WindowService = EngineCore:LoadService("WindowService")
 local <const> StorageService = EngineCore:LoadService("StorageService")
 local EditorWindow = WindowService:CreateWindow("Program Editor Mode")
 if EditorWindow == nil then error("editor window unavailable") return end
 EditorWindow:SetAliasingQuality("2d", WindowService:GetMaxAliasingQuality())
+local BackgroundColor = { 0, 0, 0 }; EditorWindow:ClearCanvas(table.unpack(BackgroundColor))
+
+---@param scale number
+---@param x number
+---@param y number
+local function smile_face(scale, x, y)
+    scale = scale or 1
+    x = x or 0
+    y = y or 0
+    
+    local FaceBackground = EditorWindow:CreateCircle(200, 200, 100, false)
+    FaceBackground:SetScale(scale, scale)
+    FaceBackground:SetPosition(x, y)
+
+    local PositionX, PositionY = FaceBackground:GetPosition()
+
+    local LeftEye = EditorWindow:CreateCircle(
+        PositionX - (40 * scale),
+        PositionY - (25 * scale),
+        20 * scale,
+        false
+    )
+
+    local RightEye = EditorWindow:CreateCircle(
+        PositionX + (40 * scale),
+        PositionY - (25 * scale),
+        20 * scale,
+        false
+    )
+
+    local MouthMain = EditorWindow:CreateCircle(
+        PositionX,
+        PositionY + (37.5 * scale),
+        30 * scale
+    )
+
+    local MouthOverlay = EditorWindow:CreateRect(
+        PositionX - (37.5 * scale),
+        PositionY,
+        75 * scale,
+        40 * scale
+    )
+
+    MouthOverlay:SetColor(table.unpack(BackgroundColor))
+    EditorWindow:RenderObject(FaceBackground)
+    EditorWindow:RenderObject(MouthMain)
+    EditorWindow:RenderObject(MouthOverlay)
+
+    for _, eye in ipairs({LeftEye, RightEye}) do
+        eye:Render(EditorWindow)
+    end
+end
+
+InputService:BindAction("create-smile", "mouse1", function(actionName, state, keyName)
+    if type(state) == "string" and state == "Pressed" then
+        local RandomSize = EngineCore.RandomClass.new(os.time())
+        local mouse_x, mouse_y = EditorWindow:GetMousePosition()
+        smile_face(RandomSize:NextNumber(0.25, 1), mouse_x, mouse_y)
+    end
+end)
 
 ---@class EditorInterface
 ---@field private _objects table<integer, GameObject>
@@ -15,13 +77,13 @@ local EditorInterface = {}
 EditorInterface._objects = {}
 
 ---@class configuration_values
----@field shape string
 ---@field size string|table<number|"inherit">|number
 ---@field position table<integer, number>|"inherit"
 ---@field parent GameObject|string?
+---@field shape string
 
 ---@class EditorConfiguration
----@field public theme "dark" | "light"
+---@field public theme "dark"|"light"
 ---@field public object_configuration table<string, configuration_values>
 local EditorConfiguration = {
     ["theme"] = "dark",
@@ -55,7 +117,7 @@ local function capitalize_name(name)
         local capitalized = word:sub(1,1):upper() .. word:sub(2):lower()
         table.insert(words, capitalized)
     end
-    
+
     return table.concat(words, utf8.char(32))
 end
 
@@ -63,7 +125,8 @@ end
 ---@return EditorInterface
 function EditorInterface.new(TargetWindow)
     local self = setmetatable({}, EditorInterface) --- @type EditorInterface
-    if type(self._window) == "nil" then self._window = TargetWindow end
+    if type(self._window) == "nil" then self._window = TargetWindow or nil end
+    self._objects = {}
     return self
 end
 
@@ -74,6 +137,10 @@ function EditorInterface:RenderInterface()
         self._window:RenderObject(obj)
     end
 end
+
+InputService:BindAction("clear-canvas-trigger", "c", function(actionName, state, keyName)
+    if state == "Pressed" then EditorWindow:ClearCanvas(0, 0, 0); print("CLEARING...") end
+end)
 
 ---@param self EditorInterface
 ---@return table
@@ -100,7 +167,7 @@ end, { reentrant = false, once = true })
 
 local CoreConnection = RunnerService.RenderStepped:Connect(function(dt, wait, join)
     if EditorWindow and EditorWindow:IsRunning() then EditorWindow:SwapBuffers()
-    elseif EditorWindow then ProgramEditorExit:Fire(true, true) end
+    elseif EditorWindow then ProgramEditorExit:Fire(true, true) end; InputService:UpdateAll()
 end, { priority = 0, yieldable = true, whenRunning = "allow" })
 
 ProgramEditorExit:Connect(os.exit)
