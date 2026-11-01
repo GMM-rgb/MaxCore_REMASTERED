@@ -175,11 +175,15 @@ private:
 inline float ApplyWrap(float t, TextureWrap wrap) {
     switch (wrap) {
         case TextureWrap::Repeat: {
-            t -= std::floor(t);
-            return t;
+            // floor(t) without the libm call: truncate toward zero, then
+            // step down by one for negatives. Same value, no function call.
+            float fl = (float)(long long)t; if (fl > t) fl -= 1.0f;
+            return t - fl;
         }
         case TextureWrap::Mirror: {
-            float f = t - 2.0f * std::floor(t * 0.5f); // t mod 2, in [0,2)
+            const float h = t * 0.5f;
+            float fl = (float)(long long)h; if (fl > h) fl -= 1.0f;
+            float f = t - 2.0f * fl; // t mod 2, in [0,2)
             return f <= 1.0f ? f : 2.0f - f;
         }
         case TextureWrap::Clamp:
@@ -194,13 +198,23 @@ inline uint32_t TexelAt(const ImageBuffer& img, int x, int y) {
     return img.pixels[(size_t)y * (size_t)img.width + (size_t)x];
 }
 
+// Blends two AARRGGBB colours: result = a*(1-t) + b*t, with t as a whole
+// number from 0 to 256. Two channels are blended per multiply by keeping
+// them in the even bytes of a word (0x00AA00GG / 0x00RR00BB), so a full
+// four-channel blend costs two multiplies and no float conversions. That
+// matters because bilinear sampling does three of these for every pixel.
+inline uint32_t LerpColorFixed(uint32_t a, uint32_t b, uint32_t t256) {
+    const uint32_t inv = 256u - t256;
+    // +0x80 in each 16-bit lane rounds to nearest instead of truncating. A
+    // plain shift biases every stage low, and bilinear chains three stages.
+    const uint32_t rb = (((a & 0x00FF00FFu) * inv + (b & 0x00FF00FFu) * t256 + 0x00800080u) >> 8) & 0x00FF00FFu;
+    const uint32_t ag = (((a >> 8) & 0x00FF00FFu) * inv + ((b >> 8) & 0x00FF00FFu) * t256 + 0x00800080u) & 0xFF00FF00u;
+    return rb | ag;
+}
+
 inline uint32_t LerpColor(uint32_t a, uint32_t b, float t) {
-    auto ch = [&](int shift) {
-        float av = (float)((a >> shift) & 0xFF);
-        float bv = (float)((b >> shift) & 0xFF);
-        return (uint32_t)std::lround(av + (bv - av) * t) & 0xFFu;
-    };
-    return (ch(24) << 24) | (ch(16) << 16) | (ch(8) << 8) | ch(0);
+    t = t < 0.0f ? 0.0f : (t > 1.0f ? 1.0f : t);
+    return LerpColorFixed(a, b, (uint32_t)(t * 256.0f + 0.5f));
 }
 
 // Samples `img` at (u,v) after applying the binding's transform/wrap.
@@ -224,15 +238,24 @@ inline uint32_t SampleTexture(const ImageBuffer& img, const TextureBinding& b, f
 
     float fx = u * (float)img.width - 0.5f;
     float fy = v * (float)img.height - 0.5f;
-    int x0 = (int)std::floor(fx);
-    int y0 = (int)std::floor(fy);
-    float tx = fx - (float)x0;
-    float ty = fy - (float)y0;
+    // floor() without the libm call: truncate, then step down for negatives.
+    int x0 = (int)fx; if ((float)x0 > fx) --x0;
+    int y0 = (int)fy; if ((float)y0 > fy) --y0;
+    const uint32_t tx = (uint32_t)((fx - (float)x0) * 256.0f + 0.5f);
+    const uint32_t ty = (uint32_t)((fy - (float)y0) * 256.0f + 0.5f);
+
+    // Common case: the 2x2 block is fully inside the image, so the four
+    // reads need no clamping and share one row pointer each.
+    if (x0 >= 0 && y0 >= 0 && x0 + 1 < img.width && y0 + 1 < img.height) {
+        const uint32_t* r0 = &img.pixels[(size_t)y0 * (size_t)img.width + (size_t)x0];
+        const uint32_t* r1 = r0 + img.width;
+        return LerpColorFixed(LerpColorFixed(r0[0], r0[1], tx), LerpColorFixed(r1[0], r1[1], tx), ty);
+    }
     uint32_t c00 = TexelAt(img, x0,     y0);
     uint32_t c10 = TexelAt(img, x0 + 1, y0);
     uint32_t c01 = TexelAt(img, x0,     y0 + 1);
     uint32_t c11 = TexelAt(img, x0 + 1, y0 + 1);
-    return LerpColor(LerpColor(c00, c10, tx), LerpColor(c01, c11, tx), ty);
+    return LerpColorFixed(LerpColorFixed(c00, c10, tx), LerpColorFixed(c01, c11, tx), ty);
 }
 
 // Multiplies a texel's RGB by a 0..1 shade (the same lighting factor the

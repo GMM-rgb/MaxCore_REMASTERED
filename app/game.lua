@@ -36,7 +36,7 @@ local game = {
 
 windows["GameApplication"] =
 WindowService:CreateWindow("Engine", 850, 800)
-windows.GameApplication:SetAliasingQuality("2d", 2)
+windows.GameApplication:SetAliasingQuality("2d", 4)
 windows.GameApplication:SetAliasingQuality("3d", 4)
 windows.GameApplication:SetPhysicsAutoQuality(true)
 

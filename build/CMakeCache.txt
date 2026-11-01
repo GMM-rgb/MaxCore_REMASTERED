@@ -22,18 +22,18 @@ CMAKE_AR:FILEPATH=C:/Users/maxim/_C_/bin/ar.exe
 
 //Choose the type of build, options are: None Debug Release RelWithDebInfo
 // MinSizeRel ...
-CMAKE_BUILD_TYPE:STRING=Preview
+CMAKE_BUILD_TYPE:STRING=
 
 //CXX compiler
-CMAKE_CXX_COMPILER:FILEPATH=C:/Users/maxim/_C_/bin/c++.exe
+CMAKE_CXX_COMPILER:STRING=C:/Users/maxim/_C_/bin/ccache-g++.exe
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_CXX_COMPILER_AR:FILEPATH=C:/Users/maxim/_C_/bin/gcc-ar.exe
+CMAKE_CXX_COMPILER_AR:FILEPATH=CMAKE_CXX_COMPILER_AR-NOTFOUND
 
 //A wrapper around 'ranlib' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_CXX_COMPILER_RANLIB:FILEPATH=C:/Users/maxim/_C_/bin/gcc-ranlib.exe
+CMAKE_CXX_COMPILER_RANLIB:FILEPATH=CMAKE_CXX_COMPILER_RANLIB-NOTFOUND
 
 //Flags used by the CXX compiler during all build types.
 CMAKE_CXX_FLAGS:STRING=
@@ -43,9 +43,6 @@ CMAKE_CXX_FLAGS_DEBUG:STRING=-g
 
 //Flags used by the CXX compiler during MINSIZEREL builds.
 CMAKE_CXX_FLAGS_MINSIZEREL:STRING=-Os -DNDEBUG
-
-//Flags used by the CXX compiler during PREVIEW builds.
-CMAKE_CXX_FLAGS_PREVIEW:STRING=
 
 //Flags used by the CXX compiler during RELEASE builds.
 CMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG
@@ -57,15 +54,15 @@ CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG
 CMAKE_CXX_STANDARD_LIBRARIES:STRING=-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
 
 //C compiler
-CMAKE_C_COMPILER:FILEPATH=C:/Users/maxim/_C_/bin/cc.exe
+CMAKE_C_COMPILER:STRING=C:/Users/maxim/_C_/bin/ccache-gcc.exe
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_C_COMPILER_AR:FILEPATH=C:/Users/maxim/_C_/bin/gcc-ar.exe
+CMAKE_C_COMPILER_AR:FILEPATH=CMAKE_C_COMPILER_AR-NOTFOUND
 
 //A wrapper around 'ranlib' adding the appropriate '--plugin' option
 // for the GCC compiler
-CMAKE_C_COMPILER_RANLIB:FILEPATH=C:/Users/maxim/_C_/bin/gcc-ranlib.exe
+CMAKE_C_COMPILER_RANLIB:FILEPATH=CMAKE_C_COMPILER_RANLIB-NOTFOUND
 
 //Flags used by the C compiler during all build types.
 CMAKE_C_FLAGS:STRING=
@@ -75,9 +72,6 @@ CMAKE_C_FLAGS_DEBUG:STRING=-g
 
 //Flags used by the C compiler during MINSIZEREL builds.
 CMAKE_C_FLAGS_MINSIZEREL:STRING=-Os -DNDEBUG
-
-//Flags used by the C compiler during PREVIEW builds.
-CMAKE_C_FLAGS_PREVIEW:STRING=
 
 //Flags used by the C compiler during RELEASE builds.
 CMAKE_C_FLAGS_RELEASE:STRING=-O3 -DNDEBUG
@@ -99,9 +93,6 @@ CMAKE_EXE_LINKER_FLAGS_DEBUG:STRING=
 
 //Flags used by the linker during MINSIZEREL builds.
 CMAKE_EXE_LINKER_FLAGS_MINSIZEREL:STRING=
-
-//Flags used by the linker during PREVIEW builds.
-CMAKE_EXE_LINKER_FLAGS_PREVIEW:STRING=
 
 //Flags used by the linker during RELEASE builds.
 CMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=
@@ -128,7 +119,7 @@ CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/lua_native_engine
 CMAKE_LINKER:FILEPATH=C:/Users/maxim/_C_/bin/ld.exe
 
 //Program used to build from build.ninja files.
-CMAKE_MAKE_PROGRAM:FILEPATH=C:/Users/maxim/AppData/Roaming/Python/Python313/Scripts/ninja.exe
+CMAKE_MAKE_PROGRAM:FILEPATH=C:/Users/maxim/_C_/bin/ninja.exe
 
 //Flags used by the linker during the creation of modules during
 // all build types.
@@ -141,10 +132,6 @@ CMAKE_MODULE_LINKER_FLAGS_DEBUG:STRING=
 //Flags used by the linker during the creation of modules during
 // MINSIZEREL builds.
 CMAKE_MODULE_LINKER_FLAGS_MINSIZEREL:STRING=
-
-//Flags used by the linker during the creation of modules during
-// PREVIEW builds.
-CMAKE_MODULE_LINKER_FLAGS_PREVIEW:STRING=
 
 //Flags used by the linker during the creation of modules during
 // RELEASE builds.
@@ -193,9 +180,6 @@ CMAKE_RC_FLAGS_DEBUG:STRING=
 //Flags for Windows Resource Compiler during MINSIZEREL builds.
 CMAKE_RC_FLAGS_MINSIZEREL:STRING=
 
-//Flags for Windows Resource Compiler during PREVIEW builds.
-CMAKE_RC_FLAGS_PREVIEW:STRING=
-
 //Flags for Windows Resource Compiler during RELEASE builds.
 CMAKE_RC_FLAGS_RELEASE:STRING=
 
@@ -216,10 +200,6 @@ CMAKE_SHARED_LINKER_FLAGS_DEBUG:STRING=
 //Flags used by the linker during the creation of shared libraries
 // during MINSIZEREL builds.
 CMAKE_SHARED_LINKER_FLAGS_MINSIZEREL:STRING=
-
-//Flags used by the linker during the creation of shared libraries
-// during PREVIEW builds.
-CMAKE_SHARED_LINKER_FLAGS_PREVIEW:STRING=
 
 //Flags used by the linker during the creation of shared libraries
 // during RELEASE builds.
@@ -247,10 +227,6 @@ CMAKE_STATIC_LINKER_FLAGS_DEBUG:STRING=
 //Flags used by the archiver during the creation of static libraries
 // during MINSIZEREL builds.
 CMAKE_STATIC_LINKER_FLAGS_MINSIZEREL:STRING=
-
-//Flags used by the archiver during the creation of static libraries
-// during PREVIEW builds.
-CMAKE_STATIC_LINKER_FLAGS_PREVIEW:STRING=
 
 //Flags used by the archiver during the creation of static libraries
 // during RELEASE builds.
@@ -319,8 +295,6 @@ CMAKE_CXX_FLAGS-ADVANCED:INTERNAL=1
 CMAKE_CXX_FLAGS_DEBUG-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_CXX_FLAGS_MINSIZEREL
 CMAKE_CXX_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_CXX_FLAGS_PREVIEW
-CMAKE_CXX_FLAGS_PREVIEW-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_CXX_FLAGS_RELEASE
 CMAKE_CXX_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_CXX_FLAGS_RELWITHDEBINFO
@@ -339,8 +313,6 @@ CMAKE_C_FLAGS-ADVANCED:INTERNAL=1
 CMAKE_C_FLAGS_DEBUG-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_C_FLAGS_MINSIZEREL
 CMAKE_C_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_C_FLAGS_PREVIEW
-CMAKE_C_FLAGS_PREVIEW-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_C_FLAGS_RELEASE
 CMAKE_C_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_C_FLAGS_RELWITHDEBINFO
@@ -359,8 +331,6 @@ CMAKE_EXE_LINKER_FLAGS-ADVANCED:INTERNAL=1
 CMAKE_EXE_LINKER_FLAGS_DEBUG-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_EXE_LINKER_FLAGS_MINSIZEREL
 CMAKE_EXE_LINKER_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_EXE_LINKER_FLAGS_PREVIEW
-CMAKE_EXE_LINKER_FLAGS_PREVIEW-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_EXE_LINKER_FLAGS_RELEASE
 CMAKE_EXE_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO
@@ -396,8 +366,6 @@ CMAKE_MODULE_LINKER_FLAGS-ADVANCED:INTERNAL=1
 CMAKE_MODULE_LINKER_FLAGS_DEBUG-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MODULE_LINKER_FLAGS_MINSIZEREL
 CMAKE_MODULE_LINKER_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_MODULE_LINKER_FLAGS_PREVIEW
-CMAKE_MODULE_LINKER_FLAGS_PREVIEW-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MODULE_LINKER_FLAGS_RELEASE
 CMAKE_MODULE_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO
@@ -423,8 +391,6 @@ CMAKE_RC_FLAGS-ADVANCED:INTERNAL=1
 CMAKE_RC_FLAGS_DEBUG-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_RC_FLAGS_MINSIZEREL
 CMAKE_RC_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_RC_FLAGS_PREVIEW
-CMAKE_RC_FLAGS_PREVIEW-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_RC_FLAGS_RELEASE
 CMAKE_RC_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_RC_FLAGS_RELWITHDEBINFO
@@ -439,8 +405,6 @@ CMAKE_SHARED_LINKER_FLAGS-ADVANCED:INTERNAL=1
 CMAKE_SHARED_LINKER_FLAGS_DEBUG-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS_MINSIZEREL
 CMAKE_SHARED_LINKER_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS_PREVIEW
-CMAKE_SHARED_LINKER_FLAGS_PREVIEW-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS_RELEASE
 CMAKE_SHARED_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO
@@ -455,8 +419,6 @@ CMAKE_STATIC_LINKER_FLAGS-ADVANCED:INTERNAL=1
 CMAKE_STATIC_LINKER_FLAGS_DEBUG-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_STATIC_LINKER_FLAGS_MINSIZEREL
 CMAKE_STATIC_LINKER_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_STATIC_LINKER_FLAGS_PREVIEW
-CMAKE_STATIC_LINKER_FLAGS_PREVIEW-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_STATIC_LINKER_FLAGS_RELEASE
 CMAKE_STATIC_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO

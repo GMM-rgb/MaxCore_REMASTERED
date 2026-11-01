@@ -7,7 +7,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Threads::Threads::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Threads__Threads-Preview-790f8dd392bb318b9469.json",
+					"jsonFile" : "target-Threads__Threads-790f8dd392bb318b9469.json",
 					"name" : "Threads::Threads",
 					"projectIndex" : 0
 				}
@@ -20,7 +20,7 @@
 						0
 					],
 					"build" : ".",
-					"jsonFile" : "directory-.-Preview-f040eec181a89de70dbe.json",
+					"jsonFile" : "directory-.-f040eec181a89de70dbe.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.15"
@@ -42,7 +42,7 @@
 					]
 				}
 			],
-			"name" : "Preview",
+			"name" : "",
 			"projects" : 
 			[
 				{
@@ -75,70 +75,70 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "input_native::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-input_native-Preview-73e090e9f210d4aaf70c.json",
+					"jsonFile" : "target-input_native-73e090e9f210d4aaf70c.json",
 					"name" : "input_native",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "lua_runner::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-lua_runner-Preview-02cfe10d3f75e385b277.json",
+					"jsonFile" : "target-lua_runner-02cfe10d3f75e385b277.json",
 					"name" : "lua_runner",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "lua_shared::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-lua_shared-Preview-752afcc2ca0ddc01d1b1.json",
+					"jsonFile" : "target-lua_shared-752afcc2ca0ddc01d1b1.json",
 					"name" : "lua_shared",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "physics_management::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-physics_management-Preview-cb9d6d7b327111c06622.json",
+					"jsonFile" : "target-physics_management-cb9d6d7b327111c06622.json",
 					"name" : "physics_management",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "platform_module::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-platform_module-Preview-b30377e72fa8cc3819d5.json",
+					"jsonFile" : "target-platform_module-b30377e72fa8cc3819d5.json",
 					"name" : "platform_module",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "scheduler_native::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-scheduler_native-Preview-8622140fa34ddc173bb3.json",
+					"jsonFile" : "target-scheduler_native-8622140fa34ddc173bb3.json",
 					"name" : "scheduler_native",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "sleep_native::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-sleep_native-Preview-225e72f64397c8954d1f.json",
+					"jsonFile" : "target-sleep_native-225e72f64397c8954d1f.json",
 					"name" : "sleep_native",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "sound_service_backend::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-sound_service_backend-Preview-58462f36ebb994c7a1f3.json",
+					"jsonFile" : "target-sound_service_backend-58462f36ebb994c7a1f3.json",
 					"name" : "sound_service_backend",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "storage_interface::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-storage_interface-Preview-a9c711a9914ee246184f.json",
+					"jsonFile" : "target-storage_interface-a9c711a9914ee246184f.json",
 					"name" : "storage_interface",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "window_management::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-window_management-Preview-e12bbf0449e1c842048a.json",
+					"jsonFile" : "target-window_management-e12bbf0449e1c842048a.json",
 					"name" : "window_management",
 					"projectIndex" : 0
 				}

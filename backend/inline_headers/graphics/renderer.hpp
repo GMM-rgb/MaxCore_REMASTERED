@@ -234,8 +234,17 @@ inline void BlendPixel(uint32_t* buffer, int bufWidth, int bufHeight, int x, int
 // for lines, circles, and filled triangles -- same technique as the text
 // renderer's glyph supersampling, just with a caller-supplied shape test
 // instead of a fixed glyph bitmap lookup.
-template <typename Predicate>
-inline void RasterizeAA(uint32_t* buffer, int bufW, int bufH, int minX, int maxX, int minY, int maxY, uint32_t color, int quality, Predicate isInside) {
+// Optional pixel classifier for RasterizeAA. Given a pixel (x, y) it may say:
+//    Empty   no part of the pixel is inside the shape: skip it, no samples
+//    Solid   the whole pixel is inside the shape: full coverage, no samples
+//    Edge    can't tell: take the q*q samples as usual
+// A classifier must only answer Empty or Solid when that is CERTAIN, so the
+// result is identical to sampling every pixel; it just skips the work.
+enum class PixelClass { Edge, Empty, Solid };
+struct NoClassifier { PixelClass operator()(int, int) const { return PixelClass::Edge; } };
+
+template <typename Predicate, typename Classifier = NoClassifier>
+inline void RasterizeAA(uint32_t* buffer, int bufW, int bufH, int minX, int maxX, int minY, int maxY, uint32_t color, int quality, Predicate isInside, Classifier classify = Classifier()) {
     if (quality < 1) quality = 1;
     minX = (std::max)(0, minX);
     minY = (std::max)(0, minY);
@@ -244,6 +253,9 @@ inline void RasterizeAA(uint32_t* buffer, int bufW, int bufH, int minX, int maxX
 
     for (int y = minY; y <= maxY; ++y) {
         for (int x = minX; x <= maxX; ++x) {
+            const PixelClass pc = classify(x, y);
+            if (pc == PixelClass::Empty) continue;
+            if (pc == PixelClass::Solid) { buffer[y * bufW + x] = color; continue; }
             float coverage = 0.0f;
             for (int sy = 0; sy < quality; ++sy) {
                 for (int sx = 0; sx < quality; ++sx) {
@@ -304,6 +316,25 @@ inline void DrawLine(uint32_t* buffer, int width, int height, int x0, int y0, in
         float distX = px - closestX;
         float distY = py - closestY;
         return (distX * distX + distY * distY) <= (halfWidth * halfWidth);
+    }, [&](int x, int y) {
+        // Distance from the pixel centre to the segment. The pixel's farthest
+        // point is at most half a diagonal (0.7072) further than its centre,
+        // and its nearest at most that much closer, so:
+        //   centre further than halfWidth + 0.7072  => no sample can be inside
+        //   centre nearer than  halfWidth - 0.7072  => every sample is inside
+        const float cx = x + 0.5f, cy = y + 0.5f;
+        float t = 0.0f;
+        if (lenSq > 0.0001f) {
+            t = ((cx - fx0) * ldx + (cy - fy0) * ldy) / lenSq;
+            t = (std::max)(0.0f, (std::min)(1.0f, t));
+        }
+        const float ddx = cx - (fx0 + t * ldx), ddy = cy - (fy0 + t * ldy);
+        const float d2 = ddx * ddx + ddy * ddy;
+        const float outer = halfWidth + 0.7072f;
+        if (d2 > outer * outer) return PixelClass::Empty;
+        const float inner = halfWidth - 0.7072f;
+        if (inner > 0.0f && d2 < inner * inner) return PixelClass::Solid;
+        return PixelClass::Edge;
     });
 }
 
@@ -360,6 +391,21 @@ inline void DrawCircle(uint32_t* buffer, int width, int height, int cx, int cy, 
         float dy = py - fcy;
         float dist = std::sqrt(dx * dx + dy * dy);
         return fill ? (dist <= r) : (std::fabs(dist - r) <= outlineHalfWidth);
+    }, [&](int x, int y) {
+        // Pixel centre distance from the circle centre; a pixel's points are
+        // within 0.7072 of its centre, so the bounds below are certain.
+        const float dx = x + 0.5f - fcx, dy = y + 0.5f - fcy;
+        const float dist = std::sqrt(dx * dx + dy * dy);
+        if (fill) {
+            if (dist > r + 0.7072f) return PixelClass::Empty;
+            if (dist < r - 0.7072f) return PixelClass::Solid;
+            return PixelClass::Edge;
+        }
+        // Outline ring: inside where | dist - r | <= outlineHalfWidth.
+        const float off = std::fabs(dist - r);
+        if (off > outlineHalfWidth + 0.7072f) return PixelClass::Empty;
+        if (outlineHalfWidth > 0.7072f && off < outlineHalfWidth - 0.7072f) return PixelClass::Solid;
+        return PixelClass::Edge;
     });
 }
 

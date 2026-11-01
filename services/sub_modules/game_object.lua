@@ -18,12 +18,12 @@ local PseudoStyles = require("sub_modules.pseudo_styles")
 -- yet, which is the "attempt to index a nil value" RunnerService Job
 -- error. Deferring the require until the first GameObject is actually
 -- constructed guarantees max_core.lua has long since finished loading.
-local _EventClass = nil --- @type Event?
-
+local _EventClass = nil
 local function NewCollidedEvent()
     if not _EventClass then
-        _EventClass = EngineCore.Event
-    end return _EventClass.new("Collided")
+        _EventClass = require("max_core").call().Event
+    end
+    return _EventClass.new("Collided")
 end
 
 -- Minimal structural type for the `window` argument every Render method
@@ -103,8 +103,10 @@ end
 function GameObject:ApplyStyle(style)
     assert(type(style) == "table" and style.Kind, "ApplyStyle expects a style from PseudoStyles.new")
     local typeName = self.TypeName or "GameObject"
-    if not PseudoStyles.Accepts(style, typeName) then
-        error(("%s cannot take a %q style (accepts: %s)"):format(
+    -- Checks the whole class lineage, so a custom class that extends
+    -- CubeObject/MeshObject/RectObject... is accepted under its own name.
+    if not PseudoStyles.AcceptsObject(style, self) then
+        error(("%s cannot take a %q style (accepts: %s, or any class that extends one of them)"):format(
             typeName, style.Kind, table.concat(style.Targets, ", ")), 2)
     end
     local old = self.Styles[style.Kind]
@@ -113,6 +115,41 @@ function GameObject:ApplyStyle(style)
     local hook = self["_on" .. style.Kind:sub(1, 1):upper() .. style.Kind:sub(2) .. "Applied"]
     if hook then hook(self, style) end
     return self
+end
+
+---Puts an image on this object. The same thing as
+---`obj:ApplyStyle(PseudoStyles.new("texture", imageId, face, options))`,
+---but reads the way you would expect: bind the texture to the object.
+---
+---    coin:SetTexture(img)                  -- every face
+---    coin:SetTexture(img, "top")           -- one face (cube: front back top bottom right left)
+---    coin:SetTexture(img, {"left","right"})-- several faces, same image
+---    mesh:SetTexture(img, 2)               -- mesh faces are numbered, 1 = first face in the list
+---    coin:SetTexture(img, "all", { filter = "bilinear", wrap = "repeat", uScale = 2, vScale = 2 })
+---
+---Binding another face keeps the faces already set: SetTexture(a, "top")
+---then SetTexture(b, "bottom") gives a top AND a bottom. Pass nil as the
+---image to remove every texture from the object. A class of your own that
+---extends CubeObject, MeshObject, RectObject... can call this too.
+---@generic T: GameObject
+---@param self T
+---@param imageId integer? An image from window:CreateImage, or nil to remove the texture
+---@param face (PseudoFace|integer|(PseudoFace|integer)[])? Default "all"
+---@param options TextureOptions?
+---@return T
+function GameObject:SetTexture(imageId, face, options)
+    if imageId == nil then
+        return self:RemoveStyle("texture")
+    end
+    local fresh = PseudoStyles.new("texture", imageId, face, options)
+    local old = self.Styles.texture --[[@as TextureStyle?]]
+    if old then
+        -- Keep the faces that were already bound, then add / replace these.
+        for key, binding in pairs(old.Faces) do
+            if fresh.Faces[key] == nil then fresh.Faces[key] = binding end
+        end
+    end
+    return self:ApplyStyle(fresh)
 end
 
 ---Detaches the style of this kind, if any, and frees anything it owned.

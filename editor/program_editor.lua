@@ -68,8 +68,7 @@ InputService:BindAction("create-smile", "mouse1", function(actionName, state, ke
         local bh = platform:get_window_metrics()["title_bar_height"]
         local RandomSize = EngineCore.RandomClass.new(os.time())
         local mouse_x, mouse_y = EditorWindow:GetMousePosition()
-        local cast = EditorWindow:CreateLine(0, 0, mouse_x, mouse_y, 0, 255, 0)
-        EditorWindow:RenderObject(cast); smile_face(RandomSize:NextNumber(0.25, 1), mouse_x, mouse_y)
+        smile_face(RandomSize:NextNumber(0.25, 1), mouse_x, mouse_y)
     end
 end)
 
@@ -158,9 +157,6 @@ function EditorInterface:GenerateLayout()
     return {}
 end
 
--- local EditorGroup = EditorInterface.new(EditorWindow)
--- EditorGroup:RenderInterface()
-
 RunnerService:Spawn("Stepped", function(wait, join)
     for _, name in ipairs(type(InputService.InputKeys) == "table" and InputService.InputKeys or {}) do
         InputService:BindAction("listen-" .. name, name, function(_, state, key)
@@ -176,5 +172,6 @@ local CoreConnection = RunnerService.RenderStepped:Connect(function(dt, wait, jo
 end, { priority = 0, yieldable = true, whenRunning = "allow" })
 
 ProgramEditorExit:Connect(os.exit)
-print(tostring(RunnerService:_jobOf(CoreConnection).id))
+local CoreJob = RunnerService:_jobOf(CoreConnection)
+WindowService.ShowAlert("RUNTIME-ID", "ID: " .. tostring(CoreJob.id), "info")
 RunnerService:KeepAlive()

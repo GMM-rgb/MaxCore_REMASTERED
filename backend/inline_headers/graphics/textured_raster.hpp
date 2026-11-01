@@ -57,32 +57,65 @@ inline int FillTriangleTexturedDepth(
 
     float area = edge(a.x, a.y, b.x, b.y, c.x, c.y);
     if (std::abs(area) < 0.0001f) return 0;
+    const float invArea = 1.0f / area;
 
     // Per-vertex values that interpolate linearly in screen space.
     const float iza = 1.0f / a.z, izb = 1.0f / b.z, izc = 1.0f / c.z;
     const float uza = a.u * iza, uzb = b.u * izb, uzc = c.u * izc;
     const float vza = a.v * iza, vzb = b.v * izb, vzc = c.v * izc;
 
+    const bool pos = area > 0.0f;
+
+    // The three edge functions, as (start, end) point pairs, in the same
+    // order the per-pixel test uses: w0 is b->c, w1 is c->a, w2 is a->b.
+    struct E { float ax, ay, bx, by; };
+    const E E3[3] = { {b.x, b.y, c.x, c.y}, {c.x, c.y, a.x, a.y}, {a.x, a.y, b.x, b.y} };
+
     int written = 0;
     for (int y = minY; y <= maxY; ++y) {
-        for (int x = minX; x <= maxX; ++x) {
-            const float px = x + 0.5f, py = y + 0.5f;
-            float w0 = edge(b.x, b.y, c.x, c.y, px, py);
-            float w1 = edge(c.x, c.y, a.x, a.y, px, py);
-            float w2 = edge(a.x, a.y, b.x, b.y, px, py);
+        const float py = y + 0.5f;
 
-            bool inside = (area > 0 && w0 >= 0 && w1 >= 0 && w2 >= 0) ||
-                          (area < 0 && w0 <= 0 && w1 <= 0 && w2 <= 0);
+        // Narrow the row to the pixels that can be inside all three edges.
+        // An edge function is linear in x, so its value at two x positions
+        // gives the boundary directly, using the SAME formula as the
+        // per-pixel test (no separately derived coefficients to get wrong).
+        float xl = (float)minX, xr = (float)maxX;
+        bool empty = false;
+        for (int e = 0; e < 3 && !empty; ++e) {
+            const float v0 = edge(E3[e].ax, E3[e].ay, E3[e].bx, E3[e].by, 0.5f, py);   // pixel x = 0
+            const float v1 = edge(E3[e].ax, E3[e].ay, E3[e].bx, E3[e].by, 1.5f, py);   // pixel x = 1
+            const float slope = pos ? (v1 - v0) : (v0 - v1);       // inside means value*sign >= 0
+            const float base  = pos ? v0 : -v0;                    // value at pixel x = 0
+            if (std::fabs(slope) < 1e-12f) { if (base < 0.0f) empty = true; continue; }
+            const float xb = -base / slope;                        // pixel index where it crosses zero
+            if (slope > 0.0f) xl = (std::max)(xl, xb);             // inside to the right of xb
+            else              xr = (std::min)(xr, xb);             // inside to the left of xb
+        }
+        if (empty || xl > xr) continue;
+        // one pixel of slack each side; the exact per-pixel test below decides
+        const int x0 = (std::max)(minX, (int)std::floor(xl) - 1);
+        const int x1 = (std::min)(maxX, (int)std::ceil(xr) + 1);
+
+        const size_t rowBase = (size_t)y * (size_t)width;
+        for (int x = x0; x <= x1; ++x) {
+            const float px = x + 0.5f;
+            // Exactly the original per-pixel test and values, so the picture is unchanged.
+            const float w0 = edge(b.x, b.y, c.x, c.y, px, py);
+            const float w1 = edge(c.x, c.y, a.x, a.y, px, py);
+            const float w2 = edge(a.x, a.y, b.x, b.y, px, py);
+
+            const bool inside = pos ? (w0 >= 0 && w1 >= 0 && w2 >= 0)
+                                    : (w0 <= 0 && w1 <= 0 && w2 <= 0);
             if (!inside) continue;
 
             // Normalized barycentric weights for a, b, c.
-            const float l0 = w0 / area, l1 = w1 / area, l2 = w2 / area;
+            const float l0 = w0 * invArea, l1 = w1 * invArea, l2 = w2 * invArea;
 
             const float invZ = l0 * iza + l1 * izb + l2 * izc;
             if (invZ <= 0.0f) continue;
             const float depth = 1.0f / invZ;
 
-            const size_t idx = (size_t)y * (size_t)width + (size_t)x;
+            const size_t idx = rowBase + (size_t)x;
             if (depth >= depthBuffer[idx]) continue;
 
             const float u = (l0 * uza + l1 * uzb + l2 * uzc) * depth;

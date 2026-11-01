@@ -231,4 +231,37 @@ function PseudoStyles.Accepts(style, objectTypeName)
     return false
 end
 
+---Like Accepts, but takes the OBJECT and checks its whole class lineage.
+---A class you write yourself that extends CubeObject, MeshObject, RectObject
+---and so on can name itself anything ("CoinObject") and is still accepted,
+---because one of its ancestors is a valid target. Without this, giving a
+---subclass its own TypeName made every style refuse it.
+---@param style PseudoStyle
+---@param object table A game object (or any table with a class metatable)
+---@return boolean accepted
+---@return string? matchedClass Name of the ancestor class that matched
+function PseudoStyles.AcceptsObject(style, object)
+    -- The object's own TypeName first (covers plain built-ins and subclasses
+    -- that kept the inherited name).
+    local name = object.TypeName
+    if name and PseudoStyles.Accepts(style, name) then return true, name end
+
+    -- Then every class above it. A class table is the metatable's __index,
+    -- and its parent is that table's own metatable's __index, and so on.
+    -- rawget so a subclass's INHERITED TypeName is not mistaken for its own.
+    local seen = {}
+    local mt = getmetatable(object)
+    local depth = 0
+    while mt and depth < 32 do
+        local class = rawget(mt, "__index")
+        if type(class) ~= "table" or seen[class] then break end
+        seen[class] = true
+        local own = rawget(class, "TypeName")
+        if own and PseudoStyles.Accepts(style, own) then return true, own end
+        mt = getmetatable(class)
+        depth = depth + 1
+    end
+    return false, nil
+end
+
 return PseudoStyles
