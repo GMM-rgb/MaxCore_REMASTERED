@@ -10,6 +10,9 @@
 #include <limits>
 
 #include "inline_headers/graphics/renderer.hpp"
+#include "inline_headers/graphics/texture_store.hpp"
+#include "inline_headers/graphics/textured_raster.hpp"
+#include "inline_headers/graphics/near_clip.hpp"
 
 #if defined(_WIN32) || defined(_WIN64)
     #ifndef NOMINMAX
@@ -380,11 +383,17 @@ struct NativeWindow {
 static constexpr float kDepthFar = (std::numeric_limits<float>::max)();
 
 static std::unordered_map<int, NativeWindow*> g_windows;
-static std::unordered_map<int, Graphics::ImageBuffer> g_images;
+// Single owner of every pixel buffer (see texture_store.hpp). Replaces the
+// old raw map so destroy_image can actually free memory and so a draw call
+// can hold a safe snapshot of an image that gets destroyed mid-frame.
+static Graphics::ImageRegistry g_images;
+// Per-mesh/cube texture bindings, keyed by a caller-chosen object key. Holds
+// image IDs only (never pixels), so it cannot keep an image alive.
+static std::unordered_map<int, Graphics::TextureSet> g_textureSets;
+static int g_next_texture_set_id = 1;
 static std::unordered_map<int, Graphics::Camera> g_cameras;
 static std::unordered_map<int, Graphics::Light> g_lights;
 static int g_next_window_id = 1;
-static int g_next_image_id = 1;
 static int g_next_camera_id = 1;
 static int g_next_light_id = 1;
 
@@ -408,133 +417,6 @@ static int g_next_light_id = 1;
         return DefWindowProcA(hwnd, msg, wParam, lParam);
     }
 #endif
-
-// =========================================================================
-// WINDOW-RELATIVE MOUSE POSITION
-// Returns coordinates relative to the window's client/content area.
-// Origin: top-left.
-// =========================================================================
-
-static int window_get_mouse_position(lua_State* L) {
-    const int winId = static_cast<int>(luaL_checkinteger(L, 1));
-
-    auto it = g_windows.find(winId);
-
-    if (it == g_windows.end()) {
-        lua_pushnil(L);
-        lua_pushnil(L);
-        return 2;
-    }
-
-    NativeWindow* win = it->second;
-
-#if defined(_WIN32) || defined(_WIN64)
-
-    POINT point{};
-
-    if (!GetCursorPos(&point) ||
-        !ScreenToClient(win->platform.hwnd, &point)) {
-        lua_pushnil(L);
-        lua_pushnil(L);
-        return 2;
-    }
-
-    const double x = static_cast<double>(point.x);
-    const double y = static_cast<double>(point.y);
-
-    lua_pushnumber(L, x);
-    lua_pushnumber(L, y);
-    return 2;
-
-#elif defined(__APPLE__)
-
-    // Retrieve the mouse position in Cocoa window coordinates.
-    const CGPoint windowPoint = msgSend<CGPoint>(
-        win->platform.window,
-        sel_registerName("mouseLocationOutsideOfEventStream")
-    );
-
-    // Retrieve the window's content view.
-    id contentView = msgSend<id>(
-        win->platform.window,
-        sel_registerName("contentView")
-    );
-
-    if (!contentView) {
-        lua_pushnil(L);
-        lua_pushnil(L);
-        return 2;
-    }
-
-    // Convert from window coordinates into content-view coordinates.
-    const CGPoint localPoint = msgSend<CGPoint>(
-        contentView,
-        sel_registerName("convertPoint:fromView:"),
-        windowPoint,
-        static_cast<id>(nullptr)
-    );
-
-    const CGRect bounds = msgSend<CGRect>(
-        contentView,
-        sel_registerName("bounds")
-    );
-
-    const bool flipped = msgSend<bool>(
-        contentView,
-        sel_registerName("isFlipped")
-    );
-
-    // Convert to top-left-origin coordinates.
-    const double x =
-        static_cast<double>(localPoint.x - bounds.origin.x);
-
-    const double y = flipped
-        ? static_cast<double>(localPoint.y - bounds.origin.y)
-        : static_cast<double>(
-            bounds.origin.y + bounds.size.height - localPoint.y
-        );
-
-    lua_pushnumber(L, x);
-    lua_pushnumber(L, y);
-    return 2;
-
-#else
-
-    Window rootReturn;
-    Window childReturn;
-
-    int rootX = 0;
-    int rootY = 0;
-    int windowX = 0;
-    int windowY = 0;
-
-    unsigned int mask = 0;
-
-    if (!XQueryPointer(
-        win->platform.display,
-        win->platform.window,
-        &rootReturn,
-        &childReturn,
-        &rootX,
-        &rootY,
-        &windowX,
-        &windowY,
-        &mask
-    )) {
-        lua_pushnil(L);
-        lua_pushnil(L);
-        return 2;
-    }
-
-    const double x = static_cast<double>(windowX);
-    const double y = static_cast<double>(windowY);
-
-    lua_pushnumber(L, x);
-    lua_pushnumber(L, y);
-    return 2;
-
-#endif
-}
 
 // =========================================================================
 // HELPER RASTERIZER FOR FILLED TRIANGLES
@@ -655,6 +537,213 @@ static void FillTriangleDepth(uint32_t* buffer, float* depthBuffer, int width, i
 
             depthBuffer[idx] = depth;
         }
+    }
+}
+
+
+// =========================================================================
+// WHOLE-POLYGON FILL (no internal seams, fast anti-aliasing)
+// =========================================================================
+// Fills ONE convex polygon in a single pass, instead of as a fan of
+// triangles. With 3D anti-aliasing on, filling triangle by triangle left a
+// faint line along the shared diagonal of every quad: a pixel on that
+// diagonal is, say, half covered by each triangle, the first one blends at
+// half strength, and the depth test then rejects the second (equal depth),
+// so the pixel ends up half dark where the surface is solid. A whole-polygon
+// fill has no internal edges, so only the real OUTLINE of the face is ever
+// anti-aliased and the interior is always fully opaque.
+//
+// WHY IT IS FAST
+//   The expensive part of anti-aliasing is the q*q coverage samples per
+//   pixel, and almost every pixel of a big face is nowhere near an edge.
+//   Each edge is a linear function of (x, y), so for one scanline it is
+//   "base + x * step". For every row this works out the span of pixels that
+//   can possibly be inside (no visiting the empty corners of a bounding
+//   box), and splits it into
+//     - INTERIOR pixels: all four pixel corners are inside every edge, so
+//       the pixel is fully covered. Written directly: no samples, no blend.
+//     - EDGE pixels: only these run the q*q sub-samples, with the edge
+//       values stepped incrementally instead of recomputed from scratch.
+//   Depth is a plane, so it too is "base + x * step".
+//
+//   pts     screen-space corners, in order (either winding)
+//   zs      view-space depth at each corner (interpolated across the face)
+//   quality 0 = hard edges; >=1 = supersampled outline coverage
+static void FillConvexPolygonDepth(
+    uint32_t* buffer, float* depthBuffer, int width, int height,
+    const Graphics::Vec2* pts, const float* zs, size_t n,
+    uint32_t color, int quality)
+{
+    if (n < 3 || n > 64 || width <= 0 || height <= 0) return;
+
+    float fminX = pts[0].x, fmaxX = pts[0].x, fminY = pts[0].y, fmaxY = pts[0].y;
+    for (size_t i = 1; i < n; ++i) {
+        fminX = (std::min)(fminX, pts[i].x); fmaxX = (std::max)(fmaxX, pts[i].x);
+        fminY = (std::min)(fminY, pts[i].y); fmaxY = (std::max)(fmaxY, pts[i].y);
+    }
+    if (!(fmaxX >= 0) || !(fminX <= (float)width) || !(fmaxY >= 0) || !(fminY <= (float)height)) return;
+
+    // Clamp as FLOATS before converting: float->int of an out-of-range value
+    // is undefined behaviour, and a grazing-angle vertex can be enormous.
+    auto clampToInt = [](float v, float lo, float hi) { return (int)(std::max)(lo, (std::min)(hi, v)); };
+    const int minX = clampToInt(std::floor(fminX), 0.0f, (float)(width - 1));
+    const int maxX = clampToInt(std::ceil(fmaxX),  0.0f, (float)(width - 1));
+    const int minY = clampToInt(std::floor(fminY), 0.0f, (float)(height - 1));
+    const int maxY = clampToInt(std::ceil(fmaxY),  0.0f, (float)(height - 1));
+
+    // Signed area (shoelace). Its sign is the winding; ~0 means degenerate.
+    double area2 = 0.0;
+    for (size_t i = 0; i < n; ++i) {
+        const Graphics::Vec2& a = pts[i];
+        const Graphics::Vec2& b = pts[(i + 1) % n];
+        area2 += (double)a.x * b.y - (double)b.x * a.y;
+    }
+    if (std::fabs(area2) < 1e-4) return;
+    const float sgn = area2 > 0 ? 1.0f : -1.0f;
+
+    // Each edge i: e(x,y) = (x - ax) * dy - (y - ay) * dx, scaled by the
+    // winding so that "inside" is e <= 0 for every edge.
+    //   e(x,y) = A*x + B*y + C
+    struct Edge { float A, B, C; };
+    Edge edges[64];
+    for (size_t i = 0; i < n; ++i) {
+        const Graphics::Vec2& a = pts[i];
+        const Graphics::Vec2& b = pts[(i + 1) % n];
+        const float dx = b.x - a.x, dy = b.y - a.y;
+        edges[i].A =  dy * sgn;
+        edges[i].B = -dx * sgn;
+        edges[i].C = (-a.x * dy + a.y * dx) * sgn;
+    }
+
+    // Depth plane through the first three corners: z = Z0 + ZX*x + ZY*y.
+    const Graphics::Vec2 &a0 = pts[0], &a1 = pts[1], &a2 = pts[2];
+    const float tArea = (a1.x - a0.x) * (a2.y - a0.y) - (a1.y - a0.y) * (a2.x - a0.x);
+    float ZX = 0.0f, ZY = 0.0f, Z0 = zs[0];
+    if (std::fabs(tArea) > 1e-6f) {
+        const float inv = 1.0f / tArea;
+        // w1 = ((x-a0x)*(a2y-a0y) - (y-a0y)*(a2x-a0x)) * inv
+        // w2 = ((a1x-a0x)*(y-a0y) - (a1y-a0y)*(x-a0x)) * inv
+        const float w1x =  (a2.y - a0.y) * inv, w1y = -(a2.x - a0.x) * inv;
+        const float w2x = -(a1.y - a0.y) * inv, w2y =  (a1.x - a0.x) * inv;
+        const float dz1 = zs[1] - zs[0], dz2 = zs[2] - zs[0];
+        ZX = dz1 * w1x + dz2 * w2x;
+        ZY = dz1 * w1y + dz2 * w2y;
+        Z0 = zs[0] - ZX * a0.x - ZY * a0.y;   // so that z(a0) == zs[0]
+    }
+
+    const int q = (std::max)(1, quality);
+    const float invQ = 1.0f / (float)q;
+    const float invSamples = 1.0f / (float)(q * q);
+
+    // Anything that writes one pixel, shared by the span and edge paths.
+    // Depth compare, then colour: coverage < 1 blends over what is there.
+    for (int y = minY; y <= maxY; ++y) {
+        const float yTop = (float)y, yBot = (float)y + 1.0f;
+
+        // Two horizontal ranges for this row, from the edge lines:
+        //   [outL, outR]  every pixel that can touch the polygon at all
+        //   [inL,  inR]   every pixel whose WHOLE area is inside every edge
+        // Between them, at most a pixel or two at each end are partial.
+        float outL = (float)minX, outR = (float)(maxX + 1);
+        float inL  = (float)minX, inR  = (float)(maxX + 1);
+        bool rowEmpty = false, noInterior = false;
+        for (size_t i = 0; i < n; ++i) {
+            const Edge& e = edges[i];
+            if (std::fabs(e.A) < 1e-9f) {
+                // Horizontal edge: the row is in or out together.
+                const float lo = (std::min)(e.B * yTop, e.B * yBot) + e.C;   // most inside
+                const float hi = (std::max)(e.B * yTop, e.B * yBot) + e.C;   // least inside
+                if (lo > 0.0f) { rowEmpty = true; break; }
+                if (hi > 0.0f) noInterior = true;
+                continue;
+            }
+            // Boundary x of this edge at the row's top and bottom.
+            const float xa = -(e.B * yTop + e.C) / e.A;
+            const float xb = -(e.B * yBot + e.C) / e.A;
+            const float xmin = (std::min)(xa, xb), xmax = (std::max)(xa, xb);
+            if (e.A > 0.0f) {                       // inside is x <= boundary
+                outR = (std::min)(outR, xmax);      // loosest bound: a pixel may touch
+                inR  = (std::min)(inR,  xmin - 1.0f); // tightest bound, less one pixel width
+            } else {                                // inside is x >= boundary
+                outL = (std::max)(outL, xmin);
+                inL  = (std::max)(inL,  xmax);
+            }
+        }
+        if (rowEmpty || outL > outR) continue;
+
+        const int x0 = (std::max)(minX, (int)std::floor(outL) - 1);
+        const int x1 = (std::min)(maxX, (int)std::ceil(outR));
+        if (x0 > x1) continue;
+
+        // Interior run, in whole pixels (clamped inside the touched range).
+        int ia = (int)std::ceil(inL), ib = (int)std::floor(inR);
+        if (noInterior || ia > ib) { ia = x1 + 1; ib = x1; }          // no solid run on this row
+        if (ia < x0) ia = x0;
+        if (ib > x1) ib = x1;
+
+        // The run above comes from edge lines evaluated at the row's top and
+        // bottom. On a very thin or steep sliver that algebra can be off by a
+        // pixel, which would paint a partly covered pixel as solid. So check
+        // each end of the run against all four pixel corners and shrink it
+        // until its end pixels are genuinely inside. Only the two ends are
+        // tested; a convex polygon's inside is one unbroken run, so if both
+        // ends are solid everything between them is too.
+        auto pixelSolid = [&](int x) {
+            for (size_t i = 0; i < n; ++i) {
+                const float A = edges[i].A, B = edges[i].B;
+                const float worst = edges[i].A * (float)x + edges[i].B * (float)y + edges[i].C
+                                  + (A > 0.0f ? A : 0.0f) + (B > 0.0f ? B : 0.0f);
+                if (worst > 0.0f) return false;
+            }
+            return true;
+        };
+        while (ia <= ib && !pixelSolid(ia)) ++ia;
+        while (ib >= ia && !pixelSolid(ib)) --ib;
+
+        uint32_t* const row = buffer + (size_t)y * (size_t)width;
+        float* const drow = depthBuffer + (size_t)y * (size_t)width;
+        const float dStart = Z0 + ZX * 0.5f + ZY * (y + 0.5f);   // depth at x = 0 centre; + ZX*x below
+
+        // ---- Edge pixels (anything outside the solid run), with full coverage tests ----
+        auto edgePixel = [&](int x) {
+            const float cx = x + 0.5f, cy = y + 0.5f;
+            const float d = Z0 + ZX * cx + ZY * cy;
+            if (d >= drow[x]) return;
+            if (quality < 1) {
+                bool in = true;
+                for (size_t i = 0; i < n; ++i) if (edges[i].A * cx + edges[i].B * cy + edges[i].C > 0.0f) { in = false; break; }
+                if (in) { row[x] = color; drow[x] = d; }
+                return;
+            }
+            int hit = 0;
+            for (int sy = 0; sy < q; ++sy) {
+                const float py = y + (sy + 0.5f) * invQ;
+                for (int sx = 0; sx < q; ++sx) {
+                    const float px = x + (sx + 0.5f) * invQ;
+                    bool in = true;
+                    for (size_t i = 0; i < n; ++i) if (edges[i].A * px + edges[i].B * py + edges[i].C > 0.0f) { in = false; break; }
+                    if (in) ++hit;
+                }
+            }
+            if (hit == 0) return;
+            const float coverage = (float)hit * invSamples;
+            if (coverage >= 1.0f) row[x] = color;
+            else Graphics::BlendPixel(buffer, width, height, x, y, color, coverage);
+            drow[x] = d;
+        };
+
+        for (int x = x0; x < ia && x <= x1; ++x) edgePixel(x);
+
+        // ---- Solid run: no edge maths at all, just depth test and store ----
+        {
+            float d = Z0 + ZX * (ia + 0.5f) + ZY * (y + 0.5f);
+            for (int x = ia; x <= ib; ++x, d += ZX) {
+                if (d < drow[x]) { row[x] = color; drow[x] = d; }
+            }
+        }
+
+        for (int x = (std::max)(ib + 1, ia); x <= x1; ++x) edgePixel(x);
+        (void)dStart;
     }
 }
 
@@ -1029,6 +1118,244 @@ static int window_get_aliasing_quality(lua_State* L) {
     return 1;
 }
 
+
+// =========================================================================
+// TEXTURE SETS (per-face texturing for draw_cube / draw_mesh)
+// =========================================================================
+// A texture set is an open map of faceSlot -> binding (see texture_store.hpp).
+// Slot 0 is "all faces without their own binding"; slots 1..N are the
+// 1-based position of a face in the face list passed to draw_mesh (or the
+// cube's own face order for draw_cube). Nothing here knows how many faces
+// a shape has, so cubes, pyramids, and arbitrary meshes all work the same.
+//
+// Sets hold image IDS only. Destroying an image never needs the set to be
+// touched, and destroying a set never frees an image -- two independent
+// lifetimes with no way to leak or dangle into each other.
+
+static Graphics::TextureWrap ParseWrap(lua_State* L, int idx) {
+    if (lua_isstring(L, idx) && !lua_isnumber(L, idx)) {
+        const char* w = lua_tostring(L, idx);
+        if (EqualsIgnoreCase(w, "repeat")) return Graphics::TextureWrap::Repeat;
+        if (EqualsIgnoreCase(w, "mirror")) return Graphics::TextureWrap::Mirror;
+    }
+    return Graphics::TextureWrap::Clamp;
+}
+
+static Graphics::TextureFilter ParseFilter(lua_State* L, int idx) {
+    if (lua_isstring(L, idx) && !lua_isnumber(L, idx)) {
+        const char* f = lua_tostring(L, idx);
+        if (EqualsIgnoreCase(f, "bilinear") || EqualsIgnoreCase(f, "linear")) return Graphics::TextureFilter::Bilinear;
+    }
+    return Graphics::TextureFilter::Nearest;
+}
+
+// create_texture_set() -> setId
+static int texture_set_create(lua_State* L) {
+    int id = g_next_texture_set_id++;
+    g_textureSets[id] = Graphics::TextureSet{};
+    lua_pushinteger(L, id);
+    return 1;
+}
+
+// texture_set_bind(setId, faceSlot, imageId, opts?) -> boolean
+// opts (all optional): { uOffset, vOffset, uScale, vScale, wrap, filter }
+// Rebinding a slot replaces it. Returns false for an unknown set or image.
+static int texture_set_bind(lua_State* L) {
+    int setId = static_cast<int>(luaL_checkinteger(L, 1));
+    int faceSlot = static_cast<int>(luaL_checkinteger(L, 2));
+    int imageId = static_cast<int>(luaL_checkinteger(L, 3));
+
+    auto it = g_textureSets.find(setId);
+    if (it == g_textureSets.end() || faceSlot < 0 || !g_images.Contains(imageId)) {
+        lua_pushboolean(L, 0);
+        return 1;
+    }
+
+    Graphics::TextureBinding b;
+    b.imageId = imageId;
+    if (lua_istable(L, 4)) {
+        lua_getfield(L, 4, "uOffset"); if (lua_isnumber(L, -1)) b.uOffset = (float)lua_tonumber(L, -1); lua_pop(L, 1);
+        lua_getfield(L, 4, "vOffset"); if (lua_isnumber(L, -1)) b.vOffset = (float)lua_tonumber(L, -1); lua_pop(L, 1);
+        lua_getfield(L, 4, "uScale");  if (lua_isnumber(L, -1)) b.uScale  = (float)lua_tonumber(L, -1); lua_pop(L, 1);
+        lua_getfield(L, 4, "vScale");  if (lua_isnumber(L, -1)) b.vScale  = (float)lua_tonumber(L, -1); lua_pop(L, 1);
+        lua_getfield(L, 4, "wrap");    b.wrap   = ParseWrap(L, -1);   lua_pop(L, 1);
+        lua_getfield(L, 4, "filter");  b.filter = ParseFilter(L, -1); lua_pop(L, 1);
+    }
+    it->second.bindings[faceSlot] = b;
+    lua_pushboolean(L, 1);
+    return 1;
+}
+
+// texture_set_unbind(setId, faceSlot) -> boolean (true if a binding was removed)
+static int texture_set_unbind(lua_State* L) {
+    int setId = static_cast<int>(luaL_checkinteger(L, 1));
+    int faceSlot = static_cast<int>(luaL_checkinteger(L, 2));
+    auto it = g_textureSets.find(setId);
+    lua_pushboolean(L, (it != g_textureSets.end() && it->second.bindings.erase(faceSlot) > 0) ? 1 : 0);
+    return 1;
+}
+
+// texture_set_destroy(setId) -> boolean. Frees the set only; images are
+// untouched (destroy those with destroy_image).
+static int texture_set_destroy(lua_State* L) {
+    int setId = static_cast<int>(luaL_checkinteger(L, 1));
+    lua_pushboolean(L, g_textureSets.erase(setId) > 0 ? 1 : 0);
+    return 1;
+}
+
+// Resolves arg `idx` (a texture set id, or nil/none) to a set pointer.
+// nullptr means "no texturing" -- flat colors, byte-for-byte the old path.
+static const Graphics::TextureSet* ReadTextureSetArg(lua_State* L, int idx) {
+    if (lua_isnoneornil(L, idx) || !lua_isnumber(L, idx)) return nullptr;
+    auto it = g_textureSets.find(static_cast<int>(lua_tointeger(L, idx)));
+    if (it == g_textureSets.end() || it->second.Empty()) return nullptr;
+    return &it->second;
+}
+
+// Everything draw_cube/draw_mesh need to try texturing ONE face. Built per
+// face; owns a shared_ptr snapshot, so the image can be destroyed by
+// anyone while this lives and the pixels stay valid until it goes out of
+// scope (RAII -- there is no manual release to forget).
+struct FaceTexture {
+    Graphics::ImageRegistry::ImagePtr image;   // keeps pixels alive for this draw
+    const Graphics::TextureBinding* binding = nullptr;
+    explicit operator bool() const { return image && binding; }
+};
+
+static FaceTexture ResolveFaceTexture(const Graphics::TextureSet* set, int faceSlot) {
+    FaceTexture ft;
+    if (!set) return ft;
+    const Graphics::TextureBinding* b = set->Resolve(faceSlot);
+    if (!b) return ft;
+    auto img = g_images.Acquire(b->imageId);
+    if (!img) return ft; // dangling id -> caller draws the flat color instead
+    ft.image = std::move(img);
+    ft.binding = b;
+    return ft;
+}
+
+// =========================================================================
+// NEAR-PLANE-CLIPPED FACE DRAWING
+// =========================================================================
+// Every solid face goes through here. The face arrives as VIEW-SPACE
+// vertices (already transformed by the camera), is clipped against the near
+// plane, and only the surviving vertices are projected. Projecting first and
+// clipping never is what turned geometry straddling the camera into huge
+// mirrored wedges: a vertex behind the camera divides by a negative w and
+// lands on the wrong side of the screen.
+//
+//   viewVerts   the face's corners in view space, in order
+//   uvs         optional UVs, same length (empty = flat colour / generated UVs)
+//   tex         optional texture; when absent or unusable the flat path is used
+//
+// Returns the number of triangles drawn (0 if the face is entirely behind
+// the camera), which the tests use to confirm clipping happened.
+static int DrawFaceClipped(
+    NativeWindow* win,
+    const Graphics::Camera& cam,
+    const Graphics::Matrix4x4& matProj,
+    const std::vector<Graphics::Vec3>& viewVerts,
+    const std::vector<Graphics::UV>* uvs,
+    uint32_t flatColor, float shade,
+    const FaceTexture& tex)
+{
+    const size_t n = viewVerts.size();
+    if (n < 3 || n > Graphics::kMaxClipInput) return 0;
+
+    // Generate UVs from the face's own positions when texturing without
+    // explicit UVs, BEFORE clipping so the mapping stays stable as the
+    // camera moves (generating after would change the texture per frame).
+    std::vector<Graphics::UV> generated;
+    const std::vector<Graphics::UV>* useUV = nullptr;
+    if (tex) {
+        if (uvs && uvs->size() == n) {
+            useUV = uvs;
+        } else if (Graphics::GenerateFaceUVs(viewVerts, generated) && generated.size() == n) {
+            useUV = &generated;
+        }
+    }
+
+    Graphics::ClipVertex in[Graphics::kMaxClipInput];
+    for (size_t i = 0; i < n; ++i) {
+        in[i].pos = viewVerts[i];
+        in[i].u = useUV ? (*useUV)[i].u : 0.0f;
+        in[i].v = useUV ? (*useUV)[i].v : 0.0f;
+    }
+
+    Graphics::ClipVertex out[Graphics::kMaxClipVertices];
+    const size_t m = Graphics::ClipPolygonNear(in, n, cam.nearPlane, out);
+    if (m < 3) return 0;
+
+    Graphics::Vec2 scr[Graphics::kMaxClipVertices];
+    for (size_t i = 0; i < m; ++i) {
+        scr[i] = Graphics::Project3DPoint(out[i].pos, matProj, win->width, win->height);
+        // A clipped vertex can still land absurdly far away at a grazing
+        // angle (it is divided by a tiny depth). Clamp so the rasteriser's
+        // float->int conversions can never overflow (that is undefined
+        // behaviour). The clamp is far outside any window, so it changes
+        // nothing visible.
+        scr[i].x = (std::max)(-1.0e7f, (std::min)(1.0e7f, scr[i].x));
+        scr[i].y = (std::max)(-1.0e7f, (std::min)(1.0e7f, scr[i].y));
+        if (!std::isfinite(scr[i].x) || !std::isfinite(scr[i].y)) return 0;
+    }
+
+    int drawn = 0;
+    if (!(useUV && tex)) {
+        // Flat colour: one whole-polygon fill, so there is no diagonal seam.
+        float zs[Graphics::kMaxClipVertices];
+        for (size_t i = 0; i < m; ++i) zs[i] = out[i].pos.z;
+        FillConvexPolygonDepth(win->canvasBuffer.data(), win->depthBuffer.data(), win->width, win->height,
+            scr, zs, m, flatColor, win->aliasQuality3D);
+        return (int)(m - 2);
+    }
+    for (size_t i = 1; i + 1 < m; ++i) {
+        if (useUV && tex) {
+            Graphics::TexVertex a{scr[0].x,     scr[0].y,     out[0].pos.z,     out[0].u,     out[0].v};
+            Graphics::TexVertex b{scr[i].x,     scr[i].y,     out[i].pos.z,     out[i].u,     out[i].v};
+            Graphics::TexVertex c{scr[i + 1].x, scr[i + 1].y, out[i + 1].pos.z, out[i + 1].u, out[i + 1].v};
+            Graphics::FillTriangleTexturedDepth(
+                win->canvasBuffer.data(), win->depthBuffer.data(), win->width, win->height,
+                a, b, c, *tex.image, *tex.binding, shade);
+        } else {
+            FillTriangleDepth(win->canvasBuffer.data(), win->depthBuffer.data(), win->width, win->height,
+                scr[0], scr[i], scr[i + 1],
+                out[0].pos.z, out[i].pos.z, out[i + 1].pos.z,
+                flatColor, win->aliasQuality3D);
+        }
+        ++drawn;
+    }
+    return drawn;
+}
+
+// Draws a line between two view-space points, clipped to the near plane.
+static void DrawLineClipped(
+    NativeWindow* win, const Graphics::Camera& cam, const Graphics::Matrix4x4& matProj,
+    const Graphics::Vec3& va, const Graphics::Vec3& vb, uint32_t color)
+{
+    Graphics::ClipVertex a, b;
+    a.pos = va; b.pos = vb;
+    if (!Graphics::ClipSegmentNear(a, b, cam.nearPlane)) return;
+    Graphics::Vec2 pa = Graphics::Project3DPoint(a.pos, matProj, win->width, win->height);
+    Graphics::Vec2 pb = Graphics::Project3DPoint(b.pos, matProj, win->width, win->height);
+    if (!Graphics::ScreenPointSane(pa, win->width, win->height) || !Graphics::ScreenPointSane(pb, win->width, win->height)) return;
+    // DrawLineDepth takes ints; keep them in range (see DrawFaceClipped).
+    auto clampI = [](float v) { return (int)(std::max)(-1.0e7f, (std::min)(1.0e7f, v)); };
+    Graphics::DrawLineDepth(win->canvasBuffer.data(), win->depthBuffer.data(), win->width, win->height,
+        clampI(pa.x), clampI(pa.y), a.pos.z, clampI(pb.x), clampI(pb.y), b.pos.z, color, win->aliasQuality3D);
+}
+
+// Draws a filled point at a view-space position, skipped if behind the near plane.
+static void DrawPointClipped(
+    NativeWindow* win, const Graphics::Camera& cam, const Graphics::Matrix4x4& matProj,
+    const Graphics::Vec3& v, uint32_t color)
+{
+    if (!Graphics::PointInFrontOfNear(v, cam.nearPlane)) return;
+    Graphics::Vec2 p = Graphics::Project3DPoint(v, matProj, win->width, win->height);
+    if (!Graphics::ScreenPointSane(p, win->width, win->height)) return;
+    Graphics::DrawCircleDepth(win->canvasBuffer.data(), win->depthBuffer.data(), win->width, win->height,
+        (int)p.x, (int)p.y, 3, v.z, color, win->aliasQuality3D);
+}
+
 // =========================================================================
 // LUA TABLE READERS FOR draw_mesh
 // =========================================================================
@@ -1126,6 +1453,40 @@ static int window_create(lua_State* L) {
     id appClass = reinterpret_cast<id>(objc_getClass("NSApplication"));
     id app = msgSend<id>(appClass, sel_registerName("sharedApplication"));
     msgSend<void>(app, sel_registerName("setActivationPolicy:"), 0);
+
+    // Own the process identity. Launched from a terminal inside VS Code the
+    // process has no bundle of its own, so macOS shows the PARENT app's name
+    // and icon. Setting the process name and the bundle's display name to
+    // the window title makes Cmd-Tab, the Dock, and Activity Monitor show
+    // this program instead. Done once, before the first window exists.
+    {
+        static bool identitySet = false;
+        if (!identitySet) {
+            identitySet = true;
+            id nsName = msgSend<id>(reinterpret_cast<id>(objc_getClass("NSString")),
+                sel_registerName("stringWithUTF8String:"), title);
+            id procInfo = msgSend<id>(reinterpret_cast<id>(objc_getClass("NSProcessInfo")),
+                sel_registerName("processInfo"));
+            msgSend<void>(procInfo, sel_registerName("setProcessName:"), nsName);
+
+            id mainBundle = msgSend<id>(reinterpret_cast<id>(objc_getClass("NSBundle")),
+                sel_registerName("mainBundle"));
+            id info = msgSend<id>(mainBundle, sel_registerName("infoDictionary"));
+            if (info) {
+                // infoDictionary is an immutable view; the mutable copy the
+                // runtime hands back for unbundled executables accepts these.
+                id keyName = msgSend<id>(reinterpret_cast<id>(objc_getClass("NSString")),
+                    sel_registerName("stringWithUTF8String:"), "CFBundleName");
+                id keyDisp = msgSend<id>(reinterpret_cast<id>(objc_getClass("NSString")),
+                    sel_registerName("stringWithUTF8String:"), "CFBundleDisplayName");
+                if (msgSend<bool>(info, sel_registerName("respondsToSelector:"),
+                        sel_registerName("setObject:forKey:"))) {
+                    msgSend<void>(info, sel_registerName("setObject:forKey:"), nsName, keyName);
+                    msgSend<void>(info, sel_registerName("setObject:forKey:"), nsName, keyDisp);
+                }
+            }
+        }
+    }
 
     CGRect cgRect = CGRectMake(0, 0, width, height);
     id windowClass = reinterpret_cast<id>(objc_getClass("NSWindow"));
@@ -1250,6 +1611,133 @@ static int window_set_fullscreen(lua_State* L) {
 #endif
     }
     return 0;
+}
+
+// =========================================================================
+// WINDOW-RELATIVE MOUSE POSITION
+// Returns coordinates relative to the window's client/content area.
+// Origin: top-left.
+// =========================================================================
+
+static int window_get_mouse_position(lua_State* L) {
+    const int winId = static_cast<int>(luaL_checkinteger(L, 1));
+
+    auto it = g_windows.find(winId);
+
+    if (it == g_windows.end()) {
+        lua_pushnil(L);
+        lua_pushnil(L);
+        return 2;
+    }
+
+    NativeWindow* win = it->second;
+
+#if defined(_WIN32) || defined(_WIN64)
+
+    POINT point{};
+
+    if (!GetCursorPos(&point) ||
+        !ScreenToClient(win->platform.hwnd, &point)) {
+        lua_pushnil(L);
+        lua_pushnil(L);
+        return 2;
+    }
+
+    const double x = static_cast<double>(point.x);
+    const double y = static_cast<double>(point.y);
+
+    lua_pushnumber(L, x);
+    lua_pushnumber(L, y);
+    return 2;
+
+#elif defined(__APPLE__)
+
+    // Retrieve the mouse position in Cocoa window coordinates.
+    const CGPoint windowPoint = msgSend<CGPoint>(
+        win->platform.window,
+        sel_registerName("mouseLocationOutsideOfEventStream")
+    );
+
+    // Retrieve the window's content view.
+    id contentView = msgSend<id>(
+        win->platform.window,
+        sel_registerName("contentView")
+    );
+
+    if (!contentView) {
+        lua_pushnil(L);
+        lua_pushnil(L);
+        return 2;
+    }
+
+    // Convert from window coordinates into content-view coordinates.
+    const CGPoint localPoint = msgSend<CGPoint>(
+        contentView,
+        sel_registerName("convertPoint:fromView:"),
+        windowPoint,
+        static_cast<id>(nullptr)
+    );
+
+    const CGRect bounds = msgSend<CGRect>(
+        contentView,
+        sel_registerName("bounds")
+    );
+
+    const bool flipped = msgSend<bool>(
+        contentView,
+        sel_registerName("isFlipped")
+    );
+
+    // Convert to top-left-origin coordinates.
+    const double x =
+        static_cast<double>(localPoint.x - bounds.origin.x);
+
+    const double y = flipped
+        ? static_cast<double>(localPoint.y - bounds.origin.y)
+        : static_cast<double>(
+            bounds.origin.y + bounds.size.height - localPoint.y
+        );
+
+    lua_pushnumber(L, x);
+    lua_pushnumber(L, y);
+    return 2;
+
+#else
+
+    Window rootReturn;
+    Window childReturn;
+
+    int rootX = 0;
+    int rootY = 0;
+    int windowX = 0;
+    int windowY = 0;
+
+    unsigned int mask = 0;
+
+    if (!XQueryPointer(
+        win->platform.display,
+        win->platform.window,
+        &rootReturn,
+        &childReturn,
+        &rootX,
+        &rootY,
+        &windowX,
+        &windowY,
+        &mask
+    )) {
+        lua_pushnil(L);
+        lua_pushnil(L);
+        return 2;
+    }
+
+    const double x = static_cast<double>(windowX);
+    const double y = static_cast<double>(windowY);
+
+    lua_pushnumber(L, x);
+    lua_pushnumber(L, y);
+    return 2;
+
+#endif
 }
 
 // =========================================================================
@@ -1398,6 +1886,7 @@ static int window_clear_canvas(lua_State* L) {
         // makes separately-drawn cube/mesh objects occlude each other
         // correctly by distance instead of whichever was drawn last (see
         // NativeWindow::depthBuffer). Call this once per frame, before
+        // your 3D draw calls, same as you already do for the canvas.
         std::fill(it->second->depthBuffer.begin(), it->second->depthBuffer.end(), kDepthFar);
     }
     return 0;
@@ -1409,7 +1898,6 @@ static int window_draw_rect(lua_State* L) {
     int ry = static_cast<int>(luaL_checkinteger(L, 3));
     int rw = static_cast<int>(luaL_checkinteger(L, 4));
     int rh = static_cast<int>(luaL_checkinteger(L, 5));
-
     uint32_t col = (0xFF << 24) | (static_cast<uint8_t>(luaL_optinteger(L, 6, 255)) << 16) 
                                 | (static_cast<uint8_t>(luaL_optinteger(L, 7, 255)) << 8) 
                                 | static_cast<uint8_t>(luaL_optinteger(L, 8, 255));
@@ -1663,6 +2151,9 @@ static int text_render_to_image(lua_State* L) {
     int width = 0, height = 0;
     MeasureText(text, scale, width, height);
     if (width <= 0 || height <= 0) {
+        // Empty text: release the caller's previous bitmap now instead of
+        // leaving it pinned in the registry until the process exits.
+        if (existingImgId > 0) g_images.Destroy(existingImgId);
         lua_pushnil(L);
         return 1;
     }
@@ -1671,12 +2162,11 @@ static int text_render_to_image(lua_State* L) {
     RasterizeTextToImage(text, scale, quality, fr, fg, fb, hasStroke, sr, sg, sb, strokeWidth, img);
 
     int imgId;
-    if (existingImgId > 0 && g_images.find(existingImgId) != g_images.end()) {
+    if (existingImgId > 0 && g_images.Contains(existingImgId)) {
         imgId = existingImgId; // reuse the SAME id/slot -- this is the "catch the pointer" path
-        g_images[imgId] = std::move(img);
+        g_images.Replace(imgId, std::move(img));
     } else {
-        imgId = g_next_image_id++;
-        g_images[imgId] = std::move(img);
+        imgId = g_images.Add(std::move(img));
     }
 
     lua_pushinteger(L, imgId);
@@ -1701,11 +2191,11 @@ static int image_draw_scaled(lua_State* L) {
     int destH = static_cast<int>(luaL_checkinteger(L, 6));
 
     auto itWin = g_windows.find(winId);
-    auto itImg = g_images.find(imgId);
-    if (itWin == g_windows.end() || itImg == g_images.end()) return 0;
+    auto imgSnap = g_images.Acquire(imgId);
+    if (itWin == g_windows.end() || !imgSnap) return 0;
     if (destW <= 0 || destH <= 0) return 0;
     NativeWindow* win = itWin->second;
-    const Graphics::ImageBuffer& img = itImg->second;
+    const Graphics::ImageBuffer& img = *imgSnap;
     if (img.width <= 0 || img.height <= 0) return 0;
 
     for (int oy = 0; oy < destH; ++oy) {
@@ -2042,29 +2532,171 @@ static int window_draw_polygon(lua_State* L) {
     return 0;
 }
 
+// Reads one pixel entry from the table on top of the stack into an
+// AARRGGBB value, for the "bit" pixel format:
+//   0 or false          -> off (fully transparent)
+//   1 or true           -> on, in `defaultOn`
+//   {1}                 -> on, in `defaultOn`
+//   {1, {r,g,b}}        -> on, in that color (alpha 255)
+//   {1, {r,g,b,a}}      -> on, in that color with that alpha
+//   {0, ...}            -> off, whatever color follows
+// Anything unrecognised is treated as off, so a malformed entry can never
+// crash or write outside the image.
+static uint32_t ReadBitPixel(lua_State* L, int idx, uint32_t defaultOn) {
+    int t = lua_type(L, idx);
+    if (t == LUA_TBOOLEAN) return lua_toboolean(L, idx) ? defaultOn : 0x00000000u;
+    if (t == LUA_TNUMBER)  return lua_tonumber(L, idx) != 0.0 ? defaultOn : 0x00000000u; // any non-zero number is "on" (1.5 and 0.5 included, not truncated to 1/0)
+    if (t != LUA_TTABLE)   return 0x00000000u;
+
+    lua_rawgeti(L, idx, 1);
+    bool on = false;
+    if (lua_type(L, -1) == LUA_TBOOLEAN) on = lua_toboolean(L, -1) != 0;
+    else if (lua_type(L, -1) == LUA_TNUMBER) on = lua_tonumber(L, -1) != 0.0;
+    lua_pop(L, 1);
+    if (!on) return 0x00000000u;
+
+    lua_rawgeti(L, idx, 2);
+    uint32_t color = defaultOn;
+    if (lua_type(L, -1) == LUA_TTABLE) {
+        int ci = lua_gettop(L);
+        auto chan = [&](int k, int fallback) {
+            lua_rawgeti(L, ci, k);
+            int v = lua_isnumber(L, -1) ? (int)lua_tointeger(L, -1) : fallback;
+            lua_pop(L, 1);
+            return (uint32_t)(v < 0 ? 0 : (v > 255 ? 255 : v));
+        };
+        uint32_t r = chan(1, 255), g = chan(2, 255), b = chan(3, 255), a = chan(4, 255);
+        color = (a << 24) | (r << 16) | (g << 8) | b;
+    }
+    lua_pop(L, 1);
+    return color;
+}
+
+// create_image(width, height, pixels?, format?, onColor?) -> imageId
+//   format "argb" (default): pixels are raw 0xAARRGGBB integers, exactly as before.
+//   format "bit": each entry is 0/1 (or false/true) to switch a pixel off/on,
+//                 or {1, {r,g,b[,a]}} to switch it on in a specific color.
+//                 `onColor` (optional AARRGGBB, default opaque white) is what a
+//                 bare 1 turns into.
 static int image_create(lua_State* L) {
     int width = static_cast<int>(luaL_checkinteger(L, 1));
     int height = static_cast<int>(luaL_checkinteger(L, 2));
+    // Reject sizes that would overflow or exhaust memory instead of
+    // letting a bad call take the process down.
+    const long long kMaxPixels = 1LL << 28; // 268M px (1 GiB of AARRGGBB)
+    if (width <= 0 || height <= 0 || (long long)width * (long long)height > kMaxPixels) {
+        lua_pushnil(L);
+        lua_pushstring(L, "create_image: invalid or too-large size");
+        return 2;
+    }
+    const size_t total = (size_t)width * (size_t)height;
+
+    bool bitFormat = false;
+    if (lua_isstring(L, 4) && !lua_isnumber(L, 4)) {
+        const char* f = lua_tostring(L, 4);
+        if (EqualsIgnoreCase(f, "bit") || EqualsIgnoreCase(f, "bits")) bitFormat = true;
+    }
+    uint32_t onColor = lua_isnumber(L, 5) ? static_cast<uint32_t>(lua_tointeger(L, 5)) : 0xFFFFFFFFu;
 
     Graphics::ImageBuffer img;
     img.width = width;
     img.height = height;
-    img.pixels.resize(width * height, 0x00000000);
+    img.pixels.assign(total, 0x00000000u);
 
     if (lua_istable(L, 3)) {
         size_t len = lua_rawlen(L, 3);
-        size_t count = (std::min)((size_t)(width * height), len);
+        size_t count = (std::min)(total, len);
         for (size_t i = 1; i <= count; ++i) {
-            lua_rawgeti(L, 3, i);
-            img.pixels[i - 1] = static_cast<uint32_t>(lua_tointeger(L, -1));
+            lua_rawgeti(L, 3, (lua_Integer)i);
+            if (bitFormat) img.pixels[i - 1] = ReadBitPixel(L, lua_gettop(L), onColor);
+            else           img.pixels[i - 1] = static_cast<uint32_t>(lua_tointeger(L, -1));
             lua_pop(L, 1);
         }
     }
 
-    int imgId = g_next_image_id++;
-    g_images[imgId] = img;
+    int imgId = g_images.Add(std::move(img));
     lua_pushinteger(L, imgId);
     return 1;
+}
+
+// set_pixel(imageId, x, y, value, onColor?) -> boolean
+// Same value forms as the "bit" format: 0/1, true/false, {1,{r,g,b[,a]}}.
+// 0-based x,y. Returns false for an unknown image or out-of-range pixel.
+static int image_set_pixel(lua_State* L) {
+    int imgId = static_cast<int>(luaL_checkinteger(L, 1));
+    int x = static_cast<int>(luaL_checkinteger(L, 2));
+    int y = static_cast<int>(luaL_checkinteger(L, 3));
+    uint32_t onColor = lua_isnumber(L, 5) ? static_cast<uint32_t>(lua_tointeger(L, 5)) : 0xFFFFFFFFu;
+    uint32_t px = ReadBitPixel(L, 4, onColor);
+
+    const Graphics::ImageBuffer* cur = g_images.Peek(imgId);
+    if (!cur || x < 0 || y < 0 || x >= cur->width || y >= cur->height) {
+        lua_pushboolean(L, 0);
+        return 1;
+    }
+    // Copy-on-write so any in-flight draw holding a snapshot keeps seeing
+    // a consistent image; the old buffer is freed when that draw ends.
+    Graphics::ImageBuffer next = *cur;
+    next.pixels[(size_t)y * (size_t)next.width + (size_t)x] = px;
+    lua_pushboolean(L, g_images.Replace(imgId, std::move(next)) ? 1 : 0);
+    return 1;
+}
+
+// fill_pixels(imageId, x, y, w, h, pixels, format?, onColor?) -> boolean
+// Writes a w*h block of pixel entries (row-major) at (x,y) in ONE copy,
+// so changing many pixels costs one buffer copy instead of one per pixel.
+static int image_fill_pixels(lua_State* L) {
+    int imgId = static_cast<int>(luaL_checkinteger(L, 1));
+    int x0 = static_cast<int>(luaL_checkinteger(L, 2));
+    int y0 = static_cast<int>(luaL_checkinteger(L, 3));
+    int w  = static_cast<int>(luaL_checkinteger(L, 4));
+    int h  = static_cast<int>(luaL_checkinteger(L, 5));
+    luaL_checktype(L, 6, LUA_TTABLE);
+    bool bitFormat = true;
+    if (lua_isstring(L, 7) && !lua_isnumber(L, 7)) {
+        bitFormat = !EqualsIgnoreCase(lua_tostring(L, 7), "argb");
+    }
+    uint32_t onColor = lua_isnumber(L, 8) ? static_cast<uint32_t>(lua_tointeger(L, 8)) : 0xFFFFFFFFu;
+
+    const Graphics::ImageBuffer* cur = g_images.Peek(imgId);
+    if (!cur || w <= 0 || h <= 0) { lua_pushboolean(L, 0); return 1; }
+
+    Graphics::ImageBuffer next = *cur;
+    size_t len = lua_rawlen(L, 6);
+    for (int j = 0; j < h; ++j) {
+        int py = y0 + j;
+        if (py < 0 || py >= next.height) continue;
+        for (int i = 0; i < w; ++i) {
+            int px = x0 + i;
+            if (px < 0 || px >= next.width) continue;
+            size_t srcIdx = (size_t)j * (size_t)w + (size_t)i + 1;
+            if (srcIdx > len) continue;
+            lua_rawgeti(L, 6, (lua_Integer)srcIdx);
+            uint32_t v = bitFormat ? ReadBitPixel(L, lua_gettop(L), onColor)
+                                   : static_cast<uint32_t>(lua_tointeger(L, -1));
+            lua_pop(L, 1);
+            next.pixels[(size_t)py * (size_t)next.width + (size_t)px] = v;
+        }
+    }
+    lua_pushboolean(L, g_images.Replace(imgId, std::move(next)) ? 1 : 0);
+    return 1;
+}
+
+// Frees an image's pixels now. Safe on unknown/already-destroyed ids.
+// Any texture binding that still names this id resolves to "no texture"
+// (flat face color) on the next draw -- it never dangles.
+static int image_destroy(lua_State* L) {
+    int imgId = static_cast<int>(luaL_checkinteger(L, 1));
+    lua_pushboolean(L, g_images.Destroy(imgId) ? 1 : 0);
+    return 1;
+}
+
+// Debug/leak-audit helper: how many images exist and how many bytes of
+// pixel storage they hold. Lets a script (or test) prove destroy works.
+static int image_stats(lua_State* L) {
+    lua_pushinteger(L, static_cast<lua_Integer>(g_images.Count()));
+    lua_pushinteger(L, static_cast<lua_Integer>(g_images.BytesHeld()));
+    return 2;
 }
 
 static int window_draw_image(lua_State* L) {
@@ -2074,9 +2706,9 @@ static int window_draw_image(lua_State* L) {
     int dy = static_cast<int>(luaL_checkinteger(L, 4));
 
     auto itWin = g_windows.find(winId);
-    auto itImg = g_images.find(imgId);
-    if (itWin != g_windows.end() && itImg != g_images.end()) {
-        Graphics::DrawImage(itWin->second->canvasBuffer.data(), itWin->second->width, itWin->second->height, itImg->second, dx, dy);
+    auto imgSnap = g_images.Acquire(imgId);
+    if (itWin != g_windows.end() && imgSnap) {
+        Graphics::DrawImage(itWin->second->canvasBuffer.data(), itWin->second->width, itWin->second->height, *imgSnap, dx, dy);
     }
     return 0;
 }
@@ -2105,6 +2737,11 @@ static int window_draw_cube(lua_State* L) {
     // Arg 14: fill mode. Backward compatible with the old boolean
     // "wireframe" flag -- true now maps to CubeFillMode::Wireframe.
     CubeFillMode fillMode = ParseFillMode(L, 14);
+
+    // Arg 15 (optional): texture set id. nil/absent/unknown/empty = the
+    // original flat-color path, unchanged. Face slots follow the cube's own
+    // face order below: 1=Front 2=Back 3=Top 4=Bottom 5=Right 6=Left.
+    const Graphics::TextureSet* texSet = ReadTextureSetArg(L, 15);
 
     uint32_t col = (0xFF << 24) | (r << 16) | (g << 8) | b;
 
@@ -2159,7 +2796,6 @@ static int window_draw_cube(lua_State* L) {
     Graphics::Matrix4x4 matProj = Graphics::Matrix4x4::Perspective(cam->fov, (float)win->width / (float)win->height, cam->nearPlane, cam->farPlane);
 
     Graphics::Vec3 viewPos[8];
-    Graphics::Vec2 projected[8];
 
     for (int i = 0; i < 8; ++i) {
         Graphics::Vec3 scaled = { rawVertices[i].x * scaleX, rawVertices[i].y * scaleY, rawVertices[i].z * scaleZ };
@@ -2176,7 +2812,9 @@ static int window_draw_cube(lua_State* L) {
         // transform before projecting, so CreateCamera/SetPosition/
         // SetRotation actually move the viewport.
         viewPos[i] = Graphics::WorldToView(worldPos, *cam);
-        projected[i] = Graphics::Project3DPoint(viewPos[i], matProj, win->width, win->height);
+        // Projection happens AFTER near-plane clipping (see DrawFaceClipped),
+        // never here: projecting a vertex behind the camera is what mirrored
+        // geometry across the screen.
     }
 
     switch (fillMode) {
@@ -2187,17 +2825,13 @@ static int window_draw_cube(lua_State* L) {
                 {0,4},{1,5},{2,6},{3,7}
             };
             for (int i = 0; i < 12; ++i) {
-                int i0 = edges[i][0];
-                int i1 = edges[i][1];
-                Graphics::Vec2 p1 = projected[i0];
-                Graphics::Vec2 p2 = projected[i1];
-                Graphics::DrawLineDepth(win->canvasBuffer.data(), win->depthBuffer.data(), win->width, win->height, (int)p1.x, (int)p1.y, viewPos[i0].z, (int)p2.x, (int)p2.y, viewPos[i1].z, col, win->aliasQuality3D);
+                DrawLineClipped(win, *cam, matProj, viewPos[edges[i][0]], viewPos[edges[i][1]], col);
             }
             break;
         }
         case CubeFillMode::Point: {
             for (int i = 0; i < 8; ++i) {
-                Graphics::DrawCircleDepth(win->canvasBuffer.data(), win->depthBuffer.data(), win->width, win->height, (int)projected[i].x, (int)projected[i].y, 3, viewPos[i].z, col, win->aliasQuality3D);
+                DrawPointClipped(win, *cam, matProj, viewPos[i], col);
             }
             break;
         }
@@ -2208,6 +2842,7 @@ static int window_draw_cube(lua_State* L) {
                 float avgZ;
                 Graphics::Vec3 normal;
                 bool visible;
+                int slot; // 1-based position in the cube's face list; survives the depth sort below
             };
 
             QuadFace facesInfo[6];
@@ -2216,6 +2851,7 @@ static int window_draw_cube(lua_State* L) {
                 facesInfo[i].indices[1] = faces[i][1];
                 facesInfo[i].indices[2] = faces[i][2];
                 facesInfo[i].indices[3] = faces[i][3];
+                facesInfo[i].slot = i + 1;
 
                 int i0 = facesInfo[i].indices[0];
                 int i1 = facesInfo[i].indices[1];
@@ -2259,19 +2895,20 @@ static int window_draw_cube(lua_State* L) {
                 int i2 = facesInfo[i].indices[2];
                 int i3 = facesInfo[i].indices[3];
 
-                Graphics::Vec2 p0 = projected[i0];
-                Graphics::Vec2 p1 = projected[i1];
-                Graphics::Vec2 p2 = projected[i2];
-                Graphics::Vec2 p3 = projected[i3];
-
                 uint32_t faceCol = col;
+                float shadeF = 1.0f;
                 if (light) {
-                    float shade = Graphics::ComputeFaceShade(facesInfo[i].normal, *light);
-                    faceCol = Graphics::ShadeColor(col, shade);
+                    shadeF = Graphics::ComputeFaceShade(facesInfo[i].normal, *light);
+                    faceCol = Graphics::ShadeColor(col, shadeF);
                 }
 
-                FillTriangleDepth(win->canvasBuffer.data(), win->depthBuffer.data(), win->width, win->height, p0, p1, p2, viewPos[i0].z, viewPos[i1].z, viewPos[i2].z, faceCol, win->aliasQuality3D);
-                FillTriangleDepth(win->canvasBuffer.data(), win->depthBuffer.data(), win->width, win->height, p0, p2, p3, viewPos[i0].z, viewPos[i2].z, viewPos[i3].z, faceCol, win->aliasQuality3D);
+                // One routine for flat and textured faces: clips the quad
+                // against the near plane, then projects and fills what is
+                // left. Corner order is the face's own winding, so UVs map
+                // consistently.
+                FaceTexture ft = ResolveFaceTexture(texSet, facesInfo[i].slot);
+                const std::vector<Graphics::Vec3> quad = { viewPos[i0], viewPos[i1], viewPos[i2], viewPos[i3] };
+                DrawFaceClipped(win, *cam, matProj, quad, nullptr, faceCol, shadeF, ft);
             }
             break;
         }
@@ -2313,6 +2950,39 @@ static int window_draw_mesh(lua_State* L) {
 
     CubeFillMode fillMode = ParseFillMode(L, 16);
 
+    // Arg 17 (optional): texture set id. Face slot N = the Nth face in the
+    // face list as passed in (1-based), regardless of how many faces get
+    // culled or sorted away. Slot 0 in the set covers any face with no
+    // explicit binding of its own.
+    const Graphics::TextureSet* texSet = ReadTextureSetArg(L, 17);
+
+    // Arg 18 (optional): per-face UVs, a table parallel to the face list:
+    // uvs[faceIndex] = { {u,v}, {u,v}, ... } one pair per corner. Faces
+    // without an entry get UVs generated from their own geometry.
+    std::vector<std::vector<Graphics::UV>> meshUVs;
+    if (lua_istable(L, 18)) {
+        size_t nFaces = lua_rawlen(L, 18);
+        meshUVs.resize(nFaces);
+        for (size_t fi = 1; fi <= nFaces; ++fi) {
+            lua_rawgeti(L, 18, (lua_Integer)fi);
+            if (lua_istable(L, -1)) {
+                size_t nc = lua_rawlen(L, -1);
+                meshUVs[fi - 1].reserve(nc);
+                for (size_t ci = 1; ci <= nc; ++ci) {
+                    lua_rawgeti(L, -1, (lua_Integer)ci);
+                    float uu = 0.0f, vv = 0.0f;
+                    if (lua_istable(L, -1)) {
+                        lua_rawgeti(L, -1, 1); uu = (float)lua_tonumber(L, -1); lua_pop(L, 1);
+                        lua_rawgeti(L, -1, 2); vv = (float)lua_tonumber(L, -1); lua_pop(L, 1);
+                    }
+                    meshUVs[fi - 1].push_back({uu, vv});
+                    lua_pop(L, 1);
+                }
+            }
+            lua_pop(L, 1);
+        }
+    }
+
     uint32_t baseCol = (0xFF << 24) | (r << 16) | (g << 8) | b;
 
     auto it = g_windows.find(winId);
@@ -2340,7 +3010,6 @@ static int window_draw_mesh(lua_State* L) {
 
     size_t vertCount = localVerts.size();
     std::vector<Graphics::Vec3> viewPos(vertCount);
-    std::vector<Graphics::Vec2> projected(vertCount);
 
     for (size_t i = 0; i < vertCount; ++i) {
         Graphics::Vec3 scaled = { localVerts[i].x * scaleX, localVerts[i].y * scaleY, localVerts[i].z * scaleZ };
@@ -2354,7 +3023,9 @@ static int window_draw_mesh(lua_State* L) {
         Graphics::Vec3 worldPos = {world.x, world.y, world.z};
 
         viewPos[i] = Graphics::WorldToView(worldPos, *cam);
-        projected[i] = Graphics::Project3DPoint(viewPos[i], matProj, win->width, win->height);
+        // Projection happens AFTER near-plane clipping (see DrawFaceClipped),
+        // never here: projecting a vertex behind the camera is what mirrored
+        // geometry across the screen.
     }
 
     switch (fillMode) {
@@ -2366,16 +3037,14 @@ static int window_draw_mesh(lua_State* L) {
                     int a = face[i];
                     int bIdx = face[(i + 1) % n];
                     if (a < 0 || a >= (int)vertCount || bIdx < 0 || bIdx >= (int)vertCount) continue;
-                    Graphics::Vec2 p1 = projected[a];
-                    Graphics::Vec2 p2 = projected[bIdx];
-                    Graphics::DrawLineDepth(win->canvasBuffer.data(), win->depthBuffer.data(), win->width, win->height, (int)p1.x, (int)p1.y, viewPos[a].z, (int)p2.x, (int)p2.y, viewPos[bIdx].z, baseCol, win->aliasQuality3D);
+                    DrawLineClipped(win, *cam, matProj, viewPos[a], viewPos[bIdx], baseCol);
                 }
             }
             break;
         }
         case CubeFillMode::Point: {
             for (size_t i = 0; i < vertCount; ++i) {
-                Graphics::DrawCircleDepth(win->canvasBuffer.data(), win->depthBuffer.data(), win->width, win->height, (int)projected[i].x, (int)projected[i].y, 3, viewPos[i].z, baseCol, win->aliasQuality3D);
+                DrawPointClipped(win, *cam, matProj, viewPos[i], baseCol);
             }
             break;
         }
@@ -2385,11 +3054,14 @@ static int window_draw_mesh(lua_State* L) {
                 std::vector<int> indices;
                 float avgZ;
                 uint32_t color;
+                float shade;  // raw 0..1 lighting factor, for the textured path
+                int slot;     // 1-based index in the ORIGINAL face list
             };
             std::vector<RenderFace> renderFaces;
             renderFaces.reserve(faceList.size());
 
-            for (auto& face : faceList) {
+            for (size_t faceIdx = 0; faceIdx < faceList.size(); ++faceIdx) {
+                auto& face = faceList[faceIdx];
                 if (face.size() < 3) continue;
 
                 bool validIdx = true;
@@ -2421,12 +3093,13 @@ static int window_draw_mesh(lua_State* L) {
                 float avgZ = sumZ / (float)face.size();
 
                 uint32_t faceCol = baseCol;
+                float shadeF = 1.0f;
                 if (light) {
-                    float shade = Graphics::ComputeFaceShade(normal, *light);
-                    faceCol = Graphics::ShadeColor(baseCol, shade);
+                    shadeF = Graphics::ComputeFaceShade(normal, *light);
+                    faceCol = Graphics::ShadeColor(baseCol, shadeF);
                 }
 
-                renderFaces.push_back({face, avgZ, faceCol});
+                renderFaces.push_back({face, avgZ, faceCol, shadeF, (int)faceIdx + 1});
             }
 
             std::sort(renderFaces.begin(), renderFaces.end(), [](const RenderFace& a, const RenderFace& b) {
@@ -2434,16 +3107,21 @@ static int window_draw_mesh(lua_State* L) {
             });
 
             for (auto& rf : renderFaces) {
-                // Fan triangulation from the face's first vertex, same
-                // approach as draw_polygon.
-                for (size_t i = 1; i + 1 < rf.indices.size(); ++i) {
-                    int idx0 = rf.indices[0];
-                    int idxA = rf.indices[i];
-                    int idxB = rf.indices[i + 1];
-                    FillTriangleDepth(win->canvasBuffer.data(), win->depthBuffer.data(), win->width, win->height,
-                        projected[idx0], projected[idxA], projected[idxB],
-                        viewPos[idx0].z, viewPos[idxA].z, viewPos[idxB].z, rf.color, win->aliasQuality3D);
+                FaceTexture ft = ResolveFaceTexture(texSet, rf.slot);
+                if (ft) {
+                    const std::vector<Graphics::UV>* uvPtr = nullptr;
+                    if ((size_t)rf.slot - 1 < meshUVs.size() && meshUVs[(size_t)rf.slot - 1].size() == rf.indices.size()) {
+                        uvPtr = &meshUVs[(size_t)rf.slot - 1];
+                    }
+                    std::vector<Graphics::Vec3> fv; fv.reserve(rf.indices.size());
+                    for (int ix : rf.indices) fv.push_back(viewPos[(size_t)ix]);
+                    DrawFaceClipped(win, *cam, matProj, fv, uvPtr, rf.color, rf.shade, ft);
+                    continue;
                 }
+                // Flat colour: clip against the near plane, then fan-fill.
+                std::vector<Graphics::Vec3> fv; fv.reserve(rf.indices.size());
+                for (int ix : rf.indices) fv.push_back(viewPos[(size_t)ix]);
+                DrawFaceClipped(win, *cam, matProj, fv, nullptr, rf.color, rf.shade, FaceTexture{});
             }
             break;
         }
@@ -2874,8 +3552,8 @@ extern "C" EXPORT_FN int luaopen_window_management(lua_State* L) {
         {"set_dimensions", window_set_dimensions},
         {"set_fullscreen", window_set_fullscreen},
         {"get_position", window_get_position},
-        {"set_position", window_set_position},
         {"get_mouse_position", window_get_mouse_position},
+        {"set_position", window_set_position},
         {"get_display_resolution", get_display_resolution},
         {"poll_events", window_poll_events},
         {"is_focused", window_is_focused},
@@ -2895,6 +3573,14 @@ extern "C" EXPORT_FN int luaopen_window_management(lua_State* L) {
         {"get_max_alias_quality", get_max_alias_quality},
         {"draw_polygon", window_draw_polygon},
         {"create_image", image_create},
+        {"set_pixel", image_set_pixel},
+        {"fill_pixels", image_fill_pixels},
+        {"destroy_image", image_destroy},
+        {"image_stats", image_stats},
+        {"create_texture_set", texture_set_create},
+        {"texture_set_bind", texture_set_bind},
+        {"texture_set_unbind", texture_set_unbind},
+        {"destroy_texture_set", texture_set_destroy},
         {"draw_image", window_draw_image},
         {"draw_image_scaled", image_draw_scaled},
         {"render_text_to_image", text_render_to_image},

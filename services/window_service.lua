@@ -4,22 +4,16 @@
 -- #service
 local InstanceTyping = require("instance_type")
 
--- TODO: Fix MacOS (OSX) issue with the window service, 
--- windows not being able to be re-opened after minimized, etc.
-
 package.path = package.path
     .. ";./services/?.lua"
     .. ";./services/?/init.lua"
     .. ";./?.lua"
     .. ";./?/init.lua"
 
-package.cpath = package.cpath 
-    .. ";./build/?.dylib" 
-    .. ";./build/Release/?.dylib" 
-    .. ";./build/Debug/?.dylib" 
-    .. ";./build/bin/?.dylib" 
-    .. ";./build/?.so" 
-    .. ";./build/?.dll"
+-- Native modules: adds .dylib / .so / .dll search patterns for ./build and
+-- friends, once, without duplicating entries. Must come AFTER package.path
+-- above, because that is what lets this require() find native_paths.lua.
+require("utils.native_paths").Apply()
 
 local Objects = require("sub_modules.game_object")
 local PhysicsModule = require("sub_modules.physics_object")
@@ -57,12 +51,20 @@ local PhysicsModule = require("sub_modules.physics_object")
 ---@field get_aliasing_quality fun(id: integer, mode: string): integer
 ---@field get_max_alias_quality fun(): integer
 ---@field draw_polygon fun(id: integer, pointsOrFill: table|boolean, ...): nil
----@field create_image fun(width: integer, height: integer, pixelArray: table<integer, integer>?): integer
+---@field create_image fun(width: integer, height: integer, pixelArray: table?, format: PixelFormat?, onColor: integer?): integer?, string? Returns nil plus a message when the size is invalid or too large
+---@field set_pixel fun(imageId: integer, x: integer, y: integer, value: PixelValue, onColor: integer?): boolean 0-based x,y; false for an unknown image or out-of-range pixel
+---@field fill_pixels fun(imageId: integer, x: integer, y: integer, w: integer, h: integer, pixelArray: table, format: PixelFormat?, onColor: integer?): boolean
+---@field destroy_image fun(imageId: integer): boolean
+---@field image_stats fun(): integer, integer How many images exist, and how many bytes of pixel storage they hold
+---@field create_texture_set fun(): integer
+---@field texture_set_bind fun(setId: integer, faceSlot: integer, imageId: integer, options: TextureOptions?): boolean
+---@field texture_set_unbind fun(setId: integer, faceSlot: integer): boolean
+---@field destroy_texture_set fun(setId: integer): boolean Frees the set only; the images it referenced are untouched
 ---@field draw_image fun(id: integer, imgId: integer, x: integer, y: integer): nil
 ---@field draw_image_scaled fun(id: integer, imgId: integer, x: integer, y: integer, destW: integer, destH: integer): nil
 ---@field render_text_to_image fun(existingImgId: integer?, text: string, scale: integer?, r: integer?, g: integer?, b: integer?, quality: integer?, strokeR: integer?, strokeG: integer?, strokeB: integer?, strokeWidth: integer?): integer?, integer?, integer?
----@field draw_cube fun(id: integer, px: number, py: number, pz: number, rx: number, ry: number, rz: number, sx: number, sy: number, sz: number, r: integer, g: integer, b: integer, fillMode: CubeFillMode|boolean|integer?): nil
----@field draw_mesh fun(id: integer, vertices: Vertex3[], faces: MeshFace[], px: number, py: number, pz: number, rx: number, ry: number, rz: number, sx: number, sy: number, sz: number, r: integer, g: integer, b: integer, fillMode: CubeFillMode|boolean|integer?): nil
+---@field draw_cube fun(id: integer, px: number, py: number, pz: number, rx: number, ry: number, rz: number, sx: number, sy: number, sz: number, r: integer, g: integer, b: integer, fillMode: CubeFillMode|boolean|integer?, textureSetId: integer?): nil
+---@field draw_mesh fun(id: integer, vertices: Vertex3[], faces: MeshFace[], px: number, py: number, pz: number, rx: number, ry: number, rz: number, sx: number, sy: number, sz: number, r: integer, g: integer, b: integer, fillMode: CubeFillMode|boolean|integer?, textureSetId: integer?, uvs: table?): nil
 ---@field create_camera fun(px: number?, py: number?, pz: number?, fov: number?, nearPlane: number?, farPlane: number?): integer
 ---@field destroy_camera fun(camId: integer): nil
 ---@field camera_set_position fun(camId: integer, x: number, y: number, z: number): nil
@@ -323,13 +325,14 @@ end
 -- WINDOW OBJECT IMPLEMENTATION
 -- =========================================================================
 
----@class WindowObject
+---@class WindowObject : RenderSurface
 ---@field private _id integer
 ---@field private _title string
 ---@field private _width integer
 ---@field private _height integer
 ---@field private _isOpen boolean
----@field private _objects table<integer, GameObject>
+---@field private _objects2D table<integer, GameObject> Rect/Circle/Line/Text/Polygon/Image -- raw screen-space, camera never applied (see Graphics native draw_* calls)
+---@field private _objects3D table<integer, GameObject> Cube/Mesh -- projected through the active camera every frame
 ---@field private _activeCamera CameraObject?
 ---@field private _activeLight LightObject?
 ---@field private _physicsWorld PhysicsWorld?
@@ -339,7 +342,7 @@ WindowObject.__index = WindowObject
 InstanceTyping.SetType(WindowObject, "WindowObject")
 
 ---@class WindowService
----@field public _windows table<integer, WindowObject> # do not update this outside scope, this could cause severe problems!
+---@field private _windows table<integer, WindowObject>
 ---@field private _activeWindow WindowObject?
 local WindowService = {}
 WindowService.__index = WindowService
@@ -373,7 +376,8 @@ function WindowObject.new(title, width, height)
     self._width = width or 800
     self._height = height or 600
     self._isOpen = true
-    self._objects = {}
+    self._objects2D = {}
+    self._objects3D = {}
     self._activeCamera = nil
     self._activeLight = nil
     self._physicsWorld = nil
@@ -567,14 +571,22 @@ function WindowObject:DrawCircle(cx, cy, radius, fill, r, g, b)
     end
 end
 
----Draws ASCII text string supporting \n linebreaks and \t tabstops.
+---Draws ASCII text string supporting \n linebreaks and \t tabstops, and
+---returns the TextObject that drew it. Draws immediately (like the other
+---Draw* primitives), but -- unlike those -- text rendering is backed by
+---a cached offscreen bitmap (see TextObject/RenderTextToImage), so the
+---returned object is a real reusable handle: keep it and call
+---obj:Render(window) again next frame for the cheap cached-blit path
+---instead of paying full rasterization again, or call obj:SetText(...)
+---to change its content. Not auto-tracked in the window's object list
+---(that's what WindowObject:CreateText is for) -- this is the "just draw
+---it right now, but don't lose the handle" primitive.
 ---`quality` is an integer sampling level: 0/nil (default) renders exactly
 ---like before -- hard nearest-neighbor 8x8-per-glyph blockiness. 1 and up
 ---bilinear-supersamples the glyph for smoother edges at the same `scale`;
 ---higher numbers sample more and look a bit smoother, up to whatever
 ---WindowService.GetMaxTextQuality() reports -- ask for more than that and
----it silently clamps down to the max instead of failing. Returns the
----quality level actually used so you can tell when a request got capped.
+---it silently clamps down to the max instead of failing.
 ---@param text string String text content
 ---@param x number Start X coordinate
 ---@param y number Start Y coordinate
@@ -583,12 +595,11 @@ end
 ---@param g integer? Green component (0-255)
 ---@param b integer? Blue component (0-255)
 ---@param quality integer? Sampling/anti-aliasing level (default 0 = legacy blocky rendering)
----@return integer effectiveQuality The quality level actually used, after clamping
+---@return TextObject textObject The object that just drew itself -- keep it to redraw cheaply next frame
 function WindowObject:DrawText(text, x, y, scale, r, g, b, quality)
-    if native_ok and type(window_interface) ~= "string" then
-        return window_interface.draw_text(self._id, tostring(text or ""), math.floor(x), math.floor(y), scale or 1, r or 255, g or 255, b or 255, quality or 0)
-    end
-    return 0
+    local obj = Objects.TextObject.new(text, x, y, scale, r, g, b, quality)
+    obj:Render(self)
+    return obj
 end
 
 ---Draws polygon primitive using a table or unpacked vararg vertex coordinates.
@@ -601,16 +612,94 @@ function WindowObject:DrawPolygon(pointsOrFill, ...)
     end
 end
 
----Creates a software image buffer from raw pixel data.
+---@alias PixelValue
+---| 0 # off (transparent)
+---| 1 # on, in the image's default color (white unless onColor is given)
+---| boolean # false = off, true = on
+---| { [1]: 0|1|boolean, [2]: { [1]: integer, [2]: integer, [3]: integer, [4]: integer? }? } # {1, {r,g,b}} = on in that color, optional 4th value is alpha
+
+---@alias PixelFormat
+---| '"argb"' # every entry is a raw 0xAARRGGBB integer (default)
+---| '"bit"' # every entry is a PixelValue: 0/1, true/false, or {1, {r,g,b[,a]}}
+
+---Creates a software image buffer from pixel data.
+---
+---In the default "argb" format the entries are raw 0xAARRGGBB integers.
+---In "bit" format each entry switches a pixel on or off:
+---  1 / true            on (white, or onColor)
+---  0 / false           off (transparent)
+---  {1, {255, 255, 255}} on, in white; any {r, g, b} works, and a 4th
+---                       value sets alpha
+---  {0, ...}            off, whatever follows is ignored
 ---@param width integer Image width
 ---@param height integer Image height
----@param pixelArray table<integer, integer>? Pixel color buffer table
----@return integer? imageId Handle identifier
-function WindowObject:CreateImage(width, height, pixelArray)
+---@param pixelArray (integer|PixelValue)[]? Row-major pixel entries
+---@param format PixelFormat? "argb" (default) or "bit"
+---@param onColor integer? 0xAARRGGBB a bare 1 turns into, "bit" format only (default opaque white)
+---@return integer? imageId Handle identifier, nil if the size is invalid
+---@return string? err
+function WindowObject:CreateImage(width, height, pixelArray, format, onColor)
     if native_ok and type(window_interface) ~= "string" then
-        return window_interface.create_image(width, height, pixelArray)
+        return window_interface.create_image(width, height, pixelArray, format, onColor)
     end
     return nil
+end
+
+---Turns one pixel of an image on or off, or sets its color.
+---Accepts the same values as the "bit" format: 1, 0, true, false, or
+---{1, {r, g, b}}. x and y are 0-based.
+---@param imageId integer
+---@param x integer
+---@param y integer
+---@param value PixelValue
+---@param onColor integer? 0xAARRGGBB a bare 1 turns into (default opaque white)
+---@return boolean ok false if the image is unknown or the pixel is out of range
+function WindowObject:SetPixel(imageId, x, y, value, onColor)
+    if native_ok and type(window_interface) ~= "string" then
+        return window_interface.set_pixel(imageId, x, y, value, onColor) and true or false
+    end
+    return false
+end
+
+---Writes a w*h block of pixel values (row-major) at (x, y) in a single
+---pass. Prefer this over many SetPixel calls when changing a lot at once.
+---@param imageId integer
+---@param x integer
+---@param y integer
+---@param w integer
+---@param h integer
+---@param pixels (integer|PixelValue)[]
+---@param format PixelFormat? default "bit"
+---@param onColor integer?
+---@return boolean ok
+function WindowObject:FillPixels(imageId, x, y, w, h, pixels, format, onColor)
+    if native_ok and type(window_interface) ~= "string" then
+        return window_interface.fill_pixels(imageId, x, y, w, h, pixels, format, onColor) and true or false
+    end
+    return false
+end
+
+---Frees an image's pixel memory immediately. Safe to call twice or on an
+---unknown id. Anything still pointing at the id (a texture binding, a
+---stale handle) simply stops drawing it instead of crashing.
+---@param imageId integer? Image handle ID
+---@return boolean freed true if an image was actually released
+function WindowObject:DestroyImage(imageId)
+    if imageId and native_ok and type(window_interface) ~= "string" then
+        return window_interface.destroy_image(imageId) and true or false
+    end
+    return false
+end
+
+---Reports how many images exist and how many bytes of pixel memory they
+---hold. Useful for confirming that dropped objects really gave memory back.
+---@return integer count
+---@return integer bytes
+function WindowObject:ImageStats()
+    if native_ok and type(window_interface) ~= "string" then
+        return window_interface.image_stats()
+    end
+    return 0, 0
 end
 
 ---Draws raw image primitive directly to buffer.
@@ -622,6 +711,56 @@ function WindowObject:DrawImage(imageId, x, y)
     if native_ok and type(window_interface) ~= "string" then
         window_interface.draw_image(self._id, imageId, math.floor(x), math.floor(y))
     end
+end
+
+---Draws a cached image scaled to an arbitrary destination size (bilinear
+---filtered) -- e.g. blitting a text image rendered at a high internal
+---resolution back down to its actual on-screen size for crisper edges
+---than 1:1 rendering at the small size would give.
+---@param imageId integer Image handle ID
+---@param x number Destination X coordinate
+---@param y number Destination Y coordinate
+---@param destW number Destination width in pixels
+---@param destH number Destination height in pixels
+---@return nil
+function WindowObject:DrawImageScaled(imageId, x, y, destW, destH)
+    if native_ok and type(window_interface) ~= "string" then
+        window_interface.draw_image_scaled(self._id, imageId, math.floor(x), math.floor(y), math.floor(destW), math.floor(destH))
+    end
+end
+
+---Renders text into a cached offscreen image and returns its handle --
+---pass a previous return value as `existingImgId` to update that SAME
+---image in place (same id, no new allocation) instead of minting a new
+---one every call; this is the "don't recreate it every frame" path
+---TextObject itself uses. Supports an optional stroke/outline (give a
+---stroke color to enable it; strokeWidth defaults to 1 pixel when a
+---stroke color is given and no width is specified).
+---@param existingImgId integer? Previous image id to update in place, or nil/0 for a new one
+---@param text string
+---@param scale integer? Pixel scale per glyph cell (default 1)
+---@param r integer? Fill red (0-255, default 255)
+---@param g integer? Fill green (0-255, default 255)
+---@param b integer? Fill blue (0-255, default 255)
+---@param quality integer? Anti-aliasing sampling level (0 = legacy blocky, default 0)
+---@param strokeR integer? Stroke red -- omit for no stroke
+---@param strokeG integer? Stroke green
+---@param strokeB integer? Stroke blue
+---@param strokeWidth integer? Stroke width in pixels (default 1 if a stroke color is given)
+---@return integer? imageId nil if the text measures to an empty image (e.g. "")
+---@return integer? width
+---@return integer? height
+function WindowObject:RenderTextToImage(existingImgId, text, scale, r, g, b, quality, strokeR, strokeG, strokeB, strokeWidth)
+    if native_ok and type(window_interface) ~= "string" then
+        local hasStroke = strokeR ~= nil
+        return window_interface.render_text_to_image(
+            existingImgId or 0, tostring(text or ""), scale or 1,
+            r or 255, g or 255, b or 255, quality or 0,
+            strokeR, strokeG, strokeB,
+            hasStroke and (strokeWidth or 1) or 0
+        )
+    end
+    return nil
 end
 
 ---Draws raw 3D cube primitive directly to buffer, rendered through this
@@ -642,8 +781,9 @@ end
 ---@param g integer? Green component (0-255)
 ---@param b integer? Blue component (0-255)
 ---@param fillMode CubeFillMode|boolean|integer? "wireframe"|"solid"|"point" (default "solid"). Legacy boolean still works: true = wireframe.
+---@param textureSetId integer? A set from CreateTextureSet. Face slots: 1=front 2=back 3=top 4=bottom 5=right 6=left. nil = flat colours.
 ---@return nil
-function WindowObject:DrawCube(px, py, pz, rx, ry, rz, sx, sy, sz, r, g, b, fillMode)
+function WindowObject:DrawCube(px, py, pz, rx, ry, rz, sx, sy, sz, r, g, b, fillMode, textureSetId)
     if native_ok and type(window_interface) ~= "string" then
         window_interface.draw_cube(
             self._id,
@@ -651,7 +791,8 @@ function WindowObject:DrawCube(px, py, pz, rx, ry, rz, sx, sy, sz, r, g, b, fill
             rx or 0.0, ry or 0.0, rz or 0.0,
             sx or 1.0, sy or 1.0, sz or 1.0,
             r or 0, g or 255, b or 0,
-            fillMode == nil and true or fillMode
+            fillMode == nil and "solid" or fillMode,
+            textureSetId
         )
     end
 end
@@ -674,8 +815,10 @@ end
 ---@param g integer? Green component (0-255)
 ---@param b integer? Blue component (0-255)
 ---@param fillMode CubeFillMode|boolean|integer? "wireframe"|"solid"|"point" (default "solid")
+---@param textureSetId integer? A set from CreateTextureSet. Slot N is the Nth face in `faces`. nil = flat colours.
+---@param uvs table? Optional per-face UVs: uvs[faceIndex] = { {u,v}, ... }, one pair per corner. Faces without an entry get UVs generated from their geometry.
 ---@return nil
-function WindowObject:DrawMesh(vertices, faces, px, py, pz, rx, ry, rz, sx, sy, sz, r, g, b, fillMode)
+function WindowObject:DrawMesh(vertices, faces, px, py, pz, rx, ry, rz, sx, sy, sz, r, g, b, fillMode, textureSetId, uvs)
     if native_ok and type(window_interface) ~= "string" then
         window_interface.draw_mesh(
             self._id,
@@ -684,9 +827,54 @@ function WindowObject:DrawMesh(vertices, faces, px, py, pz, rx, ry, rz, sx, sy, 
             rx or 0.0, ry or 0.0, rz or 0.0,
             sx or 1.0, sy or 1.0, sz or 1.0,
             r or 255, g or 255, b or 255,
-            fillMode == nil and "solid" or fillMode
+            fillMode == nil and "solid" or fillMode,
+            textureSetId, uvs
         )
     end
+end
+
+---Creates an empty texture set (a map of face slot -> image) and returns its id.
+---@return integer? setId
+function WindowObject:CreateTextureSet()
+    if native_ok and type(window_interface) ~= "string" then
+        return window_interface.create_texture_set()
+    end
+    return nil
+end
+
+---Binds an image to a face slot of a texture set. Slot 0 = every face with
+---no binding of its own. Rebinding a slot replaces it.
+---@param setId integer
+---@param slot integer
+---@param imageId integer
+---@param options TextureOptions?
+---@return boolean ok false if the set or image doesn't exist
+function WindowObject:BindTexture(setId, slot, imageId, options)
+    if native_ok and type(window_interface) ~= "string" then
+        return window_interface.texture_set_bind(setId, slot, imageId, options) and true or false
+    end
+    return false
+end
+
+---Removes the binding on a slot.
+---@param setId integer
+---@param slot integer
+---@return boolean removed
+function WindowObject:UnbindTexture(setId, slot)
+    if native_ok and type(window_interface) ~= "string" then
+        return window_interface.texture_set_unbind(setId, slot) and true or false
+    end
+    return false
+end
+
+---Frees a texture set. Images it referenced are NOT freed (DestroyImage does that).
+---@param setId integer?
+---@return boolean freed
+function WindowObject:DestroyTextureSet(setId)
+    if setId and native_ok and type(window_interface) ~= "string" then
+        return window_interface.destroy_texture_set(setId) and true or false
+    end
+    return false
 end
 
 ---Sets the anti-aliasing sampling level for a rendering pipeline. 0
@@ -873,8 +1061,13 @@ function WindowObject:BindPhysics(gameObject, options)
         -- geometry (see PhysicsWorld:CreateHullBody).
         local vertices = options.vertices or gameObject.Vertices
         local faces = options.faces or gameObject.Faces
-        if not vertices then return nil end
-        if not faces then return nil end
+        -- Only a MeshObject carries its own Vertices/Faces. For anything
+        -- else a hull needs them passed in explicitly; without either there
+        -- is no geometry to build the body from.
+        if not vertices or not faces then
+            print("\27[33m[WindowService Warning]\27[0m BindPhysics: shape \"hull\" needs options.vertices and options.faces for objects that are not a MeshObject")
+            return nil
+        end
         body = self._physicsWorld:CreateHullBody(
             vertices, faces,
             px, py, pz,
@@ -1026,7 +1219,7 @@ end
 ---@return RectObject
 function WindowObject:CreateRect(x, y, w, h, r, g, b)
     local obj = Objects.RectObject.new(x, y, w, h, r, g, b)
-    table.insert(self._objects, obj)
+    table.insert(self._objects2D, obj)
     return obj
 end
 
@@ -1041,7 +1234,7 @@ end
 ---@return CircleObject
 function WindowObject:CreateCircle(cx, cy, radius, fill, r, g, b)
     local obj = Objects.CircleObject.new(cx, cy, radius, fill, r, g, b)
-    table.insert(self._objects, obj)
+    table.insert(self._objects2D, obj)
     return obj
 end
 
@@ -1056,7 +1249,7 @@ end
 ---@return LineObject
 function WindowObject:CreateLine(x0, y0, x1, y1, r, g, b)
     local obj = Objects.LineObject.new(x0, y0, x1, y1, r, g, b)
-    table.insert(self._objects, obj)
+    table.insert(self._objects2D, obj)
     return obj
 end
 
@@ -1072,7 +1265,7 @@ end
 ---@return TextObject
 function WindowObject:CreateText(text, x, y, scale, r, g, b, quality)
     local obj = Objects.TextObject.new(text, x, y, scale, r, g, b, quality)
-    table.insert(self._objects, obj)
+    table.insert(self._objects2D, obj)
     return obj
 end
 
@@ -1085,7 +1278,7 @@ end
 ---@return PolygonObject
 function WindowObject:CreatePolygon(points, fill, r, g, b)
     local obj = Objects.PolygonObject.new(points, fill, r, g, b)
-    table.insert(self._objects, obj)
+    table.insert(self._objects2D, obj)
     return obj
 end
 
@@ -1097,7 +1290,7 @@ end
 function WindowObject:CreateImageObject(imageId, x, y)
     ---@type ImageObject
     local obj = Objects.ImageObject.new(imageId, x, y)
-    table.insert(self._objects, obj)
+    table.insert(self._objects2D, obj)
     return obj
 end
 
@@ -1113,7 +1306,7 @@ end
 ---@return CubeObject
 function WindowObject:CreateCube(px, py, pz, size, r, g, b, fillMode)
     local obj = Objects.CubeObject.new(px, py, pz, size, r, g, b, fillMode)
-    table.insert(self._objects, obj)
+    table.insert(self._objects3D, obj)
     return obj
 end
 
@@ -1128,7 +1321,7 @@ end
 ---@return MeshObject
 function WindowObject:CreateMesh(vertices, faces, r, g, b, fillMode)
     local obj = Objects.MeshObject.new(vertices, faces, r, g, b, fillMode)
-    table.insert(self._objects, obj)
+    table.insert(self._objects3D, obj)
     return obj
 end
 
@@ -1141,43 +1334,38 @@ function WindowObject:RenderObject(gameObject)
     end
 end
 
--- ---Renders only the 3D scene (CubeObject/MeshObject), projected through
--- ---the active camera. Call this on its own if you want to control what
--- ---happens between the 3D pass and the 2D pass yourself (e.g. clearing a
--- ---depth buffer, applying a post effect) -- otherwise RenderAll already
--- ---does the right thing by calling this then RenderScene2D in order.
--- ---@return nil
--- function WindowObject:RenderScene3D()
---     for _, obj in ipairs(self._objects3D) do
---         self:RenderObject(obj)
---     end
--- end
-
--- ---Renders only the 2D scene (Rect/Circle/Line/Text/Polygon/Image), in
--- ---raw screen-space -- these never go through the camera, so this is
--- ---the "HUD/UI overlay" pass.
--- ---@return nil
--- function WindowObject:RenderScene2D()
---     for _, obj in ipairs(self._objects2D) do
---         self:RenderObject(obj)
---     end
--- end
-
--- ---Renders an individual GameObject instance.
--- ---@param gameObject GameObject Target object implementing a Render method
--- ---@return nil
--- function WindowObject:RenderObject(gameObject)
---     if gameObject and type(gameObject.Render) == "function" then
---         gameObject:Render(self)
---     end
--- end
-
----Renders all tracked GameObjects bound to this window context.
+---Renders only the 3D scene (CubeObject/MeshObject), projected through
+---the active camera. Call this on its own if you want to control what
+---happens between the 3D pass and the 2D pass yourself (e.g. clearing a
+---depth buffer, applying a post effect) -- otherwise RenderAll already
+---does the right thing by calling this then RenderScene2D in order.
 ---@return nil
-function WindowObject:RenderAll()
-    for _, obj in ipairs(self._objects) do
+function WindowObject:RenderScene3D()
+    for _, obj in ipairs(self._objects3D) do
         self:RenderObject(obj)
     end
+end
+
+---Renders only the 2D scene (Rect/Circle/Line/Text/Polygon/Image), in
+---raw screen-space -- these never go through the camera, so this is
+---the "HUD/UI overlay" pass.
+---@return nil
+function WindowObject:RenderScene2D()
+    for _, obj in ipairs(self._objects2D) do
+        self:RenderObject(obj)
+    end
+end
+
+---Renders the full frame: the 3D scene first, then the 2D scene drawn
+---on top of it -- 2D and 3D are separate rendering environments (2D
+---never consults the camera, 3D always does), and this guarantees 2D
+---content (UI, HUD, text) always ends up on top of the 3D scene
+---regardless of the order objects were created in, instead of both
+---kinds being interleaved in one draw list by creation order.
+---@return nil
+function WindowObject:RenderAll()
+    self:RenderScene3D()
+    self:RenderScene2D()
 end
 
 ---Swaps the native window framebuffers.
@@ -1200,11 +1388,12 @@ function WindowObject:Close()
     if self._isOpen and native_ok and type(window_interface) ~= "string" then
         window_interface.destroy(self._id)
         self._isOpen = false
-        self._objects = {}
+        self._objects2D = {}
+        self._objects3D = {}
     end
 end
 
----@param self WindowObject
+---Fetches mouse position relative to the window position.
 ---@return number, number
 function WindowObject:GetMousePosition()
     return window_interface.get_mouse_position(self._id)
@@ -1268,61 +1457,6 @@ function WindowService.ShowAlert(title, message, style, buttons)
     -- native module missing: still surface the message somewhere
     io.stderr:write(string.format("[ALERT] %s: %s\n", tostring(title), tostring(message)))
     return "ok"
-end
-
----@param centerX number Center X coordinate of the circle.
----@param centerY number Center Y coordinate of the circle.
----@param radius number Circle radius.
----@param startDegree? number Starting angle in degrees.
----@param endDegree? number Ending angle in degrees.
----@param quality? integer Number of segments for a full circle.
----@param fill? boolean Whether to fill the shape.
----@param r? integer Red color component (0-255).
----@param g? integer Green color component (0-255).
----@param b? integer Blue color component (0-255).
----@return PolygonObject circle The generated polygon.
----@return number actualCenterX Calculated center X coordinate.
----@return number actualCenterY Calculated center Y coordinate.
-function WindowObject:CreateCircleAdvanced(centerX, centerY, radius, startDegree, endDegree, quality, fill, r, g, b)
-    startDegree = startDegree or 0
-    endDegree = endDegree or 360
-    quality = math.max(3, math.floor(quality or 48))
-
-    if fill == nil then
-        fill = true
-    end
-
-    r = r or 255
-    g = g or 255
-    b = b or 255
-
-    assert(radius > 0, "Radius must be greater than zero")
-    assert(endDegree > startDegree, "endDegree must exceed startDegree")
-
-    local sweep = endDegree - startDegree
-    local segments = math.max(1, math.ceil(quality * sweep / 360))
-    local points = {}
-
-    for i = 0, segments do
-        local angle = math.rad(startDegree + sweep * i / segments)
-
-        points[#points + 1] = centerX + math.cos(angle) * radius
-        points[#points + 1] = centerY + math.sin(angle) * radius
-    end
-
-    if fill and sweep < 360 then
-        points[#points + 1] = centerX
-        points[#points + 1] = centerY
-    end
-
-    local circle = self:CreatePolygon(points, fill, r, g, b)
-
-    local positionX, positionY = circle:GetPosition()
-
-    local actualCenterX = positionX + radius
-    local actualCenterY = positionY + radius
-
-    return circle, actualCenterX, actualCenterY
 end
 
 ---Gets the primary display's resolution. Not tied to any window --

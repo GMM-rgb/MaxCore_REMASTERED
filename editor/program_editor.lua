@@ -171,7 +171,8 @@ end, { reentrant = false, once = true })
 
 local CoreConnection = RunnerService.RenderStepped:Connect(function(dt, wait, join)
     if EditorWindow and EditorWindow:IsRunning() then EditorWindow:SwapBuffers()
-    elseif EditorWindow then ProgramEditorExit:Fire(true, true) end; InputService:UpdateAll()
+    elseif EditorWindow then ProgramEditorExit:Fire(true, true) end
+    InputService:SetGlobalInput(EditorWindow:IsFocused()); InputService:UpdateAll();
 end, { priority = 0, yieldable = true, whenRunning = "allow" })
 
 ProgramEditorExit:Connect(os.exit)

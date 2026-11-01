@@ -1,10 +1,9 @@
-local core <const> = require("lua-5.7.2.src.max_core").call()
 local VectorUtility = require("utils.vector_math.vector_utils")
-local SoundService = core:LoadService("SoundService")
-local InputService = core:LoadService("InputService")
-local WindowService = core:LoadService("WindowService")
-local RuntimeService = core:LoadService("RunnerService")
-local StorageService = core:LoadService("StorageService")
+local SoundService = EngineCore:LoadService("SoundService")
+local InputService = EngineCore:LoadService("InputService")
+local WindowService = EngineCore:LoadService("WindowService")
+local RuntimeService = EngineCore:LoadService("RunnerService")
+local StorageService = EngineCore:LoadService("StorageService")
 local RaycastUtility = {}
 RaycastUtility._private = {}
 
@@ -68,7 +67,7 @@ end
 ---@param pos table<number>
 ---@return GameObject?
 local function CreateCollectableCoin(pos)
-    if core.typeof(windows.GameApplication) ~= "WindowObject" then warn("Game Application NIL!") return nil end
+    if EngineCore.typeof(windows.GameApplication) ~= "WindowObject" then warn("Game Application NIL!") return nil end
     if pos == nil or type(pos) ~= "table" or #pos ~= 3 then warn("Insufficent Position Amount!") return nil end
     local GameApplication <const> = windows.GameApplication
     if not GameApplication then return nil end
@@ -136,7 +135,7 @@ end
 local CoinObject = CreateCollectableCoin({5, -2, 0})
 if not CoinObject or type(CoinObject) == "nil" then return end
 local CoinPhysics = windows.GameApplication:BindPhysics(CoinObject)
-if not CoinPhysics or core.typeof(CoinPhysics) ~= "PhysicsBody" then return end
+if not CoinPhysics or EngineCore.typeof(CoinPhysics) ~= "PhysicsBody" then return end
 local MainCamera = windows.GameApplication:CreateCamera()
 local LightSource = windows.GameApplication:CreateLight()
 local Floor = windows.GameApplication:CreateCube(0, 0, 0)
@@ -167,7 +166,7 @@ local PlatformCoordinates = {
 };
 
 local function CreatePlatforms()
-    local rng = core.RandomClass.new(os.time())
+    local rng = EngineCore.RandomClass.new(os.time())
     ---@type table<integer, CubeObject>
     local InstancedPlatforms = {}
 
@@ -197,7 +196,7 @@ local function CreatePlatforms()
     end)
 end
 
-if MainCamera ~= nil and core.typeof(MainCamera) == "CameraObject" then
+if MainCamera ~= nil and EngineCore.typeof(MainCamera) == "CameraObject" then
     windows.GameApplication:SetActiveCamera(MainCamera); MainCamera:SetFOV(115)
     -- MainCamera:SetClipPlanes(1, 50)
     MainCamera:SetPosition(0, -5, 5)
@@ -269,7 +268,7 @@ end
 function RaycastUtility.new(opts)
     ---@type RaycastObject
     local self = setmetatable({}, RaycastUtility)
-    core.InstanceType.SetType(self, "RaycastObject")
+    EngineCore.InstanceType.SetType(self, "RaycastObject")
     self.tester = windows and windows.GameApplication:CreateMesh()
     local TesterPhysics = windows.GameApplication:BindPhysics(self.tester)
     if not TesterPhysics then return setmetatable({}, RaycastUtility) end
@@ -338,14 +337,14 @@ end
 
 function RaycastUtility:EndingPosition()
     local window <const> = windows.GameApplication
-    if not window or core.typeof(window) ~= "WindowObject" then return end
+    if not window or EngineCore.typeof(window) ~= "WindowObject" then return end
     local physics = window and window:GetPhysicsWorld() or {}
     -- local intersection = window:GetPhysicsBody()
 end
 
 ---@param object GameObject
 CoinObject.Collided:Connect(function(object)
-    core.task.seed(function()
+    EngineCore.task.seed(function()
         CoinPhysics:SetEnabled(false)
         CoinObject.Visible = false
         CoinCount = CoinCount + 1
@@ -358,7 +357,7 @@ if not CoinPhysics:IsStatic() then
 end
 
 RuntimeService.RenderStepped:Connect(function(dt)
-    if ObjWire ~= nil and core.typeof(ObjWire) == "PhysicsBody" then
+    if ObjWire ~= nil and EngineCore.typeof(ObjWire) == "PhysicsBody" then
         local fx <const>, fy <const>, fz <const> = Floor:GetScale()
         local osx <const>, osy <const>, osz <const> = Object:GetScale()
         local ox <const>, oy <const>, oz <const> = ObjWire:GetPosition()
@@ -431,7 +430,7 @@ if FloorWire ~= nil then
     end
 end
 
-local ProgramExit = core.Event.new("ExitProgramCleanup")
+local ProgramExit = EngineCore.Event.new("ExitProgramCleanup")
 
 ---@param dt number
 local function tick(dt)
@@ -457,6 +456,6 @@ RuntimeService.RenderStepped:Connect(tick, TickConfiguration)
 ProgramExit:Connect(function()
     -- "%[([^%]]+)%]"
     windows.GameApplication:Close()
-    core.colorPrint("DEBUG", "EXITING...")
+    EngineCore.ColorPrint("DEBUG", "EXITING...")
     os.exit(0x00000, true); return nil
 end); RuntimeService:KeepAlive()
