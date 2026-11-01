@@ -68,6 +68,36 @@ static int tcreate (lua_State *L) {
   return 1;
 }
 
+static int treverse (lua_State *L) {
+  luaL_checktype(L, 1, LUA_TTABLE);
+  lua_Unsigned length = lua_rawlen(L, 1);
+
+  if (length <= 1) {
+    lua_settop(L, 1);
+    return 1;
+  } else {
+    lua_Unsigned left = 1;
+    lua_Unsigned right = length;
+
+    #define STEP() do { \
+      lua_rawgeti(L, 1, left); /* Stack: [table, val_left] */ \
+      lua_rawgeti(L, 1, right); /* Stack: [table, val_left, val_right] */ \
+      lua_rawseti(L, 1, left); /* Stack: [table, val_left] */ \
+      lua_rawseti(L, 1, right); /* Stack: [table] */ \
+      left++; right--; \
+    } while(0)
+
+    while (left < right) STEP();
+  }
+
+  #ifdef STEP
+  #undef STEP
+  #endif
+
+  lua_settop(L, 1);
+
+  return 1;
+}
 
 static int tinsert (lua_State *L) {
   lua_Integer pos;  /* where to insert new element */
@@ -413,6 +443,7 @@ static const luaL_Reg tab_funcs[] = {
   {"pack", tpack},
   {"unpack", tunpack},
   {"remove", tremove},
+  {"reverse", treverse},
   {"move", tmove},
   {"sort", sort},
   {NULL, NULL}

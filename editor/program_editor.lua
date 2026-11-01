@@ -1,6 +1,7 @@
 local InputUpdateEvent = EngineCore.Event.new("input-update")
 local ProgramEditorExit = EngineCore.Event.new("program-exit")
 local platform = require("utils.platform")
+local BackgroundColor = { 0, 0, 0 } --- @type table<integer>
 local <const> SoundService = EngineCore:LoadService("SoundService")
 local <const> InputService = EngineCore:LoadService("InputService")
 local <const> RunnerService = EngineCore:LoadService("RunnerService")
@@ -9,7 +10,7 @@ local <const> StorageService = EngineCore:LoadService("StorageService")
 local EditorWindow = WindowService:CreateWindow("Program Editor Mode")
 if EditorWindow == nil then error("editor window unavailable") return end
 EditorWindow:SetAliasingQuality("2d", WindowService:GetMaxAliasingQuality())
-local BackgroundColor = { 0, 0, 0 }; EditorWindow:ClearCanvas(table.unpack(BackgroundColor))
+EditorWindow:ClearCanvas(table.unpack(BackgroundColor))
 
 ---@param scale number
 ---@param x number
@@ -29,14 +30,14 @@ local function smile_face(scale, x, y)
         PositionX - (40 * scale),
         PositionY - (25 * scale),
         20 * scale,
-        false
+        true
     )
 
     local RightEye = EditorWindow:CreateCircle(
         PositionX + (40 * scale),
         PositionY - (25 * scale),
         20 * scale,
-        false
+        true
     )
 
     local MouthMain = EditorWindow:CreateCircle(
@@ -64,18 +65,13 @@ end
 
 InputService:BindAction("create-smile", "mouse1", function(actionName, state, keyName)
     if type(state) == "string" and state == "Pressed" then
+        local bh = platform:get_window_metrics()["title_bar_height"]
         local RandomSize = EngineCore.RandomClass.new(os.time())
         local mouse_x, mouse_y = EditorWindow:GetMousePosition()
-        smile_face(RandomSize:NextNumber(0.25, 1), mouse_x, mouse_y)
-        io.stdout:write(mouse_x, "\t", mouse_y, "\n")
+        local cast = EditorWindow:CreateLine(0, 0, mouse_x, mouse_y, 0, 255, 0)
+        EditorWindow:RenderObject(cast); smile_face(RandomSize:NextNumber(0.25, 1), mouse_x, mouse_y)
     end
 end)
-
-EditorWindow:CreateMesh({
-    
-}, {
-
-}, 255, 255, 255, "wireframe")
 
 ---@class EditorInterface
 ---@field private _objects table<integer, GameObject>
@@ -94,14 +90,14 @@ EditorInterface._objects = {}
 ---@field public theme "dark"|"light"
 ---@field public object_configuration table<string, configuration_values>
 local EditorConfiguration = {
-    ["theme"] = "dark",
+    ["theme"] = "dark", -- target theme
     ["object_configuration"] = {
-        ["container"] = {
+        ["container"] = { -- editor wrapper
             ["shape"] = "Rect",
             ["size"] = "auto",
             ["position"] = { 0, 0 },
         },
-        ["toolbar"] = {
+        ["toolbar"] = { -- editor actions
             ["shape"] = "Rect",
             ["parent"] = "container",
             ["size"] = { "inherit", 25 },

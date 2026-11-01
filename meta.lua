@@ -34,6 +34,12 @@ _G.EngineCore = dofile("max_core.lua")
 ---@return integer? os_error On failure, the numeric operating-system error code.
 function os.native_execute(command, options) end
 
+--- Reverses an array in-place.
+---@generic T
+---@param t T[] The array to be reversed.
+---@return T[] # The same array table, reversed.
+function table.reverse(t) end
+
 ---Execute a command using the legacy system command interface.
 ---Deprecated: use `os.native_execute()` instead for configurable native process execution.
 ---@deprecated Use os.native_execute() instead.
