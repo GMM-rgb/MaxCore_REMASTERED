@@ -1,0 +1,318 @@
+{
+	"globsDependent" : 
+	[
+		{
+			"expression" : "D:/MaxCore_REMASTERED/lua-*/src",
+			"listDirectories" : true,
+			"paths" : 
+			[
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src"
+			]
+		},
+		{
+			"expression" : "D:/MaxCore_REMASTERED/lua-5.7.2/src/*.c",
+			"listDirectories" : true,
+			"paths" : 
+			[
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/lapi.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/lauxlib.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/lbaselib.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/lcode.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/lcorolib.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/lctype.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/ldblib.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/ldebug.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/ldo.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/ldump.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/lfunc.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/lgc.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/linit.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/liolib.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/llex.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/lmathlib.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/lmem.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/loadlib.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/lobject.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/lopcodes.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/loslib.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/lparser.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/lstate.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/lstring.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/lstrlib.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/ltable.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/ltablib.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/ltm.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/lua.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/luac.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/lundump.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/lutf8lib.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/lvm.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/lzio.c",
+				"D:/MaxCore_REMASTERED/lua-5.7.2/src/maxcore_bootstrap.c"
+			]
+		}
+	],
+	"inputs" : 
+	[
+		{
+			"path" : "CMakeLists.txt"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "build/CMakeFiles/4.3.2/CMakeSystem.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeSystemSpecificInitialize.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Platform/Windows-Initialize.cmake"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "build/CMakeFiles/4.3.2/CMakeCCompiler.cmake"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "build/CMakeFiles/4.3.2/CMakeCXXCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeSystemSpecificInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeGenericSystem.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeInitializeConfigs.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Platform/Windows.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Platform/WindowsPaths.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeLanguageInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Compiler/GNU-C.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Compiler/GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Compiler/CMakeCommonCompilerMacros.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Platform/Windows-GNU-C.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Platform/Windows-GNU.cmake"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "build/CMakeFiles/4.3.2/CMakeRCCompiler.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeRCInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Platform/Windows-windres.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Platform/Windows-GNU-C-ABI.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCommonLanguageInclude.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Internal/CMakeCLinkerInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Internal/CMakeCommonLinkerInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Linker/GNU-C.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Linker/GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Platform/Linker/Windows-GNU-C.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Platform/Linker/Windows-GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Platform/Linker/GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCXXInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeLanguageInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Compiler/GNU-CXX.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Compiler/GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Platform/Windows-GNU-CXX.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Platform/Windows-GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Platform/Windows-GNU-CXX-ABI.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCommonLanguageInclude.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Internal/CMakeCXXLinkerInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Internal/CMakeCommonLinkerInformation.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Linker/GNU-CXX.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Linker/GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Platform/Linker/Windows-GNU-CXX.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Platform/Linker/Windows-GNU.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/FindThreads.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/CheckLibraryExists.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/CheckIncludeFile.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/CheckCSourceCompiles.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/Internal/CheckSourceCompiles.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/FindPackageHandleStandardArgs.cmake"
+		},
+		{
+			"isCMake" : true,
+			"isExternal" : true,
+			"path" : "C:/Users/maxim/_C_/share/cmake-4.3/Modules/FindPackageMessage.cmake"
+		}
+	],
+	"kind" : "cmakeFiles",
+	"paths" : 
+	{
+		"build" : "D:/MaxCore_REMASTERED/build",
+		"source" : "D:/MaxCore_REMASTERED"
+	},
+	"version" : 
+	{
+		"major" : 1,
+		"minor" : 1
+	}
+}

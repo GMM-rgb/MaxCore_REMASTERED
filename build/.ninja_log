@@ -1,5 +1,5 @@
 # ninja log v7
-13	37	8152779362863501	D:/MaxCore_REMASTERED/build/CMakeFiles/cmake.verify_globs	86abb4d27c20d073
+17	40	8152781049812400	D:/MaxCore_REMASTERED/build/CMakeFiles/cmake.verify_globs	86abb4d27c20d073
 71	403	8152779363448418	CMakeFiles/lua_shared.dir/lua-5.7.2/src/lctype.c.obj	c043782cd8a8feee
 114	678	8152779363886282	CMakeFiles/lua_shared.dir/lua-5.7.2/src/linit.c.obj	1bccc0ec58803c61
 75	687	8152779363493797	CMakeFiles/lua_shared.dir/lua-5.7.2/src/ldblib.c.obj	50e9ba0ea86cd644
@@ -56,13 +56,9 @@
 1523	6544	8152779377978010	CMakeFiles/scheduler_native.dir/backend/runtime_backend/scheduler_native.cpp.obj	496a93da7dc89558
 6544	6849	8152779431048478	scheduler_native.dll	9f5ac129d69efc0
 6544	6849	8152779431048478	libscheduler_native.dll.a	9f5ac129d69efc0
-1461	7160	8152779377347895	CMakeFiles/window_management.dir/backend/window_management.cpp.obj	a1033c91bb32c5b3
-7160	7373	8152779436329181	window_management.dll	3b8ed90a9354bc72
-7160	7373	8152779436329181	libwindow_management.dll.a	3b8ed90a9354bc72
-1130	11683	8152779374047671	CMakeFiles/sound_service_backend.dir/backend/sound_service_backend.cpp.obj	9fb957c6a2b710a
-11683	12051	8152779483037784	sound_native.dll	69e37dd6d015c522
-11683	12051	8152779483037784	libsound_native.dll.a	69e37dd6d015c522
-17	40	8152781049812400	D:/MaxCore_REMASTERED/build/CMakeFiles/cmake.verify_globs	86abb4d27c20d073
 45	848	8152781050081215	CMakeFiles/window_management.dir/backend/window_management.cpp.obj	a1033c91bb32c5b3
 848	1074	8152781060235231	window_management.dll	3b8ed90a9354bc72
 848	1074	8152781060235231	libwindow_management.dll.a	3b8ed90a9354bc72
+1130	11683	8152779374047671	CMakeFiles/sound_service_backend.dir/backend/sound_service_backend.cpp.obj	9fb957c6a2b710a
+11683	12051	8152779483037784	sound_native.dll	69e37dd6d015c522
+11683	12051	8152779483037784	libsound_native.dll.a	69e37dd6d015c522

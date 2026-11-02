@@ -65,6 +65,7 @@ local LUA_BUILTINS = {
 ---@field Load fun(self: MaxCore)
 ---@field sleep fun(time: number)
 ---@field Instance InstanceBuilder
+---@field PseudoStylesClass PseudoStylesModule
 ---@field InstanceType InstanceType
 ---@field RandomClass RandomClass
 ---@field PseudoClass PseudoClass
@@ -82,6 +83,7 @@ local isDebugMode <const> = false
 local PlayerManager = require("utils.player_managment.players")
 local InstanceBuilding = require("utils.instance_creator.instancer")
 local RandomDataModel = require("utils.instance_creator.random")
+local PseudoModule = require("services.sub_modules.pseudo_styles")
 local InstanceType = require("instance_type")
 
 local framework_package = {
@@ -595,6 +597,7 @@ local function call(_, env)
         Instance = InstanceBuilding,
         RandomClass = RandomDataModel.Random,
         PseudoClass = RandomDataModel.Pseudo,
+        PseudoStylesClass = PseudoModule,
         NoiseClass = RandomDataModel.Noise,
         PlayerDataModel = PlayerManager,
         _env = env and env or nil,
