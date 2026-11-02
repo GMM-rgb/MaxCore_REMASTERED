@@ -7,7 +7,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Threads::Threads::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Threads__Threads-Debug-790f8dd392bb318b9469.json",
+					"jsonFile" : "target-Threads__Threads-Release-120c6bd3ec2d4f3733a6.json",
 					"name" : "Threads::Threads",
 					"projectIndex" : 0
 				}
@@ -20,7 +20,7 @@
 						0
 					],
 					"build" : ".",
-					"jsonFile" : "directory-.-Debug-f040eec181a89de70dbe.json",
+					"jsonFile" : "directory-.-Release-b5805d5c08fd3d92def4.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.15"
@@ -42,7 +42,7 @@
 					]
 				}
 			],
-			"name" : "Debug",
+			"name" : "Release",
 			"projects" : 
 			[
 				{
@@ -75,70 +75,70 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "input_native::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-input_native-Debug-b7b3a8bc091df3e488b3.json",
+					"jsonFile" : "target-input_native-Release-690ad3ef658063dfb6cd.json",
 					"name" : "input_native",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "lua_runner::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-lua_runner-Debug-fb20b593fa7d4a8e608f.json",
+					"jsonFile" : "target-lua_runner-Release-b1ebf73d4c4835381208.json",
 					"name" : "lua_runner",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "lua_shared::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-lua_shared-Debug-5f4ee33fa67a50c72461.json",
+					"jsonFile" : "target-lua_shared-Release-86d6f146dffd9d67603c.json",
 					"name" : "lua_shared",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "physics_management::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-physics_management-Debug-3c4f580d27fd5b9b44f9.json",
+					"jsonFile" : "target-physics_management-Release-dbee750d14219578a7d0.json",
 					"name" : "physics_management",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "platform_module::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-platform_module-Debug-640cb0d7c50a6f72fdfd.json",
+					"jsonFile" : "target-platform_module-Release-a3ad34a6f296e916ef37.json",
 					"name" : "platform_module",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "scheduler_native::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-scheduler_native-Debug-165ea65e3c7a424842cf.json",
+					"jsonFile" : "target-scheduler_native-Release-a4d8e00543881784d055.json",
 					"name" : "scheduler_native",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "sleep_native::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-sleep_native-Debug-365d31d8d6c448195268.json",
+					"jsonFile" : "target-sleep_native-Release-5c38eb90c9d852dfd164.json",
 					"name" : "sleep_native",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "sound_service_backend::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-sound_service_backend-Debug-1d625e071905f1445705.json",
+					"jsonFile" : "target-sound_service_backend-Release-245ede2b74f2ee7779bc.json",
 					"name" : "sound_service_backend",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "storage_interface::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-storage_interface-Debug-5568af72d8a1f209461b.json",
+					"jsonFile" : "target-storage_interface-Release-add06f15d656e0821510.json",
 					"name" : "storage_interface",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "window_management::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-window_management-Debug-ebebed2d4759de40807e.json",
+					"jsonFile" : "target-window_management-Release-6d0127f955f67ef8e0c2.json",
 					"name" : "window_management",
 					"projectIndex" : 0
 				}
@@ -148,12 +148,12 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "D:/MaxCore_REMASTERED/build",
-		"source" : "D:/MaxCore_REMASTERED"
+		"build" : "C:/Users/6041464/Documents/MaxCore_REMASTERED/build",
+		"source" : "C:/Users/6041464/Documents/MaxCore_REMASTERED"
 	},
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 10
+		"minor" : 11
 	}
 }

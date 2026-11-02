@@ -138,9 +138,7 @@ end
 ---@param options TextureOptions?
 ---@return T
 function GameObject:SetTexture(imageId, face, options)
-    if imageId == nil then
-        return self:RemoveStyle("texture")
-    end
+    if imageId == nil then return self:RemoveStyle("texture") end
     local fresh = PseudoStyles.new("texture", imageId, face, options)
     local old = self.Styles.texture --[[@as TextureStyle?]]
     if old then

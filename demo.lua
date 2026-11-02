@@ -3,7 +3,6 @@ local <const> WindowService = EngineCore:LoadService("WindowService")
 local <const> RunnerService = EngineCore:LoadService("RunnerService")
 local <const> InputService = EngineCore:LoadService("InputService")
 local DemoGraphics = WindowService:CreateWindow("DEMO") or {}
-local DemoImage = DemoGraphics:CreateImageObject(0, 10, 10)
 
 ---@param radius number
 ---@param subdivisions integer
@@ -106,24 +105,48 @@ local SceneCamera = DemoGraphics:CreateCamera(0, 1, -2, 60)
 DemoGraphics:SetActiveCamera(SceneCamera or {})
 DemoGraphics:SetActiveLight(SceneLight or {})
 
-local DemoSphere = create_icosphere(0.75, 3)
-DemoSphere:SetScale(0.5, 0.75, 0.5)
-DemoSphere:SetPosition(0, 1, 0)
+-- local DemoSphere = create_icosphere(0.75, 3)
+-- DemoSphere:SetScale(0.5, 0.75, 0.5)
+-- DemoSphere:SetPosition(0, 1, 0)
 
 local SliderFrameWidth, SliderFrameHeight = 150, 65
+local SliderTrackWidth, SliderTrackHeight = SliderFrameWidth - 50, SliderFrameHeight - 50
+local WindowDimensionX, WindowDimensionY = DemoGraphics:GetDimensions()
+local TrackDimensions = { x = SliderTrackWidth, y = SliderTrackHeight }
 
-local Frame = DemoGraphics:CreateRect(10, 10, SliderFrameWidth, SliderFrameHeight, 255, 255, 255)
+local Frame = DemoGraphics:CreateRect(50, 10, SliderFrameWidth, SliderFrameHeight, 255, 255, 255)
 Frame = Frame:ApplyStyle(EngineCore.PseudoStylesClass.new("border", 140, 140, 140, 3))
 Frame = Frame:ApplyStyle(EngineCore.PseudoStylesClass.new("corner", 10))
 local FrameX, FrameY = Frame:GetPosition()
 
-local SlideTrack = DemoGraphics:CreateRect(FrameX + 25, FrameY + 25, SliderFrameWidth - 50, SliderFrameHeight - 50)
+local SlideTrack = DemoGraphics:CreateRect(FrameX + 25, FrameY + 25, SliderTrackWidth, SliderTrackHeight)
 SlideTrack:ApplyStyle(EngineCore.PseudoStylesClass.new("border", 140, 140, 140, 2))
-SlideTrack:ApplyStyle(EngineCore.PseudoStylesClass.new("corner", 5))
+SlideTrack:ApplyStyle(EngineCore.PseudoStylesClass.new("corner", 10))
 SlideTrack:SetColor(52, 156, 235)
 
 local SlideInteractable = DemoGraphics:CreateCircle(FrameX + SliderFrameWidth - 30, FrameY + SliderFrameHeight / 2, 10, true)
 SlideInteractable:SetColor(162, 235, 52); SlideInteractable:ApplyStyle(EngineCore.PseudoStylesClass.new("border", 140, 140, 140, 2))
+
+---@async
+---@generic T
+---@param InteractableObject GameObject<T>
+---@param DirectionAxis "x" | "y"
+---@return nil
+local function DragInteractable(InteractableObject, DirectionAxis)
+    local position, trackpos = InteractableObject.Position[DirectionAxis], SlideTrack.Position[DirectionAxis]
+    local x, y = InputService:GetMouseDelta(); local <const> deltas = { x = x, y = y }; local tracksize = TrackDimensions[DirectionAxis]
+    local <const> DragLimits = { [DirectionAxis .. "1"] = { trackpos, function(a, b) return a > b end }, [DirectionAxis .. "2"] = { tracksize, function(a, b) return a < b end } }
+    
+    -- for LimitKey, LimitValue in pairs(DragLimits) do
+    --     if LimitValue and type(LimitKey) == "string" then
+    --         if not LimitValue[2](position, LimitValue[1]) then
+    --             return nil
+    --         end
+    --     end
+    -- end
+
+    InteractableObject.Position[DirectionAxis] = deltas[DirectionAxis] + position
+end
 
 RunnerService:Spawn("RenderStepped", function(wait, join)
     while true and wait do
@@ -140,6 +163,7 @@ RunnerService:Spawn("RenderStepped", function(wait, join)
         if TopX <= MouseX and TopY <= MouseY and BottomX >= MouseX and BottomY >= MouseY then
             if InputService:IsKeyDown("mouse1") then
                 SlideInteractable:SetScale(TargetSize - 0.1, TargetSize - 0.1, TargetSize - 0.1)
+                DragInteractable(SlideInteractable, "x")
             else
                 SlideInteractable:SetScale(TargetSize, TargetSize, TargetSize)
             end
@@ -151,9 +175,9 @@ end, { whenRunning = "allow", maxConcurrent = 6 })
 
 local GraphicRuntime = RunnerService.RenderStepped:Connect(function(dt, wait, join)
     if not DemoGraphics:IsRunning() then os.exit(true, true); return else DemoGraphics:SwapBuffers() end
-    DemoSphere:SetRotation(0, DemoSphere.Rotation.y + (dt * math.rad(75.0)), 0)
+    -- DemoSphere:SetRotation(0, DemoSphere.Rotation.y + (dt * math.rad(75.0)), 0)
     DemoGraphics:ClearCanvas(0, 0, 0)
     DemoGraphics:RenderScene3D()
     DemoGraphics:RenderScene2D()
     InputService:UpdateAll()
-end, { yieldable = true, id = "main-graphic-process" }); RunnerService:KeepAlive()
+end, { yieldable = true, id = "main-graphic-process" }); RunnerSe
