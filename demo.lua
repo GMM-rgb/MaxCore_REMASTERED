@@ -180,4 +180,4 @@ local GraphicRuntime = RunnerService.RenderStepped:Connect(function(dt, wait, jo
     DemoGraphics:RenderScene3D()
     DemoGraphics:RenderScene2D()
     InputService:UpdateAll()
-end, { yieldable = true, id = "main-graphic-process" }); RunnerSe
+end, { yieldable = true, id = "main-graphic-process" }); RunnerService:KeepAlive()
