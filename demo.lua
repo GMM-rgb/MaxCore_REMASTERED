@@ -133,7 +133,7 @@ SlideInteractable:SetColor(162, 235, 52); SlideInteractable:ApplyStyle(EngineCor
 ---@param DirectionAxis "x" | "y"
 ---@return nil
 local function DragInteractable(InteractableObject, DirectionAxis)
-    local position, trackpos = InteractableObject.Position[DirectionAxis], SlideTrack.Position[DirectionAxis]
+    local position, trackpos = InteractableObject.Position[DirectionAxis], SlideTrack.Position[DirectionAxis] --- @type number, number
     local x, y = InputService:GetMouseDelta(); local <const> deltas = { x = x, y = y }; local tracksize = TrackDimensions[DirectionAxis]
     local <const> DragLimits = { [DirectionAxis .. "1"] = { trackpos, function(a, b) return a > b end }, [DirectionAxis .. "2"] = { tracksize, function(a, b) return a < b end } }
     
