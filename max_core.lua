@@ -85,6 +85,7 @@ local InstanceBuilding = require("utils.instance_creator.instancer")
 local RandomDataModel = require("utils.instance_creator.random")
 local PseudoModule = require("services.sub_modules.pseudo_styles")
 local InstanceType = require("instance_type")
+require("services.sub_modules.string_modify")
 
 local framework_package = {
     VERSION = "1.6.0-REMASTERED",

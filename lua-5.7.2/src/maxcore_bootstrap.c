@@ -16,6 +16,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define PATH_MAX_LENGTH 4096
+
 #ifdef _WIN32
 
 #ifndef WIN32_LEAN_AND_MEAN
@@ -42,10 +44,6 @@
 
 #ifdef __APPLE__
 #include <mach-o/dyld.h>
-#endif
-
-#ifndef PATH_MAX
-#define PATH_MAX 4096
 #endif
 
 #endif
@@ -95,7 +93,7 @@
 extern void MaxCore_RegisterEmbeddedModules(lua_State *L);
 #endif
 
-#define MAXCORE_PATH_BUFFER (PATH_MAX * 4)
+#define MAXCORE_PATH_BUFFER (PATH_MAX_LENGTH * 4)
 #define MAXCORE_META_MAX_DEPTH 8
 #define MAXCORE_META_MAX_ENTRIES 4096
 
@@ -529,7 +527,7 @@ static int MaxCore_GetExecutableDirectory(
     char *output,
     size_t output_size
 ) {
-    char executable[PATH_MAX];
+    char executable[PATH_MAX_LENGTH];
     char *slash;
     char *backslash;
     char *last_separator;
@@ -601,7 +599,7 @@ static int MaxCore_JoinPath(
 ** Check whether max_core.lua exists at the specified root.
 */
 static int MaxCore_HasCoreFile(const char *root) {
-    char candidate[PATH_MAX];
+    char candidate[PATH_MAX_LENGTH];
     FILE *file;
 
     if (MaxCore_JoinPath(
@@ -714,7 +712,7 @@ static int MaxCore_FindProjectRoot(
     char *root,
     size_t root_size
 ) {
-    char directory[PATH_MAX];
+    char directory[PATH_MAX_LENGTH];
     unsigned int depth;
 
     if (MaxCore_GetExecutableDirectory(
@@ -902,8 +900,8 @@ void MaxCore_Initialize(lua_State *L) {
     int status;
     int module_index;
 
-    char root[PATH_MAX];
-    char core_path[PATH_MAX];
+    char root[PATH_MAX_LENGTH];
+    char core_path[PATH_MAX_LENGTH];
 
     if (L == NULL) {
         return;

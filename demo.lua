@@ -2,7 +2,12 @@
 local <const> WindowService = EngineCore:LoadService("WindowService")
 local <const> RunnerService = EngineCore:LoadService("RunnerService")
 local <const> InputService = EngineCore:LoadService("InputService")
+local <const> SoundService = EngineCore:LoadService("SoundService")
+local <const> StorageService = EngineCore:LoadService("StorageService")
 local DemoGraphics = WindowService:CreateWindow("DEMO") or {}
+
+SoundService:SetStorageService(StorageService)
+SoundService:SetCacheFolder("app_audio/")
 
 ---@param radius number
 ---@param subdivisions integer
