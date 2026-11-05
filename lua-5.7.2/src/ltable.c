@@ -846,7 +846,22 @@ static Node *getfreepos (Table *t) {
   return NULL;  /* could not find a free place */
 }
 
+// static int table_reverse(lua_State* L) {
+//   int index = 0;
+//   lua_Unsigned length = lua_rawlen(L, 1);
+//   lua_Integer values = lua_rawget(L, 1);
 
+//   #define STEP() do { \
+//     lua_rawseti(L, 1, index); \
+//     lua_rawset(L, 1); \
+//     index++; \
+//   } while(index < length) /* keep active until target point */
+
+//   STEP();
+
+//   #undef STEP /* cleanup */
+//   return 1 /* success */;
+// }
 
 /*
 ** Inserts a new key into a hash table; first, check whether key's main
