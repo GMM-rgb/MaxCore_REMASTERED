@@ -18,6 +18,7 @@
 ---| '"border"' # outline around a 2D object: (r, g, b, width)
 ---| '"corner"' # rounded corners on a 2D rect: (radius)
 ---| '"texture"' # an image on a 2D object, or per-face images on a 3D object: (imageId, face?, options?)
+---| '"gradient"' # color sequence of normalized rgb colors composed of three integers: (...colors), btw this doesn't do anything currently.
 
 ---@alias PseudoFace
 ---| '"all"' # every face without its own binding
@@ -39,6 +40,10 @@
 
 ---@class CornerStyle : PseudoStyle
 ---@field Radius integer
+
+---@class GradientStyle : PseudoStyle
+---@field colors integer[]
+---@field opacity number
 
 ---@class TextureOptions
 ---@field uOffset number?
@@ -180,6 +185,18 @@ constructors.texture = function(imageId, face, options)
         Targets = concat(TARGETS_2D, TARGETS_3D),
         Faces = faces,
         SetId = nil,
+    }
+end
+
+constructors.gradient = function(...colors)
+    -- TODO
+
+    ---@type GradientStyle
+    return {
+        Kind = "gradient",
+        Targets = TARGETS_2D,
+        opacity = 1.0,
+        colors = {},
     }
 end
 
