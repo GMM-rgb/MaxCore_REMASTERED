@@ -4,10 +4,9 @@ local <const> RunnerService = EngineCore:LoadService("RunnerService")
 local <const> InputService = EngineCore:LoadService("InputService")
 local <const> SoundService = EngineCore:LoadService("SoundService")
 local <const> StorageService = EngineCore:LoadService("StorageService")
-local DemoGraphics = WindowService:CreateWindow("DEMO") or {}
-local RenderingFine = DemoGraphics:SetRenderer("auto")
+local DemoGraphics = WindowService:CreateWindow("DEMO", 400, 400, "vulkan") or {}
 
-EngineCore.ColorPrint("DEBUG", "RENDERER OK:", tostring(RenderingFine), DemoGraphics:GetRenderer().name)
+EngineCore.ColorPrint("DEBUG", "RENDERER", DemoGraphics:GetRenderer().name)
 SoundService:SetStorageService(StorageService)
 SoundService:SetCacheFolder("app_audio/")
 

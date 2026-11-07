@@ -4,7 +4,7 @@
 #endif
 #define RENDERER_HPP
 
-#if !(defined(_WIN32) || defined(_WIN64))
+#if !defined(__APPLE__) && !(defined(_WIN32) || defined(_WIN64))
     #warning "Windows Operating System definition not found!"
 #elif defined(__APPLE__)
     #pragma endregion

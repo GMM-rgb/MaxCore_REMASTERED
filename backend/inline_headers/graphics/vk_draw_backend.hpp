@@ -318,6 +318,7 @@ inline void VulkanDrawBackend::EndOneShot(VkCommandBuffer cb) {
     fnFreeCmd_(dev_, pool_, 1, &cb);
 }
 
+
 inline bool VulkanDrawBackend::Init(int w, int h, std::string& err) {
     w_ = w; h_ = h;
     lib_ = VkLoad::Open();
@@ -325,17 +326,25 @@ inline bool VulkanDrawBackend::Init(int w, int h, std::string& err) {
     getInstProc_ = reinterpret_cast<GetInstProc>(VkLoad::Sym(lib_, "vkGetInstanceProcAddr"));
     if (!getInstProc_) { err = "vkGetInstanceProcAddr missing"; return false; }
 
+    const char* instanceExtensions[] = { "VK_KHR_portability_enumeration" };
     auto createInstance = reinterpret_cast<VkResult (*)(const VkInstanceCreateInfo*, const void*, VkInstance*)>(getInstProc_(nullptr, "vkCreateInstance"));
     if (!createInstance) { err = "vkCreateInstance missing"; return false; }
     VkApplicationInfo app = {ST_APPLICATION_INFO, nullptr, "MaxCore", 1, "MaxCore", 1, (1u << 22) | (1u << 12)};
-    VkInstanceCreateInfo ci = {ST_INSTANCE_CREATE_INFO, nullptr, 0, &app, 0, nullptr, 0, nullptr};
-    if (createInstance(&ci, nullptr, &inst_) != VK_SUCCESS) { err = "vkCreateInstance failed"; return false; }
+    VkInstanceCreateInfo ci = {ST_INSTANCE_CREATE_INFO, nullptr, 0x00000001u, &app, 0, nullptr, 1, instanceExtensions};
+
+    VkResult instanceResult = createInstance(&ci, nullptr, &inst_);
+    if (instanceResult != VK_SUCCESS) {
+        err = "vkCreateInstance failed (VkResult " + std::to_string(instanceResult) + ")";
+        return false;
+    }
+
     fnDestroyInstance_ = reinterpret_cast<void (*)(VkInstance, const void*)>(getInstProc_(inst_, "vkDestroyInstance"));
 
     auto enumDev = reinterpret_cast<VkResult (*)(VkInstance, uint32_t*, VkPhysicalDevice*)>(getInstProc_(inst_, "vkEnumeratePhysicalDevices"));
     uint32_t n = 0; enumDev(inst_, &n, nullptr);
     if (n == 0) { err = "no Vulkan device"; return false; }
     std::vector<VkPhysicalDevice> devs(n); enumDev(inst_, &n, devs.data());
+
     // Prefer a real GPU (discrete 2, integrated 1) over a software device (4), and either over "other".
     struct Props { uint32_t apiVersion, driverVersion, vendorID, deviceID; int deviceType; char name[256]; uint8_t rest[1024]; };
     auto getProps = reinterpret_cast<void (*)(VkPhysicalDevice, Props*)>(getInstProc_(inst_, "vkGetPhysicalDeviceProperties"));
@@ -377,6 +386,7 @@ inline bool VulkanDrawBackend::Init(int w, int h, std::string& err) {
     VKLOAD(fnCreateSampler_, "vkCreateSampler"); VKLOAD(fnDestroySampler_, "vkDestroySampler"); VKLOAD(fnCreateDSLayout_, "vkCreateDescriptorSetLayout"); VKLOAD(fnDestroyDSLayout_, "vkDestroyDescriptorSetLayout");
     VKLOAD(fnCreateDPool_, "vkCreateDescriptorPool"); VKLOAD(fnDestroyDPool_, "vkDestroyDescriptorPool"); VKLOAD(fnAllocDSets_, "vkAllocateDescriptorSets"); VKLOAD(fnFreeDSets_, "vkFreeDescriptorSets"); VKLOAD(fnUpdateDSets_, "vkUpdateDescriptorSets");
 #undef VKLOAD
+
     auto getQueue = Dev<void (*)(VkDevice, uint32_t, uint32_t, VkQueue*)>("vkGetDeviceQueue");
     if (!getQueue) { err = "missing vkGetDeviceQueue"; return false; }
     getQueue(dev_, family_, 0, &queue_);

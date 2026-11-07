@@ -1723,30 +1723,84 @@ static std::unique_ptr<DrawBackendNS::DrawBackend> MakeBackend(NativeWindow* win
 // Decides which backend a window uses. `requested` is a normalized name. "auto" tries opengl, vulkan, software in
 // that order; a specific name is tried first and, if it cannot start, the rest follow so the window still draws.
 // The result is recorded in win->renderer (what is really in use) and win->rendererNote (why a fallback happened).
-static void SelectRenderer(NativeWindow* win, const std::string& requested) {
+
+// Selects the rendering backend for a window.
+//
+// "auto" tries backends in priority order:
+// OpenGL -> Vulkan -> Software -> CPU.
+//
+// Explicit renderer requests attempt ONLY that renderer.
+// If initialization fails, the CPU rasterizer is used as a safe fallback.
+// The failure reason is recorded in win->rendererNote.
+static void SelectRenderer(
+    NativeWindow* win,
+    const std::string& requested
+) {
     win->backend.reset();
     win->rendererNote.clear();
-    if (requested == "cpu") { win->renderer = "cpu"; return; }
-    std::vector<std::string> order;
-    if (requested == "auto") order = {"opengl", "vulkan", "software"};
-    else {
-        order.push_back(requested);
-        for (const char* n : {"opengl", "vulkan", "software"}) if (requested != n) order.push_back(n);
+
+    if (requested == "cpu") {
+        win->renderer = "cpu";
+        return;
     }
-    std::string firstWhy;
-    for (const std::string& name : order) {
-        std::string why;
-        auto be = MakeBackend(win, name, why);
-        if (be) {
-            win->backend = std::move(be);
-            win->renderer = name;
-            if (name != requested && requested != "auto") win->rendererNote = "'" + requested + "' could not start (" + firstWhy + "); using '" + name + "'";
-            return;
+
+    // Automatic selection: try each supported backend in priority order.
+    if (requested == "auto") {
+        const std::vector<std::string> order = {
+            "opengl",
+            "vulkan",
+            "software"
+        };
+
+        std::string firstWhy;
+
+        for (const std::string& name : order) {
+            std::string why;
+            auto backend = MakeBackend(win, name, why);
+
+            if (backend) {
+                win->backend = std::move(backend);
+                win->renderer = name;
+
+                if (!firstWhy.empty()) {
+                    win->rendererNote =
+                        "renderer '" + name +
+                        "' selected after an earlier backend failed: " +
+                        firstWhy;
+                }
+
+                return;
+            }
+
+            if (firstWhy.empty()) {
+                firstWhy = why;
+            }
         }
-        if (firstWhy.empty()) firstWhy = why;
+
+        win->renderer = "cpu";
+        win->rendererNote =
+            "no GPU renderer could start (" + firstWhy +
+            "); using the CPU rasteriser";
+
+        return;
     }
+
+    // Explicit selection: attempt only the requested backend.
+    std::string why;
+    auto backend = MakeBackend(win, requested, why);
+
+    if (backend) {
+        win->backend = std::move(backend);
+        win->renderer = requested;
+        return;
+    }
+
+    // Do not silently attempt another GPU backend.
     win->renderer = "cpu";
-    win->rendererNote = "no renderer could start (" + firstWhy + "); using the CPU rasteriser";
+    win->rendererNote =
+        "requested renderer '" + requested +
+        "' could not start (" + why +
+        "); using the CPU rasteriser";
 }
 
 // pushes nil when two
@@ -1890,6 +1944,12 @@ static int window_create(lua_State* L) {
     }
 #endif
 
+    std::fprintf(
+        stderr,
+        "[window_management] Requested renderer: '%s'\n",
+        requested.c_str()
+    );
+
     SelectRenderer(win, requested);
     if (!win->rendererNote.empty()) std::fprintf(stderr, "[window_management] %s\n", win->rendererNote.c_str());
 
@@ -1926,33 +1986,105 @@ static void SyncSizeFromOS(NativeWindow* win) {
 // needs an OpenGL-capable window: on Linux that must be chosen when the window is created, and on Windows a window
 // that has used OpenGL cannot go back to the plain pixel present. The call says so instead of pretending.
 static int window_set_renderer(lua_State* L) {
-    int winId = static_cast<int>(luaL_checkinteger(L, 1));
-    std::string requested = NormalizeRendererName(luaL_checkstring(L, 2));
+    const int winId = static_cast<int>(luaL_checkinteger(L, 1));
+    const std::string requested =
+        NormalizeRendererName(luaL_checkstring(L, 2));
+
     auto it = g_windows.find(winId);
-    if (it == g_windows.end()) { lua_pushnil(L); lua_pushstring(L, "set_renderer: unknown window"); return 2; }
-    if (requested.empty()) { lua_pushnil(L); lua_pushstring(L, "set_renderer: unknown renderer (use 'auto', 'opengl', 'vulkan', 'software' or 'cpu')"); return 2; }
+
+    if (it == g_windows.end()) {
+        lua_pushnil(L);
+        lua_pushstring(L, "set_renderer: unknown window");
+        return 2;
+    }
+
+    if (requested.empty()) {
+        lua_pushnil(L);
+        lua_pushstring(
+            L,
+            "set_renderer: unknown renderer "
+            "(use 'auto', 'opengl', 'vulkan', 'software' or 'cpu')"
+        );
+        return 2;
+    }
+
     NativeWindow* win = it->second;
-    if (requested == "auto") requested = DefaultRendererName();
 
     std::string blocked;
-#if defined(_WIN32) || defined(_WIN64)
-    if (win->renderer == "opengl" && requested != "opengl" && requested != "auto")
-        blocked = "this window already uses OpenGL, whose pixel format cannot be undone; create a new window for '" + requested + "'";
-#elif !defined(__APPLE__)
-    if (requested == "opengl" && !win->platform.gpuActive)
-        blocked = "this window was created without an OpenGL-capable visual; create it with renderer 'opengl' or 'auto'";
-    else if (win->platform.gpuActive && requested != "opengl" && requested != "auto")
-        blocked = "this window was created for OpenGL and presents through GLX; create a new window for '" + requested + "'";
-#endif
-    if (!blocked.empty()) { lua_pushnil(L); lua_pushstring(L, ("set_renderer: " + blocked).c_str()); return 2; }
 
-    const std::string before = win->renderer;
+#if defined(_WIN32) || defined(_WIN64)
+
+    if (win->renderer == "opengl" &&
+        requested != "opengl" &&
+        requested != "auto") {
+
+        blocked =
+            "this window already uses OpenGL, whose pixel format "
+            "cannot be undone; create a new window for '" +
+            requested + "'";
+    }
+
+#elif !defined(__APPLE__)
+
+    if (requested == "opengl" && !win->platform.gpuActive) {
+        blocked =
+            "this window was created without an OpenGL-capable visual; "
+            "create it with renderer 'opengl' or 'auto'";
+    }
+    else if (win->platform.gpuActive &&
+             requested != "opengl" &&
+             requested != "auto") {
+
+        blocked =
+            "this window was created for OpenGL and presents through GLX; "
+            "create a new window for '" + requested + "'";
+    }
+
+#endif
+
+    if (!blocked.empty()) {
+        lua_pushnil(L);
+        lua_pushstring(
+            L,
+            ("set_renderer: " + blocked).c_str()
+        );
+        return 2;
+    }
+
+    // Preserve the requested renderer.
+    // SelectRenderer handles automatic fallback for "auto".
     SelectRenderer(win, requested);
-    std::fill(win->canvasBuffer.begin(), win->canvasBuffer.end(), win->backend ? 0x00000000u : 0xFF181818u);
-    std::fill(win->depthBuffer.begin(), win->depthBuffer.end(), kDepthFar);
-    if (win->backend) win->backend->BeginFrame(win->clearR, win->clearG, win->clearB);
+
+    // Reset rendering buffers after renderer selection.
+    std::fill(
+        win->canvasBuffer.begin(),
+        win->canvasBuffer.end(),
+        win->backend ? 0x00000000u : 0xFF181818u
+    );
+
+    std::fill(
+        win->depthBuffer.begin(),
+        win->depthBuffer.end(),
+        kDepthFar
+    );
+
+    // Initialize the first frame when a backend exists.
+    if (win->backend) {
+        win->backend->BeginFrame(
+            win->clearR,
+            win->clearG,
+            win->clearB
+        );
+    }
+
+    // Report the operation and any fallback information.
     lua_pushboolean(L, 1);
-    if (!win->rendererNote.empty()) { lua_pushstring(L, win->rendererNote.c_str()); return 2; }
+
+    if (!win->rendererNote.empty()) {
+        lua_pushstring(L, win->rendererNote.c_str());
+        return 2;
+    }
+
     return 1;
 }
 
