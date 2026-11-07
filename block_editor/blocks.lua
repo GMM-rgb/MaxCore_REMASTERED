@@ -7,6 +7,7 @@ local BaseInherit = StorageService:GetFile(ThisDirectory .. "/base_block.xml")
 
 local max_aliasing = WindowService:GetMaxAliasingQuality()
 WindowCanvas:SetAliasingQuality("2d", max_aliasing)
+WindowCanvas:SetRenderer("auto")
 
 ---@param color integer[]
 ---@param scale number

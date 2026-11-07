@@ -42,6 +42,7 @@ windows.GameApplication:SetPhysicsAutoQuality(true)
 
 if windows.GameApplication then
     game.physics = windows.GameApplication:CreatePhysicsWorld(0, 20.98, 0)
+    windows.GameApplication:SetRenderer("vulkan")
 end
 
 -- ---@alias DataValues { scope: string, value: string }

@@ -5,7 +5,9 @@ local <const> InputService = EngineCore:LoadService("InputService")
 local <const> SoundService = EngineCore:LoadService("SoundService")
 local <const> StorageService = EngineCore:LoadService("StorageService")
 local DemoGraphics = WindowService:CreateWindow("DEMO") or {}
+local RenderingFine = DemoGraphics:SetRenderer("auto")
 
+EngineCore.ColorPrint("DEBUG", "RENDERER OK:", tostring(RenderingFine), DemoGraphics:GetRenderer().name)
 SoundService:SetStorageService(StorageService)
 SoundService:SetCacheFolder("app_audio/")
 
@@ -105,14 +107,13 @@ end
 DemoGraphics:SetAliasingQuality("2d", 0)
 DemoGraphics:SetAliasingQuality("3d", 4)
 
-local SceneLight = DemoGraphics:CreateLight(0.5, -0.7, -1.0, 0.25, 1.0)
+local SceneLight = DemoGraphics:CreateLight(0.5, -0.7, 1.0, 0.25, 1.0)
 local SceneCamera = DemoGraphics:CreateCamera(0, 1, -2, 60)
 DemoGraphics:SetActiveCamera(SceneCamera or {})
 DemoGraphics:SetActiveLight(SceneLight or {})
 
--- local DemoSphere = create_icosphere(0.75, 3)
--- DemoSphere:SetScale(0.5, 0.75, 0.5)
--- DemoSphere:SetPosition(0, 1, 0)
+local DemoSphere = create_icosphere(0.75, 3)
+DemoSphere:SetPosition(0, 1, 0)
 
 local SliderFrameWidth, SliderFrameHeight = 150, 65
 local SliderTrackWidth, SliderTrackHeight = SliderFrameWidth - 50, SliderFrameHeight - 50
@@ -180,7 +181,7 @@ end, { whenRunning = "allow", maxConcurrent = 6 })
 
 local GraphicRuntime = RunnerService.RenderStepped:Connect(function(dt, wait, join)
     if not DemoGraphics:IsRunning() then os.exit(true, true); return else DemoGraphics:SwapBuffers() end
-    -- DemoSphere:SetRotation(0, DemoSphere.Rotation.y + (dt * math.rad(75.0)), 0)
+    DemoSphere:SetRotation(0, DemoSphere.Rotation.y + (dt * math.rad(75.0)), 0)
     DemoGraphics:ClearCanvas(0, 0, 0)
     DemoGraphics:RenderScene3D()
     DemoGraphics:RenderScene2D()
