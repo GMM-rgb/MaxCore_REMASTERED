@@ -2,7 +2,7 @@
 -- services/sub_modules/game_object.lua
 -- =========================================================================
 local InstanceTyping = require("instance_type")
-local PseudoStyles = require("sub_modules.pseudo_styles")
+local PseudoStyles = require("sub_modules.pseudo_styles") --- @diagnostic disable-line
 
 -- Pulls the SAME Event class every other service uses (Connect/Fire/etc,
 -- see max_core.lua) so GameObject.Collided behaves identically to every

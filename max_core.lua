@@ -83,7 +83,7 @@ local isDebugMode <const> = false
 local PlayerManager = require("utils.player_managment.players")
 local InstanceBuilding = require("utils.instance_creator.instancer")
 local RandomDataModel = require("utils.instance_creator.random")
-local PseudoModule = require("services.sub_modules.pseudo_styles")
+local PseudoModule = require("services.sub_modules.pseudo_styles") --- @diagnostic disable-line
 local InstanceType = require("instance_type")
 require("services.sub_modules.string_modify")
 

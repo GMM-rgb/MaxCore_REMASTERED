@@ -14,6 +14,10 @@
 #include "inline_headers/graphics/textured_raster.hpp"
 #include "inline_headers/graphics/near_clip.hpp"
 #include "inline_headers/graphics/icon_decode.hpp"
+#include "inline_headers/graphics/gl_backend.hpp"
+#include "inline_headers/graphics/gl_context.hpp"
+#include <cstdlib>
+#include <memory>
 
 #if defined(_WIN32) || defined(_WIN64)
     #ifndef NOMINMAX
@@ -385,8 +389,39 @@ struct NativeWindow {
     // they're always drawn as flat overlay, same as before. Sentinel
     // kDepthFar means "nothing drawn here yet"; cleared every ClearCanvas.
     std::vector<float> depthBuffer;
+
+    // ---- GPU rendering (OpenGL 3.3 core, loaded at run time) ----
+    // gpu is null when the CPU rasteriser is in use: either it was forced
+    // (MAXCORE_RENDERER=cpu) or the GPU path could not start. Everything
+    // below belongs to THIS window's GL context; textures are not shared
+    // between windows, so each window keeps its own cache.
+    struct GpuState {
+        GlContext::Context context;
+        GlBackend::Renderer renderer;
+        // CPU image id -> the GPU texture built from it, and which version of
+        // the pixels that texture holds (see ImageRegistry::Version).
+        struct CachedTexture { GlBackend::GLuint name = 0; uint64_t version = 0; int filter = -1; int wrap = -1; };
+        std::unordered_map<int, CachedTexture> textures;
+        GlBackend::GLuint overlayTexture = 0;   // the 2D canvas, uploaded for compositing
+        int overlayW = 0, overlayH = 0;
+        float clearR = 0.094f, clearG = 0.094f, clearB = 0.094f;
+    };
+    std::unique_ptr<GpuState> gpu;
     PlatformWindow platform;
 };
+
+// "gpu" (default) or "cpu". Read once per process. MAXCORE_RENDERER=cpu is
+// the only way to turn the GPU path off; an unknown value keeps the default.
+static bool GpuRendererWanted() {
+    static const bool wanted = [] {
+        const char* v = std::getenv("MAXCORE_RENDERER");
+        if (!v) return true;
+        std::string s(v);
+        for (auto& ch : s) ch = (char)std::tolower((unsigned char)ch);
+        return s != "cpu" && s != "software";
+    }();
+    return wanted;
+}
 
 static constexpr float kDepthFar = (std::numeric_limits<float>::max)();
 
@@ -1243,6 +1278,63 @@ static FaceTexture ResolveFaceTexture(const Graphics::TextureSet* set, int faceS
 }
 
 // =========================================================================
+// GPU PATH HELPERS
+// =========================================================================
+// Returns the GL texture for `imageId` in this window, uploading it the
+// first time and again only when its pixels (or the sampler settings that
+// are baked into a GL texture) changed. 0 if there is no image.
+static GlBackend::GLuint GpuTextureFor(NativeWindow* win, int imageId, const Graphics::ImageBuffer& img,
+                                       const Graphics::TextureBinding& binding)
+{
+    auto& g = *win->gpu;
+    const uint64_t version = g_images.Version(imageId);
+    const int filter = binding.filter == Graphics::TextureFilter::Bilinear ? 1 : 0;
+    const int wrap = (int)binding.wrap;
+    auto it = g.textures.find(imageId);
+    if (it != g.textures.end() && it->second.version == version && it->second.filter == filter && it->second.wrap == wrap)
+        return it->second.name;
+
+    GlBackend::GLenum glWrap = GlBackend::GL_CLAMP_TO_EDGE;
+    if (binding.wrap == Graphics::TextureWrap::Repeat) glWrap = GlBackend::GL_REPEAT;
+    else if (binding.wrap == Graphics::TextureWrap::Mirror) glWrap = GlBackend::GL_MIRRORED_REPEAT;
+
+    GlBackend::GLuint tex = g.renderer.UploadTexture(img.pixels.data(), img.width, img.height, filter == 1, glWrap);
+    if (!tex) return 0;
+    // Free the superseded texture only after the new one exists, so a failed
+    // upload keeps showing the old picture rather than nothing.
+    if (it != g.textures.end()) g.renderer.DeleteTexture(it->second.name);
+    g.textures[imageId] = { tex, version, filter, wrap };
+    return tex;
+}
+
+// Drops the GPU copy of an image (called when the image is destroyed, so its
+// video memory goes back immediately instead of waiting for the window to close).
+static void GpuForgetImage(int imageId) {
+    for (auto& kv : g_windows) {
+        NativeWindow* w = kv.second;
+        if (!w->gpu) continue;
+        auto it = w->gpu->textures.find(imageId);
+        if (it == w->gpu->textures.end()) continue;
+        // The context must be current to delete GL objects.
+        if (GlContext::MakeCurrent(w->gpu->context)) w->gpu->renderer.DeleteTexture(it->second.name);
+        w->gpu->textures.erase(it);
+    }
+}
+
+static GlBackend::Vertex MakeGpuVertex(float x, float y, float z, float u, float v, uint32_t argb, float texMix) {
+    GlBackend::Vertex g;
+    g.x = x; g.y = y; g.z = z;
+    g.invW = z > 0.0f ? 1.0f / z : 0.0f;
+    g.u = u; g.v = v;
+    g.r = ((argb >> 16) & 255) / 255.0f;
+    g.g = ((argb >> 8) & 255) / 255.0f;
+    g.b = (argb & 255) / 255.0f;
+    g.a = ((argb >> 24) & 255) / 255.0f;
+    g.texMix = texMix;
+    return g;
+}
+
+// =========================================================================
 // NEAR-PLANE-CLIPPED FACE DRAWING
 // =========================================================================
 // Every solid face goes through here. The face arrives as VIEW-SPACE
@@ -1307,6 +1399,33 @@ static int DrawFaceClipped(
         if (!std::isfinite(scr[i].x) || !std::isfinite(scr[i].y)) return 0;
     }
 
+    if (win->gpu) {
+        // GPU: hand the clipped polygon to the batch as a triangle fan. The
+        // GPU does the depth test, texture sampling and blending; everything
+        // above (lighting, clipping, UVs, projection) is shared with the CPU path.
+        auto& g = *win->gpu;
+        const bool textured = useUV && tex;
+        GlBackend::GLuint glTex = 0;
+        if (textured) {
+            glTex = GpuTextureFor(win, tex.binding->imageId, *tex.image, *tex.binding);
+            if (!glTex) return 0;
+        }
+        // The texture is lit by multiplying with the shade; a flat face carries its lit colour.
+        const uint32_t tint = textured ? Graphics::ShadeColor(0xFFFFFFFFu, shade) : flatColor;
+        GlBackend::Vertex fan[Graphics::kMaxClipVertices];
+        for (size_t i = 0; i < m; ++i) {
+            // Textures follow the binding's offset/scale, same as the CPU sampler.
+            float u = out[i].u, v = out[i].v;
+            if (textured) { u = u * tex.binding->uScale + tex.binding->uOffset; v = v * tex.binding->vScale + tex.binding->vOffset; }
+            fan[i] = MakeGpuVertex(scr[i].x, scr[i].y, out[i].pos.z, u, v, tint, textured ? 1.0f : 0.0f);
+        }
+        GlBackend::Vertex tri[3 * (Graphics::kMaxClipVertices - 2)];
+        size_t t = 0;
+        for (size_t i = 1; i + 1 < m; ++i) { tri[t++] = fan[0]; tri[t++] = fan[i]; tri[t++] = fan[i + 1]; }
+        g.renderer.AddTriangles(tri, t, glTex);
+        return (int)(m - 2);
+    }
+
     int drawn = 0;
     if (!(useUV && tex)) {
         // Flat colour: one whole-polygon fill, so there is no diagonal seam.
@@ -1346,6 +1465,21 @@ static void DrawLineClipped(
     Graphics::Vec2 pa = Graphics::Project3DPoint(a.pos, matProj, win->width, win->height);
     Graphics::Vec2 pb = Graphics::Project3DPoint(b.pos, matProj, win->width, win->height);
     if (!Graphics::ScreenPointSane(pa, win->width, win->height) || !Graphics::ScreenPointSane(pb, win->width, win->height)) return;
+    if (win->gpu) {
+        // A line has no area, so draw a quad 1.5 pixels wide (the CPU
+        // anti-aliased line uses the same half-width). Both ends keep their
+        // own depth so it occludes and is occluded like any other geometry.
+        const float half = 0.75f;
+        float dx = pb.x - pa.x, dy = pb.y - pa.y, len = std::sqrt(dx * dx + dy * dy);
+        if (len < 1e-4f) return;
+        float nx = -dy / len * half, ny = dx / len * half;
+        GlBackend::Vertex q[6] = {
+            MakeGpuVertex(pa.x + nx, pa.y + ny, a.pos.z, 0, 0, color, 0), MakeGpuVertex(pa.x - nx, pa.y - ny, a.pos.z, 0, 0, color, 0),
+            MakeGpuVertex(pb.x + nx, pb.y + ny, b.pos.z, 0, 0, color, 0), MakeGpuVertex(pb.x + nx, pb.y + ny, b.pos.z, 0, 0, color, 0),
+            MakeGpuVertex(pa.x - nx, pa.y - ny, a.pos.z, 0, 0, color, 0), MakeGpuVertex(pb.x - nx, pb.y - ny, b.pos.z, 0, 0, color, 0)};
+        win->gpu->renderer.AddTriangles(q, 6, 0);
+        return;
+    }
     // DrawLineDepth takes ints; keep them in range (see DrawFaceClipped).
     auto clampI = [](float v) { return (int)(std::max)(-1.0e7f, (std::min)(1.0e7f, v)); };
     Graphics::DrawLineDepth(win->canvasBuffer.data(), win->depthBuffer.data(), win->width, win->height,
@@ -1360,6 +1494,18 @@ static void DrawPointClipped(
     if (!Graphics::PointInFrontOfNear(v, cam.nearPlane)) return;
     Graphics::Vec2 p = Graphics::Project3DPoint(v, matProj, win->width, win->height);
     if (!Graphics::ScreenPointSane(p, win->width, win->height)) return;
+    if (win->gpu) {
+        const int seg = 12; const float rad = 3.0f;
+        GlBackend::Vertex fan[seg * 3];
+        for (int i = 0; i < seg; ++i) {
+            float a0 = 6.2831853f * i / seg, a1 = 6.2831853f * (i + 1) / seg;
+            fan[i * 3 + 0] = MakeGpuVertex(p.x, p.y, v.z, 0, 0, color, 0);
+            fan[i * 3 + 1] = MakeGpuVertex(p.x + std::cos(a0) * rad, p.y + std::sin(a0) * rad, v.z, 0, 0, color, 0);
+            fan[i * 3 + 2] = MakeGpuVertex(p.x + std::cos(a1) * rad, p.y + std::sin(a1) * rad, v.z, 0, 0, color, 0);
+        }
+        win->gpu->renderer.AddTriangles(fan, seg * 3, 0);
+        return;
+    }
     Graphics::DrawCircleDepth(win->canvasBuffer.data(), win->depthBuffer.data(), win->width, win->height,
         (int)p.x, (int)p.y, 3, v.z, color, win->aliasQuality3D);
 }
@@ -1420,6 +1566,23 @@ static bool ReadFaceArray(lua_State* L, int idx, std::vector<std::vector<int>>& 
 // =========================================================================
 // WINDOW CORE FUNCTIONS
 // =========================================================================
+// Builds the renderer on top of a platform GL context that already exists and
+// is current. On any failure it frees what it made and leaves win->gpu null,
+// so the window keeps working on the CPU rasteriser; the reason is printed
+// once so a slow window is never a mystery. Returns true if the GPU is in use.
+static bool FinishGpuInit(NativeWindow* win, GlContext::Context&& ctx) {
+    auto gpu = std::make_unique<NativeWindow::GpuState>();
+    gpu->context = ctx;
+    std::string err;
+    if (!gpu->renderer.Init(GlContext::GetProc, &gpu->context, win->width, win->height, err)) {
+        std::fprintf(stderr, "[window_management] GPU rendering unavailable (%s); using the CPU rasteriser\n", err.c_str());
+        GlContext::Destroy(gpu->context);
+        return false;
+    }
+    win->gpu = std::move(gpu);
+    return true;
+}
+
 static int window_create(lua_State* L) {
     const char* title = luaL_optstring(L, 1, "Native Window");
     int width = static_cast<int>(luaL_optinteger(L, 2, 800));
@@ -1456,6 +1619,20 @@ static int window_create(lua_State* L) {
     win->platform.bmi.bmiHeader.biPlanes = 1;
     win->platform.bmi.bmiHeader.biBitCount = 32;
     win->platform.bmi.bmiHeader.biCompression = BI_RGB;
+
+    // GPU: a pixel format can be set on a window only once, so the choice
+    // between OpenGL and the software present (SetDIBitsToDevice) is made
+    // here, before anything is drawn. On failure the window is untouched and
+    // keeps using the software present.
+    if (GpuRendererWanted()) {
+        GlContext::Context ctx;
+        std::string gerr;
+        if (GlContext::Create(ctx, win->platform.hwnd, win->platform.hdc, gerr)) {
+            if (!FinishGpuInit(win, std::move(ctx))) { /* message already printed; software present stays */ }
+        } else {
+            std::fprintf(stderr, "[window_management] GPU rendering unavailable (%s); using the CPU rasteriser\n", gerr.c_str());
+        }
+    }
 
 #elif defined(__APPLE__)
     id appClass = reinterpret_cast<id>(objc_getClass("NSApplication"));
@@ -1523,7 +1700,20 @@ static int window_create(lua_State* L) {
     // no libGL.so present, no GLX-capable visual, context creation
     // failing -- falls straight through to the exact original
     // XCreateSimpleWindow CPU path below, completely unchanged.
-    bool gpuReady = TryInitX11Gpu(win, win->platform.display, screen, root, title, width, height);
+    // TryInitX11Gpu creates the GLX window and context; the renderer then
+    // builds on that same context. (When the CPU renderer is forced, skip
+    // GLX entirely so the original XPutImage path is used.)
+    bool gpuReady = GpuRendererWanted() && TryInitX11Gpu(win, win->platform.display, screen, root, title, width, height);
+    if (gpuReady) {
+        GlContext::Context ctx;
+        std::string gerr;
+        if (GlContext::Create(ctx, win->platform.display, (unsigned long)win->platform.window, win->platform.glxContext, gerr)
+            && GlContext::MakeCurrent(ctx)) {
+            if (!FinishGpuInit(win, std::move(ctx))) { /* printed; the old texture-quad present below still applies */ }
+        } else {
+            std::fprintf(stderr, "[window_management] GPU rendering unavailable (%s); using the CPU rasteriser\n", gerr.c_str());
+        }
+    }
     if (!gpuReady) {
         win->platform.window = XCreateSimpleWindow(
             win->platform.display, root,
@@ -1569,6 +1759,7 @@ static int window_set_dimensions(lua_State* L) {
         win->height = h;
         win->canvasBuffer.resize(w * h, 0xFF181818);
         win->depthBuffer.resize(w * h, kDepthFar);
+        if (win->gpu) win->gpu->renderer.Resize(w, h);   // viewport and overlay follow the new size
 
 #if defined(_WIN32) || defined(_WIN64)
         SetWindowPos(win->platform.hwnd, NULL, 0, 0, w, h, SWP_NOMOVE | SWP_NOZORDER);
@@ -1888,6 +2079,16 @@ static int window_clear_canvas(lua_State* L) {
     auto it = g_windows.find(winId);
     if (it != g_windows.end()) {
         uint32_t color = (0xFF << 24) | (r << 16) | (g << 8) | b;
+        if (it->second->gpu) {
+            // GPU frame: the colour clears the 3D framebuffer, and the 2D
+            // canvas starts fully transparent so it can be laid over the
+            // 3D picture at swap time.
+            auto& g3 = *it->second->gpu;
+            g3.clearR = r / 255.0f; g3.clearG = g / 255.0f; g3.clearB = b / 255.0f;
+            if (GlContext::MakeCurrent(g3.context)) g3.renderer.BeginFrame(g3.clearR, g3.clearG, g3.clearB);
+            std::fill(it->second->canvasBuffer.begin(), it->second->canvasBuffer.end(), 0x00000000u);
+            return 0;
+        }
         std::fill(it->second->canvasBuffer.begin(), it->second->canvasBuffer.end(), color);
 
         // Reset the 3D depth buffer alongside the canvas -- this is what
@@ -2620,6 +2821,7 @@ static int image_create(lua_State* L) {
             else           img.pixels[i - 1] = static_cast<uint32_t>(lua_tointeger(L, -1));
             lua_pop(L, 1);
         }
+        if (!bitFormat) Graphics::PromoteAlphaLessPixels(img.pixels);
     }
 
     int imgId = g_images.Add(std::move(img));
@@ -2671,6 +2873,10 @@ static int image_fill_pixels(lua_State* L) {
 
     Graphics::ImageBuffer next = *cur;
     size_t len = lua_rawlen(L, 6);
+    // Only the values being written are considered for alpha promotion (see
+    // PromoteAlphaLessPixels): pixels outside this rectangle are not touched.
+    std::vector<uint32_t> written;
+    std::vector<size_t> writtenAt;
     for (int j = 0; j < h; ++j) {
         int py = y0 + j;
         if (py < 0 || py >= next.height) continue;
@@ -2683,9 +2889,12 @@ static int image_fill_pixels(lua_State* L) {
             uint32_t v = bitFormat ? ReadBitPixel(L, lua_gettop(L), onColor)
                                    : static_cast<uint32_t>(lua_tointeger(L, -1));
             lua_pop(L, 1);
-            next.pixels[(size_t)py * (size_t)next.width + (size_t)px] = v;
+            written.push_back(v);
+            writtenAt.push_back((size_t)py * (size_t)next.width + (size_t)px);
         }
     }
+    if (!bitFormat) Graphics::PromoteAlphaLessPixels(written);
+    for (size_t k = 0; k < written.size(); ++k) next.pixels[writtenAt[k]] = written[k];
     lua_pushboolean(L, g_images.Replace(imgId, std::move(next)) ? 1 : 0);
     return 1;
 }
@@ -2695,6 +2904,7 @@ static int image_fill_pixels(lua_State* L) {
 // (flat face color) on the next draw -- it never dangles.
 static int image_destroy(lua_State* L) {
     int imgId = static_cast<int>(luaL_checkinteger(L, 1));
+    GpuForgetImage(imgId); // give back video memory now, not at window close
     lua_pushboolean(L, g_images.Destroy(imgId) ? 1 : 0);
     return 1;
 }
@@ -2802,6 +3012,7 @@ static int window_draw_cube(lua_State* L) {
     Graphics::Matrix4x4 matRotZ = Graphics::Matrix4x4::RotationZ(rotZ);
     Graphics::Matrix4x4 matTrans = Graphics::Matrix4x4::Translation(posX, posY, posZ);
     Graphics::Matrix4x4 matProj = Graphics::Matrix4x4::Perspective(cam->fov, (float)win->width / (float)win->height, cam->nearPlane, cam->farPlane);
+    if (win->gpu) { GlContext::MakeCurrent(win->gpu->context); win->gpu->renderer.SetDepthRange(cam->nearPlane, cam->farPlane); }
 
     Graphics::Vec3 viewPos[8];
 
@@ -3015,6 +3226,7 @@ static int window_draw_mesh(lua_State* L) {
     Graphics::Matrix4x4 matRotZ = Graphics::Matrix4x4::RotationZ(rotZ);
     Graphics::Matrix4x4 matTrans = Graphics::Matrix4x4::Translation(posX, posY, posZ);
     Graphics::Matrix4x4 matProj = Graphics::Matrix4x4::Perspective(cam->fov, (float)win->width / (float)win->height, cam->nearPlane, cam->farPlane);
+    if (win->gpu) { GlContext::MakeCurrent(win->gpu->context); win->gpu->renderer.SetDepthRange(cam->nearPlane, cam->farPlane); }
 
     size_t vertCount = localVerts.size();
     std::vector<Graphics::Vec3> viewPos(vertCount);
@@ -3137,11 +3349,65 @@ static int window_draw_mesh(lua_State* L) {
     return 0;
 }
 
+// Draws the 2D canvas over the 3D picture. The canvas is mostly transparent
+// (clear_canvas zeroes it on the GPU path), so alpha blending leaves the 3D
+// scene visible wherever nothing 2D was drawn. 2D keeps the exact pixels the
+// CPU rasteriser made, including anti-aliasing and text, which is why the
+// result matches what the CPU path shows.
+static void PresentOverlay(NativeWindow* win) {
+    auto& g = *win->gpu;
+    // Nothing 2D drawn this frame: skip the upload and the extra draw entirely.
+    // Decided by looking at the canvas itself (any pixel with alpha), not by a
+    // flag that every 2D call would have to remember to set: a missed call
+    // site would make its output silently vanish. The scan stops at the first
+    // drawn pixel, so a busy canvas costs almost nothing.
+    {
+        const uint32_t* px = win->canvasBuffer.data();
+        const size_t n = win->canvasBuffer.size();
+        size_t i = 0;
+        while (i < n && (px[i] >> 24) == 0) ++i;
+        if (i == n) return;
+    }
+
+    // Re-create the texture only when the window size changed; otherwise it is
+    // simply re-filled. UploadTexture allocates a GL object, so release the old one first.
+    if (g.overlayTexture && (g.overlayW != win->width || g.overlayH != win->height)) {
+        g.renderer.DeleteTexture(g.overlayTexture);
+        g.overlayTexture = 0;
+    }
+    if (g.overlayTexture) g.renderer.DeleteTexture(g.overlayTexture);   // refreshed below from this frame's canvas
+    g.overlayTexture = g.renderer.UploadTexture(win->canvasBuffer.data(), win->width, win->height, false, GlBackend::GL_CLAMP_TO_EDGE);
+    g.overlayW = win->width; g.overlayH = win->height;
+    if (!g.overlayTexture) return;
+
+    // z <= 0 puts the quad in front of all 3D (see the vertex shader).
+    const float w = (float)win->width, h = (float)win->height;
+    GlBackend::Vertex q[6] = {
+        MakeGpuVertex(0, 0, 0, 0, 0, 0xFFFFFFFFu, 1), MakeGpuVertex(w, 0, 0, 1, 0, 0xFFFFFFFFu, 1), MakeGpuVertex(w, h, 0, 1, 1, 0xFFFFFFFFu, 1),
+        MakeGpuVertex(0, 0, 0, 0, 0, 0xFFFFFFFFu, 1), MakeGpuVertex(w, h, 0, 1, 1, 0xFFFFFFFFu, 1), MakeGpuVertex(0, h, 0, 0, 1, 0xFFFFFFFFu, 1)};
+    // invW is 0 for z <= 0, which would divide by zero for the UVs; the overlay
+    // is screen-aligned, so give it a constant 1.
+    for (auto& v : q) v.invW = 1.0f;
+    g.renderer.AddTriangles(q, 6, g.overlayTexture);
+    g.renderer.FlushOverlay();
+}
+
 static int window_swap_buffers(lua_State* L) {
     int winId = static_cast<int>(luaL_checkinteger(L, 1));
     auto it = g_windows.find(winId);
     if (it == g_windows.end()) return 0;
     NativeWindow* win = it->second;
+
+    if (win->gpu) {
+        // GPU present: send the queued 3D geometry, lay the 2D canvas over it
+        // as one alpha-blended quad, and swap.
+        auto& g = *win->gpu;
+        if (!GlContext::MakeCurrent(g.context)) return 0;
+        g.renderer.Flush();
+        PresentOverlay(win);
+        GlContext::SwapBuffers_(g.context);
+        return 0;
+    }
 
 #if defined(_WIN32) || defined(_WIN64)
     SetDIBitsToDevice(
@@ -3844,6 +4110,16 @@ static int window_destroy(lua_State* L) {
     auto it = g_windows.find(winId);
     if (it != g_windows.end()) {
         NativeWindow* win = it->second;
+        // GPU teardown FIRST, while the context and the window's DC/display
+        // still exist: GL objects can only be deleted with their context
+        // current, and a context must be deleted before the window it draws to.
+        if (win->gpu) {
+            // Shutdown() frees every GL object the renderer created, textures included.
+            if (GlContext::MakeCurrent(win->gpu->context)) win->gpu->renderer.Shutdown();
+            win->gpu->textures.clear();
+            GlContext::Destroy(win->gpu->context);
+            win->gpu.reset();
+        }
 #if defined(_WIN32) || defined(_WIN64)
         FreeWindowIcons(win);
         ReleaseDC(win->platform.hwnd, win->platform.hdc);

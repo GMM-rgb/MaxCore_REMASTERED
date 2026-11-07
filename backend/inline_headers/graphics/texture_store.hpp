@@ -119,6 +119,7 @@ public:
     int Add(ImageBuffer&& img) {
         int id = nextId_++;
         images_[id] = std::make_shared<ImageBuffer>(std::move(img));
+        versions_[id] = ++versionCounter_;
         return id;
     }
 
@@ -128,12 +129,23 @@ public:
         auto it = images_.find(id);
         if (it == images_.end()) return false;
         it->second = std::make_shared<ImageBuffer>(std::move(img));
+        versions_[id] = ++versionCounter_;
         return true;
+    }
+
+    // A number that changes every time this id's pixels change (Add or
+    // Replace) and is never reused, so a cache of something built from the
+    // pixels (a GPU texture) can tell exactly when it is out of date. 0 for
+    // an unknown id. Unlike comparing pointers, this stays correct after an
+    // image is freed and another is allocated at the same address.
+    uint64_t Version(int id) const {
+        auto it = versions_.find(id);
+        return it == versions_.end() ? 0 : it->second;
     }
 
     // Frees the image now. Safe on unknown ids. Any in-flight draw that
     // already took a snapshot keeps it alive until that draw returns.
-    bool Destroy(int id) { return images_.erase(id) > 0; }
+    bool Destroy(int id) { versions_.erase(id); return images_.erase(id) > 0; }
 
     // Snapshot for use during one draw call. nullptr if unknown.
     ImagePtr Acquire(int id) const {
@@ -155,7 +167,7 @@ public:
     }
 
     // Frees everything (module unload / full reset).
-    void Clear() { images_.clear(); }
+    void Clear() { images_.clear(); versions_.clear(); }
 
     // Read-only peek for existing code paths (DrawImage etc.) that only
     // need the buffer for the duration of one call.
@@ -166,8 +178,31 @@ public:
 
 private:
     std::unordered_map<int, std::shared_ptr<ImageBuffer>> images_;
+    std::unordered_map<int, uint64_t> versions_;
+    uint64_t versionCounter_ = 0;
     int nextId_ = 1;
 };
+
+// -------------------------------------------------------------------------
+// COLOURS WRITTEN WITHOUT AN ALPHA BYTE
+// -------------------------------------------------------------------------
+// Pixels are AARRGGBB. Colours are normally written 0xRRGGBB, which leaves
+// the alpha byte at 0, and alpha 0 means "transparent, draw nothing", so a
+// textured object built from such an image simply vanished with no hint why.
+// If NO pixel in the image has any alpha but some have colour, the author
+// clearly meant opaque colours, so those pixels get full alpha. A pixel that
+// is exactly 0 stays transparent (that is how a sprite leaves holes), and an
+// image that uses alpha anywhere is never touched.
+inline void PromoteAlphaLessPixels(std::vector<uint32_t>& pixels) {
+    bool anyAlpha = false, anyColour = false;
+    for (uint32_t p : pixels) {
+        if (p >> 24) { anyAlpha = true; break; }
+        if (p & 0x00FFFFFFu) anyColour = true;
+    }
+    if (anyAlpha || !anyColour) return;
+    for (uint32_t& p : pixels)
+        if (p & 0x00FFFFFFu) p |= 0xFF000000u;
+}
 
 // -------------------------------------------------------------------------
 // SAMPLING
