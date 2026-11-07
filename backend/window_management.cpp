@@ -13,6 +13,7 @@
 #include "inline_headers/graphics/texture_store.hpp"
 #include "inline_headers/graphics/textured_raster.hpp"
 #include "inline_headers/graphics/near_clip.hpp"
+#include "inline_headers/graphics/icon_decode.hpp"
 
 #if defined(_WIN32) || defined(_WIN64)
     #ifndef NOMINMAX
@@ -20,13 +21,20 @@
     #endif
     #define EXPORT_FN __declspec(dllexport)
     #include <windows.h>
-    
+
     struct PlatformWindow {
         HWND hwnd = nullptr;
         HDC hdc = nullptr;
         BITMAPINFO bmi{};
         DWORD styleFlags = 0;
         RECT savedRect{};
+        // Icons this window made itself (from a .png, or from a .ico read
+        // through the decoder). Windows does not free icons handed to
+        // WM_SETICON, so they are tracked here and destroyed when replaced
+        // or when the window goes away. Icons from LoadImage(LR_SHARED)
+        // are owned by the system and are never stored here.
+        HICON iconSmall = nullptr;
+        HICON iconBig = nullptr;
     };
 #elif defined(__APPLE__)
     #define EXPORT_FN
@@ -3516,6 +3524,320 @@ static int window_show_alert(lua_State* L) {
     lua_pushstring(L, answer);
     return 1;
 }
+// =========================================================================
+// WINDOW ICON
+// =========================================================================
+// set_window_icon(winId, path [, ...more paths]) -> true | nil, "reason"
+//
+// Accepts .ico and .png on every platform (macOS also takes .icns and the
+// other formats NSImage reads). Pass several files, for example a 16 and a
+// 256 pixel icon, and each platform uses the sizes it can show. A failure
+// returns nil and a message instead of doing nothing, so a wrong path or a
+// bad file is visible from Lua.
+//
+//   Windows  the title bar / Alt-Tab (small) and taskbar (big) icon
+//   macOS    the Dock and Cmd-Tab icon. A Mac window has no icon of its own,
+//            so this sets the application's icon.
+//   X11      the _NET_WM_ICON property, which every EWMH window manager
+//            (GNOME, KDE, XFCE, i3 and so on) reads for the title bar,
+//            taskbar and Alt-Tab. Needs no libraries.
+
+// Reads a whole file. Returns false (with a reason) if it can't be opened or
+// is too large to be an icon.
+static bool ReadIconFile(const char* path, std::vector<uint8_t>& bytes, std::string& err) {
+    FILE* f = nullptr;
+#if defined(_WIN32) || defined(_WIN64)
+    // Paths from Lua are UTF-8; fopen would read them as the ANSI code page.
+    int wlen = MultiByteToWideChar(CP_UTF8, 0, path, -1, nullptr, 0);
+    if (wlen > 0) {
+        std::vector<wchar_t> wpath((size_t)wlen);
+        MultiByteToWideChar(CP_UTF8, 0, path, -1, wpath.data(), wlen);
+        f = _wfopen(wpath.data(), L"rb");
+    }
+#else
+    f = fopen(path, "rb");
+#endif
+    if (!f) { err = std::string("cannot open icon file: ") + path; return false; }
+    fseek(f, 0, SEEK_END);
+    long size = ftell(f);
+    fseek(f, 0, SEEK_SET);
+    if (size <= 0 || size > 32L * 1024 * 1024) { fclose(f); err = "icon file is empty or too large"; return false; }
+    bytes.resize((size_t)size);
+    size_t got = fread(bytes.data(), 1, bytes.size(), f);
+    fclose(f);
+    if (got != bytes.size()) { err = "could not read the whole icon file"; return false; }
+    return true;
+}
+
+// Loads one icon file as RGBA at (or near) `edge` pixels.
+static bool LoadIconPixels(const char* path, int edge, IconDecode::Rgba& out, std::string& err) {
+    std::vector<uint8_t> bytes;
+    if (!ReadIconFile(path, bytes, err)) return false;
+    return IconDecode::DecodeIcon(bytes.data(), bytes.size(), edge, out, err);
+}
+
+#if defined(_WIN32) || defined(_WIN64)
+
+// Builds an HICON from straight RGBA. Uses a 32-bit top-down DIB so the icon
+// keeps its real alpha channel (soft edges), plus the all-opaque mask that
+// CreateIconIndirect insists on.
+static HICON MakeHiconFromRgba(const IconDecode::Rgba& img) {
+    BITMAPV5HEADER bi = {};
+    bi.bV5Size = sizeof(bi);
+    bi.bV5Width = img.width;
+    bi.bV5Height = -img.height; // negative = top-down
+    bi.bV5Planes = 1;
+    bi.bV5BitCount = 32;
+    bi.bV5Compression = BI_BITFIELDS;
+    bi.bV5RedMask = 0x00FF0000; bi.bV5GreenMask = 0x0000FF00; bi.bV5BlueMask = 0x000000FF; bi.bV5AlphaMask = 0xFF000000;
+
+    void* bits = nullptr;
+    HDC screen = GetDC(nullptr);
+    HBITMAP color = CreateDIBSection(screen, reinterpret_cast<BITMAPINFO*>(&bi), DIB_RGB_COLORS, &bits, nullptr, 0);
+    ReleaseDC(nullptr, screen);
+    if (!color || !bits) { if (color) DeleteObject(color); return nullptr; }
+
+    uint32_t* dst = static_cast<uint32_t*>(bits);
+    for (size_t i = 0, n = (size_t)img.width * img.height; i < n; ++i) {
+        const uint8_t* p = &img.pixels[i * 4];
+        // Windows expects premultiplied-looking BGRA in a 32-bit icon bitmap.
+        uint32_t a = p[3];
+        uint32_t r = (p[0] * a + 127) / 255, g = (p[1] * a + 127) / 255, b = (p[2] * a + 127) / 255;
+        dst[i] = (a << 24) | (r << 16) | (g << 8) | b;
+    }
+    HBITMAP mask = CreateBitmap(img.width, img.height, 1, 1, nullptr); // 1-bit, zeroed = every pixel opaque
+    if (!mask) { DeleteObject(color); return nullptr; }
+
+    ICONINFO ii = {};
+    ii.fIcon = TRUE;
+    ii.hbmMask = mask;
+    ii.hbmColor = color;
+    HICON icon = CreateIconIndirect(&ii);
+    DeleteObject(color);
+    DeleteObject(mask);
+    return icon;
+}
+
+// Windows groups every window of a process under ONE taskbar button when they
+// share an App User Model ID, and that button shows a single icon. To give a
+// window an icon of its own on the taskbar, it needs an ID of its own. This
+// sets one through the window's property store. shell32 is loaded at run
+// time (the same approach as libGL on Linux), so there is no link-time
+// dependency, and if anything is missing it quietly does nothing: the title
+// bar and Alt-Tab icon still work, which is all WM_SETICON promises.
+static void SetWindowTaskbarIdentity(HWND hwnd, int winId) {
+    HMODULE shell32 = LoadLibraryA("shell32.dll");
+    if (!shell32) return;
+    typedef HRESULT (WINAPI *GetStoreFn)(HWND, REFIID, void**);
+    GetStoreFn getStore = reinterpret_cast<GetStoreFn>(GetProcAddress(shell32, "SHGetPropertyStoreForWindow"));
+    if (!getStore) { FreeLibrary(shell32); return; }
+
+    // IPropertyStore::SetValue / Commit / Release by vtable index, so the
+    // shell headers are not needed. Order: QueryInterface, AddRef, Release,
+    // GetCount, GetAt, GetValue, SetValue, Commit.
+    struct PropKey { GUID fmtid; DWORD pid; };
+    struct PropVar { USHORT vt; USHORT r1, r2, r3; void* ptr; void* pad; }; // VT_LPWSTR = 31
+    static const GUID iidPropertyStore = { 0x886d8eeb, 0x8cf2, 0x4446, { 0x8d, 0x02, 0xcd, 0xba, 0x1d, 0xbd, 0xcf, 0x99 } };
+    static const PropKey appUserModelId = { { 0x9F4C2855, 0x9F79, 0x4B39, { 0xA8, 0xD0, 0xE1, 0xD4, 0x2D, 0xE1, 0xD5, 0xF3 } }, 5 };
+
+    void* store = nullptr;
+    if (FAILED(getStore(hwnd, iidPropertyStore, &store)) || !store) { FreeLibrary(shell32); return; }
+    void** vtbl = *reinterpret_cast<void***>(store);
+
+    // A stable, unique-per-window name. A process-wide prefix keeps it from
+    // colliding with another program's windows.
+    wchar_t id[64];
+    swprintf(id, 64, L"LuaNativeWindow.%lu.%d", (unsigned long)GetCurrentProcessId(), winId);
+    PropVar pv = {};
+    pv.vt = 31; // VT_LPWSTR
+    pv.ptr = id;
+
+    typedef HRESULT (WINAPI *SetValueFn)(void*, const PropKey*, const PropVar*);
+    typedef HRESULT (WINAPI *CommitFn)(void*);
+    typedef ULONG   (WINAPI *ReleaseFn)(void*);
+    reinterpret_cast<SetValueFn>(vtbl[6])(store, &appUserModelId, &pv);
+    reinterpret_cast<CommitFn>(vtbl[7])(store);
+    reinterpret_cast<ReleaseFn>(vtbl[2])(store);
+    // shell32 stays loaded for the life of the process (it already is, for any GUI program).
+}
+
+static void FreeWindowIcons(NativeWindow* win) {
+    // Detach first so the window never points at a destroyed icon.
+    if (win->platform.hwnd) {
+        SendMessageA(win->platform.hwnd, WM_SETICON, ICON_SMALL, 0);
+        SendMessageA(win->platform.hwnd, WM_SETICON, ICON_BIG, 0);
+    }
+    if (win->platform.iconSmall) { DestroyIcon(win->platform.iconSmall); win->platform.iconSmall = nullptr; }
+    if (win->platform.iconBig)   { DestroyIcon(win->platform.iconBig);   win->platform.iconBig = nullptr; }
+}
+
+static bool ApplyWindowIcon(NativeWindow* win, const std::vector<std::string>& paths, std::string& err, int winId = 0, bool ownTaskbarButton = false) {
+    // The sizes Windows asks for. Use the system's own metrics so a high-DPI
+    // desktop gets sharp icons instead of a blown-up 16 pixel one.
+    const int smallEdge = (std::max)(16, GetSystemMetrics(SM_CXSMICON));
+    const int bigEdge   = (std::max)(32, GetSystemMetrics(SM_CXICON));
+
+    HICON newSmall = nullptr, newBig = nullptr;
+    // Pick the best source for each size across every file given.
+    for (int pass = 0; pass < 2; ++pass) {
+        const int edge = pass == 0 ? smallEdge : bigEdge;
+        IconDecode::Rgba best;
+        int bestEdge = 0;
+        std::string lastErr;
+        for (const auto& path : paths) {
+            IconDecode::Rgba img;
+            if (!LoadIconPixels(path.c_str(), edge, img, lastErr)) continue;
+            int e = (std::max)(img.width, img.height);
+            // The smallest image that is at least `edge`, else the largest we have.
+            bool better = bestEdge == 0 ||
+                          (e >= edge && (bestEdge < edge || e < bestEdge)) ||
+                          (e < edge && bestEdge < edge && e > bestEdge);
+            if (better) { best = std::move(img); bestEdge = e; }
+        }
+        if (bestEdge == 0) { err = lastErr.empty() ? "no icon file could be read" : lastErr; if (newSmall) DestroyIcon(newSmall); return false; }
+        IconDecode::Rgba fitted = (best.width == edge && best.height == edge) ? std::move(best) : IconDecode::ResizeSquare(best, edge);
+        HICON h = MakeHiconFromRgba(fitted);
+        if (!h) { err = "Windows could not create the icon"; if (newSmall) DestroyIcon(newSmall); return false; }
+        (pass == 0 ? newSmall : newBig) = h;
+    }
+
+    HICON oldSmall = win->platform.iconSmall, oldBig = win->platform.iconBig;
+    win->platform.iconSmall = newSmall;
+    win->platform.iconBig = newBig;
+    SendMessageA(win->platform.hwnd, WM_SETICON, ICON_SMALL, reinterpret_cast<LPARAM>(newSmall));
+    SendMessageA(win->platform.hwnd, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(newBig));
+    // Deliberately NOT SetClassLongPtr(GCLP_HICON): every window here shares
+    // one window class, so a class icon would change all of them. WM_SETICON
+    // is per window and covers the title bar, Alt-Tab and the taskbar.
+    // Only now, with the window pointing at the new icons, free the old ones.
+    if (oldSmall) DestroyIcon(oldSmall);
+    if (oldBig) DestroyIcon(oldBig);
+    // A window with its own icon gets its own taskbar button, so the taskbar
+    // shows this icon and not whichever window the group started with.
+    if (ownTaskbarButton && winId > 0) SetWindowTaskbarIdentity(win->platform.hwnd, winId);
+    return true;
+}
+
+#elif defined(__APPLE__)
+
+static bool ApplyWindowIcon(NativeWindow*, const std::vector<std::string>& paths, std::string& err, int = 0, bool = false) {
+    // NSImage reads png, icns, ico, jpeg, tiff and more, so there is no need
+    // for the built-in decoder here. The first file that loads wins; give the
+    // largest one first, since the Dock scales it down well but not up.
+    for (const auto& path : paths) {
+        id nsPath = msgSend<id>(reinterpret_cast<id>(objc_getClass("NSString")),
+            sel_registerName("stringWithUTF8String:"), path.c_str());
+        id image = msgSend<id>(msgSend<id>(reinterpret_cast<id>(objc_getClass("NSImage")), sel_registerName("alloc")),
+            sel_registerName("initWithContentsOfFile:"), nsPath);
+        if (!image) continue;
+        id app = msgSend<id>(reinterpret_cast<id>(objc_getClass("NSApplication")), sel_registerName("sharedApplication"));
+        // NSApplication retains the image it is given; release our reference.
+        msgSend<void>(app, sel_registerName("setApplicationIconImage:"), image);
+        msgSend<void>(image, sel_registerName("release"));
+        return true;
+    }
+    err = "macOS could not read any of the icon files";
+    return false;
+}
+
+#else
+
+static bool ApplyWindowIcon(NativeWindow* win, const std::vector<std::string>& paths, std::string& err, int = 0, bool = false) {
+    if (!win->platform.display || !win->platform.window) { err = "window has no X11 connection"; return false; }
+
+    // _NET_WM_ICON is a list of 32-bit values stored as C longs: for each
+    // size, width, height, then width*height pixels as 0xAARRGGBB (straight
+    // alpha). Give the window manager several sizes and it picks the best one
+    // for the title bar, taskbar, and Alt-Tab.
+    std::vector<long> data;
+    std::vector<int> seenEdges;
+    std::string lastErr;
+    auto addImage = [&](const IconDecode::Rgba& img) {
+        // Real window managers cap icon size; large ones just waste property space.
+        if ((size_t)img.width * img.height > 256u * 256u) return;
+        data.push_back(img.width);
+        data.push_back(img.height);
+        for (size_t i = 0, n = (size_t)img.width * img.height; i < n; ++i) {
+            const uint8_t* p = &img.pixels[i * 4];
+            data.push_back((long)(((unsigned long)p[3] << 24) | ((unsigned long)p[0] << 16) | ((unsigned long)p[1] << 8) | (unsigned long)p[2]));
+        }
+    };
+    auto haveEdge = [&](int e) { return std::find(seenEdges.begin(), seenEdges.end(), e) != seenEdges.end(); };
+
+    for (const auto& path : paths) {
+        std::vector<uint8_t> bytes;
+        if (!ReadIconFile(path.c_str(), bytes, lastErr)) continue;
+        std::vector<IconDecode::IcoEntry> entries;
+        std::string e;
+        if (bytes.size() >= 6 && IconDecode::LE16(bytes.data()) == 0 && IconDecode::ListIco(bytes.data(), bytes.size(), entries, e)) {
+            // An .ico already holds several sizes: hand them all over (up to 256 pixels).
+            for (const auto& en : entries) {
+                int edge = (std::max)(en.width, en.height);
+                if (edge > 256 || haveEdge(edge)) continue;
+                IconDecode::Rgba img;
+                if (IconDecode::DecodeIcoEntry(bytes.data(), bytes.size(), en, img, e)) { addImage(img); seenEdges.push_back(edge); }
+            }
+        } else {
+            IconDecode::Rgba img;
+            if (!IconDecode::DecodeIcon(bytes.data(), bytes.size(), 64, img, e)) { lastErr = e; continue; }
+            int edge = (std::max)(img.width, img.height);
+            if (edge > 256) img = IconDecode::ResizeSquare(img, 256), edge = 256;
+            if (!haveEdge(edge)) { addImage(img); seenEdges.push_back(edge); }
+        }
+    }
+    if (data.empty()) { err = lastErr.empty() ? "no icon file could be read" : lastErr; return false; }
+
+    Display* dpy = win->platform.display;
+    Atom netWmIcon = XInternAtom(dpy, "_NET_WM_ICON", False);
+    XChangeProperty(dpy, win->platform.window, netWmIcon, (Atom)6 /* XA_CARDINAL */, 32, PropModeReplace,
+                    reinterpret_cast<unsigned char*>(data.data()), (int)data.size());
+    XFlush(dpy);
+    return true;
+}
+
+#endif
+
+static int window_apply_icon(lua_State* L) {
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
+    auto it = g_windows.find(winId);
+    if (it == g_windows.end()) {
+        lua_pushnil(L);
+        lua_pushstring(L, "set_window_icon: unknown window id");
+        return 2;
+    }
+
+    // One or more paths, or a table of paths.
+    std::vector<std::string> paths;
+    int argc = lua_gettop(L);
+    if (argc >= 2 && lua_istable(L, 2)) {
+        for (int i = 1; ; ++i) {
+            lua_rawgeti(L, 2, i);
+            if (lua_isnil(L, -1)) { lua_pop(L, 1); break; }
+            if (lua_isstring(L, -1)) paths.emplace_back(lua_tostring(L, -1));
+            lua_pop(L, 1);
+        }
+    } else {
+        for (int i = 2; i <= argc; ++i) paths.emplace_back(luaL_checkstring(L, i));
+    }
+    if (paths.empty()) {
+        lua_pushnil(L);
+        lua_pushstring(L, "set_window_icon: give at least one icon file path");
+        return 2;
+    }
+
+    // set_window_icon(id, {paths}, true): this call is for this window alone,
+    // so on Windows it also gets its own taskbar button (see ApplyWindowIcon).
+    bool thisWindowOnly = argc >= 3 && lua_istable(L, 2) && lua_isboolean(L, 3) && lua_toboolean(L, 3);
+
+    std::string err;
+    if (!ApplyWindowIcon(it->second, paths, err, winId, thisWindowOnly)) {
+        lua_pushnil(L);
+        lua_pushstring(L, ("set_window_icon: " + err).c_str());
+        return 2;
+    }
+    lua_pushboolean(L, 1);
+    return 1;
+}
 
 static int window_destroy(lua_State* L) {
     int winId = static_cast<int>(luaL_checkinteger(L, 1));
@@ -3523,6 +3845,7 @@ static int window_destroy(lua_State* L) {
     if (it != g_windows.end()) {
         NativeWindow* win = it->second;
 #if defined(_WIN32) || defined(_WIN64)
+        FreeWindowIcons(win);
         ReleaseDC(win->platform.hwnd, win->platform.hdc);
         DestroyWindow(win->platform.hwnd);
 #elif defined(__APPLE__)
@@ -3608,6 +3931,7 @@ extern "C" EXPORT_FN int luaopen_window_management(lua_State* L) {
         {"set_active_light", window_set_active_light},
         {"get_active_light", window_get_active_light},
         {"swap_buffers", window_swap_buffers},
+        {"set_window_icon", window_apply_icon},
         {"destroy", window_destroy},
         {nullptr, nullptr}
     };

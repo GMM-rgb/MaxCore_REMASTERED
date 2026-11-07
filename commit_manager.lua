@@ -1,33 +1,28 @@
 local StorageService = EngineCore:LoadService("StorageService")
 local RuntimeService = EngineCore:LoadService("RunnerService")
 local WindowService = EngineCore:LoadService("WindowService")
-local ResX, ResY = WindowService:GetDisplayResolution()
-local divider_string = string.rep("=", math.ceil(100 % ResX))
-local borders_string = string.rep(utf8.char(32), math.ceil(100 % ResX))
-local target_index = #borders_string
-local starting_index = 1
+local ListWindow = WindowService:CreateWindow("Commit History") or {}
+local ManagementWindow = WindowService:CreateWindow("Main Configuration") or {}
+local MainHeartbeat = nil --- @type RunnerConnection?
 
-for si = starting_index, target_index do
-    local ending = si >= target_index
-    local starting = si <= starting_index
-    local valid = ending or starting
-
-    if valid and type(borders_string) == "string" then
-        borders_string = borders_string:gsub("%s", "|")
-    end
-end
-
-local display_menu_components = {
-    ["start"] = divider_string,
-    ["end"] = divider_string,
-    ["edges"] = divider_string,
-}
-
-print(display_menu_components["start"])
+ListWindow:SetIcon("E:/gear_icon.png", { all = false, scope = "window" })
 
 local function create_display_menu()
 
 end
+
+MainHeartbeat = RuntimeService.Heartbeat:Connect(function(dt)
+    for _, window in ipairs({ListWindow, ManagementWindow}) do
+        if not EngineCore.IsA(window, "WindowObject") and MainHeartbeat then
+            MainHeartbeat:disconnect(); MainHeartbeat = nil; return
+        else
+            window:SwapBuffers()
+        end
+    end
+
+    local WindowsRunning = ListWindow:IsRunning() and ManagementWindow:IsRunning()
+    if not WindowsRunning then os.exit(true, true); return end
+end, { whenRunning = "allow", safe = true })
 
 EngineCore.ColorPrint("INFO", "STARTED...", RuntimeService._running)
 

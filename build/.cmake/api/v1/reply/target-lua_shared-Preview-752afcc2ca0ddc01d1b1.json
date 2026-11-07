@@ -71,12 +71,6 @@
 	"compileGroups" : 
 	[
 		{
-			"compileCommandFragments" : 
-			[
-				{
-					"fragment" : "-O3 -DNDEBUG"
-				}
-			],
 			"defines" : 
 			[
 				{
@@ -135,7 +129,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-O3 -DNDEBUG -std=gnu++17"
+					"fragment" : "-std=gnu++17"
 				}
 			],
 			"defines" : 

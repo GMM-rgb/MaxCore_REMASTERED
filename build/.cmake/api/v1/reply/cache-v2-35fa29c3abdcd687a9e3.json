@@ -43,7 +43,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : "Release"
+			"value" : "Preview"
 		},
 		{
 			"name" : "CMAKE_CACHEFILE_DIR",
@@ -226,6 +226,22 @@
 			"value" : "-Os -DNDEBUG"
 		},
 		{
+			"name" : "CMAKE_CXX_FLAGS_PREVIEW",
+			"properties" : 
+			[
+				{
+					"name" : "ADVANCED",
+					"value" : "1"
+				},
+				{
+					"name" : "HELPSTRING",
+					"value" : "Flags used by the CXX compiler during PREVIEW builds."
+				}
+			],
+			"type" : "STRING",
+			"value" : ""
+		},
+		{
 			"name" : "CMAKE_CXX_FLAGS_RELEASE",
 			"properties" : 
 			[
@@ -370,6 +386,22 @@
 			"value" : "-Os -DNDEBUG"
 		},
 		{
+			"name" : "CMAKE_C_FLAGS_PREVIEW",
+			"properties" : 
+			[
+				{
+					"name" : "ADVANCED",
+					"value" : "1"
+				},
+				{
+					"name" : "HELPSTRING",
+					"value" : "Flags used by the C compiler during PREVIEW builds."
+				}
+			],
+			"type" : "STRING",
+			"value" : ""
+		},
+		{
 			"name" : "CMAKE_C_FLAGS_RELEASE",
 			"properties" : 
 			[
@@ -500,6 +532,22 @@
 				{
 					"name" : "HELPSTRING",
 					"value" : "Flags used by the linker during MINSIZEREL builds."
+				}
+			],
+			"type" : "STRING",
+			"value" : ""
+		},
+		{
+			"name" : "CMAKE_EXE_LINKER_FLAGS_PREVIEW",
+			"properties" : 
+			[
+				{
+					"name" : "ADVANCED",
+					"value" : "1"
+				},
+				{
+					"name" : "HELPSTRING",
+					"value" : "Flags used by the linker during PREVIEW builds."
 				}
 			],
 			"type" : "STRING",
@@ -782,6 +830,22 @@
 			"value" : ""
 		},
 		{
+			"name" : "CMAKE_MODULE_LINKER_FLAGS_PREVIEW",
+			"properties" : 
+			[
+				{
+					"name" : "ADVANCED",
+					"value" : "1"
+				},
+				{
+					"name" : "HELPSTRING",
+					"value" : "Flags used by the linker during the creation of modules during PREVIEW builds."
+				}
+			],
+			"type" : "STRING",
+			"value" : ""
+		},
+		{
 			"name" : "CMAKE_MODULE_LINKER_FLAGS_RELEASE",
 			"properties" : 
 			[
@@ -1038,6 +1102,22 @@
 			"value" : ""
 		},
 		{
+			"name" : "CMAKE_RC_FLAGS_PREVIEW",
+			"properties" : 
+			[
+				{
+					"name" : "ADVANCED",
+					"value" : "1"
+				},
+				{
+					"name" : "HELPSTRING",
+					"value" : "Flags for Windows Resource Compiler during PREVIEW builds."
+				}
+			],
+			"type" : "STRING",
+			"value" : ""
+		},
+		{
 			"name" : "CMAKE_RC_FLAGS_RELEASE",
 			"properties" : 
 			[
@@ -1140,6 +1220,22 @@
 				{
 					"name" : "HELPSTRING",
 					"value" : "Flags used by the linker during the creation of shared libraries during MINSIZEREL builds."
+				}
+			],
+			"type" : "STRING",
+			"value" : ""
+		},
+		{
+			"name" : "CMAKE_SHARED_LINKER_FLAGS_PREVIEW",
+			"properties" : 
+			[
+				{
+					"name" : "ADVANCED",
+					"value" : "1"
+				},
+				{
+					"name" : "HELPSTRING",
+					"value" : "Flags used by the linker during the creation of shared libraries during PREVIEW builds."
 				}
 			],
 			"type" : "STRING",
@@ -1252,6 +1348,22 @@
 				{
 					"name" : "HELPSTRING",
 					"value" : "Flags used by the archiver during the creation of static libraries during MINSIZEREL builds."
+				}
+			],
+			"type" : "STRING",
+			"value" : ""
+		},
+		{
+			"name" : "CMAKE_STATIC_LINKER_FLAGS_PREVIEW",
+			"properties" : 
+			[
+				{
+					"name" : "ADVANCED",
+					"value" : "1"
+				},
+				{
+					"name" : "HELPSTRING",
+					"value" : "Flags used by the archiver during the creation of static libraries during PREVIEW builds."
 				}
 			],
 			"type" : "STRING",

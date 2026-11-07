@@ -12,7 +12,7 @@ package.path = package.path
 
 -- Native modules: adds .dylib / .so / .dll search patterns for ./build and
 -- friends, once, without duplicating entries. Must come AFTER package.path
--- above, because that is what lets this require() find native_paths.lua.
+-- above, because that is what lets this require() find utils/native_paths.lua.
 require("utils.native_paths").Apply()
 
 local Objects = require("sub_modules.game_object")
@@ -32,13 +32,14 @@ local PhysicsModule = require("sub_modules.physics_object")
 ---@field set_fullscreen fun(id: integer, enable: boolean): nil
 ---@field get_position fun(id: integer): integer, integer
 ---@field set_position fun(id: integer, x: integer, y: integer): nil
----@field get_mouse_position fun(id: integer): number, number
 ---@field get_display_resolution fun(): integer, integer
 ---@field poll_events fun(): nil
 ---@field is_focused fun(id: integer): boolean
 ---@field is_minimized fun(id: integer): boolean
 ---@field is_visible fun(id: integer): boolean
 ---@field focus fun(id: integer): nil
+---@field get_mouse_position fun(id: integer): number?, number? Cursor position inside the window's client area, top-left origin; nil, nil if unavailable
+---@field set_window_icon fun(id: integer, path: string|string[], ...: string|boolean): boolean?, string? true on success; nil plus a reason on failure. With a table of paths, a trailing true means "this window only"
 ---@field show_alert fun(title: string, message: string, style: string?, buttons: string?, parentWinId: integer?): string result "ok"|"cancel"|"yes"|"no"
 ---@field should_close fun(id: integer): boolean
 ---@field clear_canvas fun(id: integer, r: integer, g: integer, b: integer): nil
@@ -325,6 +326,21 @@ end
 -- WINDOW OBJECT IMPLEMENTATION
 -- =========================================================================
 
+---Every open window, so SetIcon can reach all of them. Weak values: a window
+---that is garbage collected drops out by itself, and Close() removes it early.
+---@type table<integer, WindowObject>
+local openWindows = setmetatable({}, { __mode = "v" })
+
+---Icon (and its options) that windows created from now on start with. Only
+---set when SetIcon is called with default = true.
+---@type string[]?
+local defaultIconPaths = nil
+
+---@class WindowIconOptions
+---@field scope ('"window"'|'"all"')? "window" = only the window you call it on (default). "all" = every window that is open right now.
+---@field all boolean? Shorthand: true is the same as scope = "all", false the same as "window". scope wins if both are given.
+---@field default boolean? With scope "all": windows created AFTER this call also start with this icon. Default false.
+
 ---@class WindowObject : RenderSurface
 ---@field private _id integer
 ---@field private _title string
@@ -382,6 +398,12 @@ function WindowObject.new(title, width, height)
     self._activeLight = nil
     self._physicsWorld = nil
     self._physicsLinks = {}
+
+    openWindows[win_id] = self
+    if defaultIconPaths then
+        -- Failure here is not fatal: the window still works without an icon.
+        window_interface.set_window_icon(win_id, defaultIconPaths)
+    end
 
     return self
 end
@@ -450,6 +472,118 @@ function WindowObject:Focus()
     if native_ok and type(window_interface) ~= "string" and self._isOpen then
         window_interface.focus(self._id)
     end
+end
+
+---Cursor position relative to this window's content area (top-left is 0, 0).
+---Read from the OS directly, so it is correct even when the window is moved
+---or the input service is not running.
+---@return number? x nil when the window is closed or the position can't be read
+---@return number? y
+function WindowObject:GetMousePosition()
+    if native_ok and type(window_interface) ~= "string" and self._isOpen then
+        return window_interface.get_mouse_position(self._id)
+    end
+    return nil, nil
+end
+
+---Sets a window's icon (title bar, taskbar, Alt-Tab). By default only THIS
+---window changes; each window keeps its own icon.
+---
+---    window:SetIcon("assets/game.ico")                         -- this window
+---    window:SetIcon("assets/game.ico", { scope = "all" })      -- every open window
+---    window:SetIcon("assets/game.ico", { all = true })         -- same thing
+---    window:SetIcon("assets/game.ico", { all = true, default = true })
+---    window:SetIcon("assets/i16.png", "assets/i256.png")       -- several sizes
+---    window:SetIcon({ "assets/i16.png", "assets/i256.png" }, { scope = "window" })
+---
+---The last argument may be a WindowIconOptions table. Formats: .ico and .png
+---everywhere (an .ico can hold several sizes and the best one is used; give
+---more than one file to supply more sizes).
+---
+---Platform notes:
+---  Windows  per-window title bar / taskbar / Alt-Tab icon.
+---  Linux    per-window, through _NET_WM_ICON (window managers that support EWMH).
+---  macOS    a Mac has ONE icon for the whole app (the Dock), not one per
+---           window, so there scope makes no difference: it sets the app icon.
+---
+---Returns true if the icon was applied. For scope "all" that means every open
+---window took it; if some failed it returns nil and a message naming them
+---(the ones that worked keep the new icon). Never raises for a bad path, so a
+---missing file does not crash a game: check the result, or wrap in assert.
+---@param ... string|string[]|WindowIconOptions One or more icon paths (or a table of paths), then optionally an options table
+---@return boolean? ok
+---@return string? err
+function WindowObject:SetIcon(...)
+    local args = table.pack(...)
+    assert(args.n >= 1, "SetIcon expects at least one icon path")
+
+    -- The options table is the last argument, if it is a table that is not a plain list of paths.
+    local options = {} --- @as WindowIconOptions
+    local last = args[args.n]
+    if args.n >= 2 and type(last) == "table" then
+        options = last --- @as WindowIconOptions
+        args[args.n] = nil
+        args.n = args.n - 1
+    end
+
+    local paths = {}
+    for i = 1, args.n do
+        local a = args[i]
+        if type(a) == "string" then
+            paths[#paths + 1] = a
+        elseif type(a) == "table" then
+            for _, p in ipairs(a) do
+                assert(type(p) == "string", "SetIcon: icon paths must be strings")
+                paths[#paths + 1] = p
+            end
+        else
+            error("SetIcon expects icon path strings, a table of paths, and optionally an options table", 2)
+        end
+    end
+    assert(#paths >= 1, "SetIcon expects at least one icon path")
+
+    -- scope wins over all; anything else is the default, this window.
+    local scope = options.scope --- @as ('"window"'|'"all"')
+    if scope == nil then scope = options.all and "all" or "window" end
+    assert(scope == "window" or scope == "all", ("SetIcon: unknown scope %q (use 'window' or 'all')"):format(tostring(scope)))
+
+    if not (native_ok and type(window_interface) ~= "string") then
+        return nil, "native window module is not available"
+    end
+
+    if scope == "window" then
+        if not self._isOpen then return nil, "window is closed" end
+        -- The trailing true tells the native side this icon is for this window
+        -- alone, so on Windows it also gets its own taskbar button.
+        return window_interface.set_window_icon(self._id, paths, true)
+    end
+
+    -- scope "all": every open window, this one included.
+    local failed = {}
+    local applied = 0
+    for id, win in pairs(openWindows) do
+        if win._isOpen then
+            local ok, err = window_interface.set_window_icon(id, paths)
+            if ok then applied = applied + 1 else failed[#failed + 1] = ("window %d: %s"):format(id, tostring(err)) end
+        end
+    end
+    if options.default then
+        defaultIconPaths = paths
+    end
+    if #failed > 0 then
+        table.sort(failed)
+        return nil, ("applied to %d window(s), failed on %d: %s"):format(applied, #failed, table.concat(failed, "; "))
+    end
+    if applied == 0 then return nil, "no open windows" end
+    return true
+end
+
+---Stops new windows from starting with the icon set by
+---SetIcon(..., { all = true, default = true }). Windows that
+---already have an icon keep it.
+---@return nil
+function WindowObject.ClearDefaultIcon()
+    defaultIconPaths = nil
 end
 
 ---@alias AlertStyle "info"|"warning"|"error"|"question"
@@ -1387,16 +1521,11 @@ end
 function WindowObject:Close()
     if self._isOpen and native_ok and type(window_interface) ~= "string" then
         window_interface.destroy(self._id)
+        openWindows[self._id] = nil
         self._isOpen = false
         self._objects2D = {}
         self._objects3D = {}
     end
-end
-
----Fetches mouse position relative to the window position.
----@return number, number
-function WindowObject:GetMousePosition()
-    return window_interface.get_mouse_position(self._id)
 end
 
 -- =========================================================================

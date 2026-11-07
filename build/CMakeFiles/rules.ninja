@@ -7,14 +7,14 @@
 
 # =============================================================================
 # Project: lua_native_engine
-# Configurations: Release
+# Configurations: Preview
 # =============================================================================
 # =============================================================================
 
 #############################################
 # Rule for compiling C files.
 
-rule C_COMPILER__lua_shared_unscanned_Release
+rule C_COMPILER__lua_shared_unscanned_Preview
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}C:\Users\maxim\_C_\bin\cc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -24,7 +24,7 @@ rule C_COMPILER__lua_shared_unscanned_Release
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__lua_shared_unscanned_Release
+rule CXX_COMPILER__lua_shared_unscanned_Preview
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}C:\Users\maxim\_C_\bin\c++.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -34,7 +34,7 @@ rule CXX_COMPILER__lua_shared_unscanned_Release
 #############################################
 # Rule for linking CXX shared library.
 
-rule CXX_SHARED_LIBRARY_LINKER__lua_shared_Release
+rule CXX_SHARED_LIBRARY_LINKER__lua_shared_Preview
   command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && C:\Users\maxim\_C_\bin\c++.exe $LANGUAGE_COMPILE_FLAGS $ARCH_FLAGS $LINK_FLAGS -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $in $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX shared library $TARGET_FILE
   restat = $RESTAT
@@ -43,7 +43,7 @@ rule CXX_SHARED_LIBRARY_LINKER__lua_shared_Release
 #############################################
 # Rule for compiling C files.
 
-rule C_COMPILER__lua_runner_unscanned_Release
+rule C_COMPILER__lua_runner_unscanned_Preview
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}C:\Users\maxim\_C_\bin\cc.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -53,7 +53,7 @@ rule C_COMPILER__lua_runner_unscanned_Release
 #############################################
 # Rule for linking C executable.
 
-rule C_EXECUTABLE_LINKER__lua_runner_Release
+rule C_EXECUTABLE_LINKER__lua_runner_Preview
   command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && C:\Users\maxim\_C_\bin\cc.exe $FLAGS $LINK_FLAGS $in -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking C executable $TARGET_FILE
   restat = $RESTAT
@@ -62,7 +62,7 @@ rule C_EXECUTABLE_LINKER__lua_runner_Release
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__sound_service_backend_unscanned_Release
+rule CXX_COMPILER__sound_service_backend_unscanned_Preview
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}C:\Users\maxim\_C_\bin\c++.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -72,7 +72,7 @@ rule CXX_COMPILER__sound_service_backend_unscanned_Release
 #############################################
 # Rule for linking CXX shared library.
 
-rule CXX_SHARED_LIBRARY_LINKER__sound_service_backend_Release
+rule CXX_SHARED_LIBRARY_LINKER__sound_service_backend_Preview
   command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && C:\Users\maxim\_C_\bin\c++.exe $LANGUAGE_COMPILE_FLAGS $ARCH_FLAGS $LINK_FLAGS -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $in $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX shared library $TARGET_FILE
   restat = $RESTAT
@@ -81,7 +81,7 @@ rule CXX_SHARED_LIBRARY_LINKER__sound_service_backend_Release
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__input_native_unscanned_Release
+rule CXX_COMPILER__input_native_unscanned_Preview
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}C:\Users\maxim\_C_\bin\c++.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -91,7 +91,7 @@ rule CXX_COMPILER__input_native_unscanned_Release
 #############################################
 # Rule for linking CXX shared library.
 
-rule CXX_SHARED_LIBRARY_LINKER__input_native_Release
+rule CXX_SHARED_LIBRARY_LINKER__input_native_Preview
   command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && C:\Users\maxim\_C_\bin\c++.exe $LANGUAGE_COMPILE_FLAGS $ARCH_FLAGS $LINK_FLAGS -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $in $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX shared library $TARGET_FILE
   restat = $RESTAT
@@ -100,7 +100,7 @@ rule CXX_SHARED_LIBRARY_LINKER__input_native_Release
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__storage_interface_unscanned_Release
+rule CXX_COMPILER__storage_interface_unscanned_Preview
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}C:\Users\maxim\_C_\bin\c++.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -110,7 +110,7 @@ rule CXX_COMPILER__storage_interface_unscanned_Release
 #############################################
 # Rule for linking CXX shared library.
 
-rule CXX_SHARED_LIBRARY_LINKER__storage_interface_Release
+rule CXX_SHARED_LIBRARY_LINKER__storage_interface_Preview
   command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && C:\Users\maxim\_C_\bin\c++.exe $LANGUAGE_COMPILE_FLAGS $ARCH_FLAGS $LINK_FLAGS -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $in $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX shared library $TARGET_FILE
   restat = $RESTAT
@@ -119,7 +119,7 @@ rule CXX_SHARED_LIBRARY_LINKER__storage_interface_Release
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__window_management_unscanned_Release
+rule CXX_COMPILER__window_management_unscanned_Preview
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}C:\Users\maxim\_C_\bin\c++.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -129,7 +129,7 @@ rule CXX_COMPILER__window_management_unscanned_Release
 #############################################
 # Rule for linking CXX shared library.
 
-rule CXX_SHARED_LIBRARY_LINKER__window_management_Release
+rule CXX_SHARED_LIBRARY_LINKER__window_management_Preview
   command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && C:\Users\maxim\_C_\bin\c++.exe $LANGUAGE_COMPILE_FLAGS $ARCH_FLAGS $LINK_FLAGS -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $in $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX shared library $TARGET_FILE
   restat = $RESTAT
@@ -138,7 +138,7 @@ rule CXX_SHARED_LIBRARY_LINKER__window_management_Release
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__physics_management_unscanned_Release
+rule CXX_COMPILER__physics_management_unscanned_Preview
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}C:\Users\maxim\_C_\bin\c++.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -148,7 +148,7 @@ rule CXX_COMPILER__physics_management_unscanned_Release
 #############################################
 # Rule for linking CXX shared library.
 
-rule CXX_SHARED_LIBRARY_LINKER__physics_management_Release
+rule CXX_SHARED_LIBRARY_LINKER__physics_management_Preview
   command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && C:\Users\maxim\_C_\bin\c++.exe $LANGUAGE_COMPILE_FLAGS $ARCH_FLAGS $LINK_FLAGS -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $in $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX shared library $TARGET_FILE
   restat = $RESTAT
@@ -157,7 +157,7 @@ rule CXX_SHARED_LIBRARY_LINKER__physics_management_Release
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__platform_module_unscanned_Release
+rule CXX_COMPILER__platform_module_unscanned_Preview
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}C:\Users\maxim\_C_\bin\c++.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -167,7 +167,7 @@ rule CXX_COMPILER__platform_module_unscanned_Release
 #############################################
 # Rule for linking CXX shared library.
 
-rule CXX_SHARED_LIBRARY_LINKER__platform_module_Release
+rule CXX_SHARED_LIBRARY_LINKER__platform_module_Preview
   command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && C:\Users\maxim\_C_\bin\c++.exe $LANGUAGE_COMPILE_FLAGS $ARCH_FLAGS $LINK_FLAGS -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $in $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX shared library $TARGET_FILE
   restat = $RESTAT
@@ -176,7 +176,7 @@ rule CXX_SHARED_LIBRARY_LINKER__platform_module_Release
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__scheduler_native_unscanned_Release
+rule CXX_COMPILER__scheduler_native_unscanned_Preview
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}C:\Users\maxim\_C_\bin\c++.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -186,7 +186,7 @@ rule CXX_COMPILER__scheduler_native_unscanned_Release
 #############################################
 # Rule for linking CXX shared library.
 
-rule CXX_SHARED_LIBRARY_LINKER__scheduler_native_Release
+rule CXX_SHARED_LIBRARY_LINKER__scheduler_native_Preview
   command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && C:\Users\maxim\_C_\bin\c++.exe $LANGUAGE_COMPILE_FLAGS $ARCH_FLAGS $LINK_FLAGS -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $in $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX shared library $TARGET_FILE
   restat = $RESTAT
@@ -195,7 +195,7 @@ rule CXX_SHARED_LIBRARY_LINKER__scheduler_native_Release
 #############################################
 # Rule for compiling CXX files.
 
-rule CXX_COMPILER__sleep_native_unscanned_Release
+rule CXX_COMPILER__sleep_native_unscanned_Preview
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}C:\Users\maxim\_C_\bin\c++.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -205,7 +205,7 @@ rule CXX_COMPILER__sleep_native_unscanned_Release
 #############################################
 # Rule for linking CXX shared library.
 
-rule CXX_SHARED_LIBRARY_LINKER__sleep_native_Release
+rule CXX_SHARED_LIBRARY_LINKER__sleep_native_Preview
   command = C:\WINDOWS\system32\cmd.exe /C "$PRE_LINK && C:\Users\maxim\_C_\bin\c++.exe $LANGUAGE_COMPILE_FLAGS $ARCH_FLAGS $LINK_FLAGS -o $TARGET_FILE -Wl,--out-implib,$TARGET_IMPLIB -Wl,--major-image-version,0,--minor-image-version,0 $in $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX shared library $TARGET_FILE
   restat = $RESTAT

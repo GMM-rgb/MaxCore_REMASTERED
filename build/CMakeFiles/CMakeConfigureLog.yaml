@@ -29,7 +29,7 @@ events:
       - "ninja"
       - "samu"
     candidate_directories:
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.3/bin/x64/"
@@ -59,6 +59,7 @@ events:
       - "C:/Program Files/dotnet/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/"
+      - "C:/Program Files/WSL/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/"
       - "C:/Users/maxim/AppData/Local/Microsoft/WindowsApps/"
@@ -77,18 +78,16 @@ events:
       - "C:/Users/maxim/AppData/Local/Unity/bin/"
       - "C:/Users/maxim/.dotnet/tools/"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/"
     searched_directories:
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/ninja-build.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/ninja-build.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/ninja-build"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/ninja.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/ninja.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/ninja"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/samu.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/samu.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/samu"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/ninja-build.com"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/ninja-build.exe"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/ninja-build"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/ninja.com"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/ninja.exe"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/ninja"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/samu.com"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/samu.exe"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/samu"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/ninja-build.com"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/ninja-build.exe"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/ninja-build"
@@ -350,6 +349,15 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/samu.com"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/samu.exe"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/samu"
+      - "C:/Program Files/WSL/ninja-build.com"
+      - "C:/Program Files/WSL/ninja-build.exe"
+      - "C:/Program Files/WSL/ninja-build"
+      - "C:/Program Files/WSL/ninja.com"
+      - "C:/Program Files/WSL/ninja.exe"
+      - "C:/Program Files/WSL/ninja"
+      - "C:/Program Files/WSL/samu.com"
+      - "C:/Program Files/WSL/samu.exe"
+      - "C:/Program Files/WSL/samu"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/ninja-build.com"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/ninja-build.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/ninja-build"
@@ -420,7 +428,7 @@ events:
     found: "C:/Users/maxim/AppData/Roaming/Python/Python313/Scripts/ninja.exe"
     search_context:
       ENV{PATH}:
-        - "c:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\remote-cli"
+        - "c:\\Users\\maxim\\.vscode\\extensions\\vadimcn.vscode-lldb-1.12.2\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\x64"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3\\bin\\x64"
@@ -450,6 +458,7 @@ events:
         - "C:\\Program Files\\dotnet\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.3.0\\"
+        - "C:\\Program Files\\WSL\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Microsoft\\WindowsApps"
@@ -469,8 +478,6 @@ events:
         - "C:\\Users\\maxim\\AppData\\Local\\Unity\\bin"
         - "C:\\Users\\maxim\\.dotnet\\tools"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\copilot-shim"
-        - "c:\\Users\\maxim\\.vscode-server-insiders\\data\\User\\globalStorage\\github.copilot-chat\\debugCommand"
-        - "C:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\copilot-shim"
   -
     kind: "find-v1"
     backtrace:
@@ -497,7 +504,7 @@ events:
       - "icx"
       - "clang"
     candidate_directories:
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.3/bin/x64/"
@@ -527,6 +534,7 @@ events:
       - "C:/Program Files/dotnet/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/"
+      - "C:/Program Files/WSL/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/"
       - "C:/Users/maxim/AppData/Local/Microsoft/WindowsApps/"
@@ -545,30 +553,28 @@ events:
       - "C:/Users/maxim/AppData/Local/Unity/bin/"
       - "C:/Users/maxim/.dotnet/tools/"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/"
     searched_directories:
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/cc.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/cc.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/cc"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/cl.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/cl.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/cl"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/bcc.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/bcc.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/bcc"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/xlc.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/xlc.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/xlc"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/icx.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/icx.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/icx"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/clang.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/clang.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/clang"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/cc.com"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/cc.exe"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/cc"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc.com"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc.exe"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/cl.com"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/cl.exe"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/cl"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/bcc.com"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/bcc.exe"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/bcc"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/xlc.com"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/xlc.exe"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/xlc"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/icx.com"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/icx.exe"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/icx"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/clang.com"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/clang.exe"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/clang"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/cc.com"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/cc.exe"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/cc"
@@ -1178,6 +1184,27 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/clang.com"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/clang.exe"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/clang"
+      - "C:/Program Files/WSL/cc.com"
+      - "C:/Program Files/WSL/cc.exe"
+      - "C:/Program Files/WSL/cc"
+      - "C:/Program Files/WSL/gcc.com"
+      - "C:/Program Files/WSL/gcc.exe"
+      - "C:/Program Files/WSL/gcc"
+      - "C:/Program Files/WSL/cl.com"
+      - "C:/Program Files/WSL/cl.exe"
+      - "C:/Program Files/WSL/cl"
+      - "C:/Program Files/WSL/bcc.com"
+      - "C:/Program Files/WSL/bcc.exe"
+      - "C:/Program Files/WSL/bcc"
+      - "C:/Program Files/WSL/xlc.com"
+      - "C:/Program Files/WSL/xlc.exe"
+      - "C:/Program Files/WSL/xlc"
+      - "C:/Program Files/WSL/icx.com"
+      - "C:/Program Files/WSL/icx.exe"
+      - "C:/Program Files/WSL/icx"
+      - "C:/Program Files/WSL/clang.com"
+      - "C:/Program Files/WSL/clang.exe"
+      - "C:/Program Files/WSL/clang"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/cc.com"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/cc.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/cc"
@@ -1413,7 +1440,7 @@ events:
     found: "C:/Users/maxim/_C_/bin/cc.exe"
     search_context:
       ENV{PATH}:
-        - "c:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\remote-cli"
+        - "c:\\Users\\maxim\\.vscode\\extensions\\vadimcn.vscode-lldb-1.12.2\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\x64"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3\\bin\\x64"
@@ -1443,6 +1470,7 @@ events:
         - "C:\\Program Files\\dotnet\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.3.0\\"
+        - "C:\\Program Files\\WSL\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Microsoft\\WindowsApps"
@@ -1462,8 +1490,6 @@ events:
         - "C:\\Users\\maxim\\AppData\\Local\\Unity\\bin"
         - "C:\\Users\\maxim\\.dotnet\\tools"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\copilot-shim"
-        - "c:\\Users\\maxim\\.vscode-server-insiders\\data\\User\\globalStorage\\github.copilot-chat\\debugCommand"
-        - "C:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\copilot-shim"
   -
     kind: "find-v1"
     backtrace:
@@ -1491,7 +1517,7 @@ events:
     found: "C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCCompilerId.c.in"
     search_context:
       ENV{PATH}:
-        - "c:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\remote-cli"
+        - "c:\\Users\\maxim\\.vscode\\extensions\\vadimcn.vscode-lldb-1.12.2\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\x64"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3\\bin\\x64"
@@ -1521,6 +1547,7 @@ events:
         - "C:\\Program Files\\dotnet\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.3.0\\"
+        - "C:\\Program Files\\WSL\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Microsoft\\WindowsApps"
@@ -1540,8 +1567,6 @@ events:
         - "C:\\Users\\maxim\\AppData\\Local\\Unity\\bin"
         - "C:\\Users\\maxim\\.dotnet\\tools"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\copilot-shim"
-        - "c:\\Users\\maxim\\.vscode-server-insiders\\data\\User\\globalStorage\\github.copilot-chat\\debugCommand"
-        - "C:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\copilot-shim"
   -
     kind: "message-v1"
     backtrace:
@@ -1585,7 +1610,7 @@ events:
       - "ar"
     candidate_directories:
       - "C:/Users/maxim/_C_/bin/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.3/bin/x64/"
@@ -1615,6 +1640,7 @@ events:
       - "C:/Program Files/dotnet/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/"
+      - "C:/Program Files/WSL/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/"
       - "C:/Users/maxim/AppData/Local/Microsoft/WindowsApps/"
@@ -1632,14 +1658,12 @@ events:
       - "C:/Users/maxim/AppData/Local/Unity/bin/"
       - "C:/Users/maxim/.dotnet/tools/"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/"
     searched_directories:
       - "C:/Users/maxim/_C_/bin/ar.com"
     found: "C:/Users/maxim/_C_/bin/ar.exe"
     search_context:
       ENV{PATH}:
-        - "c:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\remote-cli"
+        - "c:\\Users\\maxim\\.vscode\\extensions\\vadimcn.vscode-lldb-1.12.2\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\x64"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3\\bin\\x64"
@@ -1669,6 +1693,7 @@ events:
         - "C:\\Program Files\\dotnet\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.3.0\\"
+        - "C:\\Program Files\\WSL\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Microsoft\\WindowsApps"
@@ -1688,8 +1713,6 @@ events:
         - "C:\\Users\\maxim\\AppData\\Local\\Unity\\bin"
         - "C:\\Users\\maxim\\.dotnet\\tools"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\copilot-shim"
-        - "c:\\Users\\maxim\\.vscode-server-insiders\\data\\User\\globalStorage\\github.copilot-chat\\debugCommand"
-        - "C:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\copilot-shim"
   -
     kind: "find-v1"
     backtrace:
@@ -1711,7 +1734,7 @@ events:
       - "ranlib"
     candidate_directories:
       - "C:/Users/maxim/_C_/bin/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.3/bin/x64/"
@@ -1741,6 +1764,7 @@ events:
       - "C:/Program Files/dotnet/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/"
+      - "C:/Program Files/WSL/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/"
       - "C:/Users/maxim/AppData/Local/Microsoft/WindowsApps/"
@@ -1758,14 +1782,12 @@ events:
       - "C:/Users/maxim/AppData/Local/Unity/bin/"
       - "C:/Users/maxim/.dotnet/tools/"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/"
     searched_directories:
       - "C:/Users/maxim/_C_/bin/ranlib.com"
     found: "C:/Users/maxim/_C_/bin/ranlib.exe"
     search_context:
       ENV{PATH}:
-        - "c:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\remote-cli"
+        - "c:\\Users\\maxim\\.vscode\\extensions\\vadimcn.vscode-lldb-1.12.2\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\x64"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3\\bin\\x64"
@@ -1795,6 +1817,7 @@ events:
         - "C:\\Program Files\\dotnet\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.3.0\\"
+        - "C:\\Program Files\\WSL\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Microsoft\\WindowsApps"
@@ -1814,8 +1837,6 @@ events:
         - "C:\\Users\\maxim\\AppData\\Local\\Unity\\bin"
         - "C:\\Users\\maxim\\.dotnet\\tools"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\copilot-shim"
-        - "c:\\Users\\maxim\\.vscode-server-insiders\\data\\User\\globalStorage\\github.copilot-chat\\debugCommand"
-        - "C:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\copilot-shim"
   -
     kind: "find-v1"
     backtrace:
@@ -1837,7 +1858,7 @@ events:
       - "strip"
     candidate_directories:
       - "C:/Users/maxim/_C_/bin/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.3/bin/x64/"
@@ -1867,6 +1888,7 @@ events:
       - "C:/Program Files/dotnet/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/"
+      - "C:/Program Files/WSL/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/"
       - "C:/Users/maxim/AppData/Local/Microsoft/WindowsApps/"
@@ -1884,14 +1906,12 @@ events:
       - "C:/Users/maxim/AppData/Local/Unity/bin/"
       - "C:/Users/maxim/.dotnet/tools/"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/"
     searched_directories:
       - "C:/Users/maxim/_C_/bin/strip.com"
     found: "C:/Users/maxim/_C_/bin/strip.exe"
     search_context:
       ENV{PATH}:
-        - "c:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\remote-cli"
+        - "c:\\Users\\maxim\\.vscode\\extensions\\vadimcn.vscode-lldb-1.12.2\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\x64"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3\\bin\\x64"
@@ -1921,6 +1941,7 @@ events:
         - "C:\\Program Files\\dotnet\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.3.0\\"
+        - "C:\\Program Files\\WSL\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Microsoft\\WindowsApps"
@@ -1940,8 +1961,6 @@ events:
         - "C:\\Users\\maxim\\AppData\\Local\\Unity\\bin"
         - "C:\\Users\\maxim\\.dotnet\\tools"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\copilot-shim"
-        - "c:\\Users\\maxim\\.vscode-server-insiders\\data\\User\\globalStorage\\github.copilot-chat\\debugCommand"
-        - "C:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\copilot-shim"
   -
     kind: "find-v1"
     backtrace:
@@ -1963,7 +1982,7 @@ events:
       - "ld"
     candidate_directories:
       - "C:/Users/maxim/_C_/bin/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.3/bin/x64/"
@@ -1993,6 +2012,7 @@ events:
       - "C:/Program Files/dotnet/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/"
+      - "C:/Program Files/WSL/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/"
       - "C:/Users/maxim/AppData/Local/Microsoft/WindowsApps/"
@@ -2010,14 +2030,12 @@ events:
       - "C:/Users/maxim/AppData/Local/Unity/bin/"
       - "C:/Users/maxim/.dotnet/tools/"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/"
     searched_directories:
       - "C:/Users/maxim/_C_/bin/ld.com"
     found: "C:/Users/maxim/_C_/bin/ld.exe"
     search_context:
       ENV{PATH}:
-        - "c:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\remote-cli"
+        - "c:\\Users\\maxim\\.vscode\\extensions\\vadimcn.vscode-lldb-1.12.2\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\x64"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3\\bin\\x64"
@@ -2047,6 +2065,7 @@ events:
         - "C:\\Program Files\\dotnet\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.3.0\\"
+        - "C:\\Program Files\\WSL\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Microsoft\\WindowsApps"
@@ -2066,8 +2085,6 @@ events:
         - "C:\\Users\\maxim\\AppData\\Local\\Unity\\bin"
         - "C:\\Users\\maxim\\.dotnet\\tools"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\copilot-shim"
-        - "c:\\Users\\maxim\\.vscode-server-insiders\\data\\User\\globalStorage\\github.copilot-chat\\debugCommand"
-        - "C:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\copilot-shim"
   -
     kind: "find-v1"
     backtrace:
@@ -2089,7 +2106,7 @@ events:
       - "nm"
     candidate_directories:
       - "C:/Users/maxim/_C_/bin/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.3/bin/x64/"
@@ -2119,6 +2136,7 @@ events:
       - "C:/Program Files/dotnet/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/"
+      - "C:/Program Files/WSL/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/"
       - "C:/Users/maxim/AppData/Local/Microsoft/WindowsApps/"
@@ -2136,14 +2154,12 @@ events:
       - "C:/Users/maxim/AppData/Local/Unity/bin/"
       - "C:/Users/maxim/.dotnet/tools/"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/"
     searched_directories:
       - "C:/Users/maxim/_C_/bin/nm.com"
     found: "C:/Users/maxim/_C_/bin/nm.exe"
     search_context:
       ENV{PATH}:
-        - "c:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\remote-cli"
+        - "c:\\Users\\maxim\\.vscode\\extensions\\vadimcn.vscode-lldb-1.12.2\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\x64"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3\\bin\\x64"
@@ -2173,6 +2189,7 @@ events:
         - "C:\\Program Files\\dotnet\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.3.0\\"
+        - "C:\\Program Files\\WSL\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Microsoft\\WindowsApps"
@@ -2192,8 +2209,6 @@ events:
         - "C:\\Users\\maxim\\AppData\\Local\\Unity\\bin"
         - "C:\\Users\\maxim\\.dotnet\\tools"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\copilot-shim"
-        - "c:\\Users\\maxim\\.vscode-server-insiders\\data\\User\\globalStorage\\github.copilot-chat\\debugCommand"
-        - "C:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\copilot-shim"
   -
     kind: "find-v1"
     backtrace:
@@ -2215,7 +2230,7 @@ events:
       - "objdump"
     candidate_directories:
       - "C:/Users/maxim/_C_/bin/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.3/bin/x64/"
@@ -2245,6 +2260,7 @@ events:
       - "C:/Program Files/dotnet/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/"
+      - "C:/Program Files/WSL/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/"
       - "C:/Users/maxim/AppData/Local/Microsoft/WindowsApps/"
@@ -2262,14 +2278,12 @@ events:
       - "C:/Users/maxim/AppData/Local/Unity/bin/"
       - "C:/Users/maxim/.dotnet/tools/"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/"
     searched_directories:
       - "C:/Users/maxim/_C_/bin/objdump.com"
     found: "C:/Users/maxim/_C_/bin/objdump.exe"
     search_context:
       ENV{PATH}:
-        - "c:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\remote-cli"
+        - "c:\\Users\\maxim\\.vscode\\extensions\\vadimcn.vscode-lldb-1.12.2\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\x64"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3\\bin\\x64"
@@ -2299,6 +2313,7 @@ events:
         - "C:\\Program Files\\dotnet\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.3.0\\"
+        - "C:\\Program Files\\WSL\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Microsoft\\WindowsApps"
@@ -2318,8 +2333,6 @@ events:
         - "C:\\Users\\maxim\\AppData\\Local\\Unity\\bin"
         - "C:\\Users\\maxim\\.dotnet\\tools"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\copilot-shim"
-        - "c:\\Users\\maxim\\.vscode-server-insiders\\data\\User\\globalStorage\\github.copilot-chat\\debugCommand"
-        - "C:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\copilot-shim"
   -
     kind: "find-v1"
     backtrace:
@@ -2341,7 +2354,7 @@ events:
       - "objcopy"
     candidate_directories:
       - "C:/Users/maxim/_C_/bin/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.3/bin/x64/"
@@ -2371,6 +2384,7 @@ events:
       - "C:/Program Files/dotnet/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/"
+      - "C:/Program Files/WSL/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/"
       - "C:/Users/maxim/AppData/Local/Microsoft/WindowsApps/"
@@ -2388,14 +2402,12 @@ events:
       - "C:/Users/maxim/AppData/Local/Unity/bin/"
       - "C:/Users/maxim/.dotnet/tools/"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/"
     searched_directories:
       - "C:/Users/maxim/_C_/bin/objcopy.com"
     found: "C:/Users/maxim/_C_/bin/objcopy.exe"
     search_context:
       ENV{PATH}:
-        - "c:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\remote-cli"
+        - "c:\\Users\\maxim\\.vscode\\extensions\\vadimcn.vscode-lldb-1.12.2\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\x64"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3\\bin\\x64"
@@ -2425,6 +2437,7 @@ events:
         - "C:\\Program Files\\dotnet\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.3.0\\"
+        - "C:\\Program Files\\WSL\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Microsoft\\WindowsApps"
@@ -2444,8 +2457,6 @@ events:
         - "C:\\Users\\maxim\\AppData\\Local\\Unity\\bin"
         - "C:\\Users\\maxim\\.dotnet\\tools"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\copilot-shim"
-        - "c:\\Users\\maxim\\.vscode-server-insiders\\data\\User\\globalStorage\\github.copilot-chat\\debugCommand"
-        - "C:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\copilot-shim"
   -
     kind: "find-v1"
     backtrace:
@@ -2467,7 +2478,7 @@ events:
       - "readelf"
     candidate_directories:
       - "C:/Users/maxim/_C_/bin/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.3/bin/x64/"
@@ -2497,6 +2508,7 @@ events:
       - "C:/Program Files/dotnet/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/"
+      - "C:/Program Files/WSL/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/"
       - "C:/Users/maxim/AppData/Local/Microsoft/WindowsApps/"
@@ -2514,15 +2526,13 @@ events:
       - "C:/Users/maxim/AppData/Local/Unity/bin/"
       - "C:/Users/maxim/.dotnet/tools/"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/"
     searched_directories:
       - "C:/Users/maxim/_C_/bin/readelf.com"
       - "C:/Users/maxim/_C_/bin/readelf.exe"
       - "C:/Users/maxim/_C_/bin/readelf"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/readelf.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/readelf.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/readelf"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/readelf.com"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/readelf.exe"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/readelf"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/readelf.com"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/readelf.exe"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/readelf"
@@ -2610,6 +2620,9 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/readelf.com"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/readelf.exe"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/readelf"
+      - "C:/Program Files/WSL/readelf.com"
+      - "C:/Program Files/WSL/readelf.exe"
+      - "C:/Program Files/WSL/readelf"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/readelf.com"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/readelf.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/readelf"
@@ -2661,16 +2674,10 @@ events:
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/readelf.com"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/readelf.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/readelf"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/readelf.com"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/readelf.exe"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/readelf"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/readelf.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/readelf.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/readelf"
     found: false
     search_context:
       ENV{PATH}:
-        - "c:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\remote-cli"
+        - "c:\\Users\\maxim\\.vscode\\extensions\\vadimcn.vscode-lldb-1.12.2\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\x64"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3\\bin\\x64"
@@ -2700,6 +2707,7 @@ events:
         - "C:\\Program Files\\dotnet\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.3.0\\"
+        - "C:\\Program Files\\WSL\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Microsoft\\WindowsApps"
@@ -2719,8 +2727,6 @@ events:
         - "C:\\Users\\maxim\\AppData\\Local\\Unity\\bin"
         - "C:\\Users\\maxim\\.dotnet\\tools"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\copilot-shim"
-        - "c:\\Users\\maxim\\.vscode-server-insiders\\data\\User\\globalStorage\\github.copilot-chat\\debugCommand"
-        - "C:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\copilot-shim"
   -
     kind: "find-v1"
     backtrace:
@@ -2742,7 +2748,7 @@ events:
       - "dlltool"
     candidate_directories:
       - "C:/Users/maxim/_C_/bin/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.3/bin/x64/"
@@ -2772,6 +2778,7 @@ events:
       - "C:/Program Files/dotnet/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/"
+      - "C:/Program Files/WSL/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/"
       - "C:/Users/maxim/AppData/Local/Microsoft/WindowsApps/"
@@ -2789,14 +2796,12 @@ events:
       - "C:/Users/maxim/AppData/Local/Unity/bin/"
       - "C:/Users/maxim/.dotnet/tools/"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/"
     searched_directories:
       - "C:/Users/maxim/_C_/bin/dlltool.com"
     found: "C:/Users/maxim/_C_/bin/dlltool.exe"
     search_context:
       ENV{PATH}:
-        - "c:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\remote-cli"
+        - "c:\\Users\\maxim\\.vscode\\extensions\\vadimcn.vscode-lldb-1.12.2\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\x64"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3\\bin\\x64"
@@ -2826,6 +2831,7 @@ events:
         - "C:\\Program Files\\dotnet\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.3.0\\"
+        - "C:\\Program Files\\WSL\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Microsoft\\WindowsApps"
@@ -2845,8 +2851,6 @@ events:
         - "C:\\Users\\maxim\\AppData\\Local\\Unity\\bin"
         - "C:\\Users\\maxim\\.dotnet\\tools"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\copilot-shim"
-        - "c:\\Users\\maxim\\.vscode-server-insiders\\data\\User\\globalStorage\\github.copilot-chat\\debugCommand"
-        - "C:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\copilot-shim"
   -
     kind: "find-v1"
     backtrace:
@@ -2868,7 +2872,7 @@ events:
       - "addr2line"
     candidate_directories:
       - "C:/Users/maxim/_C_/bin/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.3/bin/x64/"
@@ -2898,6 +2902,7 @@ events:
       - "C:/Program Files/dotnet/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/"
+      - "C:/Program Files/WSL/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/"
       - "C:/Users/maxim/AppData/Local/Microsoft/WindowsApps/"
@@ -2915,14 +2920,12 @@ events:
       - "C:/Users/maxim/AppData/Local/Unity/bin/"
       - "C:/Users/maxim/.dotnet/tools/"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/"
     searched_directories:
       - "C:/Users/maxim/_C_/bin/addr2line.com"
     found: "C:/Users/maxim/_C_/bin/addr2line.exe"
     search_context:
       ENV{PATH}:
-        - "c:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\remote-cli"
+        - "c:\\Users\\maxim\\.vscode\\extensions\\vadimcn.vscode-lldb-1.12.2\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\x64"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3\\bin\\x64"
@@ -2952,6 +2955,7 @@ events:
         - "C:\\Program Files\\dotnet\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.3.0\\"
+        - "C:\\Program Files\\WSL\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Microsoft\\WindowsApps"
@@ -2971,8 +2975,6 @@ events:
         - "C:\\Users\\maxim\\AppData\\Local\\Unity\\bin"
         - "C:\\Users\\maxim\\.dotnet\\tools"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\copilot-shim"
-        - "c:\\Users\\maxim\\.vscode-server-insiders\\data\\User\\globalStorage\\github.copilot-chat\\debugCommand"
-        - "C:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\copilot-shim"
   -
     kind: "find-v1"
     backtrace:
@@ -2994,7 +2996,7 @@ events:
       - "tapi"
     candidate_directories:
       - "C:/Users/maxim/_C_/bin/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.3/bin/x64/"
@@ -3024,6 +3026,7 @@ events:
       - "C:/Program Files/dotnet/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/"
+      - "C:/Program Files/WSL/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/"
       - "C:/Users/maxim/AppData/Local/Microsoft/WindowsApps/"
@@ -3041,15 +3044,13 @@ events:
       - "C:/Users/maxim/AppData/Local/Unity/bin/"
       - "C:/Users/maxim/.dotnet/tools/"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/"
     searched_directories:
       - "C:/Users/maxim/_C_/bin/tapi.com"
       - "C:/Users/maxim/_C_/bin/tapi.exe"
       - "C:/Users/maxim/_C_/bin/tapi"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/tapi.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/tapi.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/tapi"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/tapi.com"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/tapi.exe"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/tapi"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/tapi.com"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/tapi.exe"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/tapi"
@@ -3137,6 +3138,9 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/tapi.com"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/tapi.exe"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/tapi"
+      - "C:/Program Files/WSL/tapi.com"
+      - "C:/Program Files/WSL/tapi.exe"
+      - "C:/Program Files/WSL/tapi"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/tapi.com"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/tapi.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/tapi"
@@ -3188,16 +3192,10 @@ events:
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/tapi.com"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/tapi.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/tapi"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/tapi.com"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/tapi.exe"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/tapi"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/tapi.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/tapi.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/tapi"
     found: false
     search_context:
       ENV{PATH}:
-        - "c:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\remote-cli"
+        - "c:\\Users\\maxim\\.vscode\\extensions\\vadimcn.vscode-lldb-1.12.2\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\x64"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3\\bin\\x64"
@@ -3227,6 +3225,7 @@ events:
         - "C:\\Program Files\\dotnet\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.3.0\\"
+        - "C:\\Program Files\\WSL\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Microsoft\\WindowsApps"
@@ -3246,8 +3245,6 @@ events:
         - "C:\\Users\\maxim\\AppData\\Local\\Unity\\bin"
         - "C:\\Users\\maxim\\.dotnet\\tools"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\copilot-shim"
-        - "c:\\Users\\maxim\\.vscode-server-insiders\\data\\User\\globalStorage\\github.copilot-chat\\debugCommand"
-        - "C:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\copilot-shim"
   -
     kind: "find-v1"
     backtrace:
@@ -3272,7 +3269,7 @@ events:
       - "gcc-ar"
     candidate_directories:
       - "C:/Users/maxim/_C_/bin/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.3/bin/x64/"
@@ -3302,6 +3299,7 @@ events:
       - "C:/Program Files/dotnet/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/"
+      - "C:/Program Files/WSL/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/"
       - "C:/Users/maxim/AppData/Local/Microsoft/WindowsApps/"
@@ -3319,15 +3317,13 @@ events:
       - "C:/Users/maxim/AppData/Local/Unity/bin/"
       - "C:/Users/maxim/.dotnet/tools/"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/"
     searched_directories:
       - "C:/Users/maxim/_C_/bin/gcc-ar-16.1.com"
       - "C:/Users/maxim/_C_/bin/gcc-ar-16.1.exe"
       - "C:/Users/maxim/_C_/bin/gcc-ar-16.1"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ar-16.1.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ar-16.1.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ar-16.1"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ar-16.1.com"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ar-16.1.exe"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ar-16.1"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ar-16.1.com"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ar-16.1.exe"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ar-16.1"
@@ -3415,6 +3411,9 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ar-16.1.com"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ar-16.1.exe"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ar-16.1"
+      - "C:/Program Files/WSL/gcc-ar-16.1.com"
+      - "C:/Program Files/WSL/gcc-ar-16.1.exe"
+      - "C:/Program Files/WSL/gcc-ar-16.1"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ar-16.1.com"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ar-16.1.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ar-16.1"
@@ -3466,18 +3465,12 @@ events:
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ar-16.1.com"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ar-16.1.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ar-16.1"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ar-16.1.com"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ar-16.1.exe"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ar-16.1"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ar-16.1.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ar-16.1.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ar-16.1"
       - "C:/Users/maxim/_C_/bin/gcc-ar-16.com"
       - "C:/Users/maxim/_C_/bin/gcc-ar-16.exe"
       - "C:/Users/maxim/_C_/bin/gcc-ar-16"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ar-16.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ar-16.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ar-16"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ar-16.com"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ar-16.exe"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ar-16"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ar-16.com"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ar-16.exe"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ar-16"
@@ -3565,6 +3558,9 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ar-16.com"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ar-16.exe"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ar-16"
+      - "C:/Program Files/WSL/gcc-ar-16.com"
+      - "C:/Program Files/WSL/gcc-ar-16.exe"
+      - "C:/Program Files/WSL/gcc-ar-16"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ar-16.com"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ar-16.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ar-16"
@@ -3616,18 +3612,12 @@ events:
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ar-16.com"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ar-16.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ar-16"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ar-16.com"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ar-16.exe"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ar-16"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ar-16.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ar-16.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ar-16"
       - "C:/Users/maxim/_C_/bin/gcc-ar16.com"
       - "C:/Users/maxim/_C_/bin/gcc-ar16.exe"
       - "C:/Users/maxim/_C_/bin/gcc-ar16"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ar16.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ar16.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ar16"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ar16.com"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ar16.exe"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ar16"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ar16.com"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ar16.exe"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ar16"
@@ -3715,6 +3705,9 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ar16.com"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ar16.exe"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ar16"
+      - "C:/Program Files/WSL/gcc-ar16.com"
+      - "C:/Program Files/WSL/gcc-ar16.exe"
+      - "C:/Program Files/WSL/gcc-ar16"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ar16.com"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ar16.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ar16"
@@ -3766,17 +3759,11 @@ events:
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ar16.com"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ar16.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ar16"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ar16.com"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ar16.exe"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ar16"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ar16.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ar16.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ar16"
       - "C:/Users/maxim/_C_/bin/gcc-ar.com"
     found: "C:/Users/maxim/_C_/bin/gcc-ar.exe"
     search_context:
       ENV{PATH}:
-        - "c:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\remote-cli"
+        - "c:\\Users\\maxim\\.vscode\\extensions\\vadimcn.vscode-lldb-1.12.2\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\x64"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3\\bin\\x64"
@@ -3806,6 +3793,7 @@ events:
         - "C:\\Program Files\\dotnet\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.3.0\\"
+        - "C:\\Program Files\\WSL\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Microsoft\\WindowsApps"
@@ -3825,8 +3813,6 @@ events:
         - "C:\\Users\\maxim\\AppData\\Local\\Unity\\bin"
         - "C:\\Users\\maxim\\.dotnet\\tools"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\copilot-shim"
-        - "c:\\Users\\maxim\\.vscode-server-insiders\\data\\User\\globalStorage\\github.copilot-chat\\debugCommand"
-        - "C:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\copilot-shim"
   -
     kind: "find-v1"
     backtrace:
@@ -3851,7 +3837,7 @@ events:
       - "gcc-ranlib"
     candidate_directories:
       - "C:/Users/maxim/_C_/bin/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.3/bin/x64/"
@@ -3881,6 +3867,7 @@ events:
       - "C:/Program Files/dotnet/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/"
+      - "C:/Program Files/WSL/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/"
       - "C:/Users/maxim/AppData/Local/Microsoft/WindowsApps/"
@@ -3898,15 +3885,13 @@ events:
       - "C:/Users/maxim/AppData/Local/Unity/bin/"
       - "C:/Users/maxim/.dotnet/tools/"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/"
     searched_directories:
       - "C:/Users/maxim/_C_/bin/gcc-ranlib-16.1.com"
       - "C:/Users/maxim/_C_/bin/gcc-ranlib-16.1.exe"
       - "C:/Users/maxim/_C_/bin/gcc-ranlib-16.1"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ranlib-16.1.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ranlib-16.1.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ranlib-16.1"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ranlib-16.1.com"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ranlib-16.1.exe"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ranlib-16.1"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ranlib-16.1.com"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ranlib-16.1.exe"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ranlib-16.1"
@@ -3994,6 +3979,9 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ranlib-16.1.com"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ranlib-16.1.exe"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ranlib-16.1"
+      - "C:/Program Files/WSL/gcc-ranlib-16.1.com"
+      - "C:/Program Files/WSL/gcc-ranlib-16.1.exe"
+      - "C:/Program Files/WSL/gcc-ranlib-16.1"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ranlib-16.1.com"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ranlib-16.1.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ranlib-16.1"
@@ -4045,18 +4033,12 @@ events:
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ranlib-16.1.com"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ranlib-16.1.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ranlib-16.1"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ranlib-16.1.com"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ranlib-16.1.exe"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ranlib-16.1"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ranlib-16.1.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ranlib-16.1.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ranlib-16.1"
       - "C:/Users/maxim/_C_/bin/gcc-ranlib-16.com"
       - "C:/Users/maxim/_C_/bin/gcc-ranlib-16.exe"
       - "C:/Users/maxim/_C_/bin/gcc-ranlib-16"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ranlib-16.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ranlib-16.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ranlib-16"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ranlib-16.com"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ranlib-16.exe"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ranlib-16"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ranlib-16.com"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ranlib-16.exe"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ranlib-16"
@@ -4144,6 +4126,9 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ranlib-16.com"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ranlib-16.exe"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ranlib-16"
+      - "C:/Program Files/WSL/gcc-ranlib-16.com"
+      - "C:/Program Files/WSL/gcc-ranlib-16.exe"
+      - "C:/Program Files/WSL/gcc-ranlib-16"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ranlib-16.com"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ranlib-16.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ranlib-16"
@@ -4195,18 +4180,12 @@ events:
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ranlib-16.com"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ranlib-16.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ranlib-16"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ranlib-16.com"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ranlib-16.exe"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ranlib-16"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ranlib-16.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ranlib-16.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ranlib-16"
       - "C:/Users/maxim/_C_/bin/gcc-ranlib16.com"
       - "C:/Users/maxim/_C_/bin/gcc-ranlib16.exe"
       - "C:/Users/maxim/_C_/bin/gcc-ranlib16"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ranlib16.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ranlib16.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ranlib16"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ranlib16.com"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ranlib16.exe"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ranlib16"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ranlib16.com"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ranlib16.exe"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ranlib16"
@@ -4294,6 +4273,9 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ranlib16.com"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ranlib16.exe"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ranlib16"
+      - "C:/Program Files/WSL/gcc-ranlib16.com"
+      - "C:/Program Files/WSL/gcc-ranlib16.exe"
+      - "C:/Program Files/WSL/gcc-ranlib16"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ranlib16.com"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ranlib16.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ranlib16"
@@ -4345,17 +4327,11 @@ events:
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ranlib16.com"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ranlib16.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ranlib16"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ranlib16.com"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ranlib16.exe"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ranlib16"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ranlib16.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ranlib16.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ranlib16"
       - "C:/Users/maxim/_C_/bin/gcc-ranlib.com"
     found: "C:/Users/maxim/_C_/bin/gcc-ranlib.exe"
     search_context:
       ENV{PATH}:
-        - "c:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\remote-cli"
+        - "c:\\Users\\maxim\\.vscode\\extensions\\vadimcn.vscode-lldb-1.12.2\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\x64"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3\\bin\\x64"
@@ -4385,6 +4361,7 @@ events:
         - "C:\\Program Files\\dotnet\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.3.0\\"
+        - "C:\\Program Files\\WSL\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Microsoft\\WindowsApps"
@@ -4404,8 +4381,6 @@ events:
         - "C:\\Users\\maxim\\AppData\\Local\\Unity\\bin"
         - "C:\\Users\\maxim\\.dotnet\\tools"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\copilot-shim"
-        - "c:\\Users\\maxim\\.vscode-server-insiders\\data\\User\\globalStorage\\github.copilot-chat\\debugCommand"
-        - "C:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\copilot-shim"
   -
     kind: "find-v1"
     backtrace:
@@ -4437,7 +4412,7 @@ events:
     found: "C:/Users/maxim/_C_/bin/c++.exe"
     search_context:
       ENV{PATH}:
-        - "c:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\remote-cli"
+        - "c:\\Users\\maxim\\.vscode\\extensions\\vadimcn.vscode-lldb-1.12.2\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\x64"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3\\bin\\x64"
@@ -4467,6 +4442,7 @@ events:
         - "C:\\Program Files\\dotnet\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.3.0\\"
+        - "C:\\Program Files\\WSL\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Microsoft\\WindowsApps"
@@ -4486,8 +4462,6 @@ events:
         - "C:\\Users\\maxim\\AppData\\Local\\Unity\\bin"
         - "C:\\Users\\maxim\\.dotnet\\tools"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\copilot-shim"
-        - "c:\\Users\\maxim\\.vscode-server-insiders\\data\\User\\globalStorage\\github.copilot-chat\\debugCommand"
-        - "C:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\copilot-shim"
   -
     kind: "find-v1"
     backtrace:
@@ -4515,7 +4489,7 @@ events:
     found: "C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCXXCompilerId.cpp.in"
     search_context:
       ENV{PATH}:
-        - "c:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\remote-cli"
+        - "c:\\Users\\maxim\\.vscode\\extensions\\vadimcn.vscode-lldb-1.12.2\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\x64"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3\\bin\\x64"
@@ -4545,6 +4519,7 @@ events:
         - "C:\\Program Files\\dotnet\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.3.0\\"
+        - "C:\\Program Files\\WSL\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Microsoft\\WindowsApps"
@@ -4564,8 +4539,6 @@ events:
         - "C:\\Users\\maxim\\AppData\\Local\\Unity\\bin"
         - "C:\\Users\\maxim\\.dotnet\\tools"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\copilot-shim"
-        - "c:\\Users\\maxim\\.vscode-server-insiders\\data\\User\\globalStorage\\github.copilot-chat\\debugCommand"
-        - "C:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\copilot-shim"
   -
     kind: "message-v1"
     backtrace:
@@ -4612,7 +4585,7 @@ events:
       - "gcc-ar"
     candidate_directories:
       - "C:/Users/maxim/_C_/bin/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.3/bin/x64/"
@@ -4642,6 +4615,7 @@ events:
       - "C:/Program Files/dotnet/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/"
+      - "C:/Program Files/WSL/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/"
       - "C:/Users/maxim/AppData/Local/Microsoft/WindowsApps/"
@@ -4659,15 +4633,13 @@ events:
       - "C:/Users/maxim/AppData/Local/Unity/bin/"
       - "C:/Users/maxim/.dotnet/tools/"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/"
     searched_directories:
       - "C:/Users/maxim/_C_/bin/gcc-ar-16.1.com"
       - "C:/Users/maxim/_C_/bin/gcc-ar-16.1.exe"
       - "C:/Users/maxim/_C_/bin/gcc-ar-16.1"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ar-16.1.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ar-16.1.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ar-16.1"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ar-16.1.com"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ar-16.1.exe"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ar-16.1"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ar-16.1.com"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ar-16.1.exe"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ar-16.1"
@@ -4755,6 +4727,9 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ar-16.1.com"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ar-16.1.exe"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ar-16.1"
+      - "C:/Program Files/WSL/gcc-ar-16.1.com"
+      - "C:/Program Files/WSL/gcc-ar-16.1.exe"
+      - "C:/Program Files/WSL/gcc-ar-16.1"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ar-16.1.com"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ar-16.1.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ar-16.1"
@@ -4806,18 +4781,12 @@ events:
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ar-16.1.com"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ar-16.1.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ar-16.1"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ar-16.1.com"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ar-16.1.exe"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ar-16.1"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ar-16.1.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ar-16.1.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ar-16.1"
       - "C:/Users/maxim/_C_/bin/gcc-ar-16.com"
       - "C:/Users/maxim/_C_/bin/gcc-ar-16.exe"
       - "C:/Users/maxim/_C_/bin/gcc-ar-16"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ar-16.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ar-16.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ar-16"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ar-16.com"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ar-16.exe"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ar-16"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ar-16.com"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ar-16.exe"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ar-16"
@@ -4905,6 +4874,9 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ar-16.com"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ar-16.exe"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ar-16"
+      - "C:/Program Files/WSL/gcc-ar-16.com"
+      - "C:/Program Files/WSL/gcc-ar-16.exe"
+      - "C:/Program Files/WSL/gcc-ar-16"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ar-16.com"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ar-16.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ar-16"
@@ -4956,18 +4928,12 @@ events:
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ar-16.com"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ar-16.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ar-16"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ar-16.com"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ar-16.exe"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ar-16"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ar-16.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ar-16.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ar-16"
       - "C:/Users/maxim/_C_/bin/gcc-ar16.com"
       - "C:/Users/maxim/_C_/bin/gcc-ar16.exe"
       - "C:/Users/maxim/_C_/bin/gcc-ar16"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ar16.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ar16.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ar16"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ar16.com"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ar16.exe"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ar16"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ar16.com"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ar16.exe"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ar16"
@@ -5055,6 +5021,9 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ar16.com"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ar16.exe"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ar16"
+      - "C:/Program Files/WSL/gcc-ar16.com"
+      - "C:/Program Files/WSL/gcc-ar16.exe"
+      - "C:/Program Files/WSL/gcc-ar16"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ar16.com"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ar16.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ar16"
@@ -5106,17 +5075,11 @@ events:
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ar16.com"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ar16.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ar16"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ar16.com"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ar16.exe"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ar16"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ar16.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ar16.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ar16"
       - "C:/Users/maxim/_C_/bin/gcc-ar.com"
     found: "C:/Users/maxim/_C_/bin/gcc-ar.exe"
     search_context:
       ENV{PATH}:
-        - "c:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\remote-cli"
+        - "c:\\Users\\maxim\\.vscode\\extensions\\vadimcn.vscode-lldb-1.12.2\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\x64"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3\\bin\\x64"
@@ -5146,6 +5109,7 @@ events:
         - "C:\\Program Files\\dotnet\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.3.0\\"
+        - "C:\\Program Files\\WSL\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Microsoft\\WindowsApps"
@@ -5165,8 +5129,6 @@ events:
         - "C:\\Users\\maxim\\AppData\\Local\\Unity\\bin"
         - "C:\\Users\\maxim\\.dotnet\\tools"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\copilot-shim"
-        - "c:\\Users\\maxim\\.vscode-server-insiders\\data\\User\\globalStorage\\github.copilot-chat\\debugCommand"
-        - "C:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\copilot-shim"
   -
     kind: "find-v1"
     backtrace:
@@ -5191,7 +5153,7 @@ events:
       - "gcc-ranlib"
     candidate_directories:
       - "C:/Users/maxim/_C_/bin/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.3/bin/x64/"
@@ -5221,6 +5183,7 @@ events:
       - "C:/Program Files/dotnet/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/"
+      - "C:/Program Files/WSL/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/"
       - "C:/Users/maxim/AppData/Local/Microsoft/WindowsApps/"
@@ -5238,15 +5201,13 @@ events:
       - "C:/Users/maxim/AppData/Local/Unity/bin/"
       - "C:/Users/maxim/.dotnet/tools/"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/"
     searched_directories:
       - "C:/Users/maxim/_C_/bin/gcc-ranlib-16.1.com"
       - "C:/Users/maxim/_C_/bin/gcc-ranlib-16.1.exe"
       - "C:/Users/maxim/_C_/bin/gcc-ranlib-16.1"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ranlib-16.1.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ranlib-16.1.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ranlib-16.1"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ranlib-16.1.com"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ranlib-16.1.exe"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ranlib-16.1"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ranlib-16.1.com"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ranlib-16.1.exe"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ranlib-16.1"
@@ -5334,6 +5295,9 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ranlib-16.1.com"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ranlib-16.1.exe"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ranlib-16.1"
+      - "C:/Program Files/WSL/gcc-ranlib-16.1.com"
+      - "C:/Program Files/WSL/gcc-ranlib-16.1.exe"
+      - "C:/Program Files/WSL/gcc-ranlib-16.1"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ranlib-16.1.com"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ranlib-16.1.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ranlib-16.1"
@@ -5385,18 +5349,12 @@ events:
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ranlib-16.1.com"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ranlib-16.1.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ranlib-16.1"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ranlib-16.1.com"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ranlib-16.1.exe"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ranlib-16.1"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ranlib-16.1.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ranlib-16.1.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ranlib-16.1"
       - "C:/Users/maxim/_C_/bin/gcc-ranlib-16.com"
       - "C:/Users/maxim/_C_/bin/gcc-ranlib-16.exe"
       - "C:/Users/maxim/_C_/bin/gcc-ranlib-16"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ranlib-16.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ranlib-16.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ranlib-16"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ranlib-16.com"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ranlib-16.exe"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ranlib-16"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ranlib-16.com"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ranlib-16.exe"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ranlib-16"
@@ -5484,6 +5442,9 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ranlib-16.com"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ranlib-16.exe"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ranlib-16"
+      - "C:/Program Files/WSL/gcc-ranlib-16.com"
+      - "C:/Program Files/WSL/gcc-ranlib-16.exe"
+      - "C:/Program Files/WSL/gcc-ranlib-16"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ranlib-16.com"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ranlib-16.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ranlib-16"
@@ -5535,18 +5496,12 @@ events:
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ranlib-16.com"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ranlib-16.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ranlib-16"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ranlib-16.com"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ranlib-16.exe"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ranlib-16"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ranlib-16.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ranlib-16.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ranlib-16"
       - "C:/Users/maxim/_C_/bin/gcc-ranlib16.com"
       - "C:/Users/maxim/_C_/bin/gcc-ranlib16.exe"
       - "C:/Users/maxim/_C_/bin/gcc-ranlib16"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ranlib16.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ranlib16.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/gcc-ranlib16"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ranlib16.com"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ranlib16.exe"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/gcc-ranlib16"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ranlib16.com"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ranlib16.exe"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/gcc-ranlib16"
@@ -5634,6 +5589,9 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ranlib16.com"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ranlib16.exe"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/gcc-ranlib16"
+      - "C:/Program Files/WSL/gcc-ranlib16.com"
+      - "C:/Program Files/WSL/gcc-ranlib16.exe"
+      - "C:/Program Files/WSL/gcc-ranlib16"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ranlib16.com"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ranlib16.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/gcc-ranlib16"
@@ -5685,17 +5643,11 @@ events:
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ranlib16.com"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ranlib16.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/gcc-ranlib16"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ranlib16.com"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ranlib16.exe"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/gcc-ranlib16"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ranlib16.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ranlib16.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/gcc-ranlib16"
       - "C:/Users/maxim/_C_/bin/gcc-ranlib.com"
     found: "C:/Users/maxim/_C_/bin/gcc-ranlib.exe"
     search_context:
       ENV{PATH}:
-        - "c:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\remote-cli"
+        - "c:\\Users\\maxim\\.vscode\\extensions\\vadimcn.vscode-lldb-1.12.2\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\x64"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3\\bin\\x64"
@@ -5725,6 +5677,7 @@ events:
         - "C:\\Program Files\\dotnet\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.3.0\\"
+        - "C:\\Program Files\\WSL\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Microsoft\\WindowsApps"
@@ -5744,8 +5697,6 @@ events:
         - "C:\\Users\\maxim\\AppData\\Local\\Unity\\bin"
         - "C:\\Users\\maxim\\.dotnet\\tools"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\copilot-shim"
-        - "c:\\Users\\maxim\\.vscode-server-insiders\\data\\User\\globalStorage\\github.copilot-chat\\debugCommand"
-        - "C:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\copilot-shim"
   -
     kind: "find-v1"
     backtrace:
@@ -5769,7 +5720,7 @@ events:
       - "windres"
       - "windres"
     candidate_directories:
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.3/bin/x64/"
@@ -5799,6 +5750,7 @@ events:
       - "C:/Program Files/dotnet/"
       - "C:/Program Files/Git/cmd/"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/"
+      - "C:/Program Files/WSL/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/"
       - "C:/Users/maxim/AppData/Local/Microsoft/WindowsApps/"
@@ -5817,8 +5769,6 @@ events:
       - "C:/Users/maxim/AppData/Local/Unity/bin/"
       - "C:/Users/maxim/.dotnet/tools/"
       - "C:/Users/maxim/AppData/Local/Programs/Microsoft VS Code/bin/copilot-shim/"
-      - "C:/Users/maxim/.vscode-server-insiders/data/User/globalStorage/github.copilot-chat/debugCommand/"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/copilot-shim/"
       - "C:/Program Files/bin/"
       - "C:/Program Files/sbin/"
       - "C:/Program Files/"
@@ -5832,9 +5782,9 @@ events:
       - "C:/Program Files (x86)/lua_native_engine/sbin/"
       - "C:/Program Files (x86)/lua_native_engine/"
     searched_directories:
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/windres.com"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/windres.exe"
-      - "C:/Users/maxim/.vscode/cli/servers/Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29/server/bin/remote-cli/windres"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/windres.com"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/windres.exe"
+      - "C:/Users/maxim/.vscode/extensions/vadimcn.vscode-lldb-1.12.2/bin/windres"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/windres.com"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/windres.exe"
       - "C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v13.4/bin/x64/windres"
@@ -5922,6 +5872,9 @@ events:
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/windres.com"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/windres.exe"
       - "C:/Program Files/NVIDIA Corporation/Nsight Compute 2026.3.0/windres"
+      - "C:/Program Files/WSL/windres.com"
+      - "C:/Program Files/WSL/windres.exe"
+      - "C:/Program Files/WSL/windres"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/windres.com"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/windres.exe"
       - "C:/Users/maxim/AppData/Local/Programs/Python/Python311/Scripts/windres"
@@ -5959,7 +5912,7 @@ events:
     found: "C:/Users/maxim/_C_/bin/windres.exe"
     search_context:
       ENV{PATH}:
-        - "c:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\remote-cli"
+        - "c:\\Users\\maxim\\.vscode\\extensions\\vadimcn.vscode-lldb-1.12.2\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin\\x64"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.4\\bin"
         - "C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v13.3\\bin\\x64"
@@ -5989,6 +5942,7 @@ events:
         - "C:\\Program Files\\dotnet\\"
         - "C:\\Program Files\\Git\\cmd"
         - "C:\\Program Files\\NVIDIA Corporation\\Nsight Compute 2026.3.0\\"
+        - "C:\\Program Files\\WSL\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Python\\Python311\\"
         - "C:\\Users\\maxim\\AppData\\Local\\Microsoft\\WindowsApps"
@@ -6008,8 +5962,6 @@ events:
         - "C:\\Users\\maxim\\AppData\\Local\\Unity\\bin"
         - "C:\\Users\\maxim\\.dotnet\\tools"
         - "C:\\Users\\maxim\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\copilot-shim"
-        - "c:\\Users\\maxim\\.vscode-server-insiders\\data\\User\\globalStorage\\github.copilot-chat\\debugCommand"
-        - "C:\\Users\\maxim\\.vscode\\cli\\servers\\Insiders-69176e5c7703e4ddf6b91a8ad5daf4597c9bea29\\server\\bin\\copilot-shim"
       CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/lua_native_engine"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "C:/Program Files"
@@ -6025,8 +5977,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-w3rcw1"
-      binary: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-w3rcw1"
+      source: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-fw80h4"
+      binary: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-fw80h4"
     cmakeVariables:
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
       CMAKE_C_FLAGS: ""
@@ -6036,10 +5988,10 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-w3rcw1'
+        Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-fw80h4'
         
-        Run Build Command(s): C:/Users/maxim/AppData/Roaming/Python/Python313/Scripts/ninja.exe -v cmTC_a4ef2
-        [1/2] C:\\Users\\maxim\\_C_\\bin\\cc.exe   -v -o CMakeFiles/cmTC_a4ef2.dir/CMakeCCompilerABI.c.obj -c C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCCompilerABI.c
+        Run Build Command(s): C:/Users/maxim/AppData/Roaming/Python/Python313/Scripts/ninja.exe -v cmTC_c7182
+        [1/2] C:\\Users\\maxim\\_C_\\bin\\cc.exe   -v -o CMakeFiles/cmTC_c7182.dir/CMakeCCompilerABI.c.obj -c C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCCompilerABI.c
         Using built-in specs.
         COLLECT_GCC=cc
         Target: x86_64-w64-mingw32
@@ -6047,8 +5999,8 @@ events:
         Thread model: posix
         Supported LTO compression algorithms: zlib
         gcc version 16.1.0 (GCC) 
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a4ef2.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_a4ef2.dir/'
-         C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1.exe -quiet -v -iprefix C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_a4ef2.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -o C:\\Users\\maxim\\AppData\\Local\\Temp\\ccQI6WIj.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_c7182.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_c7182.dir/'
+         C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1.exe -quiet -v -iprefix C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_c7182.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -o C:\\Users\\maxim\\AppData\\Local\\Temp\\cc7QUdc3.s
         GNU C23 (GCC) version 16.1.0 (x86_64-w64-mingw32)
         	compiled by GNU C version 16.1.0, GMP version 6.3.0, MPFR version 4.2.2, MPC version 1.4.1, isl version none
         GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
@@ -6063,13 +6015,13 @@ events:
          C:/Users/maxim/_C_/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../include
         End of search list.
         Compiler executable checksum: 8a982ec85e01dbe37739a0ea63d0f848
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a4ef2.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_a4ef2.dir/'
-         as -v -o CMakeFiles/cmTC_a4ef2.dir/CMakeCCompilerABI.c.obj C:\\Users\\maxim\\AppData\\Local\\Temp\\ccQI6WIj.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_c7182.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_c7182.dir/'
+         as -v -o CMakeFiles/cmTC_c7182.dir/CMakeCCompilerABI.c.obj C:\\Users\\maxim\\AppData\\Local\\Temp\\cc7QUdc3.s
         GNU assembler version 2.46.0 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.46.0.20260210
         COMPILER_PATH=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../libexec/gcc/
         LIBRARY_PATH=C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../lib/gcc/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a4ef2.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_a4ef2.dir/CMakeCCompilerABI.c.'
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\cc.exe  -v -Wl,-v CMakeFiles/cmTC_a4ef2.dir/CMakeCCompilerABI.c.obj -o cmTC_a4ef2.exe -Wl,--out-implib,libcmTC_a4ef2.dll.a -Wl,--major-image-version,0,--minor-image-version,0   && cd ."
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_c7182.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_c7182.dir/CMakeCCompilerABI.c.'
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\cc.exe  -v -Wl,-v CMakeFiles/cmTC_c7182.dir/CMakeCCompilerABI.c.obj -o cmTC_c7182.exe -Wl,--out-implib,libcmTC_c7182.dll.a -Wl,--major-image-version,0,--minor-image-version,0   && cd ."
         Using built-in specs.
         COLLECT_GCC=cc
         COLLECT_LTO_WRAPPER=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/lto-wrapper.exe
@@ -6080,12 +6032,12 @@ events:
         gcc version 16.1.0 (GCC) 
         COMPILER_PATH=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../libexec/gcc/
         LIBRARY_PATH=C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../lib/gcc/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_a4ef2.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_a4ef2.'
-         C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_a4ef2.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_a4ef2.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_a4ef2.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_c7182.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_c7182.'
+         C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_c7182.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_c7182.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_c7182.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
         collect2 version 16.1.0
-        C:\\Users\\maxim\\_C_\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_a4ef2.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_a4ef2.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_a4ef2.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o\x0d
+        C:\\Users\\maxim\\_C_\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_c7182.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_c7182.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_c7182.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o\x0d
         GNU ld (GNU Binutils) 2.46.0.20260210\x0d
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_a4ef2.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_a4ef2.'\x0d
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_c7182.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_c7182.'\x0d
         
       exitCode: 0
   -
@@ -6118,10 +6070,10 @@ events:
       Parsed C implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
-        ignore line: [Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-w3rcw1']
+        ignore line: [Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-fw80h4']
         ignore line: []
-        ignore line: [Run Build Command(s): C:/Users/maxim/AppData/Roaming/Python/Python313/Scripts/ninja.exe -v cmTC_a4ef2]
-        ignore line: [[1/2] C:\\Users\\maxim\\_C_\\bin\\cc.exe   -v -o CMakeFiles/cmTC_a4ef2.dir/CMakeCCompilerABI.c.obj -c C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCCompilerABI.c]
+        ignore line: [Run Build Command(s): C:/Users/maxim/AppData/Roaming/Python/Python313/Scripts/ninja.exe -v cmTC_c7182]
+        ignore line: [[1/2] C:\\Users\\maxim\\_C_\\bin\\cc.exe   -v -o CMakeFiles/cmTC_c7182.dir/CMakeCCompilerABI.c.obj -c C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCCompilerABI.c]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=cc]
         ignore line: [Target: x86_64-w64-mingw32]
@@ -6129,8 +6081,8 @@ events:
         ignore line: [Thread model: posix]
         ignore line: [Supported LTO compression algorithms: zlib]
         ignore line: [gcc version 16.1.0 (GCC) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a4ef2.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_a4ef2.dir/']
-        ignore line: [ C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1.exe -quiet -v -iprefix C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_a4ef2.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -o C:\\Users\\maxim\\AppData\\Local\\Temp\\ccQI6WIj.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_c7182.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_c7182.dir/']
+        ignore line: [ C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1.exe -quiet -v -iprefix C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_c7182.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mtune=generic -march=x86-64 -version -o C:\\Users\\maxim\\AppData\\Local\\Temp\\cc7QUdc3.s]
         ignore line: [GNU C23 (GCC) version 16.1.0 (x86_64-w64-mingw32)]
         ignore line: [	compiled by GNU C version 16.1.0  GMP version 6.3.0  MPFR version 4.2.2  MPC version 1.4.1  isl version none]
         ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
@@ -6145,8 +6097,8 @@ events:
         ignore line: [ C:/Users/maxim/_C_/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../include]
         ignore line: [End of search list.]
         ignore line: [Compiler executable checksum: 8a982ec85e01dbe37739a0ea63d0f848]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a4ef2.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_a4ef2.dir/']
-        ignore line: [ as -v -o CMakeFiles/cmTC_a4ef2.dir/CMakeCCompilerABI.c.obj C:\\Users\\maxim\\AppData\\Local\\Temp\\ccQI6WIj.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_c7182.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_c7182.dir/']
+        ignore line: [ as -v -o CMakeFiles/cmTC_c7182.dir/CMakeCCompilerABI.c.obj C:\\Users\\maxim\\AppData\\Local\\Temp\\cc7QUdc3.s]
         ignore line: [GNU assembler version 2.46.0 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.46.0.20260210]
         ignore line: [COMPILER_PATH=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/]
         ignore line: [C:/Users/maxim/_C_/bin/../libexec/gcc/]
@@ -6154,8 +6106,8 @@ events:
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/]
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/]
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a4ef2.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_a4ef2.dir/CMakeCCompilerABI.c.']
-        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\cc.exe  -v -Wl -v CMakeFiles/cmTC_a4ef2.dir/CMakeCCompilerABI.c.obj -o cmTC_a4ef2.exe -Wl --out-implib libcmTC_a4ef2.dll.a -Wl --major-image-version 0 --minor-image-version 0   && cd ."]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_c7182.dir/CMakeCCompilerABI.c.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_c7182.dir/CMakeCCompilerABI.c.']
+        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\cc.exe  -v -Wl -v CMakeFiles/cmTC_c7182.dir/CMakeCCompilerABI.c.obj -o cmTC_c7182.exe -Wl --out-implib libcmTC_c7182.dll.a -Wl --major-image-version 0 --minor-image-version 0   && cd ."]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=cc]
         ignore line: [COLLECT_LTO_WRAPPER=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/lto-wrapper.exe]
@@ -6170,15 +6122,15 @@ events:
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/]
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/]
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_a4ef2.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_a4ef2.']
-        link line: [ C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_a4ef2.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_a4ef2.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_a4ef2.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_c7182.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_c7182.']
+        link line: [ C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_c7182.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_c7182.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_c7182.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
           arg [C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe] ==> ignore
           arg [--sysroot=/w64devkit] ==> ignore
           arg [-m] ==> ignore
           arg [i386pep] ==> ignore
           arg [-Bdynamic] ==> search dynamic
           arg [-o] ==> ignore
-          arg [cmTC_a4ef2.exe] ==> ignore
+          arg [cmTC_c7182.exe] ==> ignore
           arg [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o] ==> obj [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o]
           arg [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o] ==> obj [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o]
           arg [-LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0] ==> dir [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0]
@@ -6186,9 +6138,9 @@ events:
           arg [-LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib] ==> dir [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib]
           arg [-LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../..] ==> dir [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../..]
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_a4ef2.dir/CMakeCCompilerABI.c.obj] ==> ignore
+          arg [CMakeFiles/cmTC_c7182.dir/CMakeCCompilerABI.c.obj] ==> ignore
           arg [--out-implib] ==> ignore
-          arg [libcmTC_a4ef2.dll.a] ==> ignore
+          arg [libcmTC_c7182.dll.a] ==> ignore
           arg [--major-image-version] ==> ignore
           arg [0] ==> ignore
           arg [--minor-image-version] ==> ignore
@@ -6210,7 +6162,7 @@ events:
           arg [-lkernel32] ==> lib [kernel32]
           arg [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> obj [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
         ignore line: [collect2 version 16.1.0]
-        ignore line: [C:\\Users\\maxim\\_C_\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_a4ef2.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_a4ef2.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_a4ef2.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o\x0d]
+        ignore line: [C:\\Users\\maxim\\_C_\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_c7182.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_c7182.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_c7182.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o\x0d]
         linker tool for 'C': C:/Users/maxim/_C_/bin/ld.exe
         remove lib [msvcrt]
         remove lib [msvcrt]
@@ -6246,8 +6198,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-9g4ue0"
-      binary: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-9g4ue0"
+      source: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-hfiz68"
+      binary: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-hfiz68"
     cmakeVariables:
       CMAKE_CXX_FLAGS: ""
       CMAKE_CXX_FLAGS_DEBUG: "-g"
@@ -6258,10 +6210,10 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-9g4ue0'
+        Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-hfiz68'
         
-        Run Build Command(s): C:/Users/maxim/AppData/Roaming/Python/Python313/Scripts/ninja.exe -v cmTC_5c7b9
-        [1/2] C:\\Users\\maxim\\_C_\\bin\\c++.exe   -v -o CMakeFiles/cmTC_5c7b9.dir/CMakeCXXCompilerABI.cpp.obj -c C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp
+        Run Build Command(s): C:/Users/maxim/AppData/Roaming/Python/Python313/Scripts/ninja.exe -v cmTC_02230
+        [1/2] C:\\Users\\maxim\\_C_\\bin\\c++.exe   -v -o CMakeFiles/cmTC_02230.dir/CMakeCXXCompilerABI.cpp.obj -c C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp
         Using built-in specs.
         COLLECT_GCC=c++
         Target: x86_64-w64-mingw32
@@ -6269,8 +6221,8 @@ events:
         Thread model: posix
         Supported LTO compression algorithms: zlib
         gcc version 16.1.0 (GCC) 
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_5c7b9.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_5c7b9.dir/'
-         C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1plus.exe -quiet -v -iprefix C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_5c7b9.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -o C:\\Users\\maxim\\AppData\\Local\\Temp\\ccGFgh4W.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_02230.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_02230.dir/'
+         C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1plus.exe -quiet -v -iprefix C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_02230.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -o C:\\Users\\maxim\\AppData\\Local\\Temp\\ccayIWbx.s
         GNU C++20 (GCC) version 16.1.0 (x86_64-w64-mingw32)
         	compiled by GNU C version 16.1.0, GMP version 6.3.0, MPFR version 4.2.2, MPC version 1.4.1, isl version none
         GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
@@ -6291,13 +6243,13 @@ events:
          C:/Users/maxim/_C_/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../include
         End of search list.
         Compiler executable checksum: f7f6d01bf4e14c224f03d6f976a58854
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_5c7b9.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_5c7b9.dir/'
-         as -v -o CMakeFiles/cmTC_5c7b9.dir/CMakeCXXCompilerABI.cpp.obj C:\\Users\\maxim\\AppData\\Local\\Temp\\ccGFgh4W.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_02230.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_02230.dir/'
+         as -v -o CMakeFiles/cmTC_02230.dir/CMakeCXXCompilerABI.cpp.obj C:\\Users\\maxim\\AppData\\Local\\Temp\\ccayIWbx.s
         GNU assembler version 2.46.0 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.46.0.20260210
         COMPILER_PATH=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../libexec/gcc/
         LIBRARY_PATH=C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../lib/gcc/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_5c7b9.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_5c7b9.dir/CMakeCXXCompilerABI.cpp.'
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\c++.exe  -v -Wl,-v CMakeFiles/cmTC_5c7b9.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_5c7b9.exe -Wl,--out-implib,libcmTC_5c7b9.dll.a -Wl,--major-image-version,0,--minor-image-version,0   && cd ."
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_02230.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_02230.dir/CMakeCXXCompilerABI.cpp.'
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\c++.exe  -v -Wl,-v CMakeFiles/cmTC_02230.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_02230.exe -Wl,--out-implib,libcmTC_02230.dll.a -Wl,--major-image-version,0,--minor-image-version,0   && cd ."
         Using built-in specs.
         COLLECT_GCC=c++
         COLLECT_LTO_WRAPPER=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/lto-wrapper.exe
@@ -6308,12 +6260,12 @@ events:
         gcc version 16.1.0 (GCC) 
         COMPILER_PATH=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../libexec/gcc/
         LIBRARY_PATH=C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/;C:/Users/maxim/_C_/bin/../lib/gcc/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/;C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_5c7b9.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_5c7b9.'
-         C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_5c7b9.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_5c7b9.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_5c7b9.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_02230.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_02230.'
+         C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_02230.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_02230.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_02230.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o
         collect2 version 16.1.0
-        C:\\Users\\maxim\\_C_\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_5c7b9.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_5c7b9.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_5c7b9.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o\x0d
+        C:\\Users\\maxim\\_C_\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_02230.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_02230.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_02230.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o\x0d
         GNU ld (GNU Binutils) 2.46.0.20260210\x0d
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_5c7b9.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_5c7b9.'\x0d
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_02230.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_02230.'\x0d
         
       exitCode: 0
   -
@@ -6352,10 +6304,10 @@ events:
       Parsed CXX implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
-        ignore line: [Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-9g4ue0']
+        ignore line: [Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-hfiz68']
         ignore line: []
-        ignore line: [Run Build Command(s): C:/Users/maxim/AppData/Roaming/Python/Python313/Scripts/ninja.exe -v cmTC_5c7b9]
-        ignore line: [[1/2] C:\\Users\\maxim\\_C_\\bin\\c++.exe   -v -o CMakeFiles/cmTC_5c7b9.dir/CMakeCXXCompilerABI.cpp.obj -c C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Run Build Command(s): C:/Users/maxim/AppData/Roaming/Python/Python313/Scripts/ninja.exe -v cmTC_02230]
+        ignore line: [[1/2] C:\\Users\\maxim\\_C_\\bin\\c++.exe   -v -o CMakeFiles/cmTC_02230.dir/CMakeCXXCompilerABI.cpp.obj -c C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=c++]
         ignore line: [Target: x86_64-w64-mingw32]
@@ -6363,8 +6315,8 @@ events:
         ignore line: [Thread model: posix]
         ignore line: [Supported LTO compression algorithms: zlib]
         ignore line: [gcc version 16.1.0 (GCC) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_5c7b9.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_5c7b9.dir/']
-        ignore line: [ C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1plus.exe -quiet -v -iprefix C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_5c7b9.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -o C:\\Users\\maxim\\AppData\\Local\\Temp\\ccGFgh4W.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_02230.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_02230.dir/']
+        ignore line: [ C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/cc1plus.exe -quiet -v -iprefix C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/ -D_REENTRANT C:/Users/maxim/_C_/share/cmake-4.3/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_02230.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mtune=generic -march=x86-64 -version -o C:\\Users\\maxim\\AppData\\Local\\Temp\\ccayIWbx.s]
         ignore line: [GNU C++20 (GCC) version 16.1.0 (x86_64-w64-mingw32)]
         ignore line: [	compiled by GNU C version 16.1.0  GMP version 6.3.0  MPFR version 4.2.2  MPC version 1.4.1  isl version none]
         ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
@@ -6385,8 +6337,8 @@ events:
         ignore line: [ C:/Users/maxim/_C_/lib/gcc/../../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../include]
         ignore line: [End of search list.]
         ignore line: [Compiler executable checksum: f7f6d01bf4e14c224f03d6f976a58854]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_5c7b9.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_5c7b9.dir/']
-        ignore line: [ as -v -o CMakeFiles/cmTC_5c7b9.dir/CMakeCXXCompilerABI.cpp.obj C:\\Users\\maxim\\AppData\\Local\\Temp\\ccGFgh4W.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_02230.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_02230.dir/']
+        ignore line: [ as -v -o CMakeFiles/cmTC_02230.dir/CMakeCXXCompilerABI.cpp.obj C:\\Users\\maxim\\AppData\\Local\\Temp\\ccayIWbx.s]
         ignore line: [GNU assembler version 2.46.0 (x86_64-w64-mingw32) using BFD version (GNU Binutils) 2.46.0.20260210]
         ignore line: [COMPILER_PATH=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/]
         ignore line: [C:/Users/maxim/_C_/bin/../libexec/gcc/]
@@ -6394,8 +6346,8 @@ events:
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/]
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/]
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_5c7b9.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_5c7b9.dir/CMakeCXXCompilerABI.cpp.']
-        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\c++.exe  -v -Wl -v CMakeFiles/cmTC_5c7b9.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_5c7b9.exe -Wl --out-implib libcmTC_5c7b9.dll.a -Wl --major-image-version 0 --minor-image-version 0   && cd ."]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_02230.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-mtune=generic' '-march=x86-64' '-dumpdir' 'CMakeFiles/cmTC_02230.dir/CMakeCXXCompilerABI.cpp.']
+        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\c++.exe  -v -Wl -v CMakeFiles/cmTC_02230.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_02230.exe -Wl --out-implib libcmTC_02230.dll.a -Wl --major-image-version 0 --minor-image-version 0   && cd ."]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=c++]
         ignore line: [COLLECT_LTO_WRAPPER=C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/lto-wrapper.exe]
@@ -6410,15 +6362,15 @@ events:
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/]
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/]
         ignore line: [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_5c7b9.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_5c7b9.']
-        link line: [ C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_5c7b9.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_5c7b9.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_5c7b9.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_02230.exe' '-mtune=generic' '-march=x86-64' '-dumpdir' 'cmTC_02230.']
+        link line: [ C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_02230.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_02230.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_02230.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
           arg [C:/Users/maxim/_C_/bin/../libexec/gcc/x86_64-w64-mingw32/16.1.0/collect2.exe] ==> ignore
           arg [--sysroot=/w64devkit] ==> ignore
           arg [-m] ==> ignore
           arg [i386pep] ==> ignore
           arg [-Bdynamic] ==> search dynamic
           arg [-o] ==> ignore
-          arg [cmTC_5c7b9.exe] ==> ignore
+          arg [cmTC_02230.exe] ==> ignore
           arg [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o] ==> obj [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o]
           arg [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o] ==> obj [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o]
           arg [-LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0] ==> dir [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0]
@@ -6426,9 +6378,9 @@ events:
           arg [-LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib] ==> dir [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib]
           arg [-LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../..] ==> dir [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../..]
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_5c7b9.dir/CMakeCXXCompilerABI.cpp.obj] ==> ignore
+          arg [CMakeFiles/cmTC_02230.dir/CMakeCXXCompilerABI.cpp.obj] ==> ignore
           arg [--out-implib] ==> ignore
-          arg [libcmTC_5c7b9.dll.a] ==> ignore
+          arg [libcmTC_02230.dll.a] ==> ignore
           arg [--major-image-version] ==> ignore
           arg [0] ==> ignore
           arg [--minor-image-version] ==> ignore
@@ -6451,7 +6403,7 @@ events:
           arg [-lkernel32] ==> lib [kernel32]
           arg [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o] ==> obj [C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o]
         ignore line: [collect2 version 16.1.0]
-        ignore line: [C:\\Users\\maxim\\_C_\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_5c7b9.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_5c7b9.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_5c7b9.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o\x0d]
+        ignore line: [C:\\Users\\maxim\\_C_\\bin\\ld.exe --sysroot=/w64devkit -m i386pep -Bdynamic -o cmTC_02230.exe C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib/crt2.o C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtbegin.o -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0 -LC:/Users/maxim/_C_/bin/../lib/gcc -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../../../lib -LC:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/../../.. -v CMakeFiles/cmTC_02230.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_02230.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 -lpthread -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lmingwex -lmsvcrt -lkernel32 C:/Users/maxim/_C_/bin/../lib/gcc/x86_64-w64-mingw32/16.1.0/crtend.o\x0d]
         linker tool for 'CXX': C:/Users/maxim/_C_/bin/ld.exe
         remove lib [msvcrt]
         remove lib [msvcrt]
@@ -6489,8 +6441,8 @@ events:
     checks:
       - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
     directories:
-      source: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-nrrxmy"
-      binary: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-nrrxmy"
+      source: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-bc4xrz"
+      binary: "D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-bc4xrz"
     cmakeVariables:
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
       CMAKE_C_FLAGS: ""
@@ -6501,11 +6453,11 @@ events:
       variable: "CMAKE_HAVE_LIBC_PTHREAD"
       cached: true
       stdout: |
-        Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-nrrxmy'
+        Change Dir: 'D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-bc4xrz'
         
-        Run Build Command(s): C:/Users/maxim/AppData/Roaming/Python/Python313/Scripts/ninja.exe -v cmTC_4d2d6
-        [1/2] C:\\Users\\maxim\\_C_\\bin\\cc.exe -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_4d2d6.dir/src.c.obj -c D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-nrrxmy/src.c
-        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\cc.exe   CMakeFiles/cmTC_4d2d6.dir/src.c.obj -o cmTC_4d2d6.exe -Wl,--out-implib,libcmTC_4d2d6.dll.a -Wl,--major-image-version,0,--minor-image-version,0  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 && cd ."
+        Run Build Command(s): C:/Users/maxim/AppData/Roaming/Python/Python313/Scripts/ninja.exe -v cmTC_af06a
+        [1/2] C:\\Users\\maxim\\_C_\\bin\\cc.exe -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_af06a.dir/src.c.obj -c D:/MaxCore_REMASTERED/build/CMakeFiles/CMakeScratch/TryCompile-bc4xrz/src.c
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\maxim\\_C_\\bin\\cc.exe   CMakeFiles/cmTC_af06a.dir/src.c.obj -o cmTC_af06a.exe -Wl,--out-implib,libcmTC_af06a.dll.a -Wl,--major-image-version,0,--minor-image-version,0  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 && cd ."
         
       exitCode: 0
 ...
