@@ -18,6 +18,21 @@ require("utils.native_paths").Apply()
 local Objects = require("sub_modules.game_object")
 local PhysicsModule = require("sub_modules.physics_object")
 
+---@alias RendererName
+---| '"auto"' # try opengl, then vulkan, then software (the default)
+---| '"opengl"' # OpenGL 3.3 on the GPU
+---| '"vulkan"' # Vulkan 1.1 on the GPU
+---| '"software"' # the engine's own tiled, multi-threaded, SIMD renderer on the CPU
+---| '"cpu"' # the original single-threaded rasteriser
+
+---@class WindowOptions
+---@field renderer RendererName? Which renderer to start with. Default: the MAXCORE_RENDERER environment variable, else "auto".
+
+---@class RendererInfo
+---@field name RendererName The renderer this window is really using (can differ from what was asked for)
+---@field description string Human-readable detail, e.g. the GPU name or the thread count
+---@field note string? Set when the requested renderer could not start and another was used
+
 ---@alias Vertex3 { [1]: number, [2]: number, [3]: number }
 ---@alias MeshFace integer[] # 1-based vertex indices into a mesh's vertex list, wound counter-clockwise (viewed from outside) for correct-facing shading
 
@@ -26,7 +41,10 @@ local PhysicsModule = require("sub_modules.physics_object")
 ---| '"3d"' # 3D primitives: cube/mesh wireframe edges, points, and solid faces
 
 ---@class NativeWindowInterface
----@field create_window fun(title: string, width: integer, height: integer): integer
+---@field create_window fun(title: string, width: integer, height: integer, renderer: RendererName?): integer?, string?
+---@field set_renderer fun(id: integer, name: RendererName): boolean?, string?
+---@field get_renderer fun(id: integer): RendererName?, string?
+---@field get_available_renderers fun(): RendererName[]
 ---@field get_dimensions fun(id: integer): integer, integer
 ---@field set_dimensions fun(id: integer, width: integer, height: integer): nil
 ---@field set_fullscreen fun(id: integer, enable: boolean): nil
@@ -347,6 +365,7 @@ local defaultIconPaths = nil
 ---@field private _width integer
 ---@field private _height integer
 ---@field private _isOpen boolean
+---@field private _rendererNote string?
 ---@field private _objects2D table<integer, GameObject> Rect/Circle/Line/Text/Polygon/Image -- raw screen-space, camera never applied (see Graphics native draw_* calls)
 ---@field private _objects3D table<integer, GameObject> Cube/Mesh -- projected through the active camera every frame
 ---@field private _activeCamera CameraObject?
@@ -378,12 +397,14 @@ WindowService.PhysicsGroups = PhysicsModule.PhysicsGroups
 ---@param title string? Title text displayed on window titlebar
 ---@param width integer? Framebuffer width in pixels
 ---@param height integer? Framebuffer height in pixels
----@return WindowObject?
-function WindowObject.new(title, width, height)
+---@param renderer RendererName? Renderer to initialize with
+---@return WindowObject? window
+---@return string? error
+function WindowObject.new(title, width, height, renderer)
     if not native_ok or type(window_interface) == "string" then return nil end
 
-    local win_id = window_interface.create_window(title or "Native Viewport", width or 800, height or 600)
-    if not win_id then return nil end
+    local win_id, createError = window_interface.create_window(title or "Native Viewport", width or 800, height or 600, renderer)
+    if not win_id then return nil, createError end
 
     ---@type WindowObject
     local self = setmetatable({}, WindowObject)
@@ -392,6 +413,7 @@ function WindowObject.new(title, width, height)
     self._width = width or 800
     self._height = height or 600
     self._isOpen = true
+    self._rendererNote = nil
     self._objects2D = {}
     self._objects3D = {}
     self._activeCamera = nil
@@ -603,6 +625,30 @@ function WindowObject:ShowAlert(title, message, style, buttons)
         return window_interface.show_alert(tostring(title or "Alert"), tostring(message or ""), style or "info", buttons or "ok", self._id)
     end
     return "ok"
+end
+
+---Switches the 3D renderer of this window.
+---"software", "vulkan" and "cpu" can be switched freely. "opengl" needs an OpenGL-capable window: on Linux that must
+---be chosen when the window is created, and on Windows a window that has used OpenGL cannot go back. In those cases
+---this returns nil and says why, and the window keeps working with its current renderer.
+---@param name RendererName
+---@return boolean? ok
+---@return string? reasonOrNote Why it failed, or (on success) a note if a fallback was used
+function WindowObject:SetRenderer(name)
+    if not self._isOpen then return nil, "window is closed" end
+    if not (native_ok and type(window_interface) ~= "string") then return nil, "native window module is not available" end
+    local ok, note = window_interface.set_renderer(self._id, name)
+    if ok then self._rendererNote = note end
+    return ok, note
+end
+
+---The renderer this window is really using, with a description (GPU name, thread count...).
+---@return RendererInfo?
+function WindowObject:GetRenderer()
+    if not (native_ok and type(window_interface) ~= "string") then return nil end
+    local name, description = window_interface.get_renderer(self._id)
+    if not name then return nil end
+    return { name = name --[[@as RendererName]], description = description, note = self._rendererNote }
 end
 
 ---Toggles borderless fullscreen mode.
@@ -1542,19 +1588,36 @@ function WindowService.new()
     return self
 end
 
+---Returns the renderers this machine can actually start, in the order "auto" tries them.
+---"software" and "cpu" are always available.
+---@return RendererName[] renderers
+function WindowService:GetAvailableRenderers()
+    if not (native_ok and type(window_interface) ~= "string") then return { "cpu" } end
+    return window_interface.get_available_renderers() --[[@as RendererName[] ]]
+end
+
 ---Creates and tracks a new managed window object.
+---The fourth argument picks the renderer: a name ("opengl", "vulkan", "software", "cpu", "auto")
+---or a WindowOptions table. Leave it out for the default ("auto", or the MAXCORE_RENDERER environment variable).
 ---@param title string? Window title
 ---@param width integer? Framebuffer width
 ---@param height integer? Framebuffer height
----@return WindowObject?
-function WindowService:CreateWindow(title, width, height)
-    local win = WindowObject.new(title, width, height)
-    if win ~= nil then
-        self._windows[win:GetId()] = win
-        if not self._activeWindow then
-            self._activeWindow = win
-        end
+---@param renderer (RendererName | WindowOptions)? Renderer name or options table
+---@return WindowObject? window
+---@return string? error Unknown renderer name or window initialization failure
+function WindowService:CreateWindow(title, width, height, renderer)
+    ---@type RendererName?
+    local name = nil
+
+    if type(renderer) == "string" then
+        name = renderer
+    elseif type(renderer) == "table" then
+        name = renderer.renderer
     end
+
+    local win, createError = WindowObject.new(title, width, height, name)
+    if win == nil then return nil, createError end; self._windows[win:GetId()] = win
+    if not self._activeWindow then self._activeWindow = win end
     return win
 end
 
@@ -1562,9 +1625,7 @@ end
 ---@param id integer? Target window identifier handle
 ---@return WindowObject?
 function WindowService:GetWindow(id)
-    if id then
-        return self._windows[id]
-    end
+    if id then return self._windows[id] end
     return self._activeWindow
 end
 
@@ -1628,7 +1689,7 @@ function WindowService:CloseAll()
     for id, win in pairs(self._windows) do
         win:Close()
         self._windows[id] = nil
-    end 
+    end
     self._activeWindow = nil
 end
 

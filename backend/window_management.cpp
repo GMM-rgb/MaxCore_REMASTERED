@@ -16,6 +16,10 @@
 #include "inline_headers/graphics/icon_decode.hpp"
 #include "inline_headers/graphics/gl_backend.hpp"
 #include "inline_headers/graphics/gl_context.hpp"
+#include "inline_headers/graphics/draw_backend.hpp"
+#include "inline_headers/graphics/gl_draw_backend.hpp"
+#include "inline_headers/graphics/soft_backend.hpp"
+#include "inline_headers/graphics/vk_draw_backend.hpp"
 #include <cstdlib>
 #include <memory>
 
@@ -64,6 +68,11 @@
     #define EXPORT_FN
     #include <X11/Xlib.h>
     #include <X11/Xutil.h>
+
+    // TryInitX11Gpu (below) takes a NativeWindow*, but the struct is defined
+    // much later in the file. Without this forward declaration the Linux
+    // build fails with "NativeWindow was not declared in this scope".
+    struct NativeWindow;
     #include <dlfcn.h>
 
     // =====================================================================
@@ -188,87 +197,7 @@
     // completely untouched on the GPU side) on ANY failure, at which
     // point the caller falls back to the original XCreateSimpleWindow
     // path -- this function never partially commits.
-    static bool TryInitX11Gpu(NativeWindow* win, Display* display, int screen, Window root, const char* title, int width, int height) {
-        void* libGL = dlopen("libGL.so.1", RTLD_LAZY | RTLD_LOCAL);
-        if (!libGL) return false;
-
-        auto glXChooseVisual = (glXChooseVisual_fn)dlsym(libGL, "glXChooseVisual");
-        auto glXCreateContext = (glXCreateContext_fn)dlsym(libGL, "glXCreateContext");
-        X11GpuFunctions gpu;
-        gpu.libGLHandle = libGL;
-        gpu.glXMakeCurrent = (glXMakeCurrent_fn)dlsym(libGL, "glXMakeCurrent");
-        gpu.glXSwapBuffers = (glXSwapBuffers_fn)dlsym(libGL, "glXSwapBuffers");
-        gpu.glXDestroyContext = (glXDestroyContext_fn)dlsym(libGL, "glXDestroyContext");
-        gpu.glClearColor = (glClearColor_fn)dlsym(libGL, "glClearColor");
-        gpu.glClear = (glClear_fn)dlsym(libGL, "glClear");
-        gpu.glViewport = (glViewport_fn)dlsym(libGL, "glViewport");
-        gpu.glMatrixMode = (glMatrixMode_fn)dlsym(libGL, "glMatrixMode");
-        gpu.glLoadIdentity = (glLoadIdentity_fn)dlsym(libGL, "glLoadIdentity");
-        gpu.glOrtho = (glOrtho_fn)dlsym(libGL, "glOrtho");
-        gpu.glEnable = (glEnable_fn)dlsym(libGL, "glEnable");
-        gpu.glGenTextures = (glGenTextures_fn)dlsym(libGL, "glGenTextures");
-        gpu.glDeleteTextures = (glDeleteTextures_fn)dlsym(libGL, "glDeleteTextures");
-        gpu.glBindTexture = (glBindTexture_fn)dlsym(libGL, "glBindTexture");
-        gpu.glTexParameteri = (glTexParameteri_fn)dlsym(libGL, "glTexParameteri");
-        gpu.glTexImage2D = (glTexImage2D_fn)dlsym(libGL, "glTexImage2D");
-        gpu.glBegin = (glBegin_fn)dlsym(libGL, "glBegin");
-        gpu.glEnd = (glEnd_fn)dlsym(libGL, "glEnd");
-        gpu.glTexCoord2f = (glTexCoord2f_fn)dlsym(libGL, "glTexCoord2f");
-        gpu.glVertex2f = (glVertex2f_fn)dlsym(libGL, "glVertex2f");
-
-        bool allResolved = glXChooseVisual && glXCreateContext && gpu.glXMakeCurrent && gpu.glXSwapBuffers &&
-            gpu.glXDestroyContext && gpu.glClearColor && gpu.glClear && gpu.glViewport && gpu.glMatrixMode &&
-            gpu.glLoadIdentity && gpu.glOrtho && gpu.glEnable && gpu.glGenTextures && gpu.glDeleteTextures &&
-            gpu.glBindTexture && gpu.glTexParameteri && gpu.glTexImage2D && gpu.glBegin && gpu.glEnd &&
-            gpu.glTexCoord2f && gpu.glVertex2f;
-        if (!allResolved) { dlclose(libGL); return false; }
-
-        int attribs[] = { kGlxRgba, kGlxDepthSize, 24, kGlxDoublebuffer, 0 };
-        XVisualInfo* visual = glXChooseVisual(display, screen, attribs);
-        if (!visual) { dlclose(libGL); return false; }
-
-        Colormap colormap = XCreateColormap(display, root, visual->visual, AllocNone);
-
-        XSetWindowAttributes attrs{};
-        attrs.colormap = colormap;
-        attrs.border_pixel = 0;
-        attrs.event_mask = ExposureMask | KeyPressMask | StructureNotifyMask | FocusChangeMask;
-
-        Window glxWindow = XCreateWindow(
-            display, root, 10, 10, width, height, 1,
-            visual->depth, InputOutput, visual->visual,
-            CWColormap | CWBorderPixel | CWEventMask, &attrs
-        );
-
-        GLXContext_t context = glXCreateContext(display, visual, nullptr, True);
-        XFree(visual);
-        if (!context) { XFreeColormap(display, colormap); XDestroyWindow(display, glxWindow); dlclose(libGL); return false; }
-
-        if (!gpu.glXMakeCurrent(display, (GLXDrawable_t)glxWindow, context)) {
-            gpu.glXDestroyContext(display, context);
-            XFreeColormap(display, colormap);
-            XDestroyWindow(display, glxWindow);
-            dlclose(libGL);
-            return false;
-        }
-
-        // Committed -- wire everything onto the real window/platform now.
-        win->platform.window = glxWindow;
-        win->platform.gpuActive = true;
-        win->platform.glxContext = context;
-        win->platform.colormap = colormap;
-        win->platform.gpu = gpu;
-
-        XMapWindow(display, glxWindow);
-        XStoreName(display, glxWindow, title);
-
-        gpu.glGenTextures(1, &win->platform.textureId);
-        gpu.glBindTexture(kGlTexture2D, win->platform.textureId);
-        gpu.glTexParameteri(kGlTexture2D, kGlTextureMinFilter, kGlNearest);
-        gpu.glTexParameteri(kGlTexture2D, kGlTextureMagFilter, kGlNearest);
-
-        return true;
-    }
+    static bool TryInitX11Gpu(NativeWindow* win, Display* display, int screen, Window root, const char* title, int width, int height);
 #endif
 
 // Minimal embedded 8x8 font bitmap for ASCII
@@ -390,42 +319,160 @@ struct NativeWindow {
     // kDepthFar means "nothing drawn here yet"; cleared every ClearCanvas.
     std::vector<float> depthBuffer;
 
-    // ---- GPU rendering (OpenGL 3.3 core, loaded at run time) ----
-    // gpu is null when the CPU rasteriser is in use: either it was forced
-    // (MAXCORE_RENDERER=cpu) or the GPU path could not start. Everything
-    // below belongs to THIS window's GL context; textures are not shared
-    // between windows, so each window keeps its own cache.
-    struct GpuState {
-        GlContext::Context context;
-        GlBackend::Renderer renderer;
-        // CPU image id -> the GPU texture built from it, and which version of
-        // the pixels that texture holds (see ImageRegistry::Version).
-        struct CachedTexture { GlBackend::GLuint name = 0; uint64_t version = 0; int filter = -1; int wrap = -1; };
-        std::unordered_map<int, CachedTexture> textures;
-        GlBackend::GLuint overlayTexture = 0;   // the 2D canvas, uploaded for compositing
-        int overlayW = 0, overlayH = 0;
-        float clearR = 0.094f, clearG = 0.094f, clearB = 0.094f;
-    };
-    std::unique_ptr<GpuState> gpu;
+    // ---- 3D drawing backend ----
+    // The 3D scene is drawn through ONE interface (DrawBackendNS::DrawBackend), so the draw calls never care
+    // which renderer is behind it:
+    //   "opengl"   OpenGL 3.3 core         (GPU, loaded at run time)
+    //   "vulkan"   Vulkan 1.1              (GPU, loaded at run time)
+    //   "software" tiled, threaded, SIMD   (CPU, the engine's own renderer)
+    //   "cpu"      the original single-threaded rasteriser; `backend` is null and draws go into canvasBuffer
+    // `renderer` is what this window is ACTUALLY using (it can differ from what was asked for if that one
+    // could not start). Textures are cached per backend, never shared between windows.
+    std::unique_ptr<DrawBackendNS::DrawBackend> backend;
+    std::string renderer = "cpu";
+    std::string rendererNote;          // why the requested renderer was not used, or empty
+    std::string glInitFailure;         // Linux: why the OpenGL-capable window could not be made, or empty
+    float clearR = 0.094f, clearG = 0.094f, clearB = 0.094f;
     PlatformWindow platform;
 };
 
-// "gpu" (default) or "cpu". Read once per process. MAXCORE_RENDERER=cpu is
-// the only way to turn the GPU path off; an unknown value keeps the default.
-static bool GpuRendererWanted() {
-    static const bool wanted = [] {
+// ---------------------------------------------------------------------
+// RENDERER CHOICE
+// ---------------------------------------------------------------------
+// Names are lowercase strings. "auto" tries opengl, then vulkan, then software.
+//   "auto" | "opengl" | "vulkan" | "software" | "cpu"      ("gpu" is accepted as an alias for "auto")
+// A window can ask for one in window_create, change it later with set_renderer, or leave it to the
+// process-wide default below, which comes from the MAXCORE_RENDERER environment variable.
+static std::string NormalizeRendererName(std::string v) {
+    for (auto& ch : v) ch = (char)std::tolower((unsigned char)ch);
+    if (v == "gl" || v == "ogl") return "opengl";
+    if (v == "vk") return "vulkan";
+    if (v == "soft" || v == "sw" || v == "threaded") return "software";
+    if (v == "gpu" || v == "default" || v.empty()) return "auto";
+    if (v == "off" || v == "none" || v == "disabled" || v == "raster") return "cpu";
+    if (v == "auto" || v == "opengl" || v == "vulkan" || v == "software" || v == "cpu") return v;
+    return "";                        // unknown
+}
+// The default for windows that do not ask for anything. Read once per process; an unknown value means "auto".
+static std::string DefaultRendererName() {
+    static const std::string name = [] {
         const char* v = std::getenv("MAXCORE_RENDERER");
-        if (!v) return true;
-        std::string s(v);
-        for (auto& ch : s) ch = (char)std::tolower((unsigned char)ch);
-        return s != "cpu" && s != "software";
+        if (!v) return std::string("auto");
+        std::string n = NormalizeRendererName(v);
+        return n.empty() ? std::string("auto") : n;
     }();
-    return wanted;
+    return name;
 }
 
 static constexpr float kDepthFar = (std::numeric_limits<float>::max)();
 
+#if !defined(_WIN32) && !defined(_WIN64) && !defined(__APPLE__)
+// Body of TryInitX11Gpu. Declared near the top of the file with the other
+// X11/GLX code, but defined here because it needs the complete NativeWindow.
+static bool TryInitX11Gpu(NativeWindow* win, Display* display, int screen, Window root, const char* title, int width, int height) {
+    void* libGL = dlopen("libGL.so.1", RTLD_LAZY | RTLD_LOCAL);
+    if (!libGL) { win->glInitFailure = "libGL.so.1 is not installed"; return false; }
+
+    auto glXChooseVisual = (glXChooseVisual_fn)dlsym(libGL, "glXChooseVisual");
+    auto glXCreateContext = (glXCreateContext_fn)dlsym(libGL, "glXCreateContext");
+    X11GpuFunctions gpu;
+    gpu.libGLHandle = libGL;
+    gpu.glXMakeCurrent = (glXMakeCurrent_fn)dlsym(libGL, "glXMakeCurrent");
+    gpu.glXSwapBuffers = (glXSwapBuffers_fn)dlsym(libGL, "glXSwapBuffers");
+    gpu.glXDestroyContext = (glXDestroyContext_fn)dlsym(libGL, "glXDestroyContext");
+    gpu.glClearColor = (glClearColor_fn)dlsym(libGL, "glClearColor");
+    gpu.glClear = (glClear_fn)dlsym(libGL, "glClear");
+    gpu.glViewport = (glViewport_fn)dlsym(libGL, "glViewport");
+    gpu.glMatrixMode = (glMatrixMode_fn)dlsym(libGL, "glMatrixMode");
+    gpu.glLoadIdentity = (glLoadIdentity_fn)dlsym(libGL, "glLoadIdentity");
+    gpu.glOrtho = (glOrtho_fn)dlsym(libGL, "glOrtho");
+    gpu.glEnable = (glEnable_fn)dlsym(libGL, "glEnable");
+    gpu.glGenTextures = (glGenTextures_fn)dlsym(libGL, "glGenTextures");
+    gpu.glDeleteTextures = (glDeleteTextures_fn)dlsym(libGL, "glDeleteTextures");
+    gpu.glBindTexture = (glBindTexture_fn)dlsym(libGL, "glBindTexture");
+    gpu.glTexParameteri = (glTexParameteri_fn)dlsym(libGL, "glTexParameteri");
+    gpu.glTexImage2D = (glTexImage2D_fn)dlsym(libGL, "glTexImage2D");
+    gpu.glBegin = (glBegin_fn)dlsym(libGL, "glBegin");
+    gpu.glEnd = (glEnd_fn)dlsym(libGL, "glEnd");
+    gpu.glTexCoord2f = (glTexCoord2f_fn)dlsym(libGL, "glTexCoord2f");
+    gpu.glVertex2f = (glVertex2f_fn)dlsym(libGL, "glVertex2f");
+
+    bool allResolved = glXChooseVisual && glXCreateContext && gpu.glXMakeCurrent && gpu.glXSwapBuffers &&
+        gpu.glXDestroyContext && gpu.glClearColor && gpu.glClear && gpu.glViewport && gpu.glMatrixMode &&
+        gpu.glLoadIdentity && gpu.glOrtho && gpu.glEnable && gpu.glGenTextures && gpu.glDeleteTextures &&
+        gpu.glBindTexture && gpu.glTexParameteri && gpu.glTexImage2D && gpu.glBegin && gpu.glEnd &&
+        gpu.glTexCoord2f && gpu.glVertex2f;
+    if (!allResolved) { win->glInitFailure = "libGL.so.1 is missing GLX functions"; dlclose(libGL); return false; }
+
+    int attribs[] = { kGlxRgba, kGlxDepthSize, 24, kGlxDoublebuffer, 0 };
+    XVisualInfo* visual = glXChooseVisual(display, screen, attribs);
+    if (!visual) { win->glInitFailure = "no GLX visual with a depth buffer is available on this display"; dlclose(libGL); return false; }
+
+    Colormap colormap = XCreateColormap(display, root, visual->visual, AllocNone);
+
+    XSetWindowAttributes attrs{};
+    attrs.colormap = colormap;
+    attrs.border_pixel = 0;
+    attrs.event_mask = ExposureMask | KeyPressMask | StructureNotifyMask | FocusChangeMask;
+
+    Window glxWindow = XCreateWindow(
+        display, root, 10, 10, width, height, 1,
+        visual->depth, InputOutput, visual->visual,
+        CWColormap | CWBorderPixel | CWEventMask, &attrs
+    );
+
+    GLXContext_t context = glXCreateContext(display, visual, nullptr, True);
+    XFree(visual);
+    if (!context) { win->glInitFailure = "glXCreateContext failed"; XFreeColormap(display, colormap); XDestroyWindow(display, glxWindow); dlclose(libGL); return false; }
+
+    if (!gpu.glXMakeCurrent(display, (GLXDrawable_t)glxWindow, context)) {
+        win->glInitFailure = "glXMakeCurrent failed";
+        gpu.glXDestroyContext(display, context);
+        XFreeColormap(display, colormap);
+        XDestroyWindow(display, glxWindow);
+        dlclose(libGL);
+        return false;
+    }
+
+    // Committed -- wire everything onto the real window/platform now.
+    win->platform.window = glxWindow;
+    win->platform.gpuActive = true;
+    win->platform.glxContext = context;
+    win->platform.colormap = colormap;
+    win->platform.gpu = gpu;
+
+    XMapWindow(display, glxWindow);
+    XStoreName(display, glxWindow, title);
+
+    gpu.glGenTextures(1, &win->platform.textureId);
+    gpu.glBindTexture(kGlTexture2D, win->platform.textureId);
+    gpu.glTexParameteri(kGlTexture2D, kGlTextureMinFilter, kGlNearest);
+    gpu.glTexParameteri(kGlTexture2D, kGlTextureMagFilter, kGlNearest);
+
+    return true;
+}
+#endif
+
 static std::unordered_map<int, NativeWindow*> g_windows;
+
+// The single place a window's drawable size changes. Every platform calls
+// this with its CLIENT area size (the part you draw into, top-left origin),
+// whether the change came from Lua, the user dragging an edge, fullscreen, or
+// the OS. Keeping one implementation is what keeps the canvas, depth buffer,
+// GPU viewport and get_mouse_position agreeing on every OS.
+static void ApplyClientSize(NativeWindow* win, int w, int h) {
+    if (!win || w <= 0 || h <= 0) return;
+    if (w == win->width && h == win->height && win->canvasBuffer.size() == (size_t)w * h) return;
+    win->width = w;
+    win->height = h;
+    win->canvasBuffer.assign((size_t)w * h, 0xFF181818);
+    win->depthBuffer.assign((size_t)w * h, kDepthFar);
+#if defined(_WIN32) || defined(_WIN64)
+    win->platform.bmi.bmiHeader.biWidth = w;
+    win->platform.bmi.bmiHeader.biHeight = -h;
+#endif
+    if (win->backend) win->backend->Resize(w, h);
+}
 // Single owner of every pixel buffer (see texture_store.hpp). Replaces the
 // old raw map so destroy_image can actually free memory and so a draw call
 // can hold a safe snapshot of an image that gets destroyed mid-frame.
@@ -450,6 +497,13 @@ static int g_next_light_id = 1;
             case WM_KILLFOCUS:
                 if (win) win->hasFocus = false;
                 return 0;
+            case WM_SIZE:
+                // The client area changed (user dragged an edge, maximised,
+                // restored). Keep the canvas, depth buffer and GPU viewport
+                // equal to it so drawing and get_mouse_position still agree.
+                // A minimised window reports 0x0; leave the buffers alone.
+                if (win && wParam != SIZE_MINIMIZED) ApplyClientSize(win, LOWORD(lParam), HIWORD(lParam));
+                return 0;
             case WM_CLOSE:
                 if (win) win->shouldClose = true;
                 return 0;
@@ -458,6 +512,24 @@ static int g_next_light_id = 1;
                 return 0;
         }
         return DefWindowProcA(hwnd, msg, wParam, lParam);
+    }
+
+    // Windows takes the OUTER size (frame, title bar and borders included) when
+    // creating or resizing a window, but everything in this engine, the
+    // canvas, the depth buffer, the GPU viewport and get_mouse_position, means
+    // the CLIENT area: the part you draw into, measured from its top-left.
+    // Passing width/height straight through made the drawable area smaller
+    // than the canvas (the bottom and right edges were cut off and the cursor
+    // no longer lined up with canvas pixels). This turns the size you want to
+    // draw into the outer size Windows needs for that.
+    static void ClientToOuterSize(DWORD style, DWORD exStyle, int clientW, int clientH, int& outerW, int& outerH) {
+        RECT r = { 0, 0, clientW, clientH };
+        if (AdjustWindowRectEx(&r, style, FALSE, exStyle)) {
+            outerW = r.right - r.left;
+            outerH = r.bottom - r.top;
+        } else {
+            outerW = clientW; outerH = clientH; // could not measure: keep the old behaviour
+        }
     }
 #endif
 
@@ -1278,51 +1350,24 @@ static FaceTexture ResolveFaceTexture(const Graphics::TextureSet* set, int faceS
 }
 
 // =========================================================================
-// GPU PATH HELPERS
+// 3D BACKEND HELPERS
 // =========================================================================
-// Returns the GL texture for `imageId` in this window, uploading it the
-// first time and again only when its pixels (or the sampler settings that
-// are baked into a GL texture) changed. 0 if there is no image.
-static GlBackend::GLuint GpuTextureFor(NativeWindow* win, int imageId, const Graphics::ImageBuffer& img,
-                                       const Graphics::TextureBinding& binding)
+// The texture for `imageId` on this window's backend: uploaded the first time, and again only when its
+// pixels or sampler settings changed (the version comes from the image registry). 0 if there is none.
+static DrawBackendNS::TextureId BackendTextureFor(NativeWindow* win, int imageId, const Graphics::ImageBuffer& img,
+                                                  const Graphics::TextureBinding& binding)
 {
-    auto& g = *win->gpu;
-    const uint64_t version = g_images.Version(imageId);
-    const int filter = binding.filter == Graphics::TextureFilter::Bilinear ? 1 : 0;
-    const int wrap = (int)binding.wrap;
-    auto it = g.textures.find(imageId);
-    if (it != g.textures.end() && it->second.version == version && it->second.filter == filter && it->second.wrap == wrap)
-        return it->second.name;
-
-    GlBackend::GLenum glWrap = GlBackend::GL_CLAMP_TO_EDGE;
-    if (binding.wrap == Graphics::TextureWrap::Repeat) glWrap = GlBackend::GL_REPEAT;
-    else if (binding.wrap == Graphics::TextureWrap::Mirror) glWrap = GlBackend::GL_MIRRORED_REPEAT;
-
-    GlBackend::GLuint tex = g.renderer.UploadTexture(img.pixels.data(), img.width, img.height, filter == 1, glWrap);
-    if (!tex) return 0;
-    // Free the superseded texture only after the new one exists, so a failed
-    // upload keeps showing the old picture rather than nothing.
-    if (it != g.textures.end()) g.renderer.DeleteTexture(it->second.name);
-    g.textures[imageId] = { tex, version, filter, wrap };
-    return tex;
+    return win->backend->TextureFor(imageId, g_images.Version(imageId), img, binding);
 }
 
-// Drops the GPU copy of an image (called when the image is destroyed, so its
-// video memory goes back immediately instead of waiting for the window to close).
-static void GpuForgetImage(int imageId) {
-    for (auto& kv : g_windows) {
-        NativeWindow* w = kv.second;
-        if (!w->gpu) continue;
-        auto it = w->gpu->textures.find(imageId);
-        if (it == w->gpu->textures.end()) continue;
-        // The context must be current to delete GL objects.
-        if (GlContext::MakeCurrent(w->gpu->context)) w->gpu->renderer.DeleteTexture(it->second.name);
-        w->gpu->textures.erase(it);
-    }
+// Drops every window's cached copy of an image (called when the image is destroyed, so video memory is returned
+// right away instead of when the window closes).
+static void BackendForgetImage(int imageId) {
+    for (auto& kv : g_windows) if (kv.second->backend) kv.second->backend->ForgetImage(imageId);
 }
 
-static GlBackend::Vertex MakeGpuVertex(float x, float y, float z, float u, float v, uint32_t argb, float texMix) {
-    GlBackend::Vertex g;
+static DrawBackendNS::Vertex MakeGpuVertex(float x, float y, float z, float u, float v, uint32_t argb, float texMix) {
+    DrawBackendNS::Vertex g;
     g.x = x; g.y = y; g.z = z;
     g.invW = z > 0.0f ? 1.0f / z : 0.0f;
     g.u = u; g.v = v;
@@ -1399,30 +1444,28 @@ static int DrawFaceClipped(
         if (!std::isfinite(scr[i].x) || !std::isfinite(scr[i].y)) return 0;
     }
 
-    if (win->gpu) {
-        // GPU: hand the clipped polygon to the batch as a triangle fan. The
-        // GPU does the depth test, texture sampling and blending; everything
-        // above (lighting, clipping, UVs, projection) is shared with the CPU path.
-        auto& g = *win->gpu;
+    if (win->backend) {
+        // Backend: hand the clipped polygon over as a triangle fan. The backend does the depth test, texture
+        // sampling and blending; everything above (lighting, clipping, UVs, projection) is shared with the CPU path.
         const bool textured = useUV && tex;
-        GlBackend::GLuint glTex = 0;
+        DrawBackendNS::TextureId glTex = 0;
         if (textured) {
-            glTex = GpuTextureFor(win, tex.binding->imageId, *tex.image, *tex.binding);
+            glTex = BackendTextureFor(win, tex.binding->imageId, *tex.image, *tex.binding);
             if (!glTex) return 0;
         }
         // The texture is lit by multiplying with the shade; a flat face carries its lit colour.
         const uint32_t tint = textured ? Graphics::ShadeColor(0xFFFFFFFFu, shade) : flatColor;
-        GlBackend::Vertex fan[Graphics::kMaxClipVertices];
+        DrawBackendNS::Vertex fan[Graphics::kMaxClipVertices];
         for (size_t i = 0; i < m; ++i) {
             // Textures follow the binding's offset/scale, same as the CPU sampler.
             float u = out[i].u, v = out[i].v;
             if (textured) { u = u * tex.binding->uScale + tex.binding->uOffset; v = v * tex.binding->vScale + tex.binding->vOffset; }
             fan[i] = MakeGpuVertex(scr[i].x, scr[i].y, out[i].pos.z, u, v, tint, textured ? 1.0f : 0.0f);
         }
-        GlBackend::Vertex tri[3 * (Graphics::kMaxClipVertices - 2)];
+        DrawBackendNS::Vertex tri[3 * (Graphics::kMaxClipVertices - 2)];
         size_t t = 0;
         for (size_t i = 1; i + 1 < m; ++i) { tri[t++] = fan[0]; tri[t++] = fan[i]; tri[t++] = fan[i + 1]; }
-        g.renderer.AddTriangles(tri, t, glTex);
+        win->backend->Triangles(tri, t, glTex);
         return (int)(m - 2);
     }
 
@@ -1465,7 +1508,7 @@ static void DrawLineClipped(
     Graphics::Vec2 pa = Graphics::Project3DPoint(a.pos, matProj, win->width, win->height);
     Graphics::Vec2 pb = Graphics::Project3DPoint(b.pos, matProj, win->width, win->height);
     if (!Graphics::ScreenPointSane(pa, win->width, win->height) || !Graphics::ScreenPointSane(pb, win->width, win->height)) return;
-    if (win->gpu) {
+    if (win->backend) {
         // A line has no area, so draw a quad 1.5 pixels wide (the CPU
         // anti-aliased line uses the same half-width). Both ends keep their
         // own depth so it occludes and is occluded like any other geometry.
@@ -1473,11 +1516,11 @@ static void DrawLineClipped(
         float dx = pb.x - pa.x, dy = pb.y - pa.y, len = std::sqrt(dx * dx + dy * dy);
         if (len < 1e-4f) return;
         float nx = -dy / len * half, ny = dx / len * half;
-        GlBackend::Vertex q[6] = {
+        DrawBackendNS::Vertex q[6] = {
             MakeGpuVertex(pa.x + nx, pa.y + ny, a.pos.z, 0, 0, color, 0), MakeGpuVertex(pa.x - nx, pa.y - ny, a.pos.z, 0, 0, color, 0),
             MakeGpuVertex(pb.x + nx, pb.y + ny, b.pos.z, 0, 0, color, 0), MakeGpuVertex(pb.x + nx, pb.y + ny, b.pos.z, 0, 0, color, 0),
             MakeGpuVertex(pa.x - nx, pa.y - ny, a.pos.z, 0, 0, color, 0), MakeGpuVertex(pb.x - nx, pb.y - ny, b.pos.z, 0, 0, color, 0)};
-        win->gpu->renderer.AddTriangles(q, 6, 0);
+        win->backend->Triangles(q, 6, 0);
         return;
     }
     // DrawLineDepth takes ints; keep them in range (see DrawFaceClipped).
@@ -1494,16 +1537,16 @@ static void DrawPointClipped(
     if (!Graphics::PointInFrontOfNear(v, cam.nearPlane)) return;
     Graphics::Vec2 p = Graphics::Project3DPoint(v, matProj, win->width, win->height);
     if (!Graphics::ScreenPointSane(p, win->width, win->height)) return;
-    if (win->gpu) {
+    if (win->backend) {
         const int seg = 12; const float rad = 3.0f;
-        GlBackend::Vertex fan[seg * 3];
+        DrawBackendNS::Vertex fan[seg * 3];
         for (int i = 0; i < seg; ++i) {
             float a0 = 6.2831853f * i / seg, a1 = 6.2831853f * (i + 1) / seg;
             fan[i * 3 + 0] = MakeGpuVertex(p.x, p.y, v.z, 0, 0, color, 0);
             fan[i * 3 + 1] = MakeGpuVertex(p.x + std::cos(a0) * rad, p.y + std::sin(a0) * rad, v.z, 0, 0, color, 0);
             fan[i * 3 + 2] = MakeGpuVertex(p.x + std::cos(a1) * rad, p.y + std::sin(a1) * rad, v.z, 0, 0, color, 0);
         }
-        win->gpu->renderer.AddTriangles(fan, seg * 3, 0);
+        win->backend->Triangles(fan, seg * 3, 0);
         return;
     }
     Graphics::DrawCircleDepth(win->canvasBuffer.data(), win->depthBuffer.data(), win->width, win->height,
@@ -1566,27 +1609,163 @@ static bool ReadFaceArray(lua_State* L, int idx, std::vector<std::vector<int>>& 
 // =========================================================================
 // WINDOW CORE FUNCTIONS
 // =========================================================================
-// Builds the renderer on top of a platform GL context that already exists and
-// is current. On any failure it frees what it made and leaves win->gpu null,
-// so the window keeps working on the CPU rasteriser; the reason is printed
-// once so a slow window is never a mystery. Returns true if the GPU is in use.
-static bool FinishGpuInit(NativeWindow* win, GlContext::Context&& ctx) {
-    auto gpu = std::make_unique<NativeWindow::GpuState>();
-    gpu->context = ctx;
-    std::string err;
-    if (!gpu->renderer.Init(GlContext::GetProc, &gpu->context, win->width, win->height, err)) {
-        std::fprintf(stderr, "[window_management] GPU rendering unavailable (%s); using the CPU rasteriser\n", err.c_str());
-        GlContext::Destroy(gpu->context);
-        return false;
-    }
-    win->gpu = std::move(gpu);
-    return true;
+// Puts a finished frame (w*h AARRGGBB, top row first) on screen. This is the one place that knows how each OS
+// copies pixels into a window: the original CPU path uses it, and so do the software and Vulkan backends.
+static void ShowPixels(NativeWindow* win, const uint32_t* pixels, int w, int h) {
+#if defined(_WIN32) || defined(_WIN64)
+    if (w != win->width || h != win->height) return;           // the DIB header describes the window's current size
+    SetDIBitsToDevice(
+        win->platform.hdc, 0, 0, w, h,
+        0, 0, 0, h,
+        pixels, &win->platform.bmi, DIB_RGB_COLORS
+    );
+#elif defined(__APPLE__)
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    CGContextRef ctx = CGBitmapContextCreate(
+        const_cast<uint32_t*>(pixels), w, h, 8, w * 4,
+        colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big
+    );
+    CGImageRef image = CGBitmapContextCreateImage(ctx);
+    id windowView = msgSend<id>(win->platform.window, sel_registerName("contentView"));
+    id layer = msgSend<id>(windowView, sel_registerName("layer"));
+    msgSend<void>(layer, sel_registerName("setContents:"), reinterpret_cast<id>(image));
+    CGImageRelease(image);
+    CGContextRelease(ctx);
+    CGColorSpaceRelease(colorSpace);
+#else
+    XImage* img = XCreateImage(
+        win->platform.display, DefaultVisual(win->platform.display, DefaultScreen(win->platform.display)),
+        24, ZPixmap, 0, reinterpret_cast<char*>(const_cast<uint32_t*>(pixels)),
+        w, h, 32, 0
+    );
+    XPutImage(win->platform.display, win->platform.window, win->platform.gc, img, 0, 0, 0, 0, w, h);
+    img->data = nullptr;                       // the pixels belong to the caller; XDestroyImage must not free them
+    XDestroyImage(img);
+    XFlush(win->platform.display);
+#endif
 }
 
+#if defined(_WIN32) || defined(_WIN64)
+// Without declaring DPI awareness, Windows at 125% / 150% / 200% display
+// scaling bitmap-stretches the whole window and reports cursor positions in
+// a scaled space that no longer matches the pixels being drawn, so the
+// cursor drifts away from what is under it, more toward the bottom-right.
+// Declaring the process DPI-aware makes one window pixel equal one screen
+// pixel. Must happen before the first window exists. Looked up at run time
+// so this still loads on Windows versions that predate each API; the newest
+// one available wins.
+static void EnsureDpiAware() {
+    static bool done = false;
+    if (done) return;
+    done = true;
+    HMODULE user32 = GetModuleHandleA("user32.dll");
+    if (!user32) return;
+    // Windows 10 1703+: per-monitor v2 (DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2 == -4)
+    typedef BOOL (WINAPI *SetCtxFn)(HANDLE);
+    if (auto setCtx = reinterpret_cast<SetCtxFn>(GetProcAddress(user32, "SetProcessDpiAwarenessContext"))) {
+        if (setCtx(reinterpret_cast<HANDLE>(-4))) return;
+    }
+    // Windows 8.1+: shcore SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE == 2)
+    if (HMODULE shcore = LoadLibraryA("shcore.dll")) {
+        typedef HRESULT (WINAPI *SetAwFn)(int);
+        if (auto setAw = reinterpret_cast<SetAwFn>(GetProcAddress(shcore, "SetProcessDpiAwareness"))) {
+            if (SUCCEEDED(setAw(2))) { FreeLibrary(shcore); return; }
+        }
+        FreeLibrary(shcore);
+    }
+    // Windows Vista+: system DPI aware.
+    typedef BOOL (WINAPI *SetFn)();
+    if (auto set = reinterpret_cast<SetFn>(GetProcAddress(user32, "SetProcessDPIAware"))) set();
+}
+#endif
+
+// Starts the 3D backend `name` ("opengl", "vulkan" or "software") on `win`. Returns null and fills `why` on failure,
+// leaving the window exactly as it was.
+static std::unique_ptr<DrawBackendNS::DrawBackend> MakeBackend(NativeWindow* win, const std::string& name, std::string& why) {
+    if (name == "software") {
+        // Frames are shown through ShowPixels, the same per-OS code the CPU rasteriser uses.
+        return std::make_unique<DrawBackendNS::SoftDrawBackend>(win->width, win->height, 0,
+            [win](const uint32_t* px, int w, int h) { ShowPixels(win, px, w, h); });
+    }
+    if (name == "vulkan") {
+        auto be = DrawBackendNS::VulkanDrawBackend::Create(win->width, win->height,
+            [win](const uint32_t* px, int w, int h) { ShowPixels(win, px, w, h); }, why);
+        return be;                                   // null with `why` set on failure
+    }
+    if (name == "opengl") {
+        GlContext::Context ctx;
+#if defined(_WIN32) || defined(_WIN64)
+        if (!GlContext::Create(ctx, win->platform.hwnd, win->platform.hdc, why)) return nullptr;
+#elif defined(__APPLE__)
+        {
+            id contentView = msgSend<id>(win->platform.window, sel_registerName("contentView"));
+            if (!GlContext::Create(ctx, reinterpret_cast<void*>(contentView), why,
+                                   reinterpret_cast<void* (*)(const char*)>(objc_getClass),
+                                   reinterpret_cast<void* (*)(const char*)>(sel_registerName),
+                                   reinterpret_cast<void* (*)(void*, void*, ...)>(objc_msgSend))) return nullptr;
+        }
+#else
+        if (!win->platform.gpuActive) {
+            // Either OpenGL was never asked for at creation, or it was and could not start. Say which.
+            why = !win->glInitFailure.empty() ? win->glInitFailure
+                  : "this window was not created with an OpenGL-capable visual; create it with renderer 'opengl' or 'auto'";
+            return nullptr;
+        }
+        if (!GlContext::Create(ctx, win->platform.display, (unsigned long)win->platform.window, win->platform.glxContext, why)) return nullptr;
+#endif
+        auto be = DrawBackendNS::GlDrawBackend::Create(std::move(ctx), win->width, win->height, why);
+        return be;
+    }
+    why = "unknown renderer '" + name + "'";
+    return nullptr;
+}
+
+// Decides which backend a window uses. `requested` is a normalized name. "auto" tries opengl, vulkan, software in
+// that order; a specific name is tried first and, if it cannot start, the rest follow so the window still draws.
+// The result is recorded in win->renderer (what is really in use) and win->rendererNote (why a fallback happened).
+static void SelectRenderer(NativeWindow* win, const std::string& requested) {
+    win->backend.reset();
+    win->rendererNote.clear();
+    if (requested == "cpu") { win->renderer = "cpu"; return; }
+    std::vector<std::string> order;
+    if (requested == "auto") order = {"opengl", "vulkan", "software"};
+    else {
+        order.push_back(requested);
+        for (const char* n : {"opengl", "vulkan", "software"}) if (requested != n) order.push_back(n);
+    }
+    std::string firstWhy;
+    for (const std::string& name : order) {
+        std::string why;
+        auto be = MakeBackend(win, name, why);
+        if (be) {
+            win->backend = std::move(be);
+            win->renderer = name;
+            if (name != requested && requested != "auto") win->rendererNote = "'" + requested + "' could not start (" + firstWhy + "); using '" + name + "'";
+            return;
+        }
+        if (firstWhy.empty()) firstWhy = why;
+    }
+    win->renderer = "cpu";
+    win->rendererNote = "no renderer could start (" + firstWhy + "); using the CPU rasteriser";
+}
+
+// pushes nil when two
+// sucess on one : return, etc
 static int window_create(lua_State* L) {
     const char* title = luaL_optstring(L, 1, "Native Window");
     int width = static_cast<int>(luaL_optinteger(L, 2, 800));
     int height = static_cast<int>(luaL_optinteger(L, 3, 600));
+    // Optional 4th argument: the renderer ("auto", "opengl", "vulkan", "software", "cpu"). Left out, the
+    // MAXCORE_RENDERER default applies. An unknown name is an error rather than a silent fallback.
+    std::string requested = DefaultRendererName();
+    if (lua_isstring(L, 4)) {
+        requested = NormalizeRendererName(lua_tostring(L, 4));
+        if (requested.empty()) {
+            lua_pushnil(L);
+            lua_pushstring(L, "create: unknown renderer (use 'auto', 'opengl', 'vulkan', 'software' or 'cpu')");
+            return 2;
+        }
+    }
 
     NativeWindow* win = new NativeWindow();
     win->width = width;
@@ -1602,11 +1781,14 @@ static int window_create(lua_State* L) {
     wc.hCursor = LoadCursor(NULL, IDC_ARROW);
     RegisterClassExA(&wc);
 
+    EnsureDpiAware();
     win->platform.styleFlags = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
+    int outerW = width, outerH = height;
+    ClientToOuterSize(win->platform.styleFlags, 0, width, height, outerW, outerH);
     win->platform.hwnd = CreateWindowExA(
         0, "LuaNativeWindowClass", title,
         win->platform.styleFlags,
-        CW_USEDEFAULT, CW_USEDEFAULT, width, height,
+        CW_USEDEFAULT, CW_USEDEFAULT, outerW, outerH,
         NULL, NULL, GetModuleHandle(NULL), NULL
     );
 
@@ -1620,19 +1802,9 @@ static int window_create(lua_State* L) {
     win->platform.bmi.bmiHeader.biBitCount = 32;
     win->platform.bmi.bmiHeader.biCompression = BI_RGB;
 
-    // GPU: a pixel format can be set on a window only once, so the choice
-    // between OpenGL and the software present (SetDIBitsToDevice) is made
-    // here, before anything is drawn. On failure the window is untouched and
-    // keeps using the software present.
-    if (GpuRendererWanted()) {
-        GlContext::Context ctx;
-        std::string gerr;
-        if (GlContext::Create(ctx, win->platform.hwnd, win->platform.hdc, gerr)) {
-            if (!FinishGpuInit(win, std::move(ctx))) { /* message already printed; software present stays */ }
-        } else {
-            std::fprintf(stderr, "[window_management] GPU rendering unavailable (%s); using the CPU rasteriser\n", gerr.c_str());
-        }
-    }
+    // The renderer is chosen below, once the window exists (see SelectRenderer after this block).
+    // Note: OpenGL sets a pixel format on the window, which can be done only once, so a Windows window that
+    // ever used "opengl" cannot go back to the plain DIB present (ShowPixels); set_renderer reports that.
 
 #elif defined(__APPLE__)
     id appClass = reinterpret_cast<id>(objc_getClass("NSApplication"));
@@ -1700,20 +1872,10 @@ static int window_create(lua_State* L) {
     // no libGL.so present, no GLX-capable visual, context creation
     // failing -- falls straight through to the exact original
     // XCreateSimpleWindow CPU path below, completely unchanged.
-    // TryInitX11Gpu creates the GLX window and context; the renderer then
-    // builds on that same context. (When the CPU renderer is forced, skip
-    // GLX entirely so the original XPutImage path is used.)
-    bool gpuReady = GpuRendererWanted() && TryInitX11Gpu(win, win->platform.display, screen, root, title, width, height);
-    if (gpuReady) {
-        GlContext::Context ctx;
-        std::string gerr;
-        if (GlContext::Create(ctx, win->platform.display, (unsigned long)win->platform.window, win->platform.glxContext, gerr)
-            && GlContext::MakeCurrent(ctx)) {
-            if (!FinishGpuInit(win, std::move(ctx))) { /* printed; the old texture-quad present below still applies */ }
-        } else {
-            std::fprintf(stderr, "[window_management] GPU rendering unavailable (%s); using the CPU rasteriser\n", gerr.c_str());
-        }
-    }
+    // A GLX-capable window is needed only if OpenGL may be used (the visual has to be chosen when the window is
+    // created). "vulkan", "software" and "cpu" use a plain window and present through XPutImage.
+    const bool wantsGl = requested == "auto" || requested == "opengl";
+    bool gpuReady = wantsGl && TryInitX11Gpu(win, win->platform.display, screen, root, title, width, height);
     if (!gpuReady) {
         win->platform.window = XCreateSimpleWindow(
             win->platform.display, root,
@@ -1728,9 +1890,97 @@ static int window_create(lua_State* L) {
     }
 #endif
 
+    SelectRenderer(win, requested);
+    if (!win->rendererNote.empty()) std::fprintf(stderr, "[window_management] %s\n", win->rendererNote.c_str());
+
     int winId = g_next_window_id++;
     g_windows[winId] = win;
     lua_pushinteger(L, winId);
+    return 1;
+}
+
+// Asks the OS for the window's CURRENT drawable (client) size and brings the
+// canvas into line with it. The cached width/height only change when a resize
+// event is processed, so a script that reads the size before the next
+// poll_events (or after a missed event) used to get the size the window had
+// when it was created. The OS is the source of truth, so every read asks it.
+static void SyncSizeFromOS(NativeWindow* win) {
+#if defined(_WIN32) || defined(_WIN64)
+    RECT r = {};
+    if (win->platform.hwnd && GetClientRect(win->platform.hwnd, &r)) ApplyClientSize(win, r.right - r.left, r.bottom - r.top);
+#elif defined(__APPLE__)
+    id contentView = msgSend<id>(win->platform.window, sel_registerName("contentView"));
+    if (contentView) {
+        const CGRect b = msgSend<CGRect>(contentView, sel_registerName("bounds"));
+        ApplyClientSize(win, (int)b.size.width, (int)b.size.height);
+    }
+#else
+    XWindowAttributes attrs;
+    if (win->platform.display && XGetWindowAttributes(win->platform.display, win->platform.window, &attrs))
+        ApplyClientSize(win, attrs.width, attrs.height);
+#endif
+}
+
+// set_renderer(window, name) -> true | nil, reason
+// Switches the 3D renderer of an open window. "vulkan", "software" and "cpu" can be switched freely. "opengl"
+// needs an OpenGL-capable window: on Linux that must be chosen when the window is created, and on Windows a window
+// that has used OpenGL cannot go back to the plain pixel present. The call says so instead of pretending.
+static int window_set_renderer(lua_State* L) {
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
+    std::string requested = NormalizeRendererName(luaL_checkstring(L, 2));
+    auto it = g_windows.find(winId);
+    if (it == g_windows.end()) { lua_pushnil(L); lua_pushstring(L, "set_renderer: unknown window"); return 2; }
+    if (requested.empty()) { lua_pushnil(L); lua_pushstring(L, "set_renderer: unknown renderer (use 'auto', 'opengl', 'vulkan', 'software' or 'cpu')"); return 2; }
+    NativeWindow* win = it->second;
+    if (requested == "auto") requested = DefaultRendererName();
+
+    std::string blocked;
+#if defined(_WIN32) || defined(_WIN64)
+    if (win->renderer == "opengl" && requested != "opengl" && requested != "auto")
+        blocked = "this window already uses OpenGL, whose pixel format cannot be undone; create a new window for '" + requested + "'";
+#elif !defined(__APPLE__)
+    if (requested == "opengl" && !win->platform.gpuActive)
+        blocked = "this window was created without an OpenGL-capable visual; create it with renderer 'opengl' or 'auto'";
+    else if (win->platform.gpuActive && requested != "opengl" && requested != "auto")
+        blocked = "this window was created for OpenGL and presents through GLX; create a new window for '" + requested + "'";
+#endif
+    if (!blocked.empty()) { lua_pushnil(L); lua_pushstring(L, ("set_renderer: " + blocked).c_str()); return 2; }
+
+    const std::string before = win->renderer;
+    SelectRenderer(win, requested);
+    std::fill(win->canvasBuffer.begin(), win->canvasBuffer.end(), win->backend ? 0x00000000u : 0xFF181818u);
+    std::fill(win->depthBuffer.begin(), win->depthBuffer.end(), kDepthFar);
+    if (win->backend) win->backend->BeginFrame(win->clearR, win->clearG, win->clearB);
+    lua_pushboolean(L, 1);
+    if (!win->rendererNote.empty()) { lua_pushstring(L, win->rendererNote.c_str()); return 2; }
+    return 1;
+}
+
+// get_renderer(window) -> name actually in use ("opengl" | "vulkan" | "software" | "cpu"), then a description
+static int window_get_renderer(lua_State* L) {
+    int winId = static_cast<int>(luaL_checkinteger(L, 1));
+    auto it = g_windows.find(winId);
+    if (it == g_windows.end()) { lua_pushnil(L); lua_pushnil(L); return 2; }
+    NativeWindow* win = it->second;
+    lua_pushstring(L, win->renderer.c_str());
+    lua_pushstring(L, win->backend ? win->backend->Description().c_str() : "cpu (original single-threaded rasteriser)");
+    return 2;
+}
+
+// get_available_renderers() -> { "software", "cpu", plus "opengl" / "vulkan" if they can be loaded on this machine }
+static int window_get_available_renderers(lua_State* L) {
+    lua_newtable(L);
+    int n = 0;
+    auto add = [&](const char* name) { lua_pushstring(L, name); lua_rawseti(L, -2, ++n); };
+#if defined(_WIN32) || defined(_WIN64)
+    if (GetModuleHandleA("opengl32.dll") || LoadLibraryA("opengl32.dll")) add("opengl");
+#elif defined(__APPLE__)
+    add("opengl");
+#else
+    if (void* h = dlopen("libGL.so.1", RTLD_LAZY | RTLD_LOCAL)) { add("opengl"); dlclose(h); }
+#endif
+    if (void* h = DrawBackendNS::VkLoad::Open()) { add("vulkan"); DrawBackendNS::VkLoad::Close(h); }
+    add("software"); add("cpu");
     return 1;
 }
 
@@ -1738,6 +1988,7 @@ static int window_get_dimensions(lua_State* L) {
     int winId = static_cast<int>(luaL_checkinteger(L, 1));
     auto it = g_windows.find(winId);
     if (it != g_windows.end()) {
+        SyncSizeFromOS(it->second);
         lua_pushinteger(L, it->second->width);
         lua_pushinteger(L, it->second->height);
         return 2;
@@ -1755,16 +2006,24 @@ static int window_set_dimensions(lua_State* L) {
     auto it = g_windows.find(winId);
     if (it != g_windows.end()) {
         NativeWindow* win = it->second;
-        win->width = w;
-        win->height = h;
-        win->canvasBuffer.resize(w * h, 0xFF181818);
-        win->depthBuffer.resize(w * h, kDepthFar);
-        if (win->gpu) win->gpu->renderer.Resize(w, h);   // viewport and overlay follow the new size
+        ApplyClientSize(win, w, h);   // canvas, depth buffer and GPU viewport follow the new size
 
 #if defined(_WIN32) || defined(_WIN64)
-        SetWindowPos(win->platform.hwnd, NULL, 0, 0, w, h, SWP_NOMOVE | SWP_NOZORDER);
+        int outerW = w, outerH = h;
+        if (!win->isFullscreen) ClientToOuterSize(win->platform.styleFlags, 0, w, h, outerW, outerH);
+        SetWindowPos(win->platform.hwnd, NULL, 0, 0, outerW, outerH, SWP_NOMOVE | SWP_NOZORDER);
         win->platform.bmi.bmiHeader.biWidth = w;
         win->platform.bmi.bmiHeader.biHeight = -h;
+#elif defined(__APPLE__)
+        // Resize the window's CONTENT area (setContentSize: takes the drawable
+        // size, so the title bar is not counted), keeping the top-left fixed.
+        struct { double w, h; } size = { (double)w, (double)h };
+        msgSend<void>(win->platform.window, sel_registerName("setContentSize:"), CGSizeMake(size.w, size.h));
+#else
+        // X11 sizes the client area directly. Without this the canvas changed
+        // but the real window stayed the old size, so the two disagreed.
+        XResizeWindow(win->platform.display, win->platform.window, (unsigned)w, (unsigned)h);
+        XFlush(win->platform.display);
 #endif
     }
     return 0;
@@ -1796,9 +2055,15 @@ static int window_set_fullscreen(lua_State* L) {
             win->platform.bmi.bmiHeader.biHeight = -screenH;
         } else {
             SetWindowLong(win->platform.hwnd, GWL_STYLE, win->platform.styleFlags);
-            int w = win->platform.savedRect.right - win->platform.savedRect.left;
-            int h = win->platform.savedRect.bottom - win->platform.savedRect.top;
-            SetWindowPos(win->platform.hwnd, NULL, win->platform.savedRect.left, win->platform.savedRect.top, w, h, SWP_NOZORDER | SWP_FRAMECHANGED);
+            // savedRect is the OUTER rect; put the window back exactly where it was,
+            // then take the canvas size from what Windows says the client area is.
+            int outerW = win->platform.savedRect.right - win->platform.savedRect.left;
+            int outerH = win->platform.savedRect.bottom - win->platform.savedRect.top;
+            SetWindowPos(win->platform.hwnd, NULL, win->platform.savedRect.left, win->platform.savedRect.top, outerW, outerH, SWP_NOZORDER | SWP_FRAMECHANGED);
+            RECT client = {};
+            GetClientRect(win->platform.hwnd, &client);
+            int w = client.right - client.left;
+            int h = client.bottom - client.top;
             
             win->width = w;
             win->height = h;
@@ -2048,6 +2313,16 @@ static int window_poll_events(lua_State* L) {
     if (event) {
         msgSend<void>(app, sel_registerName("sendEvent:"), event);
     }
+    // macOS has no resize callback in this polling loop, so read each
+    // window's content size (in points; the same unit the content rect was
+    // created with) and let the shared function react only if it changed.
+    for (auto& pair : g_windows) {
+        NativeWindow* w = pair.second;
+        id contentView = msgSend<id>(w->platform.window, sel_registerName("contentView"));
+        if (!contentView) continue;
+        const CGRect bounds = msgSend<CGRect>(contentView, sel_registerName("bounds"));
+        ApplyClientSize(w, (int)bounds.size.width, (int)bounds.size.height);
+    }
 #else
     for (auto& pair : g_windows) {
         NativeWindow* win = pair.second;
@@ -2055,6 +2330,7 @@ static int window_poll_events(lua_State* L) {
             XEvent ev;
             XNextEvent(win->platform.display, &ev);
             if (ev.type == DestroyNotify) win->shouldClose = true;
+            else if (ev.type == ConfigureNotify && ev.xconfigure.window == win->platform.window) ApplyClientSize(win, ev.xconfigure.width, ev.xconfigure.height);
             else if (ev.type == FocusIn  && ev.xfocus.window == win->platform.window) win->hasFocus = true;
             else if (ev.type == FocusOut && ev.xfocus.window == win->platform.window) win->hasFocus = false;
         }
@@ -2079,14 +2355,13 @@ static int window_clear_canvas(lua_State* L) {
     auto it = g_windows.find(winId);
     if (it != g_windows.end()) {
         uint32_t color = (0xFF << 24) | (r << 16) | (g << 8) | b;
-        if (it->second->gpu) {
-            // GPU frame: the colour clears the 3D framebuffer, and the 2D
-            // canvas starts fully transparent so it can be laid over the
-            // 3D picture at swap time.
-            auto& g3 = *it->second->gpu;
-            g3.clearR = r / 255.0f; g3.clearG = g / 255.0f; g3.clearB = b / 255.0f;
-            if (GlContext::MakeCurrent(g3.context)) g3.renderer.BeginFrame(g3.clearR, g3.clearG, g3.clearB);
-            std::fill(it->second->canvasBuffer.begin(), it->second->canvasBuffer.end(), 0x00000000u);
+        if (it->second->backend) {
+            // Backend frame: the colour clears the 3D picture, and the 2D canvas starts fully
+            // transparent so it can be laid over that picture when the frame is presented.
+            NativeWindow* w3 = it->second;
+            w3->clearR = r / 255.0f; w3->clearG = g / 255.0f; w3->clearB = b / 255.0f;
+            w3->backend->BeginFrame(w3->clearR, w3->clearG, w3->clearB);
+            std::fill(w3->canvasBuffer.begin(), w3->canvasBuffer.end(), 0x00000000u);
             return 0;
         }
         std::fill(it->second->canvasBuffer.begin(), it->second->canvasBuffer.end(), color);
@@ -2904,7 +3179,7 @@ static int image_fill_pixels(lua_State* L) {
 // (flat face color) on the next draw -- it never dangles.
 static int image_destroy(lua_State* L) {
     int imgId = static_cast<int>(luaL_checkinteger(L, 1));
-    GpuForgetImage(imgId); // give back video memory now, not at window close
+    BackendForgetImage(imgId); // give back video memory now, not at window close
     lua_pushboolean(L, g_images.Destroy(imgId) ? 1 : 0);
     return 1;
 }
@@ -3012,7 +3287,7 @@ static int window_draw_cube(lua_State* L) {
     Graphics::Matrix4x4 matRotZ = Graphics::Matrix4x4::RotationZ(rotZ);
     Graphics::Matrix4x4 matTrans = Graphics::Matrix4x4::Translation(posX, posY, posZ);
     Graphics::Matrix4x4 matProj = Graphics::Matrix4x4::Perspective(cam->fov, (float)win->width / (float)win->height, cam->nearPlane, cam->farPlane);
-    if (win->gpu) { GlContext::MakeCurrent(win->gpu->context); win->gpu->renderer.SetDepthRange(cam->nearPlane, cam->farPlane); }
+    if (win->backend) win->backend->SetDepthRange(cam->nearPlane, cam->farPlane);
 
     Graphics::Vec3 viewPos[8];
 
@@ -3226,7 +3501,7 @@ static int window_draw_mesh(lua_State* L) {
     Graphics::Matrix4x4 matRotZ = Graphics::Matrix4x4::RotationZ(rotZ);
     Graphics::Matrix4x4 matTrans = Graphics::Matrix4x4::Translation(posX, posY, posZ);
     Graphics::Matrix4x4 matProj = Graphics::Matrix4x4::Perspective(cam->fov, (float)win->width / (float)win->height, cam->nearPlane, cam->farPlane);
-    if (win->gpu) { GlContext::MakeCurrent(win->gpu->context); win->gpu->renderer.SetDepthRange(cam->nearPlane, cam->farPlane); }
+    if (win->backend) win->backend->SetDepthRange(cam->nearPlane, cam->farPlane);
 
     size_t vertCount = localVerts.size();
     std::vector<Graphics::Vec3> viewPos(vertCount);
@@ -3349,134 +3624,21 @@ static int window_draw_mesh(lua_State* L) {
     return 0;
 }
 
-// Draws the 2D canvas over the 3D picture. The canvas is mostly transparent
-// (clear_canvas zeroes it on the GPU path), so alpha blending leaves the 3D
-// scene visible wherever nothing 2D was drawn. 2D keeps the exact pixels the
-// CPU rasteriser made, including anti-aliasing and text, which is why the
-// result matches what the CPU path shows.
-static void PresentOverlay(NativeWindow* win) {
-    auto& g = *win->gpu;
-    // Nothing 2D drawn this frame: skip the upload and the extra draw entirely.
-    // Decided by looking at the canvas itself (any pixel with alpha), not by a
-    // flag that every 2D call would have to remember to set: a missed call
-    // site would make its output silently vanish. The scan stops at the first
-    // drawn pixel, so a busy canvas costs almost nothing.
-    {
-        const uint32_t* px = win->canvasBuffer.data();
-        const size_t n = win->canvasBuffer.size();
-        size_t i = 0;
-        while (i < n && (px[i] >> 24) == 0) ++i;
-        if (i == n) return;
-    }
-
-    // Re-create the texture only when the window size changed; otherwise it is
-    // simply re-filled. UploadTexture allocates a GL object, so release the old one first.
-    if (g.overlayTexture && (g.overlayW != win->width || g.overlayH != win->height)) {
-        g.renderer.DeleteTexture(g.overlayTexture);
-        g.overlayTexture = 0;
-    }
-    if (g.overlayTexture) g.renderer.DeleteTexture(g.overlayTexture);   // refreshed below from this frame's canvas
-    g.overlayTexture = g.renderer.UploadTexture(win->canvasBuffer.data(), win->width, win->height, false, GlBackend::GL_CLAMP_TO_EDGE);
-    g.overlayW = win->width; g.overlayH = win->height;
-    if (!g.overlayTexture) return;
-
-    // z <= 0 puts the quad in front of all 3D (see the vertex shader).
-    const float w = (float)win->width, h = (float)win->height;
-    GlBackend::Vertex q[6] = {
-        MakeGpuVertex(0, 0, 0, 0, 0, 0xFFFFFFFFu, 1), MakeGpuVertex(w, 0, 0, 1, 0, 0xFFFFFFFFu, 1), MakeGpuVertex(w, h, 0, 1, 1, 0xFFFFFFFFu, 1),
-        MakeGpuVertex(0, 0, 0, 0, 0, 0xFFFFFFFFu, 1), MakeGpuVertex(w, h, 0, 1, 1, 0xFFFFFFFFu, 1), MakeGpuVertex(0, h, 0, 0, 1, 0xFFFFFFFFu, 1)};
-    // invW is 0 for z <= 0, which would divide by zero for the UVs; the overlay
-    // is screen-aligned, so give it a constant 1.
-    for (auto& v : q) v.invW = 1.0f;
-    g.renderer.AddTriangles(q, 6, g.overlayTexture);
-    g.renderer.FlushOverlay();
-}
-
 static int window_swap_buffers(lua_State* L) {
     int winId = static_cast<int>(luaL_checkinteger(L, 1));
     auto it = g_windows.find(winId);
     if (it == g_windows.end()) return 0;
     NativeWindow* win = it->second;
 
-    if (win->gpu) {
-        // GPU present: send the queued 3D geometry, lay the 2D canvas over it
-        // as one alpha-blended quad, and swap.
-        auto& g = *win->gpu;
-        if (!GlContext::MakeCurrent(g.context)) return 0;
-        g.renderer.Flush();
-        PresentOverlay(win);
-        GlContext::SwapBuffers_(g.context);
+
+    if (win->backend) {
+        // 3D backend: it composites the 2D canvas over the scene and shows the frame (OpenGL swaps its own
+        // buffers; software and Vulkan hand a finished frame to ShowPixels).
+        const bool has2D = DrawBackendNS::CanvasHasContent(win->canvasBuffer.data(), win->canvasBuffer.size());
+        win->backend->Present(win->canvasBuffer.data(), win->width, win->height, has2D);
         return 0;
     }
-
-#if defined(_WIN32) || defined(_WIN64)
-    SetDIBitsToDevice(
-        win->platform.hdc, 0, 0, win->width, win->height,
-        0, 0, 0, win->height,
-        win->canvasBuffer.data(), &win->platform.bmi, DIB_RGB_COLORS
-    );
-#elif defined(__APPLE__)
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef ctx = CGBitmapContextCreate(
-        win->canvasBuffer.data(), win->width, win->height, 8, win->width * 4,
-        colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big
-    );
-    CGImageRef image = CGBitmapContextCreateImage(ctx);
-    id windowView = msgSend<id>(win->platform.window, sel_registerName("contentView"));
-    id layer = msgSend<id>(windowView, sel_registerName("layer"));
-    msgSend<void>(layer, sel_registerName("setContents:"), reinterpret_cast<id>(image));
-    CGImageRelease(image);
-    CGContextRelease(ctx);
-    CGColorSpaceRelease(colorSpace);
-#else
-    if (win->platform.gpuActive) {
-        // GPU present: upload the SAME CPU-rasterized canvasBuffer every
-        // draw_* already filled in as a texture, then draw it as one
-        // full-screen textured quad and swap. Nothing about how pixels
-        // get INTO canvasBuffer changes here -- only how that finished
-        // buffer reaches the screen. Re-declares the texture's storage
-        // (glTexImage2D) only when the size actually changed (e.g.
-        // window_resize) -- otherwise glTexSubImage2D-equivalent reuse
-        // via the same glTexImage2D call is still correct, just costs a
-        // reallocation every frame; a real subimage-update is a Phase 2
-        // perf refinement, not needed for correctness here.
-        auto& gpu = win->platform.gpu;
-        gpu.glBindTexture(kGlTexture2D, win->platform.textureId);
-        gpu.glTexImage2D(kGlTexture2D, 0, kGlRgba, win->width, win->height, 0, kGlBgra, kGlUnsignedByte, win->canvasBuffer.data());
-        win->platform.textureWidth = win->width;
-        win->platform.textureHeight = win->height;
-
-        gpu.glViewport(0, 0, win->width, win->height);
-        gpu.glMatrixMode(kGlProjection);
-        gpu.glLoadIdentity();
-        gpu.glOrtho(0, win->width, win->height, 0, -1, 1); // top-left origin, matching canvasBuffer's own row order
-        gpu.glMatrixMode(kGlModelview);
-        gpu.glLoadIdentity();
-
-        gpu.glEnable(kGlTexture2D);
-        gpu.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        gpu.glClear(kGlColorBufferBit);
-
-        gpu.glBegin(kGlQuads);
-        gpu.glTexCoord2f(0.0f, 0.0f); gpu.glVertex2f(0.0f, 0.0f);
-        gpu.glTexCoord2f(1.0f, 0.0f); gpu.glVertex2f((float)win->width, 0.0f);
-        gpu.glTexCoord2f(1.0f, 1.0f); gpu.glVertex2f((float)win->width, (float)win->height);
-        gpu.glTexCoord2f(0.0f, 1.0f); gpu.glVertex2f(0.0f, (float)win->height);
-        gpu.glEnd();
-
-        gpu.glXSwapBuffers(win->platform.display, (GLXDrawable_t)win->platform.window);
-    } else {
-        XImage* img = XCreateImage(
-            win->platform.display, DefaultVisual(win->platform.display, DefaultScreen(win->platform.display)),
-            24, ZPixmap, 0, reinterpret_cast<char*>(win->canvasBuffer.data()),
-            win->width, win->height, 32, 0
-        );
-        XPutImage(win->platform.display, win->platform.window, win->platform.gc, img, 0, 0, 0, 0, win->width, win->height);
-        img->data = NULL;
-        XDestroyImage(img);
-    }
-#endif
-
+    ShowPixels(win, win->canvasBuffer.data(), win->width, win->height);
     return 0;
 }
 
@@ -4113,12 +4275,9 @@ static int window_destroy(lua_State* L) {
         // GPU teardown FIRST, while the context and the window's DC/display
         // still exist: GL objects can only be deleted with their context
         // current, and a context must be deleted before the window it draws to.
-        if (win->gpu) {
-            // Shutdown() frees every GL object the renderer created, textures included.
-            if (GlContext::MakeCurrent(win->gpu->context)) win->gpu->renderer.Shutdown();
-            win->gpu->textures.clear();
-            GlContext::Destroy(win->gpu->context);
-            win->gpu.reset();
+        if (win->backend) {
+            win->backend->Shutdown();          // frees GL / Vulkan objects while their context / device is still valid
+            win->backend.reset();
         }
 #if defined(_WIN32) || defined(_WIN64)
         FreeWindowIcons(win);
@@ -4133,10 +4292,15 @@ static int window_destroy(lua_State* L) {
             gpu.glXMakeCurrent(win->platform.display, 0, nullptr);
             gpu.glXDestroyContext(win->platform.display, win->platform.glxContext);
             XFreeColormap(win->platform.display, win->platform.colormap);
-            if (gpu.libGLHandle) dlclose(gpu.libGLHandle);
         }
         XDestroyWindow(win->platform.display, win->platform.window);
         XCloseDisplay(win->platform.display);
+        // libGL registers close hooks on the Display the first time GLX is
+        // used, and XCloseDisplay runs them. Unloading the library before
+        // that call left those hooks pointing at unmapped memory (a crash
+        // inside XCloseDisplay). So the library is released only AFTER the
+        // display is closed.
+        if (win->platform.gpuActive && win->platform.gpu.libGLHandle) dlclose(win->platform.gpu.libGLHandle);
 #endif
         delete win;
         g_windows.erase(it);
@@ -4148,6 +4312,9 @@ extern "C" EXPORT_FN int luaopen_window_management(lua_State* L) {
     static const luaL_Reg WindowManagement[] = {
         {"create_window", window_create},
         {"get_dimensions", window_get_dimensions},
+        {"set_renderer", window_set_renderer},
+        {"get_renderer", window_get_renderer},
+        {"get_available_renderers", window_get_available_renderers},
         {"set_dimensions", window_set_dimensions},
         {"set_fullscreen", window_set_fullscreen},
         {"get_position", window_get_position},

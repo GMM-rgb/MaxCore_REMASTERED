@@ -228,8 +228,13 @@ inline void SwapBuffers_(Context& c) { if (c.valid) c.glXSwapBuffers(c.display, 
 inline void Destroy(Context& c) {
     if (!c.valid) return;
     c.glXMakeCurrent(c.display, 0, nullptr);
-    // The GLX context and window are destroyed by window_destroy (it created them).
-    if (c.lib) { dlclose(c.lib); c.lib = nullptr; }
+    // The GLX context and window are destroyed by window_destroy (it created
+    // them). libGL is deliberately NOT unloaded here: it has hooks registered
+    // on the Display that XCloseDisplay still has to run, so unloading it
+    // before the display closes crashes. Our handle is a second reference to
+    // a library the window code already holds; dropping it later is harmless,
+    // and the process keeps it for its lifetime.
+    c.lib = nullptr;
     c.valid = false;
 }
 #endif

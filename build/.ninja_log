@@ -128,3 +128,10 @@
 1474	11315	8157378635749826	CMakeFiles/sound_service_backend.dir/backend/sound_service_backend.cpp.obj	d45d58a45dd09761
 11316	11702	8157378639586451	sound_native.dll	68b7c7d0394e7b66
 11316	11702	8157378639586451	libsound_native.dll.a	68b7c7d0394e7b66
+36	65	0	D:/MaxCore_REMASTERED/build/CMakeFiles/cmake.verify_globs	5a289ccbea969d7c
+74	1440	8157840778049150	CMakeFiles/physics_management.dir/backend/physics_management.cpp.obj	12940fdbf872530f
+1441	1745	8157840781035275	physics_management.dll	e2210a9295fced04
+1441	1745	8157840781035275	libphysics_management.dll.a	e2210a9295fced04
+70	4776	8157840811344343	CMakeFiles/window_management.dir/backend/window_management.cpp.obj	2e8a8f98a0341e7c
+4777	5069	8157840814247588	window_management.dll	cde9d3ba7f473536
+4777	5069	8157840814247588	libwindow_management.dll.a	cde9d3ba7f473536

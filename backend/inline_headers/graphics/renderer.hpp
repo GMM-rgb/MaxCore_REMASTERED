@@ -42,7 +42,10 @@ struct Matrix4x4 {
     static Matrix4x4 Perspective(float fovDeg, float aspect, float nearPlane, float farPlane) {
         Matrix4x4 mat;
         float fovRad = 1.0f / std::tan(fovDeg * 0.5f * 3.14159265f / 180.0f);
-        mat.m[0][0] = aspect * fovRad;
+        // x is DIVIDED by the aspect ratio (width / height). Multiplying it, as this line used to, stretched the
+        // picture by aspect squared: a square cube came out 3.2 times wider than tall on a 16:9 window.
+        // The vertical field of view is `fovDeg`; the horizontal one follows from the window shape.
+        mat.m[0][0] = fovRad / (aspect > 0.0f ? aspect : 1.0f);
         mat.m[1][1] = fovRad;
         mat.m[2][2] = farPlane / (farPlane - nearPlane);
         mat.m[2][3] = 1.0f;
