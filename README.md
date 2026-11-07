@@ -1,6 +1,6 @@
 # MaxCore REMASTERED
 
-### Global Environment Variables
+## Global Environment Variables
 
 ```lua
 EngineCore: EngineCore|MaxCore
@@ -11,51 +11,64 @@ kpairs(t: table, step: boolean): function
 ```
 
 ```lua
-os.native_execute(command: string, options: table): (sucess: boolean|integer|nil, error: string|nil)
+os.native_execute(command: string, options: table): (success: boolean|integer|nil, error: string|nil)
 ```
 
-> _**NOTE:**_ the above syntax 
-> is not literal Lua syntax,
-> it's just a type reference.
+> **NOTE:** The syntax above is not literal Lua syntax. It is used exclusively for type references and documentation.
 
-### Service Loading Reference
+## Service Loading Reference
 
 ```lua
 local ServiceObject = EngineCore:LoadService(name: string)
 ```
 
-### Service Usage
+## Service Usage
 
 ### RunnerService
 
 The `RunnerService`, also known as the runtime service, provides utilities for maintaining active runtime processes and binding runtime simulations to `deltaTime` events.
 
-Functions passed through the `Connect` method are:
-* `delta: number`
-* `wait: function(s: number): number`
-* `join: function(id: integer): TaskEvent`
+Functions passed through the `Connect` method receive the following arguments:
 
-**TIP:** The scheduler for the runtime service is sequenced through Stepped -> Hearbeat -> RenderStepped (which occurs last just before the frame is fully rendered.)
+- `delta: number`
+- `wait: function(s: number): number`
+- `join: function(id: integer): TaskEvent`
+
+**TIP:** The scheduler for the runtime service follows this execution sequence:
+
+`Stepped` → `Heartbeat` → `RenderStepped`
+
+`RenderStepped` occurs last, immediately before the frame is rendered.
+
+**Properties:**
 
 ```lua
--- properties
 RunnerService.Stepped -> RunnerSignal
 RunnerService.Heartbeat -> RunnerSignal
 RunnerService.RenderStepped -> RunnerSignal
 ```
 
+**Signal methods:**
+
 ```lua
--- signal methods
 RunnerSignal.Connect: fun(thread: function|string|thread, options: JobOptions): RunnerConnection
--- connection methods
+```
+
+**Connection methods:**
+
+```lua
 RunnerConnection.disconnect -> fun(self: RunnerConnection): nil
 RunnerConnection.Pause -> fun(self: RunnerConnection): nil
 RunnerConnection.Resume -> fun(self: RunnerConnection): nil
--- connection properties
+```
+
+**Connection properties:**
+
+```lua
 RunnerConnection.Connected -> boolean
 ```
 
-> The `Connect` method is expanded from the base RunnerSignal.
+> The `Connect` method is expanded from the base `RunnerSignal` implementation.
 
 ---
 
@@ -85,17 +98,17 @@ RunnerConnection.Connected -> boolean
 
 ### InputService
 
-`InputService` provides input-related functionality, including global input control, and input simulation, etc.
+`InputService` provides input-related functionality, including global input control and input simulation.
 
-(eg. can be used as creating an auto clicker for the application or outside the sandbox virtual machine.)
+For example, it can be used to implement automated input within an application or interact with input outside the sandbox virtual machine.
 
 **Methods:**
 
 ```lua
 InputService.SetGlobalInput -> fun(target: boolean): nil
-InputService.GetGlobalInput -> fun(): 
-InputService.Update -> fun(): nil -- updates input(s) bindings within the current environment
-InputService.UpdateAll -> fun(): nil -- alternative to update, updates bindings outside the application
+InputService.GetGlobalInput -> fun()
+InputService.Update -> fun(): nil -- Updates input bindings within the current environment
+InputService.UpdateAll -> fun(): nil -- Updates bindings outside the application
 ```
 
 **Backend Wrapper Methods:**
@@ -104,13 +117,15 @@ InputService.UpdateAll -> fun(): nil -- alternative to update, updates bindings 
 InputService._ResolveTarget -> fun(target: string): (string?, integer)
 ```
 
-> **Note:** The signatures above use type-annotation notation for documentation. They are not necessarily literal Lua call syntax.
+> **NOTE:** The signatures above use type-annotation notation for documentation. They are not necessarily literal Lua call syntax.
 
-## Building
+---
+
+# Building
 
 MaxCore REMASTERED uses CMake for configuring and building the engine.
 
-### Linux (Devbox)
+## Linux (Devbox)
 
 Linux development uses [Devbox](https://www.jetify.com/devbox) to provide a reproducible build environment with the required compiler toolchain and X11 development dependencies.
 
@@ -137,16 +152,75 @@ cmake -S . -B build
 cmake --build build --parallel
 ```
 
-### Windows / macOS / Other Linux Environments
+## Windows
 
-Install CMake and the required platform development dependencies, then execute:
+Install CMake, a compatible C++ compiler toolchain, and the required Windows development dependencies.
+
+Then configure and build:
 
 ```bash
 cmake -S . -B build
 cmake --build build --parallel
 ```
 
-### Experimental Runtime Metadata Generation
+## macOS
+
+MaxCore supports macOS through its native platform backend.
+
+**Requirements:**
+- [Homebrew](https://brew.sh/)
+- CMake
+- Xcode Command Line Tools
+
+### Vulkan Support
+
+macOS does not provide native Vulkan support. MaxCore uses [MoltenVK](https://github.com/KhronosGroup/MoltenVK) to provide Vulkan compatibility through Apple's Metal graphics API.
+
+Install the required Vulkan packages using Homebrew:
+
+```bash
+brew install vulkan-loader molten-vk vulkan-tools
+```
+
+**Package descriptions:**
+
+- `vulkan-loader` — Provides the Vulkan runtime loader.
+- `molten-vk` — Provides Vulkan support through Apple's Metal API.
+- `vulkan-tools` — Provides Vulkan diagnostic utilities, including `vulkaninfo`.
+
+**Verify the installation:**
+
+```bash
+vulkaninfo --summary
+```
+
+The output should list an available physical GPU and its Vulkan driver. On Apple Silicon systems, the GPU should be identified through MoltenVK.
+
+**Build MaxCore:**
+
+```bash
+cmake -S . -B build
+cmake --build build --parallel
+```
+
+> **NOTE:** Vulkan support on macOS requires a working Vulkan loader and MoltenVK installation. If Vulkan initialization fails, MaxCore may fall back to its CPU rasterizer.
+
+## Other Linux Environments
+
+For Linux environments outside Devbox, install CMake, a compatible C++ compiler toolchain, and the required X11 development libraries.
+
+Then configure and build:
+
+```bash
+cmake -S . -B build
+cmake --build build --parallel
+```
+
+> **NOTE:** Linux builds require X11 development dependencies for the native window backend.
+
+---
+
+## Experimental Runtime Metadata Generation
 
 Experimental LuaLS metadata generation is disabled by default.
 
@@ -159,4 +233,6 @@ cmake -S . -B build \
 cmake --build build --parallel
 ```
 
-The generated metadata is experimental and may not fully represent every API member or function signature. The existing MaxCore type definition remains the preferred source for API documentation and static analysis.
+The generated metadata is experimental and may not fully represent every API member or function signature.
+
+The existing MaxCore type definition remains the preferred source for API documentation and static analysis.
