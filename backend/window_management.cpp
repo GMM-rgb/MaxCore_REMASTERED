@@ -20,8 +20,13 @@
 #include "inline_headers/graphics/gl_draw_backend.hpp"
 #include "inline_headers/graphics/soft_backend.hpp"
 #include "inline_headers/graphics/vk_draw_backend.hpp"
+#include "engine_configuration/info.hpp"
 #include <cstdlib>
 #include <memory>
+
+static auto EngineName = info::get_info<info::EngineNameType>();
+static std::string_view EngineDebugName = info::get_debug_name();
+static std::string FixedDebugName = info::to_string(EngineDebugName);
 
 #if defined(_WIN32) || defined(_WIN64)
     #ifndef NOMINMAX
@@ -1944,19 +1949,10 @@ static int window_create(lua_State* L) {
     }
 #endif
 
-    std::fprintf(
-        stderr,
-        "[window_management] Requested renderer: '%s'\n",
-        requested.c_str()
-    );
-
-    SelectRenderer(win, requested);
-    if (!win->rendererNote.empty()) std::fprintf(stderr, "[window_management] %s\n", win->rendererNote.c_str());
-
-    int winId = g_next_window_id++;
-    g_windows[winId] = win;
-    lua_pushinteger(L, winId);
-    return 1;
+    std::fprintf(stdout, "%s Requested renderer: '%s'\n", FixedDebugName.c_str(), requested.c_str());
+    try { SelectRenderer(win, requested); } catch (const std::exception& e) { std::printf("%s Rendering error occured: %s\n", FixedDebugName.c_str(), e.what()); }
+    if (!win->rendererNote.empty()) std::fprintf(stderr, "%s %s\n", FixedDebugName.c_str(), win->rendererNote.c_str());
+    int winId = g_next_window_id++; g_windows[winId] = win; lua_pushinteger(L, winId); return 1;
 }
 
 // Asks the OS for the window's CURRENT drawable (client) size and brings the

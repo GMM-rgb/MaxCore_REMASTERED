@@ -4,13 +4,16 @@ local <const> RunnerService = EngineCore:LoadService("RunnerService")
 local <const> InputService = EngineCore:LoadService("InputService")
 local <const> SoundService = EngineCore:LoadService("SoundService")
 local <const> StorageService = EngineCore:LoadService("StorageService")
-local <const> DemoGraphics, GraphicError = WindowService:CreateWindow("DEMO", 800 * 2, 600 * 2, "auto")
+local <const> DemoGraphics, GraphicError = WindowService:CreateWindow("DEMO", 800 * 2, 600 * 2)
 if type(DemoGraphics) == "nil" then return end; _ENV.assert(GraphicError == nil, GraphicError)
 local SphereReverse, CanvasColor = false, { 0, 0, 0 }
 
 DemoGraphics:SetIcon("./resources/app_default.png", { default = true })
 EngineCore.ColorPrint("DEBUG", "RENDERER:", DemoGraphics:GetRenderer().name, string.rep("\n", 2))
 SoundService:SetStorageService(StorageService); SoundService:SetCacheFolder("app_audio/")
+local audio = SoundService:LoadSound("./app_audio/mouse_click.mp3")
+
+DemoGraphics:SetRenderer("auto")
 
 ---@param radius number
 ---@param subdivisions integer
@@ -97,25 +100,22 @@ local function create_icosphere(radius, subdivisions)
     end
 
     for _, vertex in ipairs(vertices) do
-        for i = 1, 3 do
-            vertex[i] = vertex[i] * radius
-        end
+        for i = 1, 3 do vertex[i] = vertex[i] * radius end
     end
 
     return DemoGraphics:CreateMesh(vertices, faces, 0, 255, 0, "solid")
 end
 
-DemoGraphics:SetAliasingQuality("2d", 0)
-DemoGraphics:SetAliasingQuality("3d", 2)
+DemoGraphics:SetAliasingQuality("2d", 1)
+DemoGraphics:SetAliasingQuality("3d", 3)
 
 local SceneLight = DemoGraphics:CreateLight(0.5, -0.7, 1.0, 0.25, 0.8) or {}
-local SceneCamera = DemoGraphics:CreateCamera(0, 0, -2, 90) or {}
-SceneCamera:SetRotation(-0.5, -0.1, 0)
+local SceneCamera = DemoGraphics:CreateCamera(0, 1, -2.5, 90) or {}
 DemoGraphics:SetActiveCamera(SceneCamera)
 DemoGraphics:SetActiveLight(SceneLight)
 
 local DemoSphere = create_icosphere(0.75, 3)
-DemoSphere:SetFillMode("wireframe")
+DemoSphere:SetFillMode("solid")
 DemoSphere:SetPosition(0, 1, 0)
 
 local SliderFrameWidth, SliderFrameHeight = 150, 65
@@ -184,11 +184,15 @@ end, { whenRunning = "allow", maxConcurrent = 6 })
 
 InputService:BindAction("toggle-sphere-direction", "space", function(actionName, state, keyName)
     if state and state == "Pressed" and keyName == "space" then
-        SphereReverse = not SphereReverse
+        SphereReverse = not SphereReverse; audio:Play(0)
     end
 end)
 
-local InputRuntime = RunnerService.Stepped:Connect(function (dt)
+local InputRuntime = RunnerService.Stepped:Connect(function(dt)
+    if InputService._isGlobal ~= DemoGraphics:IsFocused() then
+        InputService:SetGlobalInput(DemoGraphics:IsFocused())
+    end
+
     InputService:UpdateAll()
 end)
 

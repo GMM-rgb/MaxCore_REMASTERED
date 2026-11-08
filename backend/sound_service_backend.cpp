@@ -83,7 +83,7 @@ static void unloadSoundHandle(SoundHandle* handle) {
 }
 
 static SoundHandle* getOrCreateSound(const std::string& path) {
-    std::cout << "[Engine Debug] Requested sound load: " << path << std::endl;
+    // std::cout << "[Engine Debug] Requested sound load: " << path << std::endl;
 
     if (!ensureEngine()) {
         std::cout << "[Engine Debug] ERROR: miniaudio engine failed to initialize!" << std::endl;
@@ -92,7 +92,7 @@ static SoundHandle* getOrCreateSound(const std::string& path) {
 
     auto it = g_sounds.find(path);
     if (it != g_sounds.end()) {
-        std::cout << "[Engine Debug] Sound handle found in memory cache." << std::endl;
+        // std::cout << "[Engine Debug] Sound handle found in memory cache." << std::endl;
         return it->second;
     }
 
@@ -102,7 +102,7 @@ static SoundHandle* getOrCreateSound(const std::string& path) {
         return nullptr;
     }
 
-    std::cout << "[Engine Debug] Passing local file to miniaudio: " << localFilePath << std::endl;
+    // std::cout << "[Engine Debug] Passing local file to miniaudio: " << localFilePath << std::endl;
 
     SoundHandle* handle = new SoundHandle();
     ma_result result = ma_sound_init_from_file(
@@ -120,7 +120,7 @@ static SoundHandle* getOrCreateSound(const std::string& path) {
         return nullptr;
     }
 
-    std::cout << "[Engine Debug] Sound loaded and ready for playback." << std::endl;
+    // std::cout << "[Engine Debug] Sound loaded and ready for playback." << std::endl;
     handle->isLoaded = true;
     g_sounds[path] = handle;
     return handle;

@@ -459,7 +459,7 @@ end
 ---Whether this window currently has keyboard focus (is the active
 ---window). Windows/macOS answer live from the OS; on X11 this is kept up
 ---to date by the FocusIn/FocusOut events handled in PollEvents, so call
----PollEvents every frame (you already do for input/close handling).
+---PollEvents every frame (does for input/close handling).
 ---@return boolean focused
 function WindowObject:IsFocused()
     if native_ok and type(window_interface) ~= "string" and self._isOpen then
