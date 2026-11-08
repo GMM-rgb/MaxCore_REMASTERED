@@ -4,11 +4,13 @@ local <const> RunnerService = EngineCore:LoadService("RunnerService")
 local <const> InputService = EngineCore:LoadService("InputService")
 local <const> SoundService = EngineCore:LoadService("SoundService")
 local <const> StorageService = EngineCore:LoadService("StorageService")
-local DemoGraphics = WindowService:CreateWindow("DEMO", 400, 400, "vulkan") or {}
+local <const> DemoGraphics, GraphicError = WindowService:CreateWindow("DEMO", 800 * 2, 600 * 2, "auto")
+if type(DemoGraphics) == "nil" then return end; _ENV.assert(GraphicError == nil, GraphicError)
+local SphereReverse, CanvasColor = false, { 0, 0, 0 }
 
-EngineCore.ColorPrint("DEBUG", "RENDERER", DemoGraphics:GetRenderer().name)
-SoundService:SetStorageService(StorageService)
-SoundService:SetCacheFolder("app_audio/")
+DemoGraphics:SetIcon("./resources/app_default.png", { default = true })
+EngineCore.ColorPrint("DEBUG", "RENDERER:", DemoGraphics:GetRenderer().name, string.rep("\n", 2))
+SoundService:SetStorageService(StorageService); SoundService:SetCacheFolder("app_audio/")
 
 ---@param radius number
 ---@param subdivisions integer
@@ -104,14 +106,16 @@ local function create_icosphere(radius, subdivisions)
 end
 
 DemoGraphics:SetAliasingQuality("2d", 0)
-DemoGraphics:SetAliasingQuality("3d", 4)
+DemoGraphics:SetAliasingQuality("3d", 2)
 
-local SceneLight = DemoGraphics:CreateLight(0.5, -0.7, 1.0, 0.25, 1.0)
-local SceneCamera = DemoGraphics:CreateCamera(0, 1, -2, 60)
-DemoGraphics:SetActiveCamera(SceneCamera or {})
-DemoGraphics:SetActiveLight(SceneLight or {})
+local SceneLight = DemoGraphics:CreateLight(0.5, -0.7, 1.0, 0.25, 0.8) or {}
+local SceneCamera = DemoGraphics:CreateCamera(0, 0, -2, 90) or {}
+SceneCamera:SetRotation(-0.5, -0.1, 0)
+DemoGraphics:SetActiveCamera(SceneCamera)
+DemoGraphics:SetActiveLight(SceneLight)
 
 local DemoSphere = create_icosphere(0.75, 3)
+DemoSphere:SetFillMode("wireframe")
 DemoSphere:SetPosition(0, 1, 0)
 
 local SliderFrameWidth, SliderFrameHeight = 150, 65
@@ -119,7 +123,7 @@ local SliderTrackWidth, SliderTrackHeight = SliderFrameWidth - 50, SliderFrameHe
 local WindowDimensionX, WindowDimensionY = DemoGraphics:GetDimensions()
 local TrackDimensions = { x = SliderTrackWidth, y = SliderTrackHeight }
 
-local Frame = DemoGraphics:CreateRect(50, 10, SliderFrameWidth, SliderFrameHeight, 255, 255, 255)
+local Frame = DemoGraphics:CreateRect(10, 10, SliderFrameWidth, SliderFrameHeight, 255, 255, 255)
 Frame = Frame:ApplyStyle(EngineCore.PseudoStylesClass.new("border", 140, 140, 140, 3))
 Frame = Frame:ApplyStyle(EngineCore.PseudoStylesClass.new("corner", 10))
 local FrameX, FrameY = Frame:GetPosition()
@@ -178,11 +182,31 @@ RunnerService:Spawn("RenderStepped", function(wait, join)
     end
 end, { whenRunning = "allow", maxConcurrent = 6 })
 
-local GraphicRuntime = RunnerService.RenderStepped:Connect(function(dt, wait, join)
-    if not DemoGraphics:IsRunning() then os.exit(true, true); return else DemoGraphics:SwapBuffers() end
-    DemoSphere:SetRotation(0, DemoSphere.Rotation.y + (dt * math.rad(75.0)), 0)
-    DemoGraphics:ClearCanvas(0, 0, 0)
-    DemoGraphics:RenderScene3D()
-    DemoGraphics:RenderScene2D()
+InputService:BindAction("toggle-sphere-direction", "space", function(actionName, state, keyName)
+    if state and state == "Pressed" and keyName == "space" then
+        SphereReverse = not SphereReverse
+    end
+end)
+
+local InputRuntime = RunnerService.Stepped:Connect(function (dt)
     InputService:UpdateAll()
-end, { yieldable = true, id = "main-graphic-process" }); RunnerService:KeepAlive()
+end)
+
+local GraphicRuntime = RunnerService.RenderStepped:Connect(function(dt, wait, join)
+    if not DemoGraphics:IsRunning() then os.exit(true, true); return end
+    local RotationSpeed = not SphereReverse and math.rad(75.0) or math.rad(-75.0)
+    DemoSphere:SetRotation(0, DemoSphere.Rotation.y + (dt * RotationSpeed), 0)
+    DemoGraphics:ClearCanvas(table.unpack(CanvasColor))
+    DemoGraphics:RenderScene3D(); DemoGraphics:RenderScene2D()
+
+    local MemoryInfo = EngineCore.PlatformUtils.get_memory_info()
+    local FormattedMemoryInfo = MemoryInfo["total_mb"] - MemoryInfo["available_mb"] .. " MB / " .. MemoryInfo["total_mb"] .. " MB"
+    io.write("\x1b[2A\x1b[2KFPS:\t", math.floor(1 / dt), "\n", "MEMORY:\t", tostring(FormattedMemoryInfo), "\n")
+    io.stdout:setvbuf("line"); io:flush(); io.stdout:flush()
+
+    if DemoGraphics:IsVisible() then DemoGraphics:SwapBuffers() end
+end, { yieldable = true, id = "main-graphic-process", whenRunning = "allow" })
+
+RunnerService:KeepAlive()
+InputRuntime:disconnect()
+GraphicRuntime:disconnect()

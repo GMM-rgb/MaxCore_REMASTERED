@@ -1,4 +1,4 @@
-set(CMAKE_CXX_COMPILER "C:/Users/maxim/_C_/bin/c++.exe")
+set(CMAKE_CXX_COMPILER "C:/Users/maxim/_C_/bin/ccache-g++.exe")
 set(CMAKE_CXX_COMPILER_ARG1 "")
 set(CMAKE_CXX_COMPILER_ID "GNU")
 set(CMAKE_CXX_COMPILER_VERSION "16.1.0")
@@ -27,9 +27,9 @@ set(CMAKE_CXX_COMPILER_ARCHITECTURE_ID "x86_64")
 
 
 set(CMAKE_AR "C:/Users/maxim/_C_/bin/ar.exe")
-set(CMAKE_CXX_COMPILER_AR "C:/Users/maxim/_C_/bin/gcc-ar.exe")
+set(CMAKE_CXX_COMPILER_AR "CMAKE_CXX_COMPILER_AR-NOTFOUND")
 set(CMAKE_RANLIB "C:/Users/maxim/_C_/bin/ranlib.exe")
-set(CMAKE_CXX_COMPILER_RANLIB "C:/Users/maxim/_C_/bin/gcc-ranlib.exe")
+set(CMAKE_CXX_COMPILER_RANLIB "CMAKE_CXX_COMPILER_RANLIB-NOTFOUND")
 set(CMAKE_LINKER "C:/Users/maxim/_C_/bin/ld.exe")
 set(CMAKE_LINKER_LINK "")
 set(CMAKE_LINKER_LLD "")

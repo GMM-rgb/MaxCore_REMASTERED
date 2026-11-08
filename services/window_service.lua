@@ -1618,6 +1618,8 @@ function WindowService:CreateWindow(title, width, height, renderer)
     local win, createError = WindowObject.new(title, width, height, name)
     if win == nil then return nil, createError end; self._windows[win:GetId()] = win
     if not self._activeWindow then self._activeWindow = win end
+    if win:GetRenderer() == nil then win:SetRenderer("auto") end
+
     return win
 end
 

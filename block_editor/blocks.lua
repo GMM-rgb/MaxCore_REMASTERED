@@ -1,13 +1,14 @@
 local WindowService = EngineCore:LoadService("WindowService")
 local RunnerService = EngineCore:LoadService("RunnerService")
 local StorageService = EngineCore:LoadService("StorageService")
+local SoundService = EngineCore:LoadService("SoundService")
 local <const> ThisDirectory = StorageService:GetBaseDirectory() or "/"
 local WindowCanvas = WindowService:CreateWindow("Editor - Blocks") or {}
 local BaseInherit = StorageService:GetFile(ThisDirectory .. "/base_block.xml")
 
 local max_aliasing = WindowService:GetMaxAliasingQuality()
 WindowCanvas:SetAliasingQuality("2d", max_aliasing)
-WindowCanvas:SetRenderer("auto")
+local _, reason = WindowCanvas:SetRenderer("auto")
 
 ---@param color integer[]
 ---@param scale number

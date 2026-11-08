@@ -2,7 +2,13 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "lua55.dylib"
+			"path" : "lua55.dll"
+		},
+		{
+			"path" : "liblua55.dll.a"
+		},
+		{
+			"path" : "lua55.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -12,8 +18,8 @@
 		[
 			"add_library",
 			"target_link_libraries",
-			"target_compile_definitions",
-			"include_directories"
+			"include_directories",
+			"set_source_files_properties"
 		],
 		"files" : 
 		[
@@ -39,13 +45,13 @@
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 328,
+				"line" : 136,
 				"parent" : 0
 			},
 			{
 				"command" : 3,
 				"file" : 0,
-				"line" : 136,
+				"line" : 267,
 				"parent" : 0
 			}
 		]
@@ -53,7 +59,7 @@
 	"codemodelVersion" : 
 	{
 		"major" : 2,
-		"minor" : 11
+		"minor" : 10
 	},
 	"compileDependencies" : 
 	[
@@ -68,14 +74,14 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-O3 -DNDEBUG -arch arm64 -fPIC"
+					"fragment" : "-g"
 				}
 			],
 			"defines" : 
 			[
 				{
-					"backtrace" : 3,
-					"define" : "LUA_USE_MACOSX"
+					"backtrace" : 4,
+					"define" : "LUA_BUILD_AS_DLL"
 				},
 				{
 					"define" : "lua_shared_EXPORTS"
@@ -84,8 +90,8 @@
 			"includes" : 
 			[
 				{
-					"backtrace" : 4,
-					"path" : "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/lua-5.7.2/src"
+					"backtrace" : 3,
+					"path" : "D:/MaxCore_REMASTERED/lua-5.7.2/src"
 				}
 			],
 			"language" : "C",
@@ -129,15 +135,11 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-O3 -DNDEBUG -std=gnu++17 -arch arm64 -fPIC"
+					"fragment" : "-g -std=gnu++17"
 				}
 			],
 			"defines" : 
 			[
-				{
-					"backtrace" : 3,
-					"define" : "LUA_USE_MACOSX"
-				},
 				{
 					"define" : "lua_shared_EXPORTS"
 				}
@@ -145,8 +147,8 @@
 			"includes" : 
 			[
 				{
-					"backtrace" : 4,
-					"path" : "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/lua-5.7.2/src"
+					"backtrace" : 3,
+					"path" : "D:/MaxCore_REMASTERED/lua-5.7.2/src"
 				}
 			],
 			"language" : "CXX",
@@ -170,37 +172,26 @@
 		"commandFragments" : 
 		[
 			{
-				"fragment" : "-dynamiclib -Wl,-headerpad_max_install_names",
+				"fragment" : "-shared",
 				"role" : "flags"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "-framework CoreAudio",
+				"fragment" : "-lwinmm",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "-framework CoreFoundation",
+				"fragment" : "-luser32",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "-framework AudioToolbox",
+				"fragment" : "-lurlmon",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 2,
-				"fragment" : "-framework ApplicationServices",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 2,
-				"fragment" : "-framework Cocoa",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 2,
-				"fragment" : "-lobjc",
+				"fragment" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
 				"role" : "libraries"
 			}
 		],
@@ -214,31 +205,19 @@
 		},
 		{
 			"backtrace" : 2,
-			"fragment" : "-framework CoreAudio"
+			"fragment" : "winmm"
 		},
 		{
 			"backtrace" : 2,
-			"fragment" : "-framework CoreFoundation"
+			"fragment" : "user32"
 		},
 		{
 			"backtrace" : 2,
-			"fragment" : "-framework AudioToolbox"
-		},
-		{
-			"backtrace" : 2,
-			"fragment" : "-framework ApplicationServices"
-		},
-		{
-			"backtrace" : 2,
-			"fragment" : "-framework Cocoa"
-		},
-		{
-			"backtrace" : 2,
-			"fragment" : "-lobjc"
+			"fragment" : "urlmon"
 		}
 	],
 	"name" : "lua_shared",
-	"nameOnDisk" : "lua55.dylib",
+	"nameOnDisk" : "lua55.dll",
 	"paths" : 
 	{
 		"build" : ".",
@@ -290,330 +269,198 @@
 	[
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/lapi.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/lauxlib.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/lbaselib.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/lcode.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/lcorolib.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/lctype.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/ldblib.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/ldebug.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/ldo.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/ldump.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/lfunc.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/lgc.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/linit.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/liolib.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/llex.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/lmathlib.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/lmem.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/loadlib.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/lobject.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/lopcodes.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/loslib.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/lparser.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/lstate.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/lstring.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/lstrlib.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/ltable.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/ltablib.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/ltm.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/lundump.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/lutf8lib.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/lvm.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 0,
 			"path" : "lua-5.7.2/src/lzio.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
-			"backtraces" : 
-			[
-				1
-			],
 			"compileGroupIndex" : 1,
 			"path" : "backend/platform_module.cpp",
 			"sourceGroupIndex" : 0

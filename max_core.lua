@@ -59,6 +59,7 @@ local LUA_BUILTINS = {
 ---@field wait fun(duration: number|integer)
 
 ---@class MaxCore : LoadServiceFunction
+---@field PlatformUtils NativePlatformInterface
 ---@field PlayerDataModel PlayerDataModel
 ---@field wait fun(duration: number | integer)
 ---@field ColorPrint fun(level: LogLevel, ...: string?)
@@ -85,6 +86,8 @@ local InstanceBuilding = require("utils.instance_creator.instancer")
 local RandomDataModel = require("utils.instance_creator.random")
 local PseudoModule = require("services.sub_modules.pseudo_styles") --- @diagnostic disable-line
 local InstanceType = require("instance_type")
+local PlatformModule = require("utils.platform")
+
 require("services.sub_modules.string_modify")
 
 local framework_package = {
@@ -601,6 +604,7 @@ local function call(_, env)
         PseudoStylesClass = PseudoModule,
         NoiseClass = RandomDataModel.Noise,
         PlayerDataModel = PlayerManager,
+        PlatformUtils = PlatformModule,
         _env = env and env or nil,
         
         ---@nodiscard handle
