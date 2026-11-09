@@ -25,6 +25,7 @@
 // =========================================================================
 #include <lua.hpp>
 #include "task_scheduler.hpp"
+#include "../engine_configuration/info.hpp"
 
 #include <iostream>
 #include <fstream>
@@ -56,7 +57,7 @@ Instance* check(lua_State* L, int idx) {
 int s_gc(lua_State* L) {
     auto** p = static_cast<Instance**>(luaL_checkudata(L, 1, kMeta));
     if (*p) {
-        (*p)->scheduler.reset();   // joins every thread
+        (*p)->scheduler.reset(); // joins every thread
         delete *p;
         *p = nullptr;
     }
@@ -64,7 +65,11 @@ int s_gc(lua_State* L) {
 }
 
 int s_shutdown(lua_State* L) {
-    std::cout << "[Engine Debug] INFO: shutting down runtime... " << L << std::endl;
+    Instance* in = check(L, 1);
+    std::string egnb = info::get_debug_name(); // engine debug name
+    const double as = static_cast<char>(in->scheduler->Now());
+    std::cout << egnb << "INFO: shutting down runtime...\nTime Length: " << as << std::endl;
+    in->scheduler->Shutdown();
     return s_gc(L);
 }
 
@@ -200,8 +205,8 @@ extern "C" EXPORT_FN int luaopen_scheduler_native(lua_State* L) {
         lua_pushcfunction(L, s_gc);
         lua_setfield(L, -2, "__gc");
     }
-    lua_pop(L, 1);
 
+    lua_pop(L, 1);
     lua_createtable(L, 0, 1);
     lua_pushcfunction(L, m_new);
     lua_setfield(L, -2, "new");

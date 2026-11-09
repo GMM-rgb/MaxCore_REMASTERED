@@ -1949,7 +1949,7 @@ static int window_create(lua_State* L) {
     }
 #endif
 
-    std::fprintf(stdout, "%s Requested renderer: '%s'\n", FixedDebugName.c_str(), requested.c_str());
+    std::fprintf(stdout, "%sRequested renderer: '%s'\n", FixedDebugName.c_str(), requested.c_str());
     try { SelectRenderer(win, requested); } catch (const std::exception& e) { std::printf("%s Rendering error occured: %s\n", FixedDebugName.c_str(), e.what()); }
     if (!win->rendererNote.empty()) std::fprintf(stderr, "%s %s\n", FixedDebugName.c_str(), win->rendererNote.c_str());
     int winId = g_next_window_id++; g_windows[winId] = win; lua_pushinteger(L, winId); return 1;

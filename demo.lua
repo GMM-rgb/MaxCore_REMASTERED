@@ -4,7 +4,7 @@ local <const> RunnerService = EngineCore:LoadService("RunnerService")
 local <const> InputService = EngineCore:LoadService("InputService")
 local <const> SoundService = EngineCore:LoadService("SoundService")
 local <const> StorageService = EngineCore:LoadService("StorageService")
-local <const> DemoGraphics, GraphicError = WindowService:CreateWindow("DEMO", 800 * 2, 600 * 2)
+local <const> DemoGraphics, GraphicError = WindowService:CreateWindow("DEMO", 800 * 2, 600 * 2, "auto")
 if type(DemoGraphics) == "nil" then return end; _ENV.assert(GraphicError == nil, GraphicError)
 local SphereReverse, CanvasColor = false, { 0, 0, 0 }
 
@@ -12,8 +12,6 @@ DemoGraphics:SetIcon("./resources/app_default.png", { default = true })
 EngineCore.ColorPrint("DEBUG", "RENDERER:", DemoGraphics:GetRenderer().name, string.rep("\n", 2))
 SoundService:SetStorageService(StorageService); SoundService:SetCacheFolder("app_audio/")
 local audio = SoundService:LoadSound("./app_audio/mouse_click.mp3")
-
-DemoGraphics:SetRenderer("auto")
 
 ---@param radius number
 ---@param subdivisions integer
@@ -107,7 +105,7 @@ local function create_icosphere(radius, subdivisions)
 end
 
 DemoGraphics:SetAliasingQuality("2d", 1)
-DemoGraphics:SetAliasingQuality("3d", 3)
+DemoGraphics:SetAliasingQuality("3d", 4)
 
 local SceneLight = DemoGraphics:CreateLight(0.5, -0.7, 1.0, 0.25, 0.8) or {}
 local SceneCamera = DemoGraphics:CreateCamera(0, 1, -2.5, 90) or {}
@@ -182,22 +180,28 @@ RunnerService:Spawn("RenderStepped", function(wait, join)
     end
 end, { whenRunning = "allow", maxConcurrent = 6 })
 
-InputService:BindAction("toggle-sphere-direction", "space", function(actionName, state, keyName)
-    if state and state == "Pressed" and keyName == "space" then
+InputService:BindAction("toggle-sphere-direction", "home", function(actionName, state, keyName)
+    if state and state == "Released" and keyName == "home" and DemoGraphics:IsFocused() then
         SphereReverse = not SphereReverse; audio:Play(0)
     end
 end)
 
-local InputRuntime = RunnerService.Stepped:Connect(function(dt)
-    if InputService._isGlobal ~= DemoGraphics:IsFocused() then
-        InputService:SetGlobalInput(DemoGraphics:IsFocused())
+InputService:BindAction("get-resolution", "r", function(actionName, state, keyName)
+    if state == "Pressed" then
+        local rx, ry = DemoGraphics:GetDimensions()
+        local info = string.format("%g, %g", rx, ry)
+        DemoGraphics:ShowAlert("Resolution Info", info)
     end
+end)
 
+local InputRuntime = RunnerService.Stepped:Connect(function(dt)
+    InputService:SetGlobalInput(DemoGraphics:IsFocused())
     InputService:UpdateAll()
 end)
 
 local GraphicRuntime = RunnerService.RenderStepped:Connect(function(dt, wait, join)
-    if not DemoGraphics:IsRunning() then os.exit(true, true); return end
+    if not DemoGraphics:IsRunning() then; RunnerService._native:shutdown(); os.exit(true, true) end
+
     local RotationSpeed = not SphereReverse and math.rad(75.0) or math.rad(-75.0)
     DemoSphere:SetRotation(0, DemoSphere.Rotation.y + (dt * RotationSpeed), 0)
     DemoGraphics:ClearCanvas(table.unpack(CanvasColor))

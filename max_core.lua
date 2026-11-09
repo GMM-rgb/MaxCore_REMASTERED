@@ -183,7 +183,7 @@ local lenum = {
 ---@alias LogLevel "ERROR" | "INFO" | "WARNING" | "DEBUG" | "SUCCESS" | "CRITICAL" | "RED" | "GREEN" | "BLUE
 
 ---@param level LogLevel
----@param ... string?
+---@param ... any?
 local function ColorPrint(level, ...)
     local colorKeywords = {
         ERROR = "31",
