@@ -4,7 +4,7 @@ local <const> RunnerService = EngineCore:LoadService("RunnerService")
 local <const> InputService = EngineCore:LoadService("InputService")
 local <const> SoundService = EngineCore:LoadService("SoundService")
 local <const> StorageService = EngineCore:LoadService("StorageService")
-local <const> DemoGraphics, GraphicError = WindowService:CreateWindow("DEMO", 800 * 2, 600 * 2, "vulkan")
+local <const> DemoGraphics, GraphicError = WindowService:CreateWindow("DEMO", 800 * 2, 600 * 2, { renderer = "auto" })
 if type(DemoGraphics) == "nil" then return end; _ENV.assert(GraphicError == nil, GraphicError)
 local SphereReverse, CanvasColor = false, { 0, 0, 0 }
 

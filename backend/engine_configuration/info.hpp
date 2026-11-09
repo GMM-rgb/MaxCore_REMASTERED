@@ -32,4 +32,8 @@ namespace info {
     }
 }
 
+#ifndef EngineFrontendString
+#define EngineFrontendString info::get_info<info::FrontendNameType>();
+#endif
+
 #endif // !MAXCORE_MEC_INFO

@@ -25,13 +25,14 @@
 #include <memory>
 
 static auto EngineName = info::get_info<info::EngineNameType>();
-static std::string EngineDebugName = info::get_debug_name();
+static const char *EngineDebugName = info::get_debug_name().c_str();
 static std::string FixedDebugName = info::to_string(EngineDebugName);
 
 #if defined(_WIN32) || defined(_WIN64)
     #ifndef NOMINMAX
-        #define NOMINMAX
+    #define NOMINMAX
     #endif
+
     #define EXPORT_FN __declspec(dllexport)
     #include <windows.h>
 

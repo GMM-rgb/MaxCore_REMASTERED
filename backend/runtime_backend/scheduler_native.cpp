@@ -68,7 +68,7 @@ int s_shutdown(lua_State* L) {
     Instance* in = check(L, 1);
     std::string egnb = info::get_debug_name(); // engine debug name
     const double as = static_cast<char>(in->scheduler->Now());
-    std::cout << egnb << "INFO: shutting down runtime...\nTime Length: " << as << std::endl;
+    std::cout << egnb << "INFO: shutting down runtime...\nTime Length: " << as << "s" << std::endl;
     in->scheduler->Shutdown();
     return s_gc(L);
 }
