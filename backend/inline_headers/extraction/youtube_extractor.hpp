@@ -485,7 +485,7 @@ public:
             }
         );
 
-        futureProgress.get();
+        // futureProgress.get();
 
         std::string videoPrefix = "yt_" + videoId;
         std::error_code ec;

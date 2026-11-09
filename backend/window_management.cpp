@@ -25,7 +25,7 @@
 #include <memory>
 
 static auto EngineName = info::get_info<info::EngineNameType>();
-static std::string_view EngineDebugName = info::get_debug_name();
+static std::string EngineDebugName = info::get_debug_name();
 static std::string FixedDebugName = info::to_string(EngineDebugName);
 
 #if defined(_WIN32) || defined(_WIN64)

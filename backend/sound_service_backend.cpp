@@ -13,6 +13,7 @@
 #define MINIAUDIO_IMPLEMENTATION
 #include "inline_headers/output/mini_audio.hpp"
 #include "inline_headers/extraction/youtube_extractor.hpp"
+#include "engine_configuration/info.hpp"
 
 #ifdef max
     #undef max
@@ -83,10 +84,12 @@ static void unloadSoundHandle(SoundHandle* handle) {
 }
 
 static SoundHandle* getOrCreateSound(const std::string& path) {
+    std::string eb = info::get_debug_name();
+
     // std::cout << "[Engine Debug] Requested sound load: " << path << std::endl;
 
     if (!ensureEngine()) {
-        std::cout << "[Engine Debug] ERROR: miniaudio engine failed to initialize!" << std::endl;
+        std::printf("%sERROR: miniaudio engine failed to initalize!", eb.c_str());
         return nullptr;
     }
 
@@ -98,7 +101,7 @@ static SoundHandle* getOrCreateSound(const std::string& path) {
 
     std::string localFilePath = YouTubeExtractor::ResolveToLocalFile(path, getCacheDirectory());
     if (localFilePath.empty()) {
-        std::cout << "[Engine Debug] ERROR: Resolving local file path failed!" << std::endl;
+        std::printf("%sERROR: Resolving local file path failed!\t%s", eb.c_str(), localFilePath.c_str());
         return nullptr;
     }
 
@@ -115,7 +118,7 @@ static SoundHandle* getOrCreateSound(const std::string& path) {
     );
 
     if (result != MA_SUCCESS) {
-        std::cout << "[Engine Debug] ERROR: ma_sound_init_from_file failed with error code: " << result << std::endl;
+        std::cout << eb.c_str() << "ERROR: ma_sound_init_from_file failed with error code: " << result << std::endl;
         delete handle;
         return nullptr;
     }

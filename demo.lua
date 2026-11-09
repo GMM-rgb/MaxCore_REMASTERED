@@ -4,14 +4,14 @@ local <const> RunnerService = EngineCore:LoadService("RunnerService")
 local <const> InputService = EngineCore:LoadService("InputService")
 local <const> SoundService = EngineCore:LoadService("SoundService")
 local <const> StorageService = EngineCore:LoadService("StorageService")
-local <const> DemoGraphics, GraphicError = WindowService:CreateWindow("DEMO", 800 * 2, 600 * 2, "auto")
+local <const> DemoGraphics, GraphicError = WindowService:CreateWindow("DEMO", 800 * 2, 600 * 2, "vulkan")
 if type(DemoGraphics) == "nil" then return end; _ENV.assert(GraphicError == nil, GraphicError)
 local SphereReverse, CanvasColor = false, { 0, 0, 0 }
 
 DemoGraphics:SetIcon("./resources/app_default.png", { default = true })
 EngineCore.ColorPrint("DEBUG", "RENDERER:", DemoGraphics:GetRenderer().name, string.rep("\n", 2))
 SoundService:SetStorageService(StorageService); SoundService:SetCacheFolder("app_audio/")
-local audio = SoundService:LoadSound("./app_audio/mouse_click.mp3")
+-- local audio = SoundService:LoadSound("./app_audio/mouse_click.mp3")
 
 ---@param radius number
 ---@param subdivisions integer
@@ -182,7 +182,8 @@ end, { whenRunning = "allow", maxConcurrent = 6 })
 
 InputService:BindAction("toggle-sphere-direction", "home", function(actionName, state, keyName)
     if state and state == "Released" and keyName == "home" and DemoGraphics:IsFocused() then
-        SphereReverse = not SphereReverse; audio:Play(0)
+        SphereReverse = not SphereReverse
+        -- audio:Play(0)
     end
 end)
 
