@@ -10,15 +10,15 @@
 				{
 					"includeDirectories" : 
 					[
-						"C:/Users/6041464/_c_lang/lib/gcc/x86_64-w64-mingw32/16.1.0/include",
-						"C:/Users/6041464/_c_lang/lib/gcc/x86_64-w64-mingw32/16.1.0/include-fixed",
-						"C:/Users/6041464/_c_lang/include"
+						"C:/Users/maxim/_C_/lib/gcc/x86_64-w64-mingw32/16.1.0/include",
+						"C:/Users/maxim/_C_/lib/gcc/x86_64-w64-mingw32/16.1.0/include-fixed",
+						"C:/Users/maxim/_C_/include"
 					],
 					"linkDirectories" : 
 					[
-						"C:/Users/6041464/_c_lang/lib/gcc/x86_64-w64-mingw32/16.1.0",
-						"C:/Users/6041464/_c_lang/lib/gcc",
-						"C:/Users/6041464/_c_lang/lib"
+						"C:/Users/maxim/_C_/lib/gcc/x86_64-w64-mingw32/16.1.0",
+						"C:/Users/maxim/_C_/lib/gcc",
+						"C:/Users/maxim/_C_/lib"
 					],
 					"linkFrameworkDirectories" : [],
 					"linkLibraries" : 
@@ -38,7 +38,7 @@
 						"kernel32"
 					]
 				},
-				"path" : "C:/Users/6041464/_c_lang/bin/ccache-gcc.exe",
+				"path" : "C:/Users/maxim/_C_/bin/cc.exe",
 				"version" : "16.1.0"
 			},
 			"language" : "C",
@@ -56,18 +56,18 @@
 				{
 					"includeDirectories" : 
 					[
-						"C:/Users/6041464/_c_lang/lib/gcc/x86_64-w64-mingw32/16.1.0/include/c++",
-						"C:/Users/6041464/_c_lang/lib/gcc/x86_64-w64-mingw32/16.1.0/include/c++/x86_64-w64-mingw32",
-						"C:/Users/6041464/_c_lang/lib/gcc/x86_64-w64-mingw32/16.1.0/include/c++/backward",
-						"C:/Users/6041464/_c_lang/lib/gcc/x86_64-w64-mingw32/16.1.0/include",
-						"C:/Users/6041464/_c_lang/lib/gcc/x86_64-w64-mingw32/16.1.0/include-fixed",
-						"C:/Users/6041464/_c_lang/include"
+						"C:/Users/maxim/_C_/lib/gcc/x86_64-w64-mingw32/16.1.0/include/c++",
+						"C:/Users/maxim/_C_/lib/gcc/x86_64-w64-mingw32/16.1.0/include/c++/x86_64-w64-mingw32",
+						"C:/Users/maxim/_C_/lib/gcc/x86_64-w64-mingw32/16.1.0/include/c++/backward",
+						"C:/Users/maxim/_C_/lib/gcc/x86_64-w64-mingw32/16.1.0/include",
+						"C:/Users/maxim/_C_/lib/gcc/x86_64-w64-mingw32/16.1.0/include-fixed",
+						"C:/Users/maxim/_C_/include"
 					],
 					"linkDirectories" : 
 					[
-						"C:/Users/6041464/_c_lang/lib/gcc/x86_64-w64-mingw32/16.1.0",
-						"C:/Users/6041464/_c_lang/lib/gcc",
-						"C:/Users/6041464/_c_lang/lib"
+						"C:/Users/maxim/_C_/lib/gcc/x86_64-w64-mingw32/16.1.0",
+						"C:/Users/maxim/_C_/lib/gcc",
+						"C:/Users/maxim/_C_/lib"
 					],
 					"linkFrameworkDirectories" : [],
 					"linkLibraries" : 
@@ -88,7 +88,7 @@
 						"kernel32"
 					]
 				},
-				"path" : "C:/Users/6041464/_c_lang/bin/ccache-g++.exe",
+				"path" : "C:/Users/maxim/_C_/bin/c++.exe",
 				"version" : "16.1.0"
 			},
 			"language" : "CXX",
@@ -114,7 +114,7 @@
 			"compiler" : 
 			{
 				"implicit" : {},
-				"path" : "C:/Users/6041464/_c_lang/bin/windres.exe"
+				"path" : "C:/Users/maxim/_C_/bin/windres.exe"
 			},
 			"language" : "RC",
 			"sourceFileExtensions" : 
