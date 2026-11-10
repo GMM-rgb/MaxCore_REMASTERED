@@ -12,7 +12,6 @@ local wdx, wdy = GameWindow:GetDimensions()
 local ToolbarChildrenEvents = {} --- @type table<integer, ChildrenEventDictionary>
 local toolbar_padding = 10
 
-
 GameWindow:SetAliasingQuality("2d", 4)
 EngineCore.ColorPrint("INFO", renderer.description, "\nNAME:\t" .. renderer.name:upper())
 
@@ -27,13 +26,13 @@ local function update_toolbar_position()
     ToolbarInterface:SetPosition(toolbar_pos_x, wdy - ToolbarInterface.Size.h - 10)
 
     for _, values in ipairs(ToolbarChildrenEvents) do
-        
+        values["event"]:Fire()
     end
 
     ToolbarInterface.Size.w = wdx - 20
 end
 
----@param SelectableElement GameObject
+---@param SelectableElement RectObject
 local function add_toolbar_selectable(SelectableElement)
     local EventName = "update-event-" .. tostring(SelectableElement)
     local <const> UpdateEvent = EngineCore.Event.new(EventName)
@@ -41,7 +40,7 @@ local function add_toolbar_selectable(SelectableElement)
     local function update_wrapper()
         local selection_order_index = #ToolbarInterface["items"] + 1
         local bottom_y_pos = ToolbarInterface.Position.y + ToolbarInterface.Size.h
-        local target_x_position, y_target = ToolbarInterface.Position.x + toolbar_padding, bottom_y_pos / 2
+        local target_x_position, y_target = ToolbarInterface.Position.x + toolbar_padding, ToolbarInterface.Position.y + toolbar_padding
 
         if #ToolbarInterface["items"] > 0 then
             for _, object in pairs(ToolbarInterface["items"]) do
@@ -58,6 +57,7 @@ local function add_toolbar_selectable(SelectableElement)
             return table.concat(unpacked, ", ")
         end
 
+        SelectableElement.Size.h = ToolbarInterface.Size.h - toolbar_padding * 2
         SelectableElement:SetPosition(target_x_position, y_target)
         EngineCore.ColorPrint("DEBUG", unpack_position(SelectableElement.Position))
     end
@@ -66,7 +66,7 @@ local function add_toolbar_selectable(SelectableElement)
     table.insert(ToolbarChildrenEvents, { ["event"] = UpdateEvent, ["connection"] = connection })
 end
 
-local myelement = GameWindow:CreateRect(0, 0, 30, 30)
+local myelement = GameWindow:CreateRect(0, 0, 30, 30, 160, 160, 160)
 add_toolbar_selectable(myelement)
 
 local InterfaceConnection, InterfaceJob = RuntimeService.RenderStepped:Connect(function(dt)

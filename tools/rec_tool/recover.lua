@@ -45,7 +45,7 @@ input:BindAction("trigger-alt", "space", ActivateInput)
 
 runtime.Stepped:Connect(function(dt, wait, join)
     input:SimulateKey("super", true); dt = wait()
-end, { priority = 0, safe = true, whenRunning = "replace" })
+end, { priority = 0, safe = true, whenRunning = "replace", yieldable = true })
 
 ---@param dt number
 runtime.Heartbeat:Connect(function(dt, wait, join)
