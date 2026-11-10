@@ -15,7 +15,6 @@ EngineCore.ColorPrint("INFO", renderer.description, "\nNAME:\t" .. renderer.name
 local ToolbarInterface = GameWindow:CreateRect(0, 0, 200, 50)
 ToolbarInterface = ToolbarInterface:ApplyStyle(ToolbarBorder)
 ToolbarInterface = ToolbarInterface:ApplyStyle(ToolbarRound)
--- ToolbarInterface = setmetatable({ items = {} }, ToolbarInterface)
 ToolbarInterface["items"] = {} --- @type GameObject[]
 
 ---@return nil

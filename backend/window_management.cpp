@@ -25,7 +25,7 @@
 #include <memory>
 
 static auto EngineName = info::get_info<info::EngineNameType>();
-static const char *EngineDebugName = info::get_debug_name().c_str();
+static std::string EngineDebugName = info::get_debug_name();
 static std::string FixedDebugName = info::to_string(EngineDebugName);
 
 #if defined(_WIN32) || defined(_WIN64)
@@ -1685,46 +1685,176 @@ static void EnsureDpiAware() {
 }
 #endif
 
-// Starts the 3D backend `name` ("opengl", "vulkan" or "software") on `win`. Returns null and fills `why` on failure,
-// leaving the window exactly as it was.
-static std::unique_ptr<DrawBackendNS::DrawBackend> MakeBackend(NativeWindow* win, const std::string& name, std::string& why) {
+// Starts the 3D backend `name` ("opengl", "vulkan" or "software") on `win`.
+// Returns nullptr and fills `why` on failure.
+static std::unique_ptr<DrawBackendNS::DrawBackend> MakeBackend(
+    NativeWindow* win,
+    const std::string& name,
+    std::string& why)
+{
+    why.clear();
+
+    if (!win) {
+        why = "cannot initialize a renderer without a valid window";
+        return nullptr;
+    }
+
+    // Software renderer.
     if (name == "software") {
-        // Frames are shown through ShowPixels, the same per-OS code the CPU rasteriser uses.
-        return std::make_unique<DrawBackendNS::SoftDrawBackend>(win->width, win->height, 0,
-            [win](const uint32_t* px, int w, int h) { ShowPixels(win, px, w, h); });
+        return std::make_unique<DrawBackendNS::SoftDrawBackend>(
+            win->width,
+            win->height,
+            0,
+            [win](const uint32_t* px, int w, int h) {
+                ShowPixels(win, px, w, h);
+            }
+        );
     }
+
+    // Vulkan renderer.
     if (name == "vulkan") {
-        auto be = DrawBackendNS::VulkanDrawBackend::Create(win->width, win->height,
-            [win](const uint32_t* px, int w, int h) { ShowPixels(win, px, w, h); }, why);
-        return be;                                   // null with `why` set on failure
+        return DrawBackendNS::VulkanDrawBackend::Create(
+            win->width,
+            win->height,
+            [win](const uint32_t* px, int w, int h) {
+                ShowPixels(win, px, w, h);
+            },
+            why
+        );
     }
+
+    // OpenGL renderer.
     if (name == "opengl") {
-        GlContext::Context ctx;
-#if defined(_WIN32) || defined(_WIN64)
-        if (!GlContext::Create(ctx, win->platform.hwnd, win->platform.hdc, why)) return nullptr;
-#elif defined(__APPLE__)
-        {
-            id contentView = msgSend<id>(win->platform.window, sel_registerName("contentView"));
-            if (!GlContext::Create(ctx, reinterpret_cast<void*>(contentView), why,
-                                   reinterpret_cast<void* (*)(const char*)>(objc_getClass),
-                                   reinterpret_cast<void* (*)(const char*)>(sel_registerName),
-                                   reinterpret_cast<void* (*)(void*, void*, ...)>(objc_msgSend))) return nullptr;
-        }
-#else
-        if (!win->platform.gpuActive) {
-            // Either OpenGL was never asked for at creation, or it was and could not start. Say which.
-            why = !win->glInitFailure.empty() ? win->glInitFailure
-                  : "this window was not created with an OpenGL-capable visual; create it with renderer 'opengl' or 'auto'";
+
+        // Reject previously detected OpenGL initialization failures.
+        if (!win->glInitFailure.empty()) {
+            why = win->glInitFailure;
             return nullptr;
         }
-        if (!GlContext::Create(ctx, win->platform.display, (unsigned long)win->platform.window, win->platform.glxContext, why)) return nullptr;
+
+        GlContext::Context ctx;
+
+#if defined(_WIN32) || defined(_WIN64)
+
+        // Validate native Windows handles.
+        if (!win->platform.hwnd || !win->platform.hdc) {
+            why = "OpenGL unavailable: invalid Windows window or device context";
+            return nullptr;
+        }
+
+        if (!GlContext::Create(
+                ctx,
+                win->platform.hwnd,
+                win->platform.hdc,
+                why)) {
+            return nullptr;
+        }
+
+#elif defined(__APPLE__)
+
+        // Validate native macOS window.
+        if (!win->platform.window) {
+            why = "OpenGL unavailable: invalid macOS window";
+            return nullptr;
+        }
+
+        {
+            id contentView = msgSend<id>(
+                win->platform.window,
+                sel_registerName("contentView")
+            );
+
+            if (!contentView) {
+                why = "OpenGL unavailable: macOS content view could not be retrieved";
+                return nullptr;
+            }
+
+            if (!GlContext::Create(
+                    ctx,
+                    reinterpret_cast<void*>(contentView),
+                    why,
+                    reinterpret_cast<void* (*)(const char*)>(objc_getClass),
+                    reinterpret_cast<void* (*)(const char*)>(sel_registerName),
+                    reinterpret_cast<void* (*)(void*, void*, ...)>(objc_msgSend))) {
+                return nullptr;
+            }
+        }
+
+#else
+
+        // Validate Linux OpenGL visual/context.
+        if (!win->platform.gpuActive) {
+            why = "OpenGL unavailable: no OpenGL-capable visual was initialized";
+
+            if (!win->glInitFailure.empty()) {
+                why += ": " + win->glInitFailure;
+            }
+
+            return nullptr;
+        }
+
+        if (!win->platform.display ||
+            !win->platform.window ||
+            !win->platform.glxContext) {
+            why = "OpenGL unavailable: invalid GLX display, window or context";
+            return nullptr;
+        }
+
+        if (!GlContext::Create(
+                ctx,
+                win->platform.display,
+                (unsigned long)win->platform.window,
+                win->platform.glxContext,
+                why)) {
+            return nullptr;
+        }
+
 #endif
-        auto be = DrawBackendNS::GlDrawBackend::Create(std::move(ctx), win->width, win->height, why);
-        return be;
+
+        // Create the actual OpenGL drawing backend.
+        return DrawBackendNS::GlDrawBackend::Create(
+            std::move(ctx),
+            win->width,
+            win->height,
+            why
+        );
     }
+
     why = "unknown renderer '" + name + "'";
     return nullptr;
 }
+
+// static std::unique_ptr<DrawBackendNS::DrawBackend> MakeAutoBackend(NativeWindow* win, std::string& why) {
+//     const char* renderers[] = {
+//         "opengl",
+//         "vulkan",
+//         "software"
+//     };
+
+//     std::string failures;
+
+//     for (const char* name : renderers) {
+//         std::string attemptWhy;
+
+//         auto backend = MakeBackend(win, name, attemptWhy);
+
+//         if (backend) {
+//             std::fprintf(
+//                 stdout,
+//                 "[MEC DEBUG] Selected renderer: '%s'\n",
+//                 name
+//             );
+
+//             why.clear();
+//             return backend;
+//         }
+
+//         failures += std::string(name) + ": " + attemptWhy + "\n";
+//     }
+
+//     why = "all available renderers failed:\n" + failures;
+//     return nullptr;
+// }
 
 // Decides which backend a window uses. `requested` is a normalized name. "auto" tries opengl, vulkan, software in
 // that order; a specific name is tried first and, if it cannot start, the rest follow so the window still draws.
@@ -1738,29 +1868,27 @@ static std::unique_ptr<DrawBackendNS::DrawBackend> MakeBackend(NativeWindow* win
 // Explicit renderer requests attempt ONLY that renderer.
 // If initialization fails, the CPU rasterizer is used as a safe fallback.
 // The failure reason is recorded in win->rendererNote.
-static void SelectRenderer(
-    NativeWindow* win,
-    const std::string& requested
-) {
+static void SelectRenderer(NativeWindow* win, const std::string& requested) {
     win->backend.reset();
     win->rendererNote.clear();
 
+    // Original single-threaded CPU rasterizer.
     if (requested == "cpu") {
         win->renderer = "cpu";
         return;
     }
 
-    // Automatic selection: try each supported backend in priority order.
+    // Automatic selection: OpenGL -> Vulkan -> Software.
     if (requested == "auto") {
-        const std::vector<std::string> order = {
+        std::string failures;
+
+        const char* order[] = {
             "opengl",
             "vulkan",
-            "software"
+            "software",
         };
 
-        std::string firstWhy;
-
-        for (const std::string& name : order) {
+        for (const char* name : order) {
             std::string why;
             auto backend = MakeBackend(win, name, why);
 
@@ -1768,24 +1896,26 @@ static void SelectRenderer(
                 win->backend = std::move(backend);
                 win->renderer = name;
 
-                if (!firstWhy.empty()) {
+                if (!failures.empty()) {
                     win->rendererNote =
-                        "renderer '" + name +
-                        "' selected after an earlier backend failed: " +
-                        firstWhy;
+                    "Renderer '" + std::string(name) +
+                    "' selected after previous backends failed: " +
+                    failures;
                 }
 
                 return;
             }
 
-            if (firstWhy.empty()) {
-                firstWhy = why;
-            }
+            if (!failures.empty()) failures += "; ";
+            failures += std::string(name) + ": " +
+            (why.empty() ? "initialization failed" : why);
         }
 
+        // All DrawBackend implementations failed.
+        // Fall back to the original CPU rasterizer.
         win->renderer = "cpu";
         win->rendererNote =
-            "no GPU renderer could start (" + firstWhy +
+            "no GPU renderer could start (" + failures +
             "); using the CPU rasteriser";
 
         return;
@@ -1801,11 +1931,12 @@ static void SelectRenderer(
         return;
     }
 
-    // Do not silently attempt another GPU backend.
+    // Requested backend failed: fall back to the original CPU rasterizer.
     win->renderer = "cpu";
     win->rendererNote =
         "requested renderer '" + requested +
-        "' could not start (" + why +
+        "' could not start (" +
+        (why.empty() ? "initialization failed" : why) +
         "); using the CPU rasteriser";
 }
 
@@ -1950,7 +2081,7 @@ static int window_create(lua_State* L) {
     }
 #endif
 
-    std::fprintf(stdout, "%sRequested renderer: '%s'\n", FixedDebugName.c_str(), requested.c_str());
+    std::fprintf(stdout, "%s Requested renderer: '%s'\n", FixedDebugName.c_str(), requested.c_str());
     try { SelectRenderer(win, requested); } catch (const std::exception& e) { std::printf("%s Rendering error occured: %s\n", FixedDebugName.c_str(), e.what()); }
     if (!win->rendererNote.empty()) std::fprintf(stderr, "%s %s\n", FixedDebugName.c_str(), win->rendererNote.c_str());
     int winId = g_next_window_id++; g_windows[winId] = win; lua_pushinteger(L, winId); return 1;
