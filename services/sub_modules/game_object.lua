@@ -20,17 +20,17 @@ local PseudoStyles = require("sub_modules.pseudo_styles") --- @diagnostic disabl
 -- constructed guarantees max_core.lua has long since finished loading.
 local _EventClass = nil
 local function NewCollidedEvent()
-    if not _EventClass then
-        _EventClass = require("max_core").call().Event
-    end
+    if not _EventClass then _EventClass = EngineCore.Event end
     return _EventClass.new("Collided")
 end
+
+local RuntimeService = EngineCore:LoadService("RunnerService")
 
 -- Minimal structural type for the `window` argument every Render method
 -- receives. WindowObject itself is declared in window_service.lua, which
 -- requires THIS file, so naming it here would be a require cycle; this
 -- interface lists only the drawing calls objects actually use, and
--- WindowObject satisfies it structurally.
+-- WindowObject satisfies it structurally. (WIP)
 ---@class RenderSurface
 ---@field DrawRectangle fun(self: RenderSurface, x: number, y: number, w: number, h: number, r: integer, g: integer, b: integer)
 ---@field DrawLine fun(self: RenderSurface, x0: number, y0: number, x1: number, y1: number, r: integer, g: integer, b: integer)
@@ -46,19 +46,26 @@ end
 ---@field DrawCube fun(self: RenderSurface, px: number, py: number, pz: number, rx: number, ry: number, rz: number, sx: number, sy: number, sz: number, r: integer, g: integer, b: integer, fillMode: any, textureSetId: integer?)
 ---@field DrawMesh fun(self: RenderSurface, vertices: table, faces: table, px: number, py: number, pz: number, rx: number, ry: number, rz: number, sx: number, sy: number, sz: number, r: integer, g: integer, b: integer, fillMode: any, textureSetId: integer?, uvs: table?)
 
+---@alias Vector2 { x: number, y: number }
+---@alias Vector3 { x: number, y: number, z: number }
 
 ---@class GameObject
----@field Position { x: number, y: number, z: number } World position offset
----@field Rotation { x: number, y: number, z: number } Euler rotations (radians)
----@field Scale { x: number, y: number, z: number } Object scale multipliers
----@field Color { r: integer, g: integer, b: integer } RGB rendering color (0-255)
----@field Visible boolean Lifecycle visibility toggle
----@field _physicsBody PhysicsBody? Set by WindowObject:BindPhysics; nil until this object is bound to physics
----@field Collided Event Fires (self:Fire(otherGameObject)) every Step for as long as this object's PhysicsBody stays touching another's -- only meaningful once BindPhysics has been called; see WindowObject:StepPhysics
----@field Vertices Vertex3[]? Only present on MeshObject (declared here, nilable, so code that takes a plain GameObject -- e.g. WindowObject:BindPhysics's {shape="hull"} path -- can check gameObject.Vertices without the language server complaining); see MeshObject's own (non-nilable) override below
----@field Faces MeshFace[]? Only present on MeshObject, same reasoning as Vertices above
----@field Styles table<string, PseudoStyle> Attached style elements, one per kind (see PseudoStyles)
----@field TypeName string Class name, used to check which styles an object accepts
+---@field Position Vector3 # World position offset
+---@field Rotation Vector3 # Euler rotations (radians)
+---@field Scale Vector3 # Object scale multipliers
+---@field Color { r: integer, g: integer, b: integer } # RGB rendering color (0-255)
+---@field Visible boolean # Lifecycle visibility toggle
+---@field public _prev GameObject
+---@field private _updateThread RunnerConnection # ...
+---@field private _childEvents table<Event, EventConnection> # ...
+---@field _physicsBody PhysicsBody? # Set by WindowObject:BindPhysics; nil until this object is bound to physics
+---@field Collided Event # Fires (self:Fire(otherGameObject)) every Step for as long as this object's PhysicsBody stays touching another's -- only meaningful once BindPhysics has been called; see WindowObject:StepPhysics
+---@field Vertices Vertex3[]? # Only present on MeshObject (declared here, nilable, so code that takes a plain GameObject -- e.g. WindowObject:BindPhysics's {shape="hull"} path -- can check gameObject.Vertices without the language server complaining); see MeshObject's own (non-nilable) override below
+---@field Faces MeshFace[]? # Only present on MeshObject, same reasoning as Vertices above
+---@field Styles table<string, PseudoStyle> # Attached style elements, one per kind (see PseudoStyles)
+---@field TypeName string # Class name, used to check which styles an object accepts
+---@field Children GameObject[] 
+---@field Changed Event
 local GameObject = {}
 GameObject.__index = GameObject
 InstanceTyping.SetType(GameObject, "GameObject")
@@ -83,6 +90,7 @@ local ImageObject
 ---@return GameObject
 function GameObject.new()
     local self = setmetatable({}, GameObject)
+    self.Changed = EngineCore.Event.new(tostring(self) .. "-changed")
     self.Position = { x = 0.0, y = 0.0, z = 0.0 }
     self.Rotation = { x = 0.0, y = 0.0, z = 0.0 }
     self.Scale = { x = 1.0, y = 1.0, z = 1.0 }
@@ -90,6 +98,20 @@ function GameObject.new()
     self.Visible = true
     self.Collided = NewCollidedEvent()
     self.Styles = {}
+    self._prev = self
+
+    self._updateThread = RuntimeService.Stepped:Connect(function(dt)
+        for key, value in pairs(getmetatable(self)) do
+            if self._prev[key] ~= value then
+                self.Changed:Fire(key, value)
+            end
+        end
+
+        if self._prev ~= self then
+            self._prev = self
+        end
+    end)
+
     return self
 end
 
@@ -248,6 +270,17 @@ function GameObject:Destroy() end
 ---@param window RenderSurface
 function GameObject:Render(window) end
 
+---Fetches the applied GameObjects on this element.
+---@param self GameObject
+function GameObject:GetChildren()
+    local children = {}
+
+    for event, _ in pairs(self._childEvents) do event:Fire() end -- ensure update before fetch
+
+
+
+    return {}
+end
 
 ---Objects that can draw an outline (RectObject, CircleObject, PolygonObject).
 ---Declared once so the border hooks below are typed against the fields they set.
