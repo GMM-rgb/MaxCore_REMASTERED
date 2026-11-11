@@ -56,8 +56,7 @@ static std::string FixedDebugName = info::to_string(EngineDebugName);
     #include <objc/message.h>
     #include <CoreGraphics/CoreGraphics.h>
 
-    template<typename R, typename Target, typename... Args>
-    R msgSend(Target self, SEL op, Args... args) {
+    template<typename R, typename Target, typename... Args> R msgSend(Target self, SEL op, Args... args) {
         using Func = R (*)(id, SEL, Args...);
         return reinterpret_cast<Func>(objc_msgSend)(reinterpret_cast<id>(self), op, args...);
     }

@@ -64,11 +64,12 @@ local RuntimeService = EngineCore:LoadService("RunnerService")
 ---@field Faces MeshFace[]? # Only present on MeshObject, same reasoning as Vertices above
 ---@field Styles table<string, PseudoStyle> # Attached style elements, one per kind (see PseudoStyles)
 ---@field TypeName string # Class name, used to check which styles an object accepts
----@field Children GameObject[] 
+---@field Children GameObject[] | { AppendElement: fun(self: table, target: GameObject, element: GameObject): nil }
 ---@field Changed Event
 local GameObject = {}
 GameObject.__index = GameObject
 InstanceTyping.SetType(GameObject, "GameObject")
+GameObject.Children = {}
 
 -- Forward-declared: ImageObject is defined further down in this file,
 -- but TextObject.new (defined before it) needs to reference it to
@@ -102,15 +103,18 @@ function GameObject.new()
 
     self._updateThread = RuntimeService.Stepped:Connect(function(dt)
         for key, value in pairs(getmetatable(self)) do
-            if self._prev[key] ~= value then
-                self.Changed:Fire(key, value)
+            if type(key) == "string" then
+                if self._prev[key] ~= value then
+                    self.Changed:Fire(key, value)
+                    io.stdout:write(key .. "\n")
+                end
             end
         end
 
         if self._prev ~= self then
             self._prev = self
         end
-    end)
+    end, { yieldable = true, reentrant = false })
 
     return self
 end
@@ -172,6 +176,21 @@ function GameObject:SetTexture(imageId, face, options)
     return self:ApplyStyle(fresh)
 end
 
+---@param target GameObject
+---@param element GameObject
+---@return integer # the appeneded element index
+function GameObject.Children:AppendElement(target, element)
+    assert(element, "element is required to apply a new child!")
+
+    for _, obj in ipairs(self) do
+        if obj == element then
+            break
+        end
+    end
+
+    return table.insert(target.Children, element)
+end
+
 ---Detaches the style of this kind, if any, and frees anything it owned.
 ---@generic T: GameObject
 ---@param self T
@@ -201,6 +220,7 @@ end
 ---@param z number?
 function GameObject:SetPosition(x, y, z)
     self.Position.x, self.Position.y, self.Position.z = x or 0.0, y or 0.0, z or 0.0
+    self.Changed:Fire("Position", { x = x, y = y, z = z })
 end
 
 ---Sets euler rotation angles in radians.
@@ -209,6 +229,7 @@ end
 ---@param rz number?
 function GameObject:SetRotation(rx, ry, rz)
     self.Rotation.x, self.Rotation.y, self.Rotation.z = rx or 0.0, ry or 0.0, rz or 0.0
+    self.Changed:Fire("Rotation", { x = rx, y = ry, z = rz })
 end
 
 ---Sets scale components.
@@ -276,8 +297,7 @@ function GameObject:GetChildren()
     local children = {}
 
     for event, _ in pairs(self._childEvents) do event:Fire() end -- ensure update before fetch
-
-
+    for _, child in ipairs(self.Children) do if child then table.insert(children, child) end end
 
     return {}
 end

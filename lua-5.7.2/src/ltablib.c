@@ -124,10 +124,10 @@ static int tinsert (lua_State *L) {
       return luaL_error(L, "wrong number of arguments to 'insert'");
     }
   }
-  lua_seti(L, 1, pos);  /* t[pos] = v */
-  return 0;
+  lua_seti(L, 1, pos);       /* t[pos] = v */
+  lua_pushinteger(L, pos);   /* push the position integer onto the stack */
+  return 1;                  /* tell the Lua VM one value is being returned */
 }
-
 
 static int tremove (lua_State *L) {
   lua_Integer size = aux_getn(L, 1, TAB_RW);
