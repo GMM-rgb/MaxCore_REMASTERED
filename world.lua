@@ -1,7 +1,7 @@
 ---@alias ChildrenEventDictionary { ["event"]: Event, ["connection"]: EventConnection }
 local GraphicService = EngineCore:LoadService("WindowService")
 local RuntimeService = EngineCore:LoadService("RunnerService")
-local <const> GameWindow = GraphicService:CreateWindow("my world", 500, 400, { renderer = "vulkan" })
+local <const> GameWindow = GraphicService:CreateWindow("my world", 500, 400, { renderer = "opengl" })
 assert(GameWindow, "game window failed to be instanced, insufficent perms!")
 assert(RuntimeService:HasNative(), "native runtime scheduler is not available!")
 local ToolbarBorder = EngineCore.PseudoStylesClass.new("border", 150, 150, 150, 3)

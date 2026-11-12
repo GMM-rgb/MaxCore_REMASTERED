@@ -2,6 +2,7 @@ import electron, { BrowserWindow, ipcMain, Menu } from "electron";
 import { MaxCoreCommunication } from "./engine/communication";
 import { ChildProcessWithoutNullStreams } from "child_process";
 import * as path from "path";
+import * as fs from "fs";
 
 type ChildProcessNull = ChildProcessWithoutNullStreams;
 let EditorWindow: Electron.BrowserWindow | null = null;
@@ -56,10 +57,32 @@ async function LoadFile(): Promise<string> {
             }
         }
     });
-   
+
     return FileBufferContents ?? `EngineCore.ColorPrint("ERROR", "loading project file failed!")`;
 }
 
-let lua = MaxCoreCommunication.start_lua_machine();
-electron.app.whenReady().then(() => { main(lua); console.debug("initalizing..."); });
-electron.app.on("window-all-closed", () => electron.app.quit);
+const lua = MaxCoreCommunication.start_lua_machine();
+console.debug("machine:", lua);
+
+electron.app.whenReady().then(() => {
+  console.debug("initializing...");
+  main(lua);
+
+  const scriptPath = path.join(__dirname, "../../../world.lua");
+  console.debug("script path:", scriptPath, "exists:", fs.existsSync(scriptPath));
+
+  const content = fs.readFileSync(scriptPath, "utf-8");
+  console.debug("content bytes:", content.length);
+
+  const testRes = MaxCoreCommunication.send_command(lua, 'print("LUA_ALIVE")');
+  console.debug("test res:", testRes);
+
+  const worldRes = MaxCoreCommunication.send_command(lua, content);
+  console.debug("world res:", worldRes);
+});
+
+electron.app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") {
+    electron.app.quit();
+  }
+});
