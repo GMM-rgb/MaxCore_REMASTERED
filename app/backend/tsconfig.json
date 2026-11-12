@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "target": "ES2022",
+        "module": "commonjs",
+        "moduleResolution": "bundler",
+        "types": ["node"],
+        "outDir": "./build",
+        "rootDir": ".",
+        "sourceMap": true,
+        "removeComments": true,
+    },
+    "exclude": ["./build/"],
+}

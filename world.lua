@@ -11,8 +11,8 @@ local renderer = GameWindow:GetRenderer() or {}
 local wdx, wdy = GameWindow:GetDimensions()
 local toolbar_padding = 10
 
-GameWindow:SetAliasingQuality("2d", 4)
-EngineCore.ColorPrint("INFO", renderer.description, "\nNAME:\t" .. renderer.name:upper())
+GameWindow:SetAliasingQuality("2d", 3)
+EngineCore.ColorPrint("INFO", renderer.description, "NAME:\t" .. renderer.name:upper())
 
 local ToolbarInterface = GameWindow:CreateRect(0, 0, 200, 50, 210, 210, 210)
 ToolbarInterface = ToolbarInterface:ApplyStyle(ToolbarBorder)
