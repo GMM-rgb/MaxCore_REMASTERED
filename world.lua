@@ -35,38 +35,6 @@ local function update_toolbar_position()
     update_inventory_button()
 end
 
--- ---@param SelectableElement RectObject
--- local function add_toolbar_selectable(SelectableElement)
---     local EventName = "update-event-" .. tostring(SelectableElement)
---     local <const> UpdateEvent = EngineCore.Event.new(EventName)
-
---     local function update_wrapper()
---         local selection_order_index = #ToolbarInterface["items"] + 1
---         local target_x_position, y_target = ToolbarInterface.Position.x + toolbar_padding, ToolbarInterface.Position.y + toolbar_padding
-
---         for _, object in pairs(ToolbarInterface["items"]) do
---             local width = object.Size.w --- @as number
---             local new_pos = target_x_position + width + toolbar_padding
---             target_x_position = new_pos
---         end
-
---         ---@param position Vector3
---         local function unpack_position(position)
---             local unpacked = {} --- @type table<number>
---             for _, v in pairs(position) do table.insert(unpacked, v) end
---             return table.concat(unpacked, ", ")
---         end
-
---         SelectableElement.Size.h = ToolbarInterface.Size.h - toolbar_padding * 2
---         SelectableElement:SetPosition(target_x_position, y_target)
---         -- EngineCore.ColorPrint("DEBUG", unpack_position(SelectableElement.Position))
---     end
-
---     local connection = UpdateEvent:Connect(update_wrapper); update_wrapper()
---     table.insert(ToolbarChildrenEvents, { ["event"] = UpdateEvent, ["connection"] = connection })
---     table.insert(ToolbarInterface["items"], SelectableElement)
--- end
-
 local InterfaceConnection, InterfaceJob = RuntimeService.RenderStepped:Connect(function(dt)
     if not GameWindow:IsRunning() then ShutdownEvent:Fire(); return end
     wdx, wdy = GameWindow:GetDimensions()
@@ -79,6 +47,8 @@ RuntimeService.RenderStepped:Connect(function(dt, wait, join)
     local <const> mem_info = EngineCore.PlatformUtils.get_memory_info()
     -- print("USED MEMORY:\t", mem_info["total_mb"] - mem_info["available_mb"] .. " MB")
 end, { key = "main-rendering", whenRunning = "skip", yieldable = true, safe = true })
+
+
 
 ShutdownEvent:Connect(function()
     RuntimeService._native:shutdown()
