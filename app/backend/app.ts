@@ -1,4 +1,4 @@
-import electron, { BrowserWindow, ipcMain } from "electron";
+import electron, { BrowserWindow, ipcMain, Menu } from "electron";
 import { MaxCoreCommunication } from "./engine/communication";
 import { ChildProcessWithoutNullStreams } from "child_process";
 import * as path from "path";
@@ -21,6 +21,43 @@ function main(lua: ChildProcessNull): void {
         if (!lua || !lua.stdin) return; lua.stdin.write(content + "\n");
         return { status: 'error', message: 'interpreter not running' };
     });
+
+    if (EditorWindow !== null) EditorWindow.loadFile(__dirname + "./../../src/index.html");
+    let HandleBuffer = EditorWindow.getNativeWindowHandle();
+    let WindowHandle = HandleBuffer.readBigUInt64LE(undefined);
+
+    const ApplicationToolbar = Menu.buildFromTemplate([{
+        label: "File", submenu: [{
+            label: "open", click: async () => { await LoadFile(); },
+        }]
+    }]);
+
+    Menu.setApplicationMenu(ApplicationToolbar);
+}
+
+
+async function LoadFile(): Promise<string> {
+    let FileBufferContents = undefined;
+
+    new Promise((resolve): void => {
+        const input: HTMLInputElement = document.createElement('input');
+        input.type = 'file';
+        input.accept = "*.lua";
+        input.multiple = false;
+
+        input.onchange = () => { resolve(input.files); };
+        input.oncancel = () => { resolve(null); };
+        input.click(); // Must be called inside a user gesture (e.g., click handler)
+    }).then(async (files = null): Promise<void> => {
+        if (files instanceof FileList) {
+            for (let index = 0; index < files.length; index++) {
+                const file = files?.item(index);
+                FileBufferContents = await file?.text();
+            }
+        }
+    });
+   
+    return FileBufferContents ?? `EngineCore.ColorPrint("ERROR", "loading project file failed!")`;
 }
 
 let lua = MaxCoreCommunication.start_lua_machine();

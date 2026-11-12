@@ -6,3 +6,4 @@ app/audio/*
 app_audio/*.mp3
 game_engine/audio_cache/*
 other/*
+node_modules/
