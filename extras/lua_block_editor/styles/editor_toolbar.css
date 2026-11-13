@@ -1,0 +1,80 @@
+#editor-toolbar {
+    display: flex;
+    overflow: visible;
+    background-color: #00D9FF;
+    border-block-end: 2px solid #333;
+    padding-inline: 10px;
+    padding-block: 5px;
+    min-height: 10px;
+    width: 100%;
+    gap: 8px;
+}
+
+#editor-toolbar > button {
+    color: #E8F1FA;
+    cursor: pointer;
+    position: relative;
+
+    background: #3978FF;
+    border-radius: 0.2cm;
+    border: 2px solid #29364A;
+    user-select: none !important;
+
+    /* 
+    * Restricts the anchor name to this element and its descendants.
+    * This allows child elements and pseudo-elements (such as ::before)
+    * to reference their own element's anchor without conflicting
+    * with other elements using the same anchor name,
+    * resolving in a protected anchor variable.
+    */
+    anchor-scope: --toolbar-tooltip;
+    anchor-name: --toolbar-tooltip;
+}
+
+#editor-toolbar > button::before {
+    content: attr(data-tooltip);
+
+    display: flex;
+    flex: content auto;
+
+    position: fixed; position-area: bottom;
+    position-anchor: --toolbar-tooltip;
+    position-try-fallbacks: flip-block, flip-inline;
+
+    user-select: none !important;
+    -webkit-user-select: none;
+
+    width: max-content;
+    max-width: calc(100vw - 32px);
+    padding: 8px 12px;
+    margin-block: 12px;
+    margin-inline: 10px;
+
+    color: #E8F1FA;
+    background-color: #3978FF;
+    border: 2px solid #29364A;
+    border-radius: 8px;
+    font-weight: bold;
+
+    opacity: 0;
+    text-overflow: ellipsis;
+    pointer-events: none;
+    visibility: hidden;
+    z-index: 100;
+
+    transform: translateY(-8px);
+
+    transition:
+        opacity 180ms ease,
+        transform 180ms ease,
+        visibility 180ms ease;
+}
+
+#editor-toolbar > button:hover::before {
+    opacity: 1; visibility: visible;
+    transform: translateY(0);
+}
+
+#editor-toolbar > button:disabled {
+    cursor: not-allowed !important;
+}
