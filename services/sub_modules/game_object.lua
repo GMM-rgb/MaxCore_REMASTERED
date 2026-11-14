@@ -46,9 +46,6 @@ local RuntimeService = EngineCore:LoadService("RunnerService")
 ---@field DrawCube fun(self: RenderSurface, px: number, py: number, pz: number, rx: number, ry: number, rz: number, sx: number, sy: number, sz: number, r: integer, g: integer, b: integer, fillMode: any, textureSetId: integer?)
 ---@field DrawMesh fun(self: RenderSurface, vertices: table, faces: table, px: number, py: number, pz: number, rx: number, ry: number, rz: number, sx: number, sy: number, sz: number, r: integer, g: integer, b: integer, fillMode: any, textureSetId: integer?, uvs: table?)
 
----@alias Vector2 { x: number, y: number }
----@alias Vector3 { x: number, y: number, z: number }
-
 ---@class GameObject
 ---@field Position Vector3 # World position offset
 ---@field Rotation Vector3 # Euler rotations (radians)
@@ -92,9 +89,9 @@ local ImageObject
 function GameObject.new()
     local self = setmetatable({}, GameObject)
     self.Changed = EngineCore.Event.new(tostring(self) .. "-changed")
-    self.Position = { x = 0.0, y = 0.0, z = 0.0 }
-    self.Rotation = { x = 0.0, y = 0.0, z = 0.0 }
-    self.Scale = { x = 1.0, y = 1.0, z = 1.0 }
+    self.Position = Vector3.new(0.0, 0.0, 0.0)
+    self.Rotation = Vector3.new(0.0, 0.0, 0.0)
+    self.Scale = Vector3.new(1.0, 1.0, 1.0)
     self.Color = { r = 255, g = 255, b = 255 }
     self.Visible = true
     self.Collided = NewCollidedEvent()

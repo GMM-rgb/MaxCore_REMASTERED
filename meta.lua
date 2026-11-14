@@ -1,3 +1,4 @@
+
 ---@meta
 
 ---@generic T
@@ -34,7 +35,7 @@ _G.EngineCore = dofile("max_core.lua")
 ---@return integer? os_error On failure, the numeric operating-system error code.
 function os.native_execute(command, options) end
 
---- Reverses an array in-place.
+---Reverses an array in-place.
 ---@generic T
 ---@param t T[] The array to be reversed.
 ---@return T[] # The same array table, reversed.
@@ -49,3 +50,54 @@ function os.execute(command) end
 
 ---@type string
 _G.VERSION = string.char(0)
+
+----------------------------------------------------------------
+-- Vector2
+----------------------------------------------------------------
+
+---@class Vector2
+---@field X number
+---@field Y number
+---@field x number
+---@field y number
+---@field Magnitude number
+---@field Unit Vector2
+---@field Dot fun(self: Vector2, other: Vector2): number
+---@operator add(Vector2): Vector2
+---@operator sub(Vector2): Vector2
+---@operator unm: Vector2
+
+---@class Vector2Library
+---@field new fun(x: number, y: number): Vector2
+
+---@type Vector2Library
+Vector2 = {
+    new = function(x, y) end
+}
+
+----------------------------------------------------------------
+-- Vector3
+----------------------------------------------------------------
+
+---@class Vector3
+---@field X number
+---@field Y number
+---@field Z number
+---@field x number
+---@field y number
+---@field z number
+---@field Magnitude number
+---@field Unit Vector3
+---@field Dot fun(self: Vector3, other: Vector3): number
+---@field Cross fun(self: Vector3, other: Vector3): Vector3
+---@operator add(Vector3): Vector3
+---@operator sub(Vector3): Vector3
+---@operator unm: Vector3
+
+---@class Vector3Library
+---@field new fun(x: number, y: number, z: number): Vector3
+
+---@type Vector3Library
+Vector3 = {
+    new = function(x, y, z) end
+}

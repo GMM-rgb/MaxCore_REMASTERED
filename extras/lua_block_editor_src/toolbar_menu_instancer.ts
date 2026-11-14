@@ -1,6 +1,11 @@
+export type CommandButtonSubmenu = {
+
+}
+
 export type ToolbarButtonCommand = {
     "label": string | String,
-    "op": (() => void) | null,
+    "op": ((...v: any) => void) | null,
+    "submenu"?: CommandButtonSubmenu | null,
 };
 
 let ToolbarMenus: EditorToolbarMenu[] = [];
@@ -12,6 +17,7 @@ export class EditorToolbarMenu {
     private static NextAnchorId: number = 0;
     private MenuAnchorName: string | null = null;
     private MenuTriggered: boolean = false;
+    private CommandButtons: HTMLButtonElement[] = [];
 
     private static ToolbarButtonCommands: Record<string, Array<ToolbarButtonCommand>> = {
         "file": [
@@ -29,12 +35,16 @@ export class EditorToolbarMenu {
             },
             {
                 "label": "<strong>EXIT</strong>",
-                "op": (): void => { window.close(); },
+                "op": (): void => {  },
             },
         ],
         "edit": [
             {
                 "label": "<strong>Editor Theme</strong>",
+                "op": null,
+            },
+            {
+                "label": "",
                 "op": null,
             }
         ],
@@ -61,37 +71,11 @@ export class EditorToolbarMenu {
                 case "file": this.apply_listener(); break;
                 case "edit": this.apply_listener(); break;
                 case "settings": this.apply_listener(); break;
+                case "block-palette": this.apply_listener(); break;
                 default: console.warn("unkown button name"); return;
             }
         }
     }
-
-    // public construct_menu(): HTMLElement | Node | null {
-    //     if (!this.TargetButton) return null;
-
-    //     const AnchorName = `--toolbar-menu-${++EditorToolbarMenu.NextAnchorId}`;
-    //     if (typeof AnchorName !== "undefined") this.MenuAnchorName = AnchorName;
-
-    //     // preserve the tooltip anchor while adding this menu's unique anchor name.
-    //     this.TargetButton.style.setProperty("anchor-name", `--toolbar-tooltip, ${AnchorName}`);
-
-    //     const ClonedTemplate = this.MenuTemplate.content.firstElementChild!.cloneNode(true);
-    //     this.ToolbarElement.appendChild(ClonedTemplate);
-    //     this.MenuElement = ClonedTemplate as HTMLDivElement;
-    //     this.MenuElement.style.top = "calc(anchor(bottom) + 5.5px)";
-    //     this.MenuElement.style.left = `anchor(${AnchorName} left)`;
-
-    //     const ButtonRect = this.TargetButton.getBoundingClientRect();
-    //     const MenuRect = this.MenuElement.getBoundingClientRect();
-
-    //     this.MenuElement.style.setProperty("--menu-entrance-offset", `${ButtonRect.top - MenuRect.top}px`);
-    //     console.debug(`${this.TargetButton.name.toUpperCase()} MENU LEFT:`, this.MenuElement.style.left);
-    //     console.debug(`VALID:\t%c${this.TargetButton instanceof HTMLElement}`, "color: violet;");
-    //     this.MenuElement.setAttribute("data-menu", String(this.TargetButton.name).trim());
-    //     this.TargetButton.setAttribute("data-menu", String(this.TargetButton.name).trim());
-
-    //     return this.MenuElement;
-    // }
 
     public construct_menu(): HTMLElement | Node | null {
         if (!this.TargetButton) return null;
@@ -103,8 +87,7 @@ export class EditorToolbarMenu {
         this.TargetButton.style.setProperty("anchor-name", `--toolbar-tooltip, ${AnchorName}`);
 
         const ClonedTemplate = this.MenuTemplate.content.firstElementChild!.cloneNode(true);
-        this.ToolbarElement.appendChild(ClonedTemplate);
-        this.MenuElement = ClonedTemplate as HTMLDivElement;
+        this.ToolbarElement.appendChild(ClonedTemplate); this.MenuElement = ClonedTemplate as HTMLDivElement;
         this.MenuElement.style.top = "calc(anchor(bottom) + 5.5px)";
         this.MenuElement.style.left = `anchor(${AnchorName} left)`;
 
@@ -165,11 +148,13 @@ export class EditorToolbarMenu {
                     const CommandButton = document.createElement("button") ?? HTMLButtonElement.prototype;
                     const AppendedButton = this.MenuElement?.appendChild(CommandButton) || undefined;
                     if (AppendedButton == null) { return; } AppendedButton.innerHTML = config.label.valueOf();
+                    AppendedButton.addEventListener("click", () => { config.op?.(); });
                     CreatedCommandButtons.push(AppendedButton as T);
                 });
             }
         });
 
+        this.CommandButtons ??= CreatedCommandButtons as HTMLButtonElement[];
         return CreatedCommandButtons;
     }
 

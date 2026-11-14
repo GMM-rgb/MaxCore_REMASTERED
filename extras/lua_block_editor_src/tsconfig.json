@@ -1,6 +1,11 @@
 {
+    "buildOptions": {
+        "verbose": true
+    },
     "compilerOptions": {
+        "pretty": true,
         "allowJs": true,
+        "alwaysStrict": true,
         "removeComments": true,
         "moduleResolution": "bundler",
         "module": "es2022",

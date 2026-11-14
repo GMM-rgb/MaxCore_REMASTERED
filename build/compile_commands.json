@@ -181,6 +181,12 @@
 },
 {
   "directory": "D:/MaxCore_REMASTERED/build",
+  "command": "C:\\Users\\maxim\\_C_\\bin\\ccache-gcc.exe -Dlua_shared_EXPORTS -DLUA_BUILD_AS_DLL -ID:/MaxCore_REMASTERED/lua-5.7.2/src -g -o CMakeFiles\\lua_shared.dir\\lua-5.7.2\\src\\lvector.c.obj -c D:\\MaxCore_REMASTERED\\lua-5.7.2\\src\\lvector.c",
+  "file": "D:/MaxCore_REMASTERED/lua-5.7.2/src/lvector.c",
+  "output": "D:/MaxCore_REMASTERED/build/CMakeFiles/lua_shared.dir/lua-5.7.2/src/lvector.c.obj"
+},
+{
+  "directory": "D:/MaxCore_REMASTERED/build",
   "command": "C:\\Users\\maxim\\_C_\\bin\\ccache-gcc.exe -Dlua_shared_EXPORTS -DLUA_BUILD_AS_DLL -ID:/MaxCore_REMASTERED/lua-5.7.2/src -g -o CMakeFiles\\lua_shared.dir\\lua-5.7.2\\src\\lvm.c.obj -c D:\\MaxCore_REMASTERED\\lua-5.7.2\\src\\lvm.c",
   "file": "D:/MaxCore_REMASTERED/lua-5.7.2/src/lvm.c",
   "output": "D:/MaxCore_REMASTERED/build/CMakeFiles/lua_shared.dir/lua-5.7.2/src/lvm.c.obj"

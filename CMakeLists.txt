@@ -11,47 +11,26 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 # EXPERIMENTAL FEATURES
 # =========================================================================
 
-option(
-    MAXCORE_EXPERIMENTAL_METADATA
-    "Enable experimental runtime LuaLS metadata generation"
-    OFF
-)
+option(MAXCORE_EXPERIMENTAL_METADATA "Enable experimental runtime LuaLS metadata generation" OFF)
 
 # =========================================================================
 # LUA DYNAMIC DISCOVERY & BUILD
 # =========================================================================
 
-file(GLOB LUA_DIRS
-    CONFIGURE_DEPENDS
-    "${CMAKE_CURRENT_SOURCE_DIR}/lua-*/src"
-)
+file(GLOB LUA_DIRS CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/lua-*/src")
 
 if(LUA_DIRS)
     set(LUA_SRC_DIR "")
     set(MAXCORE_SELECTED_LUA_VERSION "")
 
-    # Select the highest discovered Lua version.
     foreach(CANDIDATE_DIR IN LISTS LUA_DIRS)
-        get_filename_component(
-            CANDIDATE_VERSION_DIR
-            "${CANDIDATE_DIR}"
-            DIRECTORY
-        )
-
-        get_filename_component(
-            CANDIDATE_VERSION_NAME
-            "${CANDIDATE_VERSION_DIR}"
-            NAME
-        )
+        get_filename_component(CANDIDATE_VERSION_DIR "${CANDIDATE_DIR}" DIRECTORY)
+        get_filename_component(CANDIDATE_VERSION_NAME "${CANDIDATE_VERSION_DIR}" NAME)
 
         if(CANDIDATE_VERSION_NAME MATCHES "^lua-([0-9]+(\\.[0-9]+)*)$")
             set(CANDIDATE_VERSION "${CMAKE_MATCH_1}")
 
-            if(
-                "${MAXCORE_SELECTED_LUA_VERSION}" STREQUAL ""
-                OR "${CANDIDATE_VERSION}" VERSION_GREATER
-                   "${MAXCORE_SELECTED_LUA_VERSION}"
-            )
+            if("${MAXCORE_SELECTED_LUA_VERSION}" STREQUAL "" OR "${CANDIDATE_VERSION}" VERSION_GREATER "${MAXCORE_SELECTED_LUA_VERSION}")
                 set(MAXCORE_SELECTED_LUA_VERSION "${CANDIDATE_VERSION}")
                 set(LUA_SRC_DIR "${CANDIDATE_DIR}")
             endif()
@@ -59,46 +38,25 @@ if(LUA_DIRS)
     endforeach()
 
     if("${LUA_SRC_DIR}" STREQUAL "")
-        message(FATAL_ERROR
-            "[Engine Error] Lua source directories were found, "
-            "but none matched the expected lua-x.y.z/src layout."
-        )
+        message(FATAL_ERROR "[Engine Error] Lua source directories were found, but none matched the expected lua-x.y.z/src layout.")
     endif()
 else()
-    set(LUA_SRC_DIR
-        "${CMAKE_CURRENT_SOURCE_DIR}/lua-5.7.2/src"
-    )
+    set(LUA_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lua-5.7.2/src")
 endif()
 
 if(NOT EXISTS "${LUA_SRC_DIR}/lua.c")
-    message(FATAL_ERROR
-        "[Engine Error] Lua interpreter source not found: "
-        "${LUA_SRC_DIR}/lua.c"
-    )
+    message(FATAL_ERROR "[Engine Error] Lua interpreter source not found: ${LUA_SRC_DIR}/lua.c")
 endif()
 
-# MaxCore bootstrap files.
-set(MAXCORE_BOOTSTRAP_C
-    "${LUA_SRC_DIR}/maxcore_bootstrap.c"
-)
+set(MAXCORE_BOOTSTRAP_C "${LUA_SRC_DIR}/maxcore_bootstrap.c")
+set(MAXCORE_BOOTSTRAP_H "${LUA_SRC_DIR}/maxcore_bootstrap.h")
 
-set(MAXCORE_BOOTSTRAP_H
-    "${LUA_SRC_DIR}/maxcore_bootstrap.h"
-)
-
-# Fail early if the bootstrap files are missing.
 if(NOT EXISTS "${MAXCORE_BOOTSTRAP_C}")
-    message(FATAL_ERROR
-        "[Engine Error] Missing MaxCore bootstrap source: "
-        "${MAXCORE_BOOTSTRAP_C}"
-    )
+    message(FATAL_ERROR "[Engine Error] Missing MaxCore bootstrap source: ${MAXCORE_BOOTSTRAP_C}")
 endif()
 
 if(NOT EXISTS "${MAXCORE_BOOTSTRAP_H}")
-    message(FATAL_ERROR
-        "[Engine Error] Missing MaxCore bootstrap header: "
-        "${MAXCORE_BOOTSTRAP_H}"
-    )
+    message(FATAL_ERROR "[Engine Error] Missing MaxCore bootstrap header: ${MAXCORE_BOOTSTRAP_H}")
 endif()
 
 # =========================================================================
@@ -109,41 +67,23 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 
-# Enforce output directories for multi-config generators.
 foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
     string(TOUPPER "${OUTPUTCONFIG}" CONFIG)
-
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${CONFIG}
-        "${CMAKE_BINARY_DIR}"
-    )
-
-    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${CONFIG}
-        "${CMAKE_BINARY_DIR}"
-    )
-
-    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${CONFIG}
-        "${CMAKE_BINARY_DIR}"
-    )
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${CONFIG} "${CMAKE_BINARY_DIR}")
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${CONFIG} "${CMAKE_BINARY_DIR}")
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${CONFIG} "${CMAKE_BINARY_DIR}")
 endforeach()
 
 message(STATUS "[Engine] Using Lua source directory: ${LUA_SRC_DIR}")
 message(STATUS "[Engine] Using MaxCore bootstrap: ${MAXCORE_BOOTSTRAP_C}")
-message(STATUS
-    "[Engine] Experimental metadata generation: "
-    "${MAXCORE_EXPERIMENTAL_METADATA}"
-)
+message(STATUS "[Engine] Experimental metadata generation: ${MAXCORE_EXPERIMENTAL_METADATA}")
 
 include_directories("${LUA_SRC_DIR}")
 
-file(GLOB LUA_SOURCES
-    CONFIGURE_DEPENDS
-    "${LUA_SRC_DIR}/*.c"
-)
+file(GLOB LUA_SOURCES CONFIGURE_DEPENDS "${LUA_SRC_DIR}/*.c")
 
 set(LUA_LIB_SOURCES ${LUA_SOURCES})
 
-# These sources belong to executables or the MaxCore bootstrap.
-# Do NOT compile maxcore_bootstrap.c into lua_shared.
 list(REMOVE_ITEM LUA_LIB_SOURCES
     "${LUA_SRC_DIR}/lua.c"
     "${LUA_SRC_DIR}/luac.c"
@@ -156,22 +96,14 @@ list(REMOVE_ITEM LUA_LIB_SOURCES
 
 find_package(Threads REQUIRED)
 
-set(PLATFORM_LIBS
-    Threads::Threads
-)
+set(PLATFORM_LIBS Threads::Threads)
 
 if(WIN32)
     message(STATUS "[Engine] Target OS: Windows")
-
-    list(APPEND PLATFORM_LIBS
-        winmm
-        user32
-        urlmon
-    )
+    list(APPEND PLATFORM_LIBS winmm user32 urlmon)
 
 elseif(APPLE)
     message(STATUS "[Engine] Target OS: macOS")
-
     list(APPEND PLATFORM_LIBS
         "-framework CoreAudio"
         "-framework CoreFoundation"
@@ -184,60 +116,30 @@ elseif(APPLE)
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     message(STATUS "[Engine] Target OS: Linux")
 
-    # ---------------------------------------------------------------------
-    # X11 DISCOVERY
-    # ---------------------------------------------------------------------
-
     find_package(X11 REQUIRED)
 
     if(NOT X11_FOUND)
-        message(FATAL_ERROR
-            "[Engine Error] X11 is required but could not be located."
-        )
+        message(FATAL_ERROR "[Engine Error] X11 is required but could not be located.")
     endif()
 
-    message(STATUS
-        "[Engine] Found X11 headers at: ${X11_INCLUDE_DIR}"
-    )
-
-    message(STATUS
-        "[Engine] Found X11 libraries: ${X11_LIBRARIES}"
-    )
+    message(STATUS "[Engine] Found X11 headers at: ${X11_INCLUDE_DIR}")
+    message(STATUS "[Engine] Found X11 libraries: ${X11_LIBRARIES}")
 
     include_directories(${X11_INCLUDE_DIR})
 
-    list(APPEND PLATFORM_LIBS
-        m
-        dl
-        X11::X11
-    )
+    list(APPEND PLATFORM_LIBS m dl X11::X11)
 
-    # ---------------------------------------------------------------------
-    # XTEST DISCOVERY (OPTIONAL)
-    # ---------------------------------------------------------------------
-
-    find_library(XTST_LIB
-        NAMES Xtst
-    )
+    find_library(XTST_LIB NAMES Xtst)
 
     if(XTST_LIB)
-        message(STATUS
-            "[Engine] Found libXtst: ${XTST_LIB}"
-        )
-
-        list(APPEND PLATFORM_LIBS
-            "${XTST_LIB}"
-        )
+        message(STATUS "[Engine] Found libXtst: ${XTST_LIB}")
+        list(APPEND PLATFORM_LIBS "${XTST_LIB}")
     else()
-        message(STATUS
-            "[Engine] libXtst not found; optional XTest support unavailable."
-        )
+        message(STATUS "[Engine] libXtst not found; optional XTest support unavailable.")
     endif()
 
 else()
-    message(FATAL_ERROR
-        "[Engine Error] Unsupported target platform: ${CMAKE_SYSTEM_NAME}"
-    )
+    message(FATAL_ERROR "[Engine Error] Unsupported target platform: ${CMAKE_SYSTEM_NAME}")
 endif()
 
 # =========================================================================
@@ -254,19 +156,17 @@ set_target_properties(lua_shared PROPERTIES
     OUTPUT_NAME "lua55"
 )
 
-target_include_directories(lua_shared PRIVATE
-    "${LUA_SRC_DIR}"
-)
+target_include_directories(lua_shared PRIVATE "${LUA_SRC_DIR}")
 
-target_link_libraries(lua_shared PRIVATE
-    ${PLATFORM_LIBS}
-)
+target_link_libraries(lua_shared PRIVATE ${PLATFORM_LIBS})
 
-# Windows Lua DLL export configuration.
+# Windows: Lua API declarations must be exported from lua_shared.
+# LUA_CORE and LUA_LIB prevent Lua sources from importing their own API.
 if(WIN32)
-    set_source_files_properties(
-        ${LUA_LIB_SOURCES}
-        PROPERTIES COMPILE_DEFINITIONS LUA_BUILD_AS_DLL
+    target_compile_definitions(lua_shared PRIVATE
+        LUA_BUILD_AS_DLL
+        LUA_CORE
+        LUA_LIB
     )
 endif()
 
@@ -274,43 +174,32 @@ endif()
 # BUILD LUA RUNNER + MAXCORE BOOTSTRAP
 # =========================================================================
 
-# Compile maxcore_bootstrap.c directly into the runner so that
-# MaxCore_Initialize() is defined when lua.c references it.
 add_executable(lua_runner
     "${LUA_SRC_DIR}/lua.c"
     "${MAXCORE_BOOTSTRAP_C}"
 )
 
-target_include_directories(lua_runner PRIVATE
-    "${LUA_SRC_DIR}"
-)
-
-target_link_libraries(lua_runner PRIVATE
-    lua_shared
-)
+target_include_directories(lua_runner PRIVATE "${LUA_SRC_DIR}")
+target_link_libraries(lua_runner PRIVATE lua_shared)
 
 set_target_properties(lua_runner PROPERTIES
     OUTPUT_NAME "max-core-lua"
 )
 
-# Supply the selected source directory to the optional metadata generator.
+# The runner imports Lua API symbols from lua_shared.
+if(WIN32)
+    target_compile_definitions(lua_runner PRIVATE LUA_BUILD_AS_DLL)
+endif()
+
 target_compile_definitions(lua_runner PRIVATE
     "MAXCORE_LUA_SRC_DIR=\"${LUA_SRC_DIR}\""
 )
 
-# Enable the experimental generator only when explicitly requested.
 if(MAXCORE_EXPERIMENTAL_METADATA)
-    target_compile_definitions(lua_runner PRIVATE
-        MAXCORE_EXPERIMENTAL_METADATA
-    )
-
-    message(STATUS
-        "[Engine] Experimental runtime metadata generation ENABLED"
-    )
+    target_compile_definitions(lua_runner PRIVATE MAXCORE_EXPERIMENTAL_METADATA)
+    message(STATUS "[Engine] Experimental runtime metadata generation ENABLED")
 else()
-    message(STATUS
-        "[Engine] Runtime metadata generation disabled"
-    )
+    message(STATUS "[Engine] Runtime metadata generation disabled")
 endif()
 
 # =========================================================================
@@ -321,30 +210,16 @@ if(WIN32)
     message(STATUS "[Engine] Using Windows Lua configuration")
 
 elseif(APPLE)
-    message(STATUS
-        "[Engine] Enabling LUA_USE_MACOSX for io.popen support"
-    )
+    message(STATUS "[Engine] Enabling LUA_USE_MACOSX for io.popen support")
 
-    target_compile_definitions(lua_shared PRIVATE
-        LUA_USE_MACOSX
-    )
-
-    target_compile_definitions(lua_runner PRIVATE
-        LUA_USE_MACOSX
-    )
+    target_compile_definitions(lua_shared PRIVATE LUA_USE_MACOSX)
+    target_compile_definitions(lua_runner PRIVATE LUA_USE_MACOSX)
 
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    message(STATUS
-        "[Engine] Enabling LUA_USE_LINUX for io.popen support"
-    )
+    message(STATUS "[Engine] Enabling LUA_USE_LINUX for io.popen support")
 
-    target_compile_definitions(lua_shared PRIVATE
-        LUA_USE_LINUX
-    )
-
-    target_compile_definitions(lua_runner PRIVATE
-        LUA_USE_LINUX
-    )
+    target_compile_definitions(lua_shared PRIVATE LUA_USE_LINUX)
+    target_compile_definitions(lua_runner PRIVATE LUA_USE_LINUX)
 endif()
 
 # =========================================================================
@@ -362,7 +237,6 @@ set(NATIVE_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/backend/runtime_backend/sleep_native.cpp"
 )
 
-# All native modules need lua_shared + platform libraries.
 list(APPEND PLATFORM_LIBS lua_shared)
 
 # =========================================================================
@@ -370,28 +244,16 @@ list(APPEND PLATFORM_LIBS lua_shared)
 # =========================================================================
 
 foreach(SOURCE_FILE IN LISTS NATIVE_SOURCES)
-    get_filename_component(
-        TARGET_NAME
-        "${SOURCE_FILE}"
-        NAME_WE
-    )
+    get_filename_component(TARGET_NAME "${SOURCE_FILE}" NAME_WE)
 
-    add_library("${TARGET_NAME}" SHARED
-        "${SOURCE_FILE}"
-    )
+    add_library("${TARGET_NAME}" SHARED "${SOURCE_FILE}")
 
-    target_include_directories("${TARGET_NAME}" PRIVATE
-        "${LUA_SRC_DIR}"
-    )
+    target_include_directories("${TARGET_NAME}" PRIVATE "${LUA_SRC_DIR}")
+    target_link_libraries("${TARGET_NAME}" PRIVATE ${PLATFORM_LIBS})
 
-    target_link_libraries("${TARGET_NAME}" PRIVATE
-        ${PLATFORM_LIBS}
-    )
-
+    # Native modules import Lua API symbols from lua_shared.
     if(WIN32)
-        target_compile_definitions("${TARGET_NAME}" PRIVATE
-            LUA_BUILD_AS_DLL
-        )
+        target_compile_definitions("${TARGET_NAME}" PRIVATE LUA_BUILD_AS_DLL)
     endif()
 
     if(TARGET_NAME STREQUAL "sound_service_backend")

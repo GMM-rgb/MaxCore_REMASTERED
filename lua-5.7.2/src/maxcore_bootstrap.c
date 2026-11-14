@@ -5,6 +5,7 @@
 */
 
 #include "maxcore_bootstrap.h"
+#include "lvector.h"
 
 #include "lua.h"
 #include "lauxlib.h"
@@ -1053,6 +1054,7 @@ void MaxCore_Initialize(lua_State *L) {
     ** 10. Publish the initialized engine.
     */
     lua_setglobal(L, "EngineCore");
+    Vector_Register(L);
 
     /*
     ** 11. Remove the original module table.

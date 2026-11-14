@@ -38,6 +38,8 @@ typedef enum {
   TM_BNOT,
   TM_LT,
   TM_LE,
+  TM_VECTOR_ADD,
+  TM_VECTOR_SUB,
   TM_CONCAT,
   TM_CALL,
   TM_CLOSE,
