@@ -1,10 +1,12 @@
 {
     "compilerOptions": {
         "allowJs": true,
-        "module": "commonjs",
+        "removeComments": true,
         "moduleResolution": "bundler",
+        "module": "es2022",
         "outDir": "./build",
-        "rootDir": ".",
+        "rootDir": "."
     },
-    "exclude": ["./build"],
+    "include": ["./**/*", "./components/**/*"],
+    "exclude": ["build", "node_modules"]
 }

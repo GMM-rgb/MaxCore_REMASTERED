@@ -1,20 +1,30 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 
 <html>
     <head>
         <link rel="stylesheet" href="../styles/main.css" />
         <link rel="stylesheet" href="../styles/editor_toolbar.css" />
+        <link rel="stylesheet" href="../styles/toolbar_menus.css" />
     </head>
 
-    <template id="toolbar-item-menu"><div class="command-button-list">
-        <span class="command-menu-description"></span>
-        <!-- dynamic command buttons to be inserted : automated -->
-    </div></template>
+    <body>
+        <template id="toolbar-item-menu">
+            <div class="command-button-list">
+                <span class="command-menu-description"></span>
+                <!-- Dynamic command buttons -->
+            </div>
+        </template>
 
-    <body spellcheck="false">
-        <div id="editor-toolbar">
-            <button class="toolbar-button" name="file" data-tooltip="Open Project File"><strong>FILE</strong></button>
-            <button class="toolbar-button" name="edit" data-tooltip="Edit Context Menu"><strong>EDIT</strong></button>
+        <div id="editor-toolbar" spellcheck="false">
+            <button class="toolbar-button" name="file" data-tooltip="Open Project File">
+                <strong>FILE</strong>
+            </button>
+
+            <button class="toolbar-button" name="edit" data-tooltip="Edit Context Menu">
+                <strong>EDIT</strong>
+            </button>
         </div>
+
+        <script type="module" src="../../lua_block_editor_src/build/main.js"></script>
     </body>
 </html>
