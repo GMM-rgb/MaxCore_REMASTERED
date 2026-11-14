@@ -10,4 +10,5 @@ ToolbarButtons.forEach((button: HTMLButtonElement) => {
     const ButtonMenu = new EditorToolbarMenu(button, ToolbarElement);
     const MenuElement = ButtonMenu?.construct_menu() ?? void null;
     ButtonMenu.add_commands<HTMLButtonElement>();
+    ButtonMenu.toggle(false); // ensure closed
 });

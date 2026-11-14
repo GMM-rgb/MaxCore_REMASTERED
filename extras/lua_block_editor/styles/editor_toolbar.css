@@ -66,6 +66,7 @@
 
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    filter: saturate(10px);
 
     opacity: 0;
     visibility: hidden;
@@ -86,10 +87,27 @@
     transform: translateY(0) scaleX(1);
 }
 
-#editor-toolbar > button:hover {
-    box-shadow: inset 0 0 10px rgba(80, 80, 80, 0.35);
+#editor-toolbar > button.menu-tooltip-hidden:hover::before {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
 }
 
-#editor-toolbar > button:disabled {
-    cursor: not-allowed !important;
-}
+#editor-toolbar > button:hover { box-shadow: inset 0 0 10px rgba(80, 80, 80, 0.35); }
+#editor-toolbar > button:disabled { cursor: not-allowed !important; }
+
+/* old static css - below */
+
+/* #editor-toolbar:has(
+    > .command-button-list[data-menu="file"].menu-focus-active
+) > button[data-menu="file"]:hover::before,
+#editor-toolbar:has(
+    > .command-button-list[data-menu="edit"].menu-focus-active
+) > button[data-menu="edit"]:hover::before,
+#editor-toolbar:has(
+    > .command-button-list[data-menu="settings"].menu-focus-active
+) > button[data-menu="settings"]:hover::before {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+} */

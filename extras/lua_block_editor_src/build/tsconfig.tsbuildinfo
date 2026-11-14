@@ -1,1 +1,1 @@
-{"version":"7.0.2","root":["../main.ts","../toolbar_menu_instancer.ts","../components/blbvm.ts","../components/block_constructor.ts"],"packageJsons":["../../../package.json"]}
+{"root":["../main.ts","../toolbar_menu_instancer.ts","../components/blbvm.ts","../components/block_constructor.ts"],"version":"5.9.3"}
