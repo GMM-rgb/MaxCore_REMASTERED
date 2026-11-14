@@ -4,25 +4,28 @@ export type ToolbarButtonCommand = {
 };
 
 export class EditorToolbarMenu {
-    MenuElement: HTMLElement | Node | null;
+    MenuElement: HTMLElement | null;
     MenuTemplate: HTMLTemplateElement;
+
+    private static NextAnchorId: number = 0;
+    private MenuAnchorName: string | null = null;
 
     static ToolbarButtonCommands: Record<string, Array<ToolbarButtonCommand>> = {
         "file": [
             {
-                "label": "<strong>save project</strong>",
+                "label": "<strong>Save Project</strong>",
                 "op": (): void => { },
             },
             {
-                "label": "<strong>save as</strong>",
+                "label": "<strong>Save File</strong>",
                 "op": null,
             },
             {
-                "label": "<strong>load project</strong>",
+                "label": "<strong>Load Project</strong>",
                 "op": null,
             },
             {
-                "label": "<strong>exit</strong>",
+                "label": "<strong>EXIT</strong>",
                 "op": (): void => { window.close(); },
             },
         ],
@@ -40,24 +43,34 @@ export class EditorToolbarMenu {
                 case "file": this.apply_listener(); break;
                 case "edit": this.apply_listener(); break;
                 case "settings": this.apply_listener(); break;
-                default: console.warn("unkown button name");
+                default: console.warn("unkown button name"); return;
             }
         }
     }
 
     public construct_menu(): HTMLElement | Node | null {
-        const ClonedTemplate = this.MenuTemplate.content.firstElementChild!.cloneNode(true);
+        if (!this.TargetButton) return null;
 
+        const AnchorName = `--toolbar-menu-${++EditorToolbarMenu.NextAnchorId}`;
+        if (typeof AnchorName !== "undefined") this.MenuAnchorName = AnchorName;
+
+        // preserve the tooltip anchor while adding this menu's unique anchor name.
+        this.TargetButton.style.setProperty("anchor-name", `--toolbar-tooltip, ${AnchorName}`);
+
+        const ClonedTemplate = this.MenuTemplate.content.firstElementChild!.cloneNode(true);
         this.ToolbarElement.appendChild(ClonedTemplate);
         this.MenuElement = ClonedTemplate as HTMLDivElement;
+        this.MenuElement.style.positionAnchor = "--toolbar";
+        this.MenuElement.style.top = "calc(anchor(bottom) + 5.5px)";
+        this.MenuElement.style.left = `anchor(${AnchorName} left)`;
 
-        console.debug(this.MenuElement, this.MenuElement instanceof HTMLElement);
-
-        (this.MenuElement as HTMLElement)?.addEventListener("change", (e) => {
-            console.info("`MenuElement` Changed:\t", e.target);
-        });
+        console.debug(`${this.TargetButton.name.toUpperCase()} MENU LEFT:`, this.MenuElement.style.left);
 
         return this.MenuElement;
+    }
+
+    public initalize_position(): void {
+
     }
 
     public toggle(target: boolean | undefined = undefined) {
@@ -84,6 +97,7 @@ export class EditorToolbarMenu {
                     const CommandButton = document.createElement("button") ?? HTMLButtonElement.prototype;
                     const AppendedButton = this.MenuElement?.appendChild(CommandButton) || undefined;
                     if (AppendedButton == null) { return; } AppendedButton.innerHTML = config.label.valueOf();
+                    CreatedCommandButtons.push(AppendedButton as T);
                 });
             }
         });

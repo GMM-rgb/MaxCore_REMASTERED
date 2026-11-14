@@ -1,5 +1,4 @@
 # ninja log v7
-46	91	8162102637871190	C:/Users/6041464/Documents/MaxCore_REMASTERED/build/CMakeFiles/cmake.verify_globs	5116e89f1a579a9b
 105	404	8162102638589488	CMakeFiles/lua_shared.dir/lua-5.7.2/src/lbaselib.c.obj	f7310b184619f50f
 98	533	8162102638491053	CMakeFiles/lua_shared.dir/lua-5.7.2/src/lauxlib.c.obj	b4ac6b436203f0ed
 93	606	8162102638442692	CMakeFiles/lua_shared.dir/lua-5.7.2/src/lapi.c.obj	458e99b5c864bf9c

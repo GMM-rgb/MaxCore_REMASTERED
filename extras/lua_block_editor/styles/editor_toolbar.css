@@ -2,14 +2,18 @@
     display: flex;
     overflow: visible;
     anchor-name: --toolbar;
+
     background-color: #00D9FF;
     border-block-end: 2px solid #333;
     box-shadow: inset 0 0 10px rgba(130, 130, 130, 0.35);
-    position: sticky !important;
+
+    position: relative !important;
     padding-inline: 10px;
     padding-block: 5px;
+
     min-height: 10px;
     width: 100%;
+    margin: 0vh;
     gap: 8px;
 }
 
@@ -22,6 +26,8 @@
     border-radius: 0.2cm;
     border: 2px solid #29364A;
     user-select: none !important;
+    transition: box-shadow 0.12s ease-out;
+    transform-origin: center;
 
     /* 
     * Restricts the anchor name to this element and its descendants.
@@ -38,44 +44,50 @@
     content: attr(data-tooltip);
 
     display: flex;
-    flex: content auto;
-
-    position: fixed; position-area: bottom;
+    position: fixed;
+    position-area: bottom;
     position-anchor: --toolbar-tooltip;
     position-try-fallbacks: flip-block, flip-inline;
-
-    user-select: none !important;
-    -webkit-user-select: none;
+    text-shadow: 0 2px 4px rgba(80, 80, 80, 0.35);
 
     width: max-content;
     max-width: calc(100vw - 32px);
+
     padding: 8px 12px;
     margin-block: 12px;
     margin-inline: 10px;
 
     color: #E8F1FA;
-    background-color: inherit; /* #3978FF */
-    border: inherit; /* #29364A */
+    background-color: rgba(57, 120, 255, 0.45);
+
+    border: inherit;
     border-radius: 8px;
     font-weight: bold;
 
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
     opacity: 0;
-    text-overflow: ellipsis;
-    pointer-events: none;
     visibility: hidden;
+    pointer-events: none;
     z-index: 100;
 
-    transform: translateY(-8px);
+    transform-origin: top center;
+    transform: translateY(-8px) scaleX(0.725);
 
     transition:
-        opacity 180ms ease,
+        opacity 180ms ease-out,
         transform 180ms ease,
         visibility 180ms ease;
 }
 
 #editor-toolbar > button:hover::before {
     opacity: 1; visibility: visible;
-    transform: translateY(0);
+    transform: translateY(0) scaleX(1);
+}
+
+#editor-toolbar > button:hover {
+    box-shadow: inset 0 0 10px rgba(80, 80, 80, 0.35);
 }
 
 #editor-toolbar > button:disabled {

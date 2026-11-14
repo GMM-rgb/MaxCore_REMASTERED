@@ -7,21 +7,28 @@
         <link rel="stylesheet" href="../styles/toolbar_menus.css" />
     </head>
 
+    <style>
+        html:root {
+            --interactables-border: 2px solid #29364A;
+        }
+    </style>
+
     <body>
-        <template id="toolbar-item-menu">
-            <div class="command-button-list">
-                <span class="command-menu-description"></span>
-                <!-- Dynamic command buttons -->
-            </div>
-        </template>
+        <template id="toolbar-item-menu"><div class="command-button-list" menu-display-type="block">
+            <span class="command-menu-description"></span><!-- Dynamic command buttons -->
+        </div></template>
 
         <div id="editor-toolbar" spellcheck="false">
             <button class="toolbar-button" name="file" data-tooltip="Open Project File">
                 <strong>FILE</strong>
             </button>
 
-            <button class="toolbar-button" name="edit" data-tooltip="Edit Context Menu">
+            <button class="toolbar-button" name="edit" data-tooltip="Project Edit Controls">
                 <strong>EDIT</strong>
+            </button>
+
+            <button class="toolbar-button" name="settings" data-tooltip="Configure Editor Preferences, ETC">
+                <strong>SETTINGS</strong>
             </button>
         </div>
 

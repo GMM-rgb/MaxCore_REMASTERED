@@ -1,6 +1,40 @@
-.command-button-list {
-    position: relative;
-    padding: 10px 10px;
-    border: 2px solid #29364A;
+#editor-toolbar > .command-button-list {
+    /* display: none; */
+    padding: 10px;
+    position: fixed;
+
+    position-anchor: --toolbar;
+
+    top: calc(anchor(bottom) + 5.5px);
+    left: anchor(--toolbar-menu left);
+    width: clamp(100px, 20vw, 180px);
+
+    background-color: #3978FF;
+    border: var(--interactables-border);
     border-radius: 0.2cm;
+}
+
+.command-button-list.focuse-active {
+    display: attr(menu-display-type type(<custom-ident>), flex) !important;
+}
+
+.command-button-list > button {
+    padding-block: 4px; position: relative;
+
+    color: #333; cursor: pointer;
+
+    transition: opacity 0.3s ease-out;
+
+    border: var(--interactables-border);
+    border-radius: 0.2cm;
+
+    margin-inline: 2px;
+    margin-block: 2px;
+
+    opacity: 0.85;
+    width: 100%;
+}
+
+.command-button-list > button:hover {
+    opacity: 1.0 !important;
 }

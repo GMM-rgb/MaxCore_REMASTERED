@@ -1,22 +1,36 @@
-var EditorToolbarMenu = (function () {
-    function EditorToolbarMenu(TargetButton, ToolbarElement) {
-        if (TargetButton === void 0) { TargetButton = null; }
-        this.TargetButton = TargetButton;
-        this.ToolbarElement = ToolbarElement;
-        this.MenuTemplate = window.document.querySelector("#toolbar-item-menu");
-        this.MenuElement = null;
-        this.initialize_menu();
-        console.debug("INSTANCING NEW TOOLBAR MENU...");
-    }
-    EditorToolbarMenu.prototype.apply_listener = function () {
-        var _this = this;
-        var _a;
-        (_a = this === null || this === void 0 ? void 0 : this.TargetButton) === null || _a === void 0 ? void 0 : _a.addEventListener("click", function (e) {
-            var _a, _b;
-            console.debug("CLICKED TOOLBAR BUTTON:", (_b = (_a = _this.TargetButton) === null || _a === void 0 ? void 0 : _a.name) !== null && _b !== void 0 ? _b : undefined);
-        }, { passive: true });
+export class EditorToolbarMenu {
+    TargetButton;
+    ToolbarElement;
+    MenuElement;
+    MenuTemplate;
+    static NextAnchorId = 0;
+    MenuAnchorName = null;
+    static ToolbarButtonCommands = {
+        "file": [
+            {
+                "label": "<strong>Save Project</strong>",
+                "op": () => { },
+            },
+            {
+                "label": "<strong>Save File</strong>",
+                "op": null,
+            },
+            {
+                "label": "<strong>Load Project</strong>",
+                "op": null,
+            },
+            {
+                "label": "<strong>EXIT</strong>",
+                "op": () => { window.close(); },
+            },
+        ],
     };
-    EditorToolbarMenu.prototype.initialize_menu = function () {
+    apply_listener() {
+        this?.TargetButton?.addEventListener("click", (e) => {
+            console.debug("CLICKED TOOLBAR BUTTON:", this.TargetButton?.name ?? undefined);
+        }, { passive: true });
+    }
+    initialize_menu() {
         if (this.TargetButton) {
             switch (this.TargetButton.name) {
                 case "file":
@@ -28,68 +42,59 @@ var EditorToolbarMenu = (function () {
                 case "settings":
                     this.apply_listener();
                     break;
-                default: console.warn("unkown button name");
+                default:
+                    console.warn("unkown button name");
+                    return;
             }
         }
-    };
-    EditorToolbarMenu.prototype.construct_menu = function () {
-        var _a;
-        var ClonedTemplate = this.MenuTemplate.content.firstElementChild.cloneNode(true);
+    }
+    construct_menu() {
+        if (!this.TargetButton)
+            return null;
+        const AnchorName = `--toolbar-menu-${++EditorToolbarMenu.NextAnchorId}`;
+        if (typeof AnchorName !== "undefined")
+            this.MenuAnchorName = AnchorName;
+        this.TargetButton.style.setProperty("anchor-name", `--toolbar-tooltip, ${AnchorName}`);
+        const ClonedTemplate = this.MenuTemplate.content.firstElementChild.cloneNode(true);
         this.ToolbarElement.appendChild(ClonedTemplate);
         this.MenuElement = ClonedTemplate;
-        console.debug(this.MenuElement, this.MenuElement instanceof HTMLElement);
-        (_a = this.MenuElement) === null || _a === void 0 ? void 0 : _a.addEventListener("change", function (e) {
-            console.info("`MenuElement` Changed:\t", e.target);
-        });
+        this.MenuElement.style.positionAnchor = "--toolbar";
+        this.MenuElement.style.top = "calc(anchor(bottom) + 5.5px)";
+        this.MenuElement.style.left = `anchor(${AnchorName} left)`;
+        console.debug(`${this.TargetButton.name.toUpperCase()} MENU LEFT:`, this.MenuElement.style.left);
         return this.MenuElement;
-    };
-    EditorToolbarMenu.prototype.toggle = function (target) {
-        if (target === void 0) { target = undefined; }
-        var conversion = { true: "flex", false: "none" };
-        var key = new String(target).valueOf() || "false";
-        var value = conversion[key];
-    };
-    EditorToolbarMenu.prototype.add_commands = function (name) {
-        var _this = this;
-        if (name === void 0) { name = "unknown"; }
-        var ButtonCommandEntries = Object.entries(EditorToolbarMenu.ToolbarButtonCommands);
-        var CreatedCommandButtons = [];
-        ButtonCommandEntries.forEach(function (CommandConfiguration) {
-            var _a;
-            if (_this.TargetButton != null && ((_a = _this.TargetButton) === null || _a === void 0 ? void 0 : _a.name) === CommandConfiguration[0]) {
-                CommandConfiguration[1].forEach(function (config) {
-                    var _a, _b;
-                    var CommandButton = (_a = document.createElement("button")) !== null && _a !== void 0 ? _a : HTMLButtonElement.prototype;
-                    var AppendedButton = ((_b = _this.MenuElement) === null || _b === void 0 ? void 0 : _b.appendChild(CommandButton)) || undefined;
+    }
+    initalize_position() {
+    }
+    toggle(target = undefined) {
+        let conversion = { true: "flex", false: "none" };
+        let key = new String(target).valueOf() || "false";
+        let value = conversion[key];
+    }
+    constructor(TargetButton = null, ToolbarElement) {
+        this.TargetButton = TargetButton;
+        this.ToolbarElement = ToolbarElement;
+        this.MenuTemplate = window.document.querySelector("#toolbar-item-menu");
+        this.MenuElement = null;
+        this.initialize_menu();
+        console.debug(`INSTANCING NEW TOOLBAR MENU...`);
+    }
+    add_commands(name = "unknown") {
+        const ButtonCommandEntries = Object.entries(EditorToolbarMenu.ToolbarButtonCommands);
+        let CreatedCommandButtons = [];
+        ButtonCommandEntries.forEach((CommandConfiguration) => {
+            if (this.TargetButton != null && this.TargetButton?.name === CommandConfiguration[0]) {
+                CommandConfiguration[1].forEach((config) => {
+                    const CommandButton = document.createElement("button") ?? HTMLButtonElement.prototype;
+                    const AppendedButton = this.MenuElement?.appendChild(CommandButton) || undefined;
                     if (AppendedButton == null) {
                         return;
                     }
                     AppendedButton.innerHTML = config.label.valueOf();
+                    CreatedCommandButtons.push(AppendedButton);
                 });
             }
         });
         return CreatedCommandButtons;
-    };
-    EditorToolbarMenu.ToolbarButtonCommands = {
-        "file": [
-            {
-                "label": "<strong>save project</strong>",
-                "op": function () { },
-            },
-            {
-                "label": "<strong>save as</strong>",
-                "op": null,
-            },
-            {
-                "label": "<strong>load project</strong>",
-                "op": null,
-            },
-            {
-                "label": "<strong>exit</strong>",
-                "op": function () { window.close(); },
-            },
-        ],
-    };
-    return EditorToolbarMenu;
-}());
-export { EditorToolbarMenu };
+    }
+}
