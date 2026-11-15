@@ -15,9 +15,8 @@ GameWindow:SetAliasingQuality("2d", 3)
 EngineCore.ColorPrint("INFO", renderer.description, "NAME:\t" .. renderer.name:upper())
 
 local TestVector = Vector3.new(2, 2, 2)
-local i = TestVector + Vector3.new(5, 4, 7)
-
-EngineCore.ColorPrint("DEBUG", i.x, i.y, i.z)
+local i = TestVector * Vector3.new(5, 4, 7)
+EngineCore.ColorPrint("DEBUG", i.x, i.y, i.z, "MAG:", i.Magnitude)
 
 local ToolbarInterface = GameWindow:CreateRect(0, 0, 200, 50, 210, 210, 210)
 ToolbarInterface = ToolbarInterface:ApplyStyle(ToolbarBorder)
@@ -52,8 +51,6 @@ RuntimeService.RenderStepped:Connect(function(dt, wait, join)
     local <const> mem_info = EngineCore.PlatformUtils.get_memory_info()
     -- print("USED MEMORY:\t", mem_info["total_mb"] - mem_info["available_mb"] .. " MB")
 end, { key = "main-rendering", whenRunning = "skip", yieldable = true, safe = true })
-
-
 
 ShutdownEvent:Connect(function()
     RuntimeService._native:shutdown()

@@ -65,6 +65,8 @@ _G.VERSION = string.char(0)
 ---@field Dot fun(self: Vector2, other: Vector2): number
 ---@operator add(Vector2): Vector2
 ---@operator sub(Vector2): Vector2
+---@operator div(Vector2): Vector2
+---@operator mul(Vector2): Vector2
 ---@operator unm: Vector2
 
 ---@class VectorTwoLib
@@ -92,6 +94,8 @@ Vector2 = {
 ---@field Cross fun(self: Vector3, other: Vector3): Vector3
 ---@operator add(Vector3): Vector3
 ---@operator sub(Vector3): Vector3
+---@operator div(Vector3): Vector3
+---@operator mul(Vector3): Vector3
 ---@operator unm: Vector3
 
 ---@class VectorThreeLib
