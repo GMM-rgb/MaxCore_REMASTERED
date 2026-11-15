@@ -38,8 +38,13 @@ typedef enum {
   TM_BNOT,
   TM_LT,
   TM_LE,
+
+  /* MaxCore custom events */
   TM_VECTOR_ADD,
   TM_VECTOR_SUB,
+  TM_VECTOR_MULT,
+  TM_VECTOR_DIV,
+
   TM_CONCAT,
   TM_CALL,
   TM_CLOSE,

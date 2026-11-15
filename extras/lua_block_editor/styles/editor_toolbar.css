@@ -4,6 +4,7 @@
     anchor-name: --toolbar;
 
     background-color: #00D9FF;
+    /* border-inline: 2px solid; */
     border-block-end: 2px solid #333;
     box-shadow: inset 0 0 10px rgba(130, 130, 130, 0.35);
 
@@ -11,8 +12,8 @@
     padding-inline: 10px;
     padding-block: 5px;
 
+    flex: auto;
     min-height: 10px;
-    width: 100%;
     margin: 0vh;
     gap: 8px;
 }
@@ -22,6 +23,7 @@
     cursor: pointer;
     position: relative;
 
+    word-break: break-all;
     background: #3978FF;
     border-radius: 0.2cm;
     border: 2px solid #29364A;
@@ -50,6 +52,9 @@
     position-try-fallbacks: flip-block, flip-inline;
     text-shadow: 0 2px 4px rgba(80, 80, 80, 0.35);
 
+    text-wrap-mode: wrap;
+    text-wrap-style: pretty;
+    
     width: max-content;
     max-width: calc(100vw - 32px);
 

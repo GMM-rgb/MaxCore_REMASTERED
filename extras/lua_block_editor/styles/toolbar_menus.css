@@ -20,7 +20,7 @@
 
     transition:
         opacity 160ms ease,
-        transform 160ms ease,
+        transform 140ms ease-in-out,
         visibility 0s linear 160ms;
 }
 
@@ -47,10 +47,7 @@
 
     border: var(--interactables-border);
     border-radius: 0.2cm;
-
-    margin-inline: 2px;
     margin-block: 2px;
-
     opacity: 0.85;
     width: 100%;
 }

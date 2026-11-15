@@ -1,6 +1,7 @@
 #include <math.h>
 #include <string.h>
 #include <stdio.h>
+#include <lprefix.h>
 #include "lua.h"
 #include "lauxlib.h"
 #include "lvector.h"
@@ -8,7 +9,12 @@
 #define VECTOR2_METATABLE "MaxCore.Vector2"
 #define VECTOR3_METATABLE "MaxCore.Vector3"
 
-typedef enum VectorOperation { VECTOR_ADD, VECTOR_SUB } VectorOperation;
+typedef enum VectorOperation {
+    VECTOR_ADD,
+    VECTOR_SUB,
+    VECTOR_MULT,
+    VECTOR_DIV
+} VectorOperation;
 
 /* Internal helpers */
 
@@ -32,14 +38,25 @@ static int Vector_Operate(lua_State *L, const char *Metatable, VectorOperation O
     MaxCoreVector *B = Vector_Check(L, 2, Metatable);
     lua_Number X, Y, Z = 0;
 
-    if (Operation == VECTOR_ADD) {
-        X = A->x + B->x;
-        Y = A->y + B->y;
-        if (Dimensions == 3) Z = A->z + B->z;
-    } else {
-        X = A->x - B->x;
-        Y = A->y - B->y;
-        if (Dimensions == 3) Z = A->z - B->z;
+    switch (Operation) {
+        case VECTOR_ADD:
+            X = A->x + B->x; Y = A->y + B->y;
+            if (Dimensions == 3) Z = A->z + B->z;
+            break;
+        case VECTOR_SUB:
+            X = A->x - B->x; Y = A->y - B->y;
+            if (Dimensions == 3) Z = A->z - B->z;
+            break;
+        case VECTOR_MULT:
+            X = A->x * B->x; Y = A->y * B->y;
+            if (Dimensions == 3) Z = A->z * B->z;
+            break;
+        case VECTOR_DIV:
+            X = A->x / B->x; Y = A->y / B->y;
+            if (Dimensions == 3) Z = A->z / B->z;
+            break;
+        default:
+            luaL_error(L, "unknown vector operation");
     }
 
     Vector_Push(L, Metatable, X, Y, Z);
@@ -48,8 +65,12 @@ static int Vector_Operate(lua_State *L, const char *Metatable, VectorOperation O
 
 static int Vector2_Add(lua_State *L) { return Vector_Operate(L, VECTOR2_METATABLE, VECTOR_ADD, 2); }
 static int Vector2_Sub(lua_State *L) { return Vector_Operate(L, VECTOR2_METATABLE, VECTOR_SUB, 2); }
+static int Vector2_Mult(lua_State *L) { return Vector_Operate(L, VECTOR2_METATABLE, VECTOR_MULT, 2); }
+static int Vector2_Div(lua_State *L) { return Vector_Operate(L, VECTOR2_METATABLE, VECTOR_DIV, 2); }
 static int Vector3_Add(lua_State *L) { return Vector_Operate(L, VECTOR3_METATABLE, VECTOR_ADD, 3); }
 static int Vector3_Sub(lua_State *L) { return Vector_Operate(L, VECTOR3_METATABLE, VECTOR_SUB, 3); }
+static int Vector3_Mult(lua_State *L) { return Vector_Operate(L, VECTOR3_METATABLE, VECTOR_MULT, 3); }
+static int Vector3_Div(lua_State *L) { return Vector_Operate(L, VECTOR3_METATABLE, VECTOR_DIV, 3); }
 
 /* Unary negation */
 
@@ -221,13 +242,27 @@ static int Vector3_New(lua_State *L) {
 
 /* Registration */
 
-static void Vector_RegisterMetatable(lua_State *L, const char *Metatable, lua_CFunction Index, lua_CFunction NewIndex, lua_CFunction Add, lua_CFunction Sub, lua_CFunction Unm, lua_CFunction Eq, lua_CFunction ToString) {
+static void Vector_RegisterMetatable(
+    lua_State *L,
+    const char *Metatable,
+    lua_CFunction Index,
+    lua_CFunction NewIndex,
+    lua_CFunction Add,
+    lua_CFunction Mult,
+    lua_CFunction Div,
+    lua_CFunction Sub,
+    lua_CFunction Unm,
+    lua_CFunction Eq,
+    lua_CFunction ToString
+) {
     luaL_newmetatable(L, Metatable);
 
     lua_pushcfunction(L, Index); lua_setfield(L, -2, "__index");
     lua_pushcfunction(L, NewIndex); lua_setfield(L, -2, "__newindex");
     lua_pushcfunction(L, Add); lua_setfield(L, -2, "__add");
     lua_pushcfunction(L, Sub); lua_setfield(L, -2, "__sub");
+    lua_pushcfunction(L, Mult); lua_setfield(L, -2, "__mul");
+    lua_pushcfunction(L, Div); lua_setfield(L, -2, "__div");
     lua_pushcfunction(L, Unm); lua_setfield(L, -2, "__unm");
     lua_pushcfunction(L, Eq); lua_setfield(L, -2, "__eq");
     lua_pushcfunction(L, ToString); lua_setfield(L, -2, "__tostring");
@@ -245,8 +280,8 @@ static void Vector_RegisterLibrary(lua_State *L, const char *Name, lua_CFunction
 /* Public registration */
 
 LUAMOD_API void Vector_Register(lua_State *L) {
-    Vector_RegisterMetatable(L, VECTOR2_METATABLE, Vector2_Index, Vector2_NewIndex, Vector2_Add, Vector2_Sub, Vector2_Unm, Vector2_Eq, Vector2_ToString);
-    Vector_RegisterMetatable(L, VECTOR3_METATABLE, Vector3_Index, Vector3_NewIndex, Vector3_Add, Vector3_Sub, Vector3_Unm, Vector3_Eq, Vector3_ToString);
+    Vector_RegisterMetatable(L, VECTOR2_METATABLE, Vector2_Index, Vector2_NewIndex, Vector2_Add, Vector2_Mult, Vector2_Div, Vector2_Sub, Vector2_Unm, Vector2_Eq, Vector2_ToString);
+    Vector_RegisterMetatable(L, VECTOR3_METATABLE, Vector3_Index, Vector3_NewIndex, Vector3_Add, Vector3_Mult, Vector3_Div, Vector3_Sub, Vector3_Unm, Vector3_Eq, Vector3_ToString);
     Vector_RegisterLibrary(L, "Vector2", Vector2_New);
     Vector_RegisterLibrary(L, "Vector3", Vector3_New);
 }

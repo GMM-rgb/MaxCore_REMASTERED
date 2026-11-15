@@ -62,7 +62,7 @@ local LUA_BUILTINS = {
 ---@field PlatformUtils NativePlatformInterface
 ---@field PlayerDataModel PlayerDataModel
 ---@field wait fun(duration: number | integer)
----@field ColorPrint fun(level: LogLevel, ...: string?)
+---@field ColorPrint fun(level: LogLevel, ...: any?)
 ---@field Load fun(self: MaxCore)
 ---@field sleep fun(time: number)
 ---@field Instance InstanceBuilder

@@ -14,6 +14,11 @@ local toolbar_padding = 10
 GameWindow:SetAliasingQuality("2d", 3)
 EngineCore.ColorPrint("INFO", renderer.description, "NAME:\t" .. renderer.name:upper())
 
+local TestVector = Vector3.new(2, 2, 2)
+local i = TestVector + Vector3.new(5, 4, 7)
+
+EngineCore.ColorPrint("DEBUG", i.x, i.y, i.z)
+
 local ToolbarInterface = GameWindow:CreateRect(0, 0, 200, 50, 210, 210, 210)
 ToolbarInterface = ToolbarInterface:ApplyStyle(ToolbarBorder)
 ToolbarInterface = ToolbarInterface:ApplyStyle(ToolbarRound)

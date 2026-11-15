@@ -44,6 +44,7 @@ void luaT_init (lua_State *L) {
     "__band", "__bor", "__bxor", "__shl", "__shr",
     "__unm", "__bnot", "__lt", "__le",
     "__vector_add", "__vector_sub",
+    "__vector_mult", "__vector_div",
     "__concat", "__call", "__close"
   };
   int i;

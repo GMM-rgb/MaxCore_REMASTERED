@@ -67,10 +67,10 @@ _G.VERSION = string.char(0)
 ---@operator sub(Vector2): Vector2
 ---@operator unm: Vector2
 
----@class Vector2Library
+---@class VectorTwoLib
 ---@field new fun(x: number, y: number): Vector2
 
----@type Vector2Library
+---@type VectorTwoLib
 Vector2 = {
     new = function(x, y) end
 }
@@ -94,10 +94,10 @@ Vector2 = {
 ---@operator sub(Vector3): Vector3
 ---@operator unm: Vector3
 
----@class Vector3Library
+---@class VectorThreeLib
 ---@field new fun(x: number, y: number, z: number): Vector3
 
----@type Vector3Library
+---@type VectorThreeLib
 Vector3 = {
     new = function(x, y, z) end
 }
