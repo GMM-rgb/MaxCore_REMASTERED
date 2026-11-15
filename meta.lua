@@ -69,10 +69,10 @@ _G.VERSION = string.char(0)
 ---@operator mul(Vector2): Vector2
 ---@operator unm: Vector2
 
----@class VectorTwoLib
+---@class vtwlib
 ---@field new fun(x: number, y: number): Vector2
 
----@type VectorTwoLib
+---@type vtwlib
 Vector2 = {
     new = function(x, y) end
 }
@@ -98,10 +98,10 @@ Vector2 = {
 ---@operator mul(Vector3): Vector3
 ---@operator unm: Vector3
 
----@class VectorThreeLib
+---@class vthlib
 ---@field new fun(x: number, y: number, z: number): Vector3
 
----@type VectorThreeLib
+---@type vthlib
 Vector3 = {
     new = function(x, y, z) end
 }
