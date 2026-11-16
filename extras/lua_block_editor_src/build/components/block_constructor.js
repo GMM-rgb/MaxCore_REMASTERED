@@ -2,6 +2,7 @@ import { VirtualMachine } from './blbvm.js';
 export var BlockBuilderMachine;
 (function (BlockBuilderMachine) {
     BlockBuilderMachine.VM = new VirtualMachine.Machine({});
+    BlockBuilderMachine.CreatedBlocks = [];
     let CommandBlocks;
     (function (CommandBlocks) {
         CommandBlocks[CommandBlocks["COM"] = 0] = "COM";
@@ -25,10 +26,13 @@ export var BlockBuilderMachine;
         params;
         type;
         text;
+        connecting;
+        block_notches;
         element;
         inputs;
         label;
         id;
+        connections;
         measurement_svg = null;
         measurement_text = null;
         namespace = "http://www.w3.org/2000/svg";
@@ -43,8 +47,11 @@ export var BlockBuilderMachine;
             this.type = type;
             this.text = text;
             this.element = null;
+            this.connecting = false;
             this.label = text.trim();
             this.id = this.initialize_unique();
+            this.connections = [];
+            this.block_notches = [];
             this.inputs = [];
         }
         get default_input_style() {
@@ -194,6 +201,15 @@ export var BlockBuilderMachine;
                     throw new TypeError("Invalid block input type.");
             }
         }
+        connect_others(target_notch) {
+            BlockBuilderMachine.CreatedBlocks.filter((block) => {
+                this.connections.push({
+                    connection: block,
+                    compiled: false,
+                    activated: true,
+                });
+            }, this);
+        }
         refresh_input_layout(input) {
             const previous = this.element;
             if (!previous)
@@ -312,8 +328,10 @@ export var BlockBuilderMachine;
             commands.push(`M 0 ${outerRadius}`);
             commands.push(`L 0 ${height - outerRadius}`);
             commands.push(`Q 0 ${height} ${outerRadius} ${height}`);
+            this.block_notches = [];
             if (geometry.bottom_connector && notch.enabled) {
                 const { start, end, radius } = notch;
+                this.block_notches.push({ position: { x: start + end / 2, y: depth + height } });
                 commands.push(`L ${start - radius} ${height}`);
                 commands.push(`Q ${start} ${height} ${start} ${height + radius}`);
                 commands.push(`L ${start} ${height + depth - radius}`);
@@ -329,6 +347,7 @@ export var BlockBuilderMachine;
             commands.push(`Q ${width} 0 ${width - outerRadius} 0`);
             if (geometry.top_notch && notch.enabled) {
                 const { start, end, radius } = notch;
+                this.block_notches.push({ position: { x: start + end / 2, y: depth - height } });
                 commands.push(`L ${end + radius} 0`);
                 commands.push(`Q ${end} 0 ${end} ${radius}`);
                 commands.push(`L ${end} ${depth - radius}`);
@@ -543,6 +562,24 @@ export var BlockBuilderMachine;
             svg.insertBefore(path, svg.firstChild);
             this.element?.remove();
             this.element = svg;
+            this.element?.addEventListener("pointerdown", (event) => {
+                const dimensions = this.element?.getBoundingClientRect();
+                document.addEventListener("keydown", (key_event) => {
+                    switch (key_event.key) {
+                        case "arrowdown":
+                            ;
+                            break;
+                        case "arrowup":
+                            ;
+                            break;
+                    }
+                });
+                if (this.connecting)
+                    this.connect_others();
+                else
+                    console.debug("Nothing to connect at the momment.");
+            });
+            BlockBuilderMachine.CreatedBlocks.push(this);
             this.disable_text_selection();
             this.apply_drag();
             return svg;
@@ -559,6 +596,7 @@ export var BlockBuilderMachine;
             if (!element)
                 return;
             let dragging = false;
+            let selected = false;
             let parent = null;
             let startX = 0;
             let startY = 0;
@@ -571,6 +609,7 @@ export var BlockBuilderMachine;
                     return;
                 if (event.target instanceof Element && event.target.closest("foreignObject"))
                     return;
+                selected = !selected;
                 parent = element.parentElement;
                 if (!parent)
                     return;
@@ -602,6 +641,7 @@ export var BlockBuilderMachine;
             const stopDragging = (event) => {
                 if (!dragging)
                     return;
+                selected = !selected;
                 dragging = false;
                 element.style.cursor = "grab";
                 element.style.zIndex = "";
@@ -613,6 +653,20 @@ export var BlockBuilderMachine;
             element.addEventListener("pointerup", stopDragging);
             element.addEventListener("pointercancel", stopDragging);
         }
+        add_connection_listeners(notches) {
+            for (let notch_index = 0; notch_index < notches.length; ++notch_index) {
+                const { position } = notches[notch_index];
+            }
+        }
+        insert_connectors() {
+            return;
+        }
     }
     BlockBuilderMachine.Block = Block;
 })(BlockBuilderMachine || (BlockBuilderMachine = {}));
+export var BlockWorkspaceEditor;
+(function (BlockWorkspaceEditor) {
+    function apply_editor_depth(target) {
+    }
+    BlockWorkspaceEditor.apply_editor_depth = apply_editor_depth;
+})(BlockWorkspaceEditor || (BlockWorkspaceEditor = {}));

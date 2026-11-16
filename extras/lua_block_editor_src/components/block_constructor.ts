@@ -3,6 +3,7 @@ import { VirtualMachine } from './blbvm.js';
 export namespace BlockBuilderMachine {
     export const VM = new VirtualMachine.Machine({});
     export type OutputBlockTypes = CommandBlocks | OutputBlocks;
+    export let CreatedBlocks: Block[] = [];
 
     export enum CommandBlocks {
         COM = 0,
@@ -23,6 +24,12 @@ export namespace BlockBuilderMachine {
         BLOCK = 4,
     }
 
+    export interface ConnectorDefinition {
+        connection: Block,
+        activated: boolean,
+        compiled: boolean,
+    }
+    
     export interface InputStyle {
         fill: string;
         stroke: string;
@@ -51,6 +58,13 @@ export namespace BlockBuilderMachine {
         height: number;
     }
 
+    export interface BlockNotch {
+        position: {
+            x: number;
+            y: number;
+        };
+    }
+
     export interface BlockGeometry {
         radius: number;
         notch: {
@@ -65,21 +79,25 @@ export namespace BlockBuilderMachine {
     export interface BlockConfig {
         geometry?: BlockGeometry;
         fill: string;
+        font: string;
         stroke?: string;
         stroke_width?: number;
         text_fill?: string;
-        font: string;
+        lua_code?: string;
         input_style?: InputStyle;
         layout?: BlockLayout;
         op_code?: Function;
     }
 
     export class Block {
+        public connecting: boolean;
+        public block_notches: BlockNotch[];
         public element: SVGSVGElement | null;
         public inputs: BlockInput[];
         public label: string;
         public id: string;
 
+        private connections: ConnectorDefinition[];
         private measurement_svg: SVGSVGElement | null = null;
         private measurement_text: SVGTextElement | null = null;
         private readonly namespace = "http://www.w3.org/2000/svg";
@@ -97,8 +115,11 @@ export namespace BlockBuilderMachine {
             private text: string
         ) {
             this.element = null;
+            this.connecting = false;
             this.label = text.trim();
             this.id = this.initialize_unique();
+            this.connections = [];
+            this.block_notches = [];
             this.inputs = [];
         }
 
@@ -291,6 +312,16 @@ export namespace BlockBuilderMachine {
             }
         }
 
+        private connect_others(target_notch?: BlockNotch): void {
+            BlockBuilderMachine.CreatedBlocks.filter((block: Block) => {
+                this.connections.push({
+                    connection: block,
+                    compiled: false,
+                    activated: true,
+                });
+            }, this);
+        }
+
         private refresh_input_layout(input: HTMLInputElement): void {
             const previous = this.element;
             if (!previous) return;
@@ -442,8 +473,12 @@ export namespace BlockBuilderMachine {
             commands.push(`L 0 ${height - outerRadius}`);
             commands.push(`Q 0 ${height} ${outerRadius} ${height}`);
 
+            this.block_notches = [];
+
             if (geometry.bottom_connector && notch.enabled) {
                 const { start, end, radius } = notch;
+
+                this.block_notches.push({ position: { x: start + end / 2, y: depth + height } });
 
                 commands.push(`L ${start - radius} ${height}`);
                 commands.push(`Q ${start} ${height} ${start} ${height + radius}`);
@@ -462,6 +497,8 @@ export namespace BlockBuilderMachine {
 
             if (geometry.top_notch && notch.enabled) {
                 const { start, end, radius } = notch;
+
+                this.block_notches.push({ position: { x: start + end / 2, y: depth - height } });
 
                 commands.push(`L ${end + radius} 0`);
                 commands.push(`Q ${end} 0 ${end} ${radius}`);
@@ -722,6 +759,20 @@ export namespace BlockBuilderMachine {
             this.element?.remove();
             this.element = svg;
 
+            this.element?.addEventListener("pointerdown", (event: PointerEvent) => {
+                const dimensions = this.element?.getBoundingClientRect();
+
+                document.addEventListener("keydown", (key_event: KeyboardEvent) => {
+                    switch (key_event.key) {
+                        case "arrowdown": ; break;
+                        case "arrowup": ; break;
+                    }
+                });
+
+                if (this.connecting) this.connect_others(); else console.debug("Nothing to connect at the momment.");
+            });
+
+            BlockBuilderMachine.CreatedBlocks.push(this);
             this.disable_text_selection();
             this.apply_drag();
 
@@ -742,6 +793,7 @@ export namespace BlockBuilderMachine {
             if (!element) return;
 
             let dragging = false;
+            let selected = false;
             let parent: HTMLElement | null = null;
             let startX = 0;
             let startY = 0;
@@ -756,6 +808,7 @@ export namespace BlockBuilderMachine {
 
                 if (event.target instanceof Element && event.target.closest("foreignObject")) return;
 
+                selected = !selected;
                 parent = element.parentElement;
                 if (!parent) return;
 
@@ -796,6 +849,7 @@ export namespace BlockBuilderMachine {
             const stopDragging = (event: PointerEvent): void => {
                 if (!dragging) return;
 
+                selected = !selected;
                 dragging = false;
                 element.style.cursor = "grab";
                 element.style.zIndex = "";
@@ -810,5 +864,21 @@ export namespace BlockBuilderMachine {
             element.addEventListener("pointerup", stopDragging);
             element.addEventListener("pointercancel", stopDragging);
         }
+
+        protected add_connection_listeners(notches: BlockNotch[]): void {
+            for (let notch_index = 0; notch_index < notches.length; ++notch_index) {
+                const { position } = notches[notch_index];
+            }
+        }
+
+        public insert_connectors(): ConnectorDefinition | undefined {
+            return;
+        }
+    }
+}
+
+export namespace BlockWorkspaceEditor {
+    export function apply_editor_depth(target: HTMLElement): void {
+
     }
 }
