@@ -1,6 +1,7 @@
-import { VirtualMachine } from './blbvm';
+import { VirtualMachine } from './blbvm.js';
 
 export namespace BlockBuilderMachine {
+    export const VM = new VirtualMachine.Machine({});
     export type OutputBlockTypes = CommandBlocks | OutputBlocks;
 
     export enum CommandBlocks {
@@ -70,6 +71,7 @@ export namespace BlockBuilderMachine {
         font: string;
         input_style?: InputStyle;
         layout?: BlockLayout;
+        op_code?: Function;
     }
 
     export class Block {

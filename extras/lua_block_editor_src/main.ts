@@ -5,23 +5,39 @@ import { VirtualMachine, VirtualMachineParser } from"./components/blbvm.js";
 let InterfaceElements: Record<string, HTMLElement | null | undefined> = { "ToolbarInterface": document.getElementById("editor-toolbar") };
 let ToolbarButtons = InterfaceElements.ToolbarInterface?.querySelectorAll("button") ?? [];
 const ToolbarElement = InterfaceElements["ToolbarInterface"] as HTMLDivElement;
-const EditorLuaVM = new VirtualMachine.Machine();
+const BlockWorkspace = document.body.querySelector("#block-workspace-container");
 
 ToolbarButtons.forEach((button: HTMLButtonElement) => {
     InterfaceElements[String(button.name)] = button;
     const ButtonMenu = new EditorToolbarMenu(button, ToolbarElement);
-    const MenuElement = ButtonMenu?.construct_menu() ?? void null;
+    ButtonMenu?.construct_menu() ?? void null;
     ButtonMenu.add_commands<HTMLButtonElement>();
     ButtonMenu.toggle(false); // ensure closed
 });
 
-const PrintGeometry: BlockBuilderMachine.BlockGeometry = {
+const CommandGeometry: BlockBuilderMachine.BlockGeometry = {
     radius: 2, bottom_connector: true, top_notch: true,
     notch: { depth: 6, width: 12, offset: 13 },
 };
 
+const ToolboxPalette: Array<{config: BlockBuilderMachine.BlockConfig, options: { type: BlockBuilderMachine.OutputBlockTypes, text: string }}> = [
+    {
+        config: { fill: "#5486e2", font: "12px Arial", geometry: CommandGeometry },
+        options: { type: BlockBuilderMachine.CommandBlocks.HAT, text: "<em>{global}</em><strong>EngineCore</strong>" },
+    },
+];
+
+async function setup_toolbox(): Promise<BlockBuilderMachine.Block[]> {
+    return new Promise((resolve) => {
+        for (const selected of ToolboxPalette) {
+            const { type, text } = selected.options;
+            const block = new BlockBuilderMachine.Block(selected.config, type, text);
+        }
+    });
+}
+
 const PrintCommandConstructor = new BlockBuilderMachine.Block({
-    fill: "#505eb0", font: "12px Arial", geometry: PrintGeometry,
+    fill: "#505eb0", font: "12px Arial", geometry: CommandGeometry,
 }, BlockBuilderMachine.CommandBlocks.COM, "<em>{f}</em><strong>print</strong>");
 
 PrintCommandConstructor.add_param({
@@ -29,6 +45,5 @@ PrintCommandConstructor.add_param({
     type: BlockBuilderMachine.InputTypes.STRING,
 });
 
-EditorLuaVM.inject_block(PrintCommandConstructor);
 const PrintCommand = PrintCommandConstructor.invoke();
-document.body.appendChild(PrintCommand);
+BlockWorkspace?.appendChild(PrintCommand);

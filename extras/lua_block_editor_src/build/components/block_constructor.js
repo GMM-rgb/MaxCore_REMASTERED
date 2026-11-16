@@ -1,5 +1,7 @@
+import { VirtualMachine } from './blbvm.js';
 export var BlockBuilderMachine;
 (function (BlockBuilderMachine) {
+    BlockBuilderMachine.VM = new VirtualMachine.Machine({});
     let CommandBlocks;
     (function (CommandBlocks) {
         CommandBlocks[CommandBlocks["COM"] = 0] = "COM";
