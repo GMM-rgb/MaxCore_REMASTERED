@@ -14,12 +14,18 @@ ToolbarButtons.forEach((button: HTMLButtonElement) => {
 });
 
 const PrintGeometry: BlockBuilderMachine.BlockGeometry = {
-    radius: 5, bottom_connector: true, top_notch: true,
-    notch: { depth: 8, width: 14 },
+    radius: 2, bottom_connector: true, top_notch: true,
+    notch: { depth: 6, width: 12, offset: 13 },
 };
 
-const PrintCommand = new BlockBuilderMachine.Block({
+const PrintCommandConstructor = new BlockBuilderMachine.Block({
     fill: "#505eb0", font: "12px Arial", geometry: PrintGeometry,
-}, BlockBuilderMachine.CommandBlocks.COM, "<strong>print</strong>").invoke();
+}, BlockBuilderMachine.CommandBlocks.COM, "<em>{f}</em><strong>print</strong>");
 
+PrintCommandConstructor.add_param({
+    content: "...", width: void null,
+    type: BlockBuilderMachine.InputTypes.STRING,
+});
+
+const PrintCommand = PrintCommandConstructor.invoke();
 document.body.appendChild(PrintCommand);

@@ -1,0 +1,8 @@
+.block-vector-graphics {
+    user-select: contain;
+    cursor: grab;
+}
+
+.block-input {
+    user-select: all !important;
+}
