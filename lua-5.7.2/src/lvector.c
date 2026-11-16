@@ -10,10 +10,10 @@
 #define VECTOR3_METATABLE "MaxCore.Vector3"
 
 typedef enum VectorOperation {
-    VECTOR_ADD,
-    VECTOR_SUB,
-    VECTOR_MULT,
-    VECTOR_DIV
+    VECTOR_ADD=0,
+    VECTOR_SUB=1,
+    VECTOR_DIV=3,
+    VECTOR_MULT=2,
 } VectorOperation;
 
 /* Internal helpers */

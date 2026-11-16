@@ -1,4 +1,5 @@
 import { EditorToolbarMenu } from "./toolbar_menu_instancer.js";
+import { BlockBuilderMachine } from "./components/block_constructor.js";
 let InterfaceElements = { "ToolbarInterface": document.getElementById("editor-toolbar") };
 let ToolbarButtons = InterfaceElements.ToolbarInterface?.querySelectorAll("button") ?? [];
 let ToolbarElement = InterfaceElements["ToolbarInterface"];
@@ -9,3 +10,11 @@ ToolbarButtons.forEach((button) => {
     ButtonMenu.add_commands();
     ButtonMenu.toggle(false);
 });
+const PrintGeometry = {
+    radius: 5, bottom_connector: true, top_notch: true,
+    notch: { depth: 8, width: 14 },
+};
+const PrintCommand = new BlockBuilderMachine.Block({
+    fill: "#505eb0", font: "12px Arial", geometry: PrintGeometry,
+}, BlockBuilderMachine.CommandBlocks.COM, "<strong>print</strong>").invoke();
+document.body.appendChild(PrintCommand);

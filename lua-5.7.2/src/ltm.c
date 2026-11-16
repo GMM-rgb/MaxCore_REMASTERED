@@ -47,8 +47,7 @@ void luaT_init (lua_State *L) {
     "__vector_mult", "__vector_div",
     "__concat", "__call", "__close"
   };
-  int i;
-  for (i=0; i<TM_N; i++) {
+  int i; for (i=0; i<TM_N; i++) {
     G(L)->tmname[i] = luaS_new(L, luaT_eventname[i]);
     luaC_fix(L, obj2gco(G(L)->tmname[i]));  /* never collect these names */
   }

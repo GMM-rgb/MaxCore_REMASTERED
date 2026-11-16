@@ -12,3 +12,14 @@ ToolbarButtons.forEach((button: HTMLButtonElement) => {
     ButtonMenu.add_commands<HTMLButtonElement>();
     ButtonMenu.toggle(false); // ensure closed
 });
+
+const PrintGeometry: BlockBuilderMachine.BlockGeometry = {
+    radius: 5, bottom_connector: true, top_notch: true,
+    notch: { depth: 8, width: 14 },
+};
+
+const PrintCommand = new BlockBuilderMachine.Block({
+    fill: "#505eb0", font: "12px Arial", geometry: PrintGeometry,
+}, BlockBuilderMachine.CommandBlocks.COM, "<strong>print</strong>").invoke();
+
+document.body.appendChild(PrintCommand);
