@@ -26,6 +26,7 @@ export var BlockBuilderMachine;
         element;
         inputs;
         label;
+        id;
         measurement_svg = null;
         measurement_text = null;
         namespace = "http://www.w3.org/2000/svg";
@@ -41,6 +42,7 @@ export var BlockBuilderMachine;
             this.text = text;
             this.element = null;
             this.label = text.trim();
+            this.id = this.initialize_unique();
             this.inputs = [];
         }
         get default_input_style() {
@@ -53,6 +55,9 @@ export var BlockBuilderMachine;
                 font: this.params.font,
                 text_fill: "#20294f",
             };
+        }
+        initialize_unique() {
+            return crypto.randomUUID();
         }
         get layout() {
             return this.params.layout ?? this.default_layout;
@@ -532,6 +537,7 @@ export var BlockBuilderMachine;
             svg.setAttribute("viewBox", `0 0 ${totalWidth} ${totalHeight}`);
             svg.setAttribute("width", String(totalWidth));
             svg.setAttribute("height", String(totalHeight));
+            svg.setAttribute("id", this.id);
             svg.insertBefore(path, svg.firstChild);
             this.element?.remove();
             this.element = svg;

@@ -1,3 +1,5 @@
+import { VirtualMachine } from './blbvm';
+
 export namespace BlockBuilderMachine {
     export type OutputBlockTypes = CommandBlocks | OutputBlocks;
 
@@ -74,6 +76,7 @@ export namespace BlockBuilderMachine {
         public element: SVGSVGElement | null;
         public inputs: BlockInput[];
         public label: string;
+        public id: string;
 
         private measurement_svg: SVGSVGElement | null = null;
         private measurement_text: SVGTextElement | null = null;
@@ -86,9 +89,14 @@ export namespace BlockBuilderMachine {
             alignment: "left",
         };
 
-        constructor(private params: BlockConfig, private type: OutputBlockTypes, private text: string) {
+        constructor(
+            private params: BlockConfig,
+            public type: OutputBlockTypes,
+            private text: string
+        ) {
             this.element = null;
             this.label = text.trim();
+            this.id = this.initialize_unique();
             this.inputs = [];
         }
 
@@ -102,6 +110,10 @@ export namespace BlockBuilderMachine {
                 font: this.params.font,
                 text_fill: "#20294f",
             };
+        }
+
+        private initialize_unique(): string {
+            return crypto.randomUUID();
         }
 
         private get layout(): BlockLayout {
@@ -409,7 +421,7 @@ export namespace BlockBuilderMachine {
                 enabled: end - start > notchRadius * 2,
             };
         }
-        
+
         private construct_block_contents(size: BlockSize, strokeWidth: number): string {
             const geometry = this.params.geometry ?? {
                 radius: 5,
@@ -701,6 +713,7 @@ export namespace BlockBuilderMachine {
             svg.setAttribute("viewBox", `0 0 ${totalWidth} ${totalHeight}`);
             svg.setAttribute("width", String(totalWidth));
             svg.setAttribute("height", String(totalHeight));
+            svg.setAttribute("id", this.id);
 
             svg.insertBefore(path, svg.firstChild);
 

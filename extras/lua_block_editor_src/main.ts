@@ -1,9 +1,11 @@
 import { EditorToolbarMenu } from "./toolbar_menu_instancer.js";
 import { BlockBuilderMachine } from "./components/block_constructor.js";
+import { VirtualMachine, VirtualMachineParser } from"./components/blbvm.js";
 
 let InterfaceElements: Record<string, HTMLElement | null | undefined> = { "ToolbarInterface": document.getElementById("editor-toolbar") };
 let ToolbarButtons = InterfaceElements.ToolbarInterface?.querySelectorAll("button") ?? [];
-let ToolbarElement = InterfaceElements["ToolbarInterface"] as HTMLDivElement;
+const ToolbarElement = InterfaceElements["ToolbarInterface"] as HTMLDivElement;
+const EditorLuaVM = new VirtualMachine.Machine();
 
 ToolbarButtons.forEach((button: HTMLButtonElement) => {
     InterfaceElements[String(button.name)] = button;
@@ -27,5 +29,6 @@ PrintCommandConstructor.add_param({
     type: BlockBuilderMachine.InputTypes.STRING,
 });
 
+EditorLuaVM.inject_block(PrintCommandConstructor);
 const PrintCommand = PrintCommandConstructor.invoke();
 document.body.appendChild(PrintCommand);
