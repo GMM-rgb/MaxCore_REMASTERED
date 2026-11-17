@@ -22,6 +22,24 @@ const ReporterGeometry = {
 };
 const ToolboxPalette = [
     {
+        config: {
+            fill: "#fcbe03",
+            font: "12px Arial, monospace",
+            geometry: CommandGeometry,
+            template: true
+        },
+        options: {
+            type: BlockBuilderMachine.CommandBlocks.COM,
+            text: "<em>{manual}</em><strong>eval</strong>",
+            params: [
+                {
+                    content: `print("testing")`,
+                    type: BlockBuilderMachine.InputTypes.STRING,
+                },
+            ],
+        },
+    },
+    {
         config: { fill: "#505eb0", font: "12px Arial, monospace", geometry: CommandGeometry, template: true },
         options: {
             type: BlockBuilderMachine.CommandBlocks.COM,
@@ -35,9 +53,9 @@ const ToolboxPalette = [
         },
     },
     {
-        config: { fill: "#30c646", font: "12px Arial, monospace", geometry: CommandGeometry, template: true },
+        config: { fill: "#30c646", font: "12px Arial, monospace", geometry: ReporterGeometry, template: true },
         options: {
-            type: BlockBuilderMachine.CommandBlocks.COM,
+            type: BlockBuilderMachine.CommandBlocks.REP,
             text: "<em>{lfunc}</em><strong>string.format</strong>",
             params: [
                 {
@@ -46,6 +64,28 @@ const ToolboxPalette = [
                 },
                 {
                     content: "string", width: void null,
+                    type: BlockBuilderMachine.InputTypes.STRING,
+                },
+            ],
+        },
+    },
+    {
+        config: {
+            fill: "#30c646",
+            font: "12px Arial, monospace",
+            geometry: ReporterGeometry,
+            template: true,
+        },
+        options: {
+            type: BlockBuilderMachine.CommandBlocks.REP,
+            text: "<em>{lfunc}</em><strong>string.join</strong>",
+            params: [
+                {
+                    content: "MaxCore is ", width: void null,
+                    type: BlockBuilderMachine.InputTypes.STRING,
+                },
+                {
+                    content: "cool!", width: void null,
                     type: BlockBuilderMachine.InputTypes.STRING,
                 },
             ],
@@ -80,6 +120,7 @@ async function setup_toolbox() {
 (async () => {
     if (!(BlockWorkspace instanceof HTMLElement))
         return;
+    BlockWorkspaceEditor.apply_editor_depth(BlockWorkspace, { debug: false });
     BlockWorkspaceEditor.set_workspace(BlockWorkspace);
     const ToolboxBlocks = await setup_toolbox();
     console.debug(ToolboxBlocks);
