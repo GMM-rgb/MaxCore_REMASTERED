@@ -7,7 +7,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Threads::Threads::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Threads__Threads-Debug-eeeb3a6f83ec2c1e7f4e.json",
+					"jsonFile" : "target-Threads__Threads-Dev-5a2615ef131e58ebf1ce.json",
 					"name" : "Threads::Threads",
 					"projectIndex" : 0
 				}
@@ -20,7 +20,7 @@
 						0
 					],
 					"build" : ".",
-					"jsonFile" : "directory-.-Debug-b23a0b23c080df4d29ba.json",
+					"jsonFile" : "directory-.-Dev-b5805d5c08fd3d92def4.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.15"
@@ -42,7 +42,7 @@
 					]
 				}
 			],
-			"name" : "Debug",
+			"name" : "Dev",
 			"projects" : 
 			[
 				{
@@ -75,70 +75,70 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "input_native::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-input_native-Debug-b6ff9357d38ba0ecc2d1.json",
+					"jsonFile" : "target-input_native-Dev-257932328050637b70f7.json",
 					"name" : "input_native",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "lua_runner::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-lua_runner-Debug-58aeb44ce5e25cf20c2d.json",
+					"jsonFile" : "target-lua_runner-Dev-84df8a4c800617423734.json",
 					"name" : "lua_runner",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "lua_shared::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-lua_shared-Debug-635b308049332d0e64b1.json",
+					"jsonFile" : "target-lua_shared-Dev-64edf52620fc4f144ece.json",
 					"name" : "lua_shared",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "physics_management::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-physics_management-Debug-940a0d9ef1d48d47fcc6.json",
+					"jsonFile" : "target-physics_management-Dev-0c9303a8e2532eafede4.json",
 					"name" : "physics_management",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "platform_module::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-platform_module-Debug-bc5321178c810e305cd6.json",
+					"jsonFile" : "target-platform_module-Dev-f12f47d78b41454f0ecd.json",
 					"name" : "platform_module",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "scheduler_native::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-scheduler_native-Debug-58d0843cfbb09d002760.json",
+					"jsonFile" : "target-scheduler_native-Dev-4f32f9edf0482894e58d.json",
 					"name" : "scheduler_native",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "sleep_native::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-sleep_native-Debug-3d4d5b1fa3b1ee185fde.json",
+					"jsonFile" : "target-sleep_native-Dev-f8ee0d5ef79c85b74343.json",
 					"name" : "sleep_native",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "sound_service_backend::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-sound_service_backend-Debug-4923003ad228f376d9bb.json",
+					"jsonFile" : "target-sound_service_backend-Dev-a52bb13b0c4aedee0366.json",
 					"name" : "sound_service_backend",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "storage_interface::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-storage_interface-Debug-2cf5063e91d73532316c.json",
+					"jsonFile" : "target-storage_interface-Dev-57024c47b4fd5a9ff15e.json",
 					"name" : "storage_interface",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "window_management::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-window_management-Debug-b87ed7b82ce13f15b73f.json",
+					"jsonFile" : "target-window_management-Dev-48f1c4bde691365e8eab.json",
 					"name" : "window_management",
 					"projectIndex" : 0
 				}
@@ -148,8 +148,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build",
-		"source" : "/Users/maximus.farvour/Documents/MaxCore_REMASTERED"
+		"build" : "C:/Users/6041464/Documents/MaxCore_REMASTERED/build",
+		"source" : "C:/Users/6041464/Documents/MaxCore_REMASTERED"
 	},
 	"version" : 
 	{

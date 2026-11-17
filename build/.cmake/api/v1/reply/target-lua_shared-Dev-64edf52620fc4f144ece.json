@@ -2,7 +2,13 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "lua55.dylib"
+			"path" : "lua55.dll"
+		},
+		{
+			"path" : "liblua55.dll.a"
+		},
+		{
+			"path" : "lua55.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -39,7 +45,7 @@
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 215,
+				"line" : 166,
 				"parent" : 0
 			},
 			{
@@ -65,17 +71,19 @@
 	"compileGroups" : 
 	[
 		{
-			"compileCommandFragments" : 
-			[
-				{
-					"fragment" : "-g -arch arm64 -fPIC"
-				}
-			],
 			"defines" : 
 			[
 				{
 					"backtrace" : 3,
-					"define" : "LUA_USE_MACOSX"
+					"define" : "LUA_BUILD_AS_DLL"
+				},
+				{
+					"backtrace" : 3,
+					"define" : "LUA_CORE"
+				},
+				{
+					"backtrace" : 3,
+					"define" : "LUA_LIB"
 				},
 				{
 					"define" : "lua_shared_EXPORTS"
@@ -85,7 +93,7 @@
 			[
 				{
 					"backtrace" : 4,
-					"path" : "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/lua-5.7.2/src"
+					"path" : "C:/Users/6041464/Documents/MaxCore_REMASTERED/lua-5.7.2/src"
 				}
 			],
 			"language" : "C",
@@ -130,14 +138,22 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -std=gnu++17 -arch arm64 -fPIC"
+					"fragment" : "-std=gnu++17"
 				}
 			],
 			"defines" : 
 			[
 				{
 					"backtrace" : 3,
-					"define" : "LUA_USE_MACOSX"
+					"define" : "LUA_BUILD_AS_DLL"
+				},
+				{
+					"backtrace" : 3,
+					"define" : "LUA_CORE"
+				},
+				{
+					"backtrace" : 3,
+					"define" : "LUA_LIB"
 				},
 				{
 					"define" : "lua_shared_EXPORTS"
@@ -147,7 +163,7 @@
 			[
 				{
 					"backtrace" : 4,
-					"path" : "/Users/maximus.farvour/Documents/MaxCore_REMASTERED/lua-5.7.2/src"
+					"path" : "C:/Users/6041464/Documents/MaxCore_REMASTERED/lua-5.7.2/src"
 				}
 			],
 			"language" : "CXX",
@@ -171,37 +187,26 @@
 		"commandFragments" : 
 		[
 			{
-				"fragment" : "-dynamiclib -Wl,-headerpad_max_install_names",
+				"fragment" : "-shared",
 				"role" : "flags"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "-framework CoreAudio",
+				"fragment" : "-lwinmm",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "-framework CoreFoundation",
+				"fragment" : "-luser32",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "-framework AudioToolbox",
+				"fragment" : "-lurlmon",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 2,
-				"fragment" : "-framework ApplicationServices",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 2,
-				"fragment" : "-framework Cocoa",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 2,
-				"fragment" : "-lobjc",
+				"fragment" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
 				"role" : "libraries"
 			}
 		],
@@ -215,31 +220,19 @@
 		},
 		{
 			"backtrace" : 2,
-			"fragment" : "-framework CoreAudio"
+			"fragment" : "winmm"
 		},
 		{
 			"backtrace" : 2,
-			"fragment" : "-framework CoreFoundation"
+			"fragment" : "user32"
 		},
 		{
 			"backtrace" : 2,
-			"fragment" : "-framework AudioToolbox"
-		},
-		{
-			"backtrace" : 2,
-			"fragment" : "-framework ApplicationServices"
-		},
-		{
-			"backtrace" : 2,
-			"fragment" : "-framework Cocoa"
-		},
-		{
-			"backtrace" : 2,
-			"fragment" : "-lobjc"
+			"fragment" : "urlmon"
 		}
 	],
 	"name" : "lua_shared",
-	"nameOnDisk" : "lua55.dylib",
+	"nameOnDisk" : "lua55.dll",
 	"paths" : 
 	{
 		"build" : ".",

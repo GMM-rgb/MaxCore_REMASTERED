@@ -10,7 +10,7 @@
 		],
 		"files" : 
 		[
-			"/opt/homebrew/share/cmake/Modules/FindThreads.cmake",
+			"C:/Users/6041464/_c_lang/w64devkit/share/cmake-4.4/Modules/FindThreads.cmake",
 			"CMakeLists.txt"
 		],
 		"nodes" : 

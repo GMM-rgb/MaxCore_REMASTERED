@@ -1,4 +1,4 @@
-import { VirtualMachine } from './blbvm.js';
+import { VirtualMachine, VirtualMachineParser } from './blbvm.js';
 export var BlockBuilderMachine;
 (function (BlockBuilderMachine) {
     BlockBuilderMachine.VM = new VirtualMachine.Machine({});
@@ -26,6 +26,7 @@ export var BlockBuilderMachine;
     class Block {
         params;
         type;
+        lua_op;
         connecting;
         block_notches;
         element;
@@ -37,6 +38,7 @@ export var BlockBuilderMachine;
         input_connections = new Map();
         parent_input = null;
         is_toolbox_clone = false;
+        next_input_id;
         embed_radius = null;
         measurement_svg = null;
         measurement_text = null;
@@ -51,9 +53,12 @@ export var BlockBuilderMachine;
         constructor(params, type, text) {
             this.params = params;
             this.type = type;
+            const { lua_code } = params;
             this.element = null;
             this.connecting = false;
             this.label = text.trim();
+            this.next_input_id = 0;
+            this.lua_op = String(lua_code).trim();
             this.id = this.initialize_unique();
             this.connections = [];
             this.block_notches = [];
@@ -668,6 +673,8 @@ export var BlockBuilderMachine;
             foreignObject.appendChild(container);
             group.appendChild(foreignObject);
             group.dataset.inputType = InputTypes[input.type].toLowerCase();
+            input.input_id = this.next_input_id;
+            this.next_input_id += 1;
             return group;
         }
         create_label_element(segment, x, y) {
@@ -1318,6 +1325,11 @@ export var BlockBuilderMachine;
             BlockWorkspaceEditor.set_workspace_position(cloneElement, templateRect.left, templateRect.top, workspace);
             cloneElement.style.zIndex = "1000";
             cloneElement.style.cursor = "grab";
+            if (this.element) {
+                const vb = BlockBuilderMachine.VM.get_block(this.id);
+                if (vb)
+                    VirtualMachineParser.parse_generation(vb);
+            }
             if (!clone.begin_drag(event)) {
                 clone.destroy();
             }

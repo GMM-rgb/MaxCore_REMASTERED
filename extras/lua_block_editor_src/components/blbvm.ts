@@ -19,8 +19,8 @@ export namespace VirtualMachine {
             const existing = this.block_registry.find(block => block.id === proto.id);
             if (existing) { throw new Error(`Block '${proto.id}' is already registered.`); }
             let config: BlockDefinition = { id: proto.id, type: proto.type, proto };
-            console.debug("PARSED BLOCK INTO VM:\t", proto);
             this.block_registry.push(config);
+            console.debug("PARSED BLOCK INTO VM:\t", this.get_block(proto.id));
         }
 
         public get_block(id: string): BlockDefinition | undefined {
@@ -34,5 +34,18 @@ export namespace VirtualMachine {
 }
 
 export namespace VirtualMachineParser {
-    // TODO...
+    export function parse_generation(target: VirtualMachine.BlockDefinition): string {
+        let SearchGenerator = new RegExp(/(<=?[]+)\1/);
+        let ParamContents: string[] = [];
+
+        target.proto.inputs.forEach((i: BlockBuilderMachine.BlockInput): void => {
+            const InputContent = new String(i?.content ?? null).valueOf();
+            console.debug("PARSING INPUT:\t", InputContent);
+            ParamContents.push(InputContent);
+        });
+
+        // target.proto.lua_op.replace("", );
+
+        return ``;
+    }
 }

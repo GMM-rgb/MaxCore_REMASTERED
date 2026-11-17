@@ -26,7 +26,8 @@ const ToolboxPalette = [
             fill: "#fcbe03",
             font: "12px Arial, monospace",
             geometry: CommandGeometry,
-            template: true
+            lua_code: "print(${value})",
+            template: true,
         },
         options: {
             type: BlockBuilderMachine.CommandBlocks.COM,
@@ -107,11 +108,11 @@ async function setup_toolbox() {
             const { type, text, params } = selected.options;
             let block = new BlockBuilderMachine.Block(selected.config, type, text);
             BlockToolbox?.appendChild(block.invoke());
+            console.debug();
             if (params !== undefined) {
-                params.forEach((param) => {
-                    block.add_param(param);
-                });
+                params.forEach((param) => { block.add_param(param); });
             }
+            BlockBuilderMachine.VM.inject_block(block);
             blocks.push(block);
         }
         resolve(blocks);

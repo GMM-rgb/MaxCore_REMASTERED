@@ -1,4 +1,4 @@
-import { VirtualMachine } from './blbvm.js';
+import { VirtualMachine, VirtualMachineParser } from './blbvm.js';
 
 export namespace BlockBuilderMachine {
     export const VM = new VirtualMachine.Machine({});
@@ -53,6 +53,7 @@ export namespace BlockBuilderMachine {
 
     export interface BlockInput {
         type: InputTypes;
+        input_id?: number;
         content: string | number | boolean;
         width?: number;
     }
@@ -125,6 +126,7 @@ export namespace BlockBuilderMachine {
     }
 
     export class Block {
+        public lua_op: string;
         public connecting: boolean;
         public block_notches: BlockNotch[];
         public element: SVGSVGElement | null;
@@ -140,6 +142,7 @@ export namespace BlockBuilderMachine {
         private parent_input: { block: Block; index: number } | null = null;
         /** True only for editable instances spawned from toolbox templates. */
         private is_toolbox_clone = false;
+        private next_input_id: number;
         /**
          * Corner radius to draw with while this reporter is filling a value input.
          * Null means "draw with the block's own geometry".
@@ -162,9 +165,13 @@ export namespace BlockBuilderMachine {
             public type: OutputBlockTypes,
             text: string
         ) {
+            const { lua_code } = params;
+
             this.element = null;
             this.connecting = false;
             this.label = text.trim();
+            this.next_input_id = 0;
+            this.lua_op = String(lua_code).trim();
             this.id = this.initialize_unique();
             this.connections = [];
             this.block_notches = [];
@@ -995,6 +1002,9 @@ export namespace BlockBuilderMachine {
             foreignObject.appendChild(container);
             group.appendChild(foreignObject);
             group.dataset.inputType = InputTypes[input.type].toLowerCase();
+
+            input.input_id = this.next_input_id;
+            this.next_input_id += 1;
 
             return group;
         }
@@ -1941,6 +1951,11 @@ export namespace BlockBuilderMachine {
             BlockWorkspaceEditor.set_workspace_position(cloneElement, templateRect.left, templateRect.top, workspace);
             cloneElement.style.zIndex = "1000";
             cloneElement.style.cursor = "grab";
+
+            if (this.element) {
+                const vb = BlockBuilderMachine.VM.get_block(this.id);
+                if (vb) VirtualMachineParser.parse_generation(vb);
+            }
 
             // The gesture may never become a drag (a click, or a pointer that
             // ended on the toolbox). Do not leave a stray copy behind in that case.
