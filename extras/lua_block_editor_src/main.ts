@@ -33,7 +33,7 @@ const ToolboxPalette: Array<{config: BlockBuilderMachine.BlockConfig, op?: Funct
             fill: "#fcbe03",
             font: "12px Arial, monospace",
             geometry: CommandGeometry,
-            lua_code: "print(${value})",
+            lua_code: `loadstring([[{0}]])`,
             template: true,
         },
         options: {
@@ -132,7 +132,7 @@ async function setup_toolbox(): Promise<BlockBuilderMachine.Block[]> {
 
 (async (): Promise<void> => {
     if (!(BlockWorkspace instanceof HTMLElement)) return;
-    BlockWorkspaceEditor.apply_editor_depth(BlockWorkspace, { debug: false });
+    BlockWorkspaceEditor.apply_editor_depth(BlockWorkspace, { debug: false, box_size_outline: false });
     BlockWorkspaceEditor.set_workspace(BlockWorkspace);
     const ToolboxBlocks = await setup_toolbox();
     console.debug(ToolboxBlocks);

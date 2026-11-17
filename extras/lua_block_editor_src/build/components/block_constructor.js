@@ -595,6 +595,7 @@ export var BlockBuilderMachine;
                 return this.assemble_input_group(group, foreignObject, container, input, x, y, width, height);
             }
             const element = document.createElement("input");
+            element.setAttribute("name", "type-" + String(input.type));
             switch (input.type) {
                 case InputTypes.NUMBER:
                     element.type = "number";
@@ -651,6 +652,11 @@ export var BlockBuilderMachine;
                 if (!(Number.isFinite(rendered_width) && Math.abs(rendered_width - required_width) < 0.5)) {
                     this.refresh_input_layout(element, element.value);
                 }
+                console.debug("Refreshing Block...", this);
+                let VirtualBlock = BlockBuilderMachine.VM.get_block(this.id);
+                if (!VirtualBlock)
+                    VirtualBlock = BlockBuilderMachine.VM.inject_block(this);
+                VirtualMachineParser.parse_generation(VirtualBlock);
                 BlockWorkspaceEditor.refresh_content_bounds();
             });
             element.addEventListener("change", () => {

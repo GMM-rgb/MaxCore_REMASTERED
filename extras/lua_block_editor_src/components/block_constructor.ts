@@ -889,6 +889,7 @@ export namespace BlockBuilderMachine {
             }
 
             const element = document.createElement("input");
+            element.setAttribute("name", "type-" + String(input.type));
 
             switch (input.type) {
                 case InputTypes.NUMBER:
@@ -960,6 +961,12 @@ export namespace BlockBuilderMachine {
                 if (!(Number.isFinite(rendered_width) && Math.abs(rendered_width - required_width) < 0.5)) {
                     this.refresh_input_layout(element, element.value);
                 }
+
+                console.debug("Refreshing Block...", this);
+
+                let VirtualBlock = VM.get_block(this.id); 
+                if (!VirtualBlock) VirtualBlock = VM.inject_block(this);
+                VirtualMachineParser.parse_generation(VirtualBlock);
 
                 // Typing changes the block's own size, so the content readout has to
                 // follow instead of waiting for the next drag to re-measure it.

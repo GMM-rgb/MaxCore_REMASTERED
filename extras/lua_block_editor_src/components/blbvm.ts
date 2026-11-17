@@ -15,12 +15,13 @@ export namespace VirtualMachine {
             return { template: (Function("inputs", "context") as BlockDefinition["execute"]) };
         }
 
-        public inject_block(proto: BlockBuilderMachine.Block): void {
+        public inject_block(proto: BlockBuilderMachine.Block): BlockDefinition {
             const existing = this.block_registry.find(block => block.id === proto.id);
             if (existing) { throw new Error(`Block '${proto.id}' is already registered.`); }
             let config: BlockDefinition = { id: proto.id, type: proto.type, proto };
             this.block_registry.push(config);
             console.debug("PARSED BLOCK INTO VM:\t", this.get_block(proto.id));
+            return config;
         }
 
         public get_block(id: string): BlockDefinition | undefined {
@@ -35,7 +36,9 @@ export namespace VirtualMachine {
 
 export namespace VirtualMachineParser {
     export function parse_generation(target: VirtualMachine.BlockDefinition): string {
-        let SearchGenerator = new RegExp(/(<=?[]+)\1/);
+        if (target.proto.lua_op === undefined) { return String.prototype.valueOf(); }
+
+        let SearchExpression = new RegExp(/\{\d\}/gms);
         let ParamContents: string[] = [];
 
         target.proto.inputs.forEach((i: BlockBuilderMachine.BlockInput): void => {
@@ -44,8 +47,11 @@ export namespace VirtualMachineParser {
             ParamContents.push(InputContent);
         });
 
-        // target.proto.lua_op.replace("", );
+        ParamContents.filter((v) => {
+            const value = target.proto.lua_op.replace(SearchExpression, v);
+            target.proto.lua_op = value; console.debug("GENERATED:", value);
+        });
 
-        return ``;
+        return target.proto?.lua_op ?? String.prototype.valueOf();
     }
 }

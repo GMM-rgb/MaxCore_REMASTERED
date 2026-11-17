@@ -17,6 +17,7 @@ export var VirtualMachine;
             let config = { id: proto.id, type: proto.type, proto };
             this.block_registry.push(config);
             console.debug("PARSED BLOCK INTO VM:\t", this.get_block(proto.id));
+            return config;
         }
         get_block(id) {
             return this.block_registry.find(block => block.id === id);
@@ -30,14 +31,22 @@ export var VirtualMachine;
 export var VirtualMachineParser;
 (function (VirtualMachineParser) {
     function parse_generation(target) {
-        let SearchGenerator = new RegExp(/(<=?[]+)\1/);
+        if (target.proto.lua_op === undefined) {
+            return String.prototype.valueOf();
+        }
+        let SearchExpression = new RegExp(/\{\d\}/gms);
         let ParamContents = [];
         target.proto.inputs.forEach((i) => {
             const InputContent = new String(i?.content ?? null).valueOf();
             console.debug("PARSING INPUT:\t", InputContent);
             ParamContents.push(InputContent);
         });
-        return ``;
+        ParamContents.filter((v) => {
+            const value = target.proto.lua_op.replace(SearchExpression, v);
+            target.proto.lua_op = value;
+            console.debug("GENERATED:", value);
+        });
+        return target.proto?.lua_op ?? String.prototype.valueOf();
     }
     VirtualMachineParser.parse_generation = parse_generation;
 })(VirtualMachineParser || (VirtualMachineParser = {}));
