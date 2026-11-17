@@ -17,6 +17,7 @@
     background-color: #3978FF;
     border: var(--interactables-border);
     border-radius: 0.2cm;
+    z-index: 99;
 
     transition:
         opacity 160ms ease,

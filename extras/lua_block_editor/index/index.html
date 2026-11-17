@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="../styles/editor_toolbar.css" />
         <link rel="stylesheet" href="../styles/toolbar_menus.css" />
         <link rel="stylesheet" href="../styles/block_styles/base_blocks.css" />
+        <link rel="stylesheet" href="../styles/block_styles/workspace_styles.css" />
     </head>
 
     <style>
@@ -41,9 +42,11 @@
             </button>
         </div>
 
-        <div id="block-workspace-container"></div>
-        <div class="block-palette-toolbox"></div>
-
+        <div id="block-editor-wrapper">
+            <div id="block-workspace-container"></div>
+            <div class="block-palette-toolbox"></div>
+        </div>
+        
         <script type="module" src="../../lua_block_editor_src/build/main.js"></script>
     </body>
 </html>

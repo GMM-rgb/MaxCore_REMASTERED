@@ -1,0 +1,18 @@
+#block-editor-wrapper {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    flex: auto;
+}
+
+.block-palette-toolbox {
+    display: flex;
+    border-inline-end: 2px solid black;
+    flex-direction: column;
+    overflow-x: auto;
+    overflow-y: auto;
+    position-anchor: --toolbar;
+    min-height: 100%;
+    width: 20%;
+    gap: 12px;
+}

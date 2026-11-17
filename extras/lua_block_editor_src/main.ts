@@ -1,11 +1,13 @@
 import { EditorToolbarMenu } from "./toolbar_menu_instancer.js";
-import { BlockBuilderMachine } from "./components/block_constructor.js";
+import { BlockBuilderMachine, BlockWorkspaceEditor } from "./components/block_constructor.js";
+import { CommandButtonSubmenu } from './toolbar_menu_instancer';
 import { VirtualMachine, VirtualMachineParser } from"./components/blbvm.js";
 
 let InterfaceElements: Record<string, HTMLElement | null | undefined> = { "ToolbarInterface": document.getElementById("editor-toolbar") };
 let ToolbarButtons = InterfaceElements.ToolbarInterface?.querySelectorAll("button") ?? [];
 const ToolbarElement = InterfaceElements["ToolbarInterface"] as HTMLDivElement;
 const BlockWorkspace = document.body.querySelector("#block-workspace-container");
+const BlockToolbox = document.body.querySelector(".block-palette-toolbox");
 
 ToolbarButtons.forEach((button: HTMLButtonElement) => {
     InterfaceElements[String(button.name)] = button;
@@ -27,11 +29,7 @@ const ReporterGeometry: BlockBuilderMachine.BlockGeometry = {
 
 const ToolboxPalette: Array<{config: BlockBuilderMachine.BlockConfig, op?: Function, options: { type: BlockBuilderMachine.OutputBlockTypes, text: string, params?: Array<BlockBuilderMachine.BlockInput> }}> = [
     {
-        config: { fill: "#5486e2", font: "12px Arial, monospace", geometry: CommandGeometry },
-        options: { type: BlockBuilderMachine.CommandBlocks.HAT, text: "<em>{global}</em><strong>EngineCore</strong>" },
-    },
-    {
-        config: { fill: "#505eb0", font: "12px Arial, monospace", geometry: CommandGeometry },
+        config: { fill: "#505eb0", font: "12px Arial, monospace", geometry: CommandGeometry, template: true },
         options: {
             type: BlockBuilderMachine.CommandBlocks.COM,
             text: "<em>{func}</em><strong>print</strong>",
@@ -44,7 +42,7 @@ const ToolboxPalette: Array<{config: BlockBuilderMachine.BlockConfig, op?: Funct
         },
     },
     {
-        config: { fill: "#30c646", font: "12px Arial, monospace", geometry: CommandGeometry },
+        config: { fill: "#30c646", font: "12px Arial, monospace", geometry: CommandGeometry, template: true },
         options: {
             type: BlockBuilderMachine.CommandBlocks.COM,
             text: "<em>{lfunc}</em><strong>string.format</strong>",
@@ -61,8 +59,12 @@ const ToolboxPalette: Array<{config: BlockBuilderMachine.BlockConfig, op?: Funct
         },
     },
     {
-        config: { fill: "#5486e2", font: "12px Arial, monospace", geometry: ReporterGeometry },
-        options: { text: "<em>{bool}</em><strong>EngineCore Online?</strong>", type: BlockBuilderMachine.CommandBlocks.END },
+        config: { fill: "#5486e2", font: "12px Arial, monospace", geometry: ReporterGeometry, template: true },
+        options: { text: "<em>{bool}</em><strong>EngineCore Online?</strong>", type: BlockBuilderMachine.CommandBlocks.REP },
+    },
+    {
+        config: { fill: "#5486e2", font: "12px Arial, monospace", geometry: ReporterGeometry, template: true },
+        options: { type: BlockBuilderMachine.CommandBlocks.REP, text: "<em>{global}</em><strong>EngineCore</strong>" },
     },
 ];
 
@@ -73,7 +75,7 @@ async function setup_toolbox(): Promise<BlockBuilderMachine.Block[]> {
         for (const selected of ToolboxPalette) {
             const { type, text, params } = selected.options;
             let block = new BlockBuilderMachine.Block(selected.config, type, text);
-            BlockWorkspace?.appendChild(block.invoke());
+            BlockToolbox?.appendChild(block.invoke());
             
             if (params !== undefined) {
                 params.forEach((param: BlockBuilderMachine.BlockInput) => {
@@ -89,6 +91,8 @@ async function setup_toolbox(): Promise<BlockBuilderMachine.Block[]> {
 }
 
 (async (): Promise<void> => {
+    if (!(BlockWorkspace instanceof HTMLElement)) return;
+    BlockWorkspaceEditor.set_workspace(BlockWorkspace);
     const ToolboxBlocks = await setup_toolbox();
     console.debug(ToolboxBlocks);
 })();

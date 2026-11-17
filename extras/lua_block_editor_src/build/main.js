@@ -1,9 +1,10 @@
 import { EditorToolbarMenu } from "./toolbar_menu_instancer.js";
-import { BlockBuilderMachine } from "./components/block_constructor.js";
+import { BlockBuilderMachine, BlockWorkspaceEditor } from "./components/block_constructor.js";
 let InterfaceElements = { "ToolbarInterface": document.getElementById("editor-toolbar") };
 let ToolbarButtons = InterfaceElements.ToolbarInterface?.querySelectorAll("button") ?? [];
 const ToolbarElement = InterfaceElements["ToolbarInterface"];
 const BlockWorkspace = document.body.querySelector("#block-workspace-container");
+const BlockToolbox = document.body.querySelector(".block-palette-toolbox");
 ToolbarButtons.forEach((button) => {
     InterfaceElements[String(button.name)] = button;
     const ButtonMenu = new EditorToolbarMenu(button, ToolbarElement);
@@ -21,11 +22,7 @@ const ReporterGeometry = {
 };
 const ToolboxPalette = [
     {
-        config: { fill: "#5486e2", font: "12px Arial, monospace", geometry: CommandGeometry },
-        options: { type: BlockBuilderMachine.CommandBlocks.HAT, text: "<em>{global}</em><strong>EngineCore</strong>" },
-    },
-    {
-        config: { fill: "#505eb0", font: "12px Arial, monospace", geometry: CommandGeometry },
+        config: { fill: "#505eb0", font: "12px Arial, monospace", geometry: CommandGeometry, template: true },
         options: {
             type: BlockBuilderMachine.CommandBlocks.COM,
             text: "<em>{func}</em><strong>print</strong>",
@@ -38,7 +35,7 @@ const ToolboxPalette = [
         },
     },
     {
-        config: { fill: "#30c646", font: "12px Arial, monospace", geometry: CommandGeometry },
+        config: { fill: "#30c646", font: "12px Arial, monospace", geometry: CommandGeometry, template: true },
         options: {
             type: BlockBuilderMachine.CommandBlocks.COM,
             text: "<em>{lfunc}</em><strong>string.format</strong>",
@@ -55,8 +52,12 @@ const ToolboxPalette = [
         },
     },
     {
-        config: { fill: "#5486e2", font: "12px Arial, monospace", geometry: ReporterGeometry },
-        options: { text: "<em>{bool}</em><strong>EngineCore Online?</strong>", type: BlockBuilderMachine.CommandBlocks.END },
+        config: { fill: "#5486e2", font: "12px Arial, monospace", geometry: ReporterGeometry, template: true },
+        options: { text: "<em>{bool}</em><strong>EngineCore Online?</strong>", type: BlockBuilderMachine.CommandBlocks.REP },
+    },
+    {
+        config: { fill: "#5486e2", font: "12px Arial, monospace", geometry: ReporterGeometry, template: true },
+        options: { type: BlockBuilderMachine.CommandBlocks.REP, text: "<em>{global}</em><strong>EngineCore</strong>" },
     },
 ];
 async function setup_toolbox() {
@@ -65,7 +66,7 @@ async function setup_toolbox() {
         for (const selected of ToolboxPalette) {
             const { type, text, params } = selected.options;
             let block = new BlockBuilderMachine.Block(selected.config, type, text);
-            BlockWorkspace?.appendChild(block.invoke());
+            BlockToolbox?.appendChild(block.invoke());
             if (params !== undefined) {
                 params.forEach((param) => {
                     block.add_param(param);
@@ -77,6 +78,9 @@ async function setup_toolbox() {
     });
 }
 (async () => {
+    if (!(BlockWorkspace instanceof HTMLElement))
+        return;
+    BlockWorkspaceEditor.set_workspace(BlockWorkspace);
     const ToolboxBlocks = await setup_toolbox();
     console.debug(ToolboxBlocks);
 })();
