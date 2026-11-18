@@ -1,52 +1,198 @@
+import { BlockBuilderMachine } from "./block_constructor.js";
 export var VirtualMachine;
 (function (VirtualMachine) {
     class Machine {
-        options;
-        block_registry = [];
-        constructor(options) {
-            this.options = options;
-        }
-        get function_op_template() {
-            return { template: Function("inputs", "context") };
-        }
+        block_registry = new Map();
+        constructor(_options) { }
         inject_block(proto) {
-            const existing = this.block_registry.find(block => block.id === proto.id);
+            const existing = this.block_registry.get(proto.id);
             if (existing) {
-                throw new Error(`Block '${proto.id}' is already registered.`);
+                if (existing.proto !== proto) {
+                    throw new Error(`Block '${proto.id}' is already registered.`);
+                }
+                return existing;
             }
-            let config = { id: proto.id, type: proto.type, proto };
-            this.block_registry.push(config);
-            console.debug("PARSED BLOCK INTO VM:\t", this.get_block(proto.id));
+            const config = {
+                id: proto.id,
+                type: proto.type,
+                proto
+            };
+            this.block_registry.set(proto.id, config);
+            console.debug("REGISTERED BLOCK:", proto.id, proto);
             return config;
         }
         get_block(id) {
-            return this.block_registry.find(block => block.id === id);
+            return this.block_registry.get(id);
+        }
+        remove_block(id) {
+            this.block_registry.delete(id);
         }
         get_blocks() {
-            return this.block_registry;
+            return [...this.block_registry.values()];
         }
     }
     VirtualMachine.Machine = Machine;
 })(VirtualMachine || (VirtualMachine = {}));
 export var VirtualMachineParser;
 (function (VirtualMachineParser) {
-    function parse_generation(target) {
-        if (target.proto.lua_op === undefined) {
-            return String.prototype.valueOf();
+    class LuaCompileError extends Error {
+        block_id;
+        input_id;
+        constructor(message, block_id, input_id) {
+            super(message);
+            this.block_id = block_id;
+            this.input_id = input_id;
+            this.name = "LuaCompileError";
         }
-        let SearchExpression = new RegExp(/\{\d\}/gms);
-        let ParamContents = [];
-        target.proto.inputs.forEach((i) => {
-            const InputContent = new String(i?.content ?? null).valueOf();
-            console.debug("PARSING INPUT:\t", InputContent);
-            ParamContents.push(InputContent);
-        });
-        ParamContents.filter((v) => {
-            const value = target.proto.lua_op.replace(SearchExpression, v);
-            target.proto.lua_op = value;
-            console.debug("GENERATED:", value);
-        });
-        return target.proto?.lua_op ?? String.prototype.valueOf();
+    }
+    VirtualMachineParser.LuaCompileError = LuaCompileError;
+    function is_reporter(block) {
+        return (block.type === BlockBuilderMachine.CommandBlocks.REP ||
+            block.type === BlockBuilderMachine.OutputBlocks.STRING ||
+            block.type === BlockBuilderMachine.OutputBlocks.BOOL);
+    }
+    function quote_lua_string(value) {
+        const escaped = value
+            .replace(/\\/g, "\\\\")
+            .replace(/"/g, '\\"')
+            .replace(/\r/g, "\\r")
+            .replace(/\n/g, "\\n")
+            .replace(/\t/g, "\\t")
+            .replace(/[\u0000-\u001F\u007F]/g, character => `\\${character.charCodeAt(0).toString().padStart(3, "0")}`);
+        return `"${escaped}"`;
+    }
+    function compile_literal(input, block, input_id) {
+        switch (input.type) {
+            case BlockBuilderMachine.InputTypes.STRING:
+                return quote_lua_string(String(input.content));
+            case BlockBuilderMachine.InputTypes.NUMBER:
+                if (typeof input.content !== "number" ||
+                    !Number.isFinite(input.content)) {
+                    throw new LuaCompileError(`Invalid number in input ${input_id}.`, block.id, input_id);
+                }
+                return Object.is(input.content, -0) ? "0" : String(input.content);
+            case BlockBuilderMachine.InputTypes.BOOL:
+                if (typeof input.content !== "boolean") {
+                    throw new LuaCompileError(`Invalid boolean in input ${input_id}.`, block.id, input_id);
+                }
+                return input.content ? "true" : "false";
+            case BlockBuilderMachine.InputTypes.VARIABLE: {
+                const variable = String(input.content).trim();
+                if (!/^[A-Za-z_][A-Za-z0-9_]*$/.test(variable)) {
+                    throw new LuaCompileError(`Invalid Lua variable name '${variable}'.`, block.id, input_id);
+                }
+                return variable;
+            }
+            case BlockBuilderMachine.InputTypes.BLOCK:
+                throw new LuaCompileError(`Block '${block.label}' has an empty BLOCK input (${input_id}).`, block.id, input_id);
+            default:
+                throw new LuaCompileError(`Unknown input type in block '${block.label}'.`, block.id, input_id);
+        }
+    }
+    function compile_input(block, input_id, ancestry) {
+        const input_index = block.inputs.findIndex((input, index) => (input.input_id ?? index) === input_id);
+        if (input_index === -1) {
+            throw new LuaCompileError(`Template references nonexistent input {${input_id}} in '${block.label}'.`, block.id, input_id);
+        }
+        const input = block.inputs[input_index];
+        const connected = block.get_connected_input(input_index);
+        if (connected) {
+            if (!is_reporter(connected)) {
+                throw new LuaCompileError(`Input ${input_id} contains a non-reporter block.`, block.id, input_id);
+            }
+            return compile_expression(connected, ancestry);
+        }
+        return compile_literal(input, block, input_id);
+    }
+    function compile_template(block, ancestry) {
+        if (ancestry.has(block)) {
+            throw new LuaCompileError(`Circular reporter dependency detected in '${block.label}'.`, block.id);
+        }
+        ancestry.add(block);
+        try {
+            const template = block.lua_op.trim();
+            if (!template) {
+                if (is_reporter(block)) {
+                    throw new LuaCompileError(`Reporter '${block.label}' has no Lua template.`, block.id);
+                }
+                return "";
+            }
+            return template.replace(/\{(\d+)\}/g, (_match, raw_id) => {
+                const input_id = Number(raw_id);
+                if (!Number.isSafeInteger(input_id)) {
+                    throw new LuaCompileError(`Invalid template parameter: {${raw_id}}.`, block.id);
+                }
+                const value = compile_input(block, input_id, ancestry);
+                console.debug("RESOLVED PARAMETER:", block.label, input_id, value);
+                return value;
+            });
+        }
+        finally {
+            ancestry.delete(block);
+        }
+    }
+    function compile_expression(block, ancestry = new Set()) {
+        if (!is_reporter(block)) {
+            throw new LuaCompileError(`Block '${block.label}' is not an expression block.`, block.id);
+        }
+        return compile_template(block, ancestry);
+    }
+    VirtualMachineParser.compile_expression = compile_expression;
+    function compile_stack(start) {
+        const parent_path = new Set();
+        let root = start;
+        while (true) {
+            if (parent_path.has(root)) {
+                throw new LuaCompileError("Circular parent connection detected while finding stack root.", root.id);
+            }
+            parent_path.add(root);
+            const parent = root.get_parent_block();
+            if (!parent)
+                break;
+            root = parent;
+        }
+        const visited = new Set();
+        const statements = [];
+        let current = root;
+        while (current) {
+            if (visited.has(current)) {
+                throw new LuaCompileError("Circular command-stack connection detected.", current.id);
+            }
+            visited.add(current);
+            if (is_reporter(current)) {
+                throw new LuaCompileError(`Reporter '${current.label}' cannot be compiled as a command.`, current.id);
+            }
+            const generated = compile_template(current, new Set());
+            if (generated.trim()) {
+                statements.push(generated);
+            }
+            current = current.get_next_block();
+        }
+        const output = statements.join("\n");
+        console.debug("COMPILED STACK:", root.id, [...visited].map(block => block.label), output);
+        return output;
+    }
+    VirtualMachineParser.compile_stack = compile_stack;
+    function compile_workspace(blocks = BlockBuilderMachine.CreatedBlocks) {
+        const roots = blocks.filter(block => !block.is_template &&
+            !is_reporter(block) &&
+            block.get_parent_block() === null);
+        const output = [];
+        for (const root of roots) {
+            const generated = compile_stack(root);
+            if (generated.trim())
+                output.push(generated);
+        }
+        return output.join("\n\n");
+    }
+    VirtualMachineParser.compile_workspace = compile_workspace;
+    function parse_generation(target) {
+        const block = target.proto;
+        const generated = is_reporter(block)
+            ? compile_expression(block)
+            : compile_stack(block);
+        console.debug("GENERATED LUA:", generated);
+        return generated;
     }
     VirtualMachineParser.parse_generation = parse_generation;
 })(VirtualMachineParser || (VirtualMachineParser = {}));

@@ -29,16 +29,15 @@ export var BlockBuilderMachine;
         lua_op;
         connecting;
         block_notches;
+        connections;
         element;
         inputs;
         label;
         id;
-        connections;
         parent_connection = null;
         input_connections = new Map();
         parent_input = null;
         is_toolbox_clone = false;
-        next_input_id;
         embed_radius = null;
         measurement_svg = null;
         measurement_text = null;
@@ -57,8 +56,7 @@ export var BlockBuilderMachine;
             this.element = null;
             this.connecting = false;
             this.label = text.trim();
-            this.next_input_id = 0;
-            this.lua_op = String(lua_code).trim();
+            this.lua_op = (lua_code ?? "").trim();
             this.id = this.initialize_unique();
             this.connections = [];
             this.block_notches = [];
@@ -361,9 +359,24 @@ export var BlockBuilderMachine;
             const darker = channels.map(channel => Math.round(channel * 0.7));
             return `#${darker.map(channel => channel.toString(16).padStart(2, "0")).join("")}`;
         }
+        allocate_input_id() {
+            const used = new Set(this.inputs.map((existing, index) => existing.input_id ?? index));
+            let candidate = 0;
+            while (used.has(candidate))
+                candidate++;
+            return candidate;
+        }
         add_param(input) {
             this.validate_input(input);
-            this.inputs.push({ ...input });
+            const input_id = input.input_id ?? this.allocate_input_id();
+            if (!Number.isSafeInteger(input_id) || input_id < 0) {
+                throw new RangeError("Input ID must be a non-negative safe integer.");
+            }
+            const duplicate = this.inputs.some((existing, index) => (existing.input_id ?? index) === input_id);
+            if (duplicate) {
+                throw new Error(`Input ID '${input_id}' is already registered on block '${this.label}'.`);
+            }
+            this.inputs.push({ ...input, input_id });
             if (this.element) {
                 const previous = this.element;
                 const parent = previous.parentNode;
@@ -614,6 +627,7 @@ export var BlockBuilderMachine;
             element.classList.add("block-input");
             element.dataset.inputType = InputTypes[input.type].toLowerCase();
             element.dataset.inputIndex = String(index);
+            element.dataset.inputId = String(input.input_id ?? index);
             element.dataset.blockId = this.id;
             element.style.boxSizing = "border-box";
             element.style.border = `${style.stroke_width}px solid ${style.stroke}`;
@@ -679,8 +693,7 @@ export var BlockBuilderMachine;
             foreignObject.appendChild(container);
             group.appendChild(foreignObject);
             group.dataset.inputType = InputTypes[input.type].toLowerCase();
-            input.input_id = this.next_input_id;
-            this.next_input_id += 1;
+            group.dataset.inputId = String(input.input_id ?? this.inputs.indexOf(input));
             return group;
         }
         create_label_element(segment, x, y) {
@@ -817,6 +830,7 @@ export var BlockBuilderMachine;
                 inputParent.block.refresh_render_preserving_position();
             }
             this.remove_connectors();
+            BlockBuilderMachine.VM.remove_block(this.id);
             BlockBuilderMachine.CreatedBlocks = BlockBuilderMachine.CreatedBlocks.filter((block) => block !== this);
             this.element?.remove();
             this.measurement_svg?.remove();
@@ -849,6 +863,12 @@ export var BlockBuilderMachine;
         }
         get_next_block() {
             return this.connections.find((connection) => connection.activated)?.connection ?? null;
+        }
+        get_connected_input(index) {
+            return this.input_connections.get(index) ?? null;
+        }
+        get_parent_block() {
+            return this.parent_connection;
         }
         get_stack_root() {
             let current = this;
@@ -1427,19 +1447,22 @@ export var BlockBuilderMachine;
                 window.removeEventListener("pointercancel", onPointerCancel, true);
                 const over_toolbox = root.is_toolbox_clone &&
                     BlockWorkspaceEditor.is_point_in_toolbox(finishEvent.clientX, finishEvent.clientY);
+                let stack_connected = false;
                 if (shouldConnect && moved && over_toolbox) {
                     root.return_to_toolbox();
                 }
                 else if (shouldConnect && moved) {
                     if (root.is_reporter()) {
                         const plan = root.find_reporter_input_drop_plan(root, finishEvent.clientX, finishEvent.clientY);
-                        if (plan)
+                        if (plan) {
                             root.try_drop_reporter_into_input(root, plan);
+                        }
                     }
                     else {
                         const plan = root.find_stack_drop_plan(root);
                         if (plan && plan.upper.insert_connectors(plan.lower)) {
                             root.move_blocks_by(stack, plan.delta_x, plan.delta_y);
+                            stack_connected = true;
                         }
                     }
                 }
@@ -1450,6 +1473,10 @@ export var BlockBuilderMachine;
                         continue;
                     snapshot.element.style.zIndex = snapshot.originalZIndex;
                     snapshot.element.style.cursor = "grab";
+                }
+                if (stack_connected) {
+                    const generated = VirtualMachineParser.compile_stack(root);
+                    console.debug("RECOMPILED CONNECTED STACK:", generated);
                 }
             };
             const onPointerUp = (upEvent) => finish(upEvent, true);

@@ -76,15 +76,15 @@ CMakeFiles/sleep_native.dir/backend/runtime_backend/sleep_native.cpp.o: CMakeFil
 CMakeFiles/sleep_native.dir/backend/runtime_backend/sleep_native.cpp.o: /Users/maximus.farvour/Documents/MaxCore_REMASTERED/backend/runtime_backend/sleep_native.cpp
 CMakeFiles/sleep_native.dir/backend/runtime_backend/sleep_native.cpp.o: CMakeFiles/sleep_native.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/sleep_native.dir/backend/runtime_backend/sleep_native.cpp.o"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sleep_native.dir/backend/runtime_backend/sleep_native.cpp.o -MF CMakeFiles/sleep_native.dir/backend/runtime_backend/sleep_native.cpp.o.d -o CMakeFiles/sleep_native.dir/backend/runtime_backend/sleep_native.cpp.o -c /Users/maximus.farvour/Documents/MaxCore_REMASTERED/backend/runtime_backend/sleep_native.cpp
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/sleep_native.dir/backend/runtime_backend/sleep_native.cpp.o -MF CMakeFiles/sleep_native.dir/backend/runtime_backend/sleep_native.cpp.o.d -o CMakeFiles/sleep_native.dir/backend/runtime_backend/sleep_native.cpp.o -c /Users/maximus.farvour/Documents/MaxCore_REMASTERED/backend/runtime_backend/sleep_native.cpp
 
 CMakeFiles/sleep_native.dir/backend/runtime_backend/sleep_native.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/sleep_native.dir/backend/runtime_backend/sleep_native.cpp.i"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/maximus.farvour/Documents/MaxCore_REMASTERED/backend/runtime_backend/sleep_native.cpp > CMakeFiles/sleep_native.dir/backend/runtime_backend/sleep_native.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/maximus.farvour/Documents/MaxCore_REMASTERED/backend/runtime_backend/sleep_native.cpp > CMakeFiles/sleep_native.dir/backend/runtime_backend/sleep_native.cpp.i
 
 CMakeFiles/sleep_native.dir/backend/runtime_backend/sleep_native.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/sleep_native.dir/backend/runtime_backend/sleep_native.cpp.s"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/maximus.farvour/Documents/MaxCore_REMASTERED/backend/runtime_backend/sleep_native.cpp -o CMakeFiles/sleep_native.dir/backend/runtime_backend/sleep_native.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/maximus.farvour/Documents/MaxCore_REMASTERED/backend/runtime_backend/sleep_native.cpp -o CMakeFiles/sleep_native.dir/backend/runtime_backend/sleep_native.cpp.s
 
 # Object files for target sleep_native
 sleep_native_OBJECTS = \

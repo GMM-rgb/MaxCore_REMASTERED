@@ -26,7 +26,7 @@ const ToolboxPalette = [
             fill: "#fcbe03",
             font: "12px Arial, monospace",
             geometry: CommandGeometry,
-            lua_code: `loadstring([[{0}]])`,
+            lua_code: `loadstring({0})`,
             template: true,
         },
         options: {
@@ -41,7 +41,13 @@ const ToolboxPalette = [
         },
     },
     {
-        config: { fill: "#505eb0", font: "12px Arial, monospace", geometry: CommandGeometry, template: true },
+        config: {
+            fill: "#505eb0",
+            font: "12px Arial, monospace",
+            lua_code: "print({0})",
+            geometry: CommandGeometry,
+            template: true,
+        },
         options: {
             type: BlockBuilderMachine.CommandBlocks.COM,
             text: "<em>{func}</em><strong>print</strong>",
@@ -54,7 +60,13 @@ const ToolboxPalette = [
         },
     },
     {
-        config: { fill: "#30c646", font: "12px Arial, monospace", geometry: ReporterGeometry, template: true },
+        config: {
+            fill: "#30c646",
+            font: "12px Arial, monospace",
+            geometry: ReporterGeometry,
+            lua_code: "string.format({0}, {1})",
+            template: true,
+        },
         options: {
             type: BlockBuilderMachine.CommandBlocks.REP,
             text: "<em>{lfunc}</em><strong>string.format</strong>",
@@ -113,6 +125,7 @@ async function setup_toolbox() {
                 params.forEach((param) => { block.add_param(param); });
             }
             BlockBuilderMachine.VM.inject_block(block);
+            block.remove_connectors();
             blocks.push(block);
         }
         resolve(blocks);
@@ -126,3 +139,10 @@ async function setup_toolbox() {
     const ToolboxBlocks = await setup_toolbox();
     console.debug(ToolboxBlocks);
 })();
+Object.assign(window, {
+    debug_blocks: function () {
+        BlockBuilderMachine.VM.get_blocks().forEach((block) => {
+            console.debug(block);
+        });
+    },
+});

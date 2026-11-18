@@ -129,6 +129,7 @@ export namespace BlockBuilderMachine {
         public lua_op: string;
         public connecting: boolean;
         public block_notches: BlockNotch[];
+        public connections: ConnectorDefinition[];
         public element: SVGSVGElement | null;
         public inputs: BlockInput[];
         public label: string;
@@ -136,13 +137,11 @@ export namespace BlockBuilderMachine {
 
         // A block can have one block connected beneath it. The matching
         // parent reference lets any block find and move the whole stack.
-        private connections: ConnectorDefinition[];
         private parent_connection: Block | null = null;
         private readonly input_connections = new Map<number, Block>();
         private parent_input: { block: Block; index: number } | null = null;
         /** True only for editable instances spawned from toolbox templates. */
         private is_toolbox_clone = false;
-        private next_input_id: number;
         /**
          * Corner radius to draw with while this reporter is filling a value input.
          * Null means "draw with the block's own geometry".
@@ -170,8 +169,7 @@ export namespace BlockBuilderMachine {
             this.element = null;
             this.connecting = false;
             this.label = text.trim();
-            this.next_input_id = 0;
-            this.lua_op = String(lua_code).trim();
+            this.lua_op = (lua_code ?? "").trim();
             this.id = this.initialize_unique();
             this.connections = [];
             this.block_notches = [];
@@ -577,9 +575,41 @@ export namespace BlockBuilderMachine {
             return `#${darker.map(channel => channel.toString(16).padStart(2, "0")).join("")}`;
         }
 
+        /**
+         * Allocate the first unused non-negative input ID. IDs belong to the
+         * logical input definition and must not depend on how often invoke()
+         * rebuilds the SVG.
+         */
+        private allocate_input_id(): number {
+            const used = new Set(
+                this.inputs.map((existing, index) => existing.input_id ?? index),
+            );
+
+            let candidate = 0;
+            while (used.has(candidate)) candidate++;
+            return candidate;
+        }
+
         public add_param(input: BlockInput): this {
             this.validate_input(input);
-            this.inputs.push({ ...input });
+
+            const input_id = input.input_id ?? this.allocate_input_id();
+
+            if (!Number.isSafeInteger(input_id) || input_id < 0) {
+                throw new RangeError("Input ID must be a non-negative safe integer.");
+            }
+
+            const duplicate = this.inputs.some((existing, index) =>
+                (existing.input_id ?? index) === input_id,
+            );
+
+            if (duplicate) {
+                throw new Error(`Input ID '${input_id}' is already registered on block '${this.label}'.`);
+            }
+
+            // Store the ID once. Rendering, dragging, and recompilation must never
+            // assign or mutate it again.
+            this.inputs.push({ ...input, input_id });
 
             if (this.element) {
                 const previous = this.element;
@@ -914,6 +944,7 @@ export namespace BlockBuilderMachine {
 
             element.dataset.inputType = InputTypes[input.type].toLowerCase();
             element.dataset.inputIndex = String(index);
+            element.dataset.inputId = String(input.input_id ?? index);
             // Identifies the owning block so post-edit lookups cannot reach into
             // a reporter nested in one of this block's sockets.
             element.dataset.blockId = this.id;
@@ -1009,9 +1040,11 @@ export namespace BlockBuilderMachine {
             foreignObject.appendChild(container);
             group.appendChild(foreignObject);
             group.dataset.inputType = InputTypes[input.type].toLowerCase();
+            group.dataset.inputId = String(input.input_id ?? this.inputs.indexOf(input));
 
-            input.input_id = this.next_input_id;
-            this.next_input_id += 1;
+            // `index` identifies this socket in the rendering/connection map;
+            // `input_id` identifies its logical parameter in the Lua template.
+            // They usually match, but they are deliberately separate concepts.
 
             return group;
         }
@@ -1198,6 +1231,7 @@ export namespace BlockBuilderMachine {
             }
 
             this.remove_connectors();
+            BlockBuilderMachine.VM.remove_block(this.id);
             BlockBuilderMachine.CreatedBlocks = BlockBuilderMachine.CreatedBlocks.filter(
                 (block: Block) => block !== this,
             );
@@ -1245,8 +1279,19 @@ export namespace BlockBuilderMachine {
             ).enabled;
         }
 
-        private get_next_block(): Block | null {
+        /** Return the next command block connected beneath this block. */
+        public get_next_block(): Block | null {
             return this.connections.find((connection: ConnectorDefinition) => connection.activated)?.connection ?? null;
+        }
+
+        /** Resolve a reporter occupying the socket at this input's array index. */
+        public get_connected_input(index: number): Block | null {
+            return this.input_connections.get(index) ?? null;
+        }
+
+        /** Return the command block directly above this block, if any. */
+        public get_parent_block(): Block | null {
+            return this.parent_connection;
         }
 
         private get_stack_root(): Block {
@@ -1254,8 +1299,7 @@ export namespace BlockBuilderMachine {
             const visited = new Set<Block>();
 
             while (current.parent_connection && !visited.has(current.parent_connection)) {
-                visited.add(current);
-                current = current.parent_connection;
+                visited.add(current); current = current.parent_connection;
             }
 
             return current;
@@ -2076,17 +2120,30 @@ export namespace BlockBuilderMachine {
                 const over_toolbox = root.is_toolbox_clone &&
                     BlockWorkspaceEditor.is_point_in_toolbox(finishEvent.clientX, finishEvent.clientY);
 
+                // A command stack is recompiled only after a successful stack
+                // connection. Reporter socket drops do not create command stacks.
+                let stack_connected = false;
+
                 if (shouldConnect && moved && over_toolbox) {
                     // Dropped back on the toolbox: delete the clones, keep the rest.
                     root.return_to_toolbox();
                 } else if (shouldConnect && moved) {
                     if (root.is_reporter()) {
-                        const plan = root.find_reporter_input_drop_plan(root, finishEvent.clientX, finishEvent.clientY);
-                        if (plan) root.try_drop_reporter_into_input(root, plan);
+                        const plan = root.find_reporter_input_drop_plan(
+                            root,
+                            finishEvent.clientX,
+                            finishEvent.clientY
+                        );
+
+                        if (plan) {
+                            root.try_drop_reporter_into_input(root, plan);
+                        }
                     } else {
                         const plan = root.find_stack_drop_plan(root);
+
                         if (plan && plan.upper.insert_connectors(plan.lower)) {
                             root.move_blocks_by(stack, plan.delta_x, plan.delta_y);
+                            stack_connected = true;
                         }
                     }
                 }
@@ -2102,6 +2159,13 @@ export namespace BlockBuilderMachine {
                     snapshot.element.style.cursor = "grab";
                 }
 
+                if (stack_connected) {
+                    // `root` is the top of the dragged segment. It may now have a
+                    // parent if it was dropped UNDER an existing stack. The parser
+                    // resolves the actual top-most stack root before generating Lua.
+                    const generated = VirtualMachineParser.compile_stack(root);
+                    console.debug("RECOMPILED CONNECTED STACK:", generated);
+                }
             };
 
             const onPointerUp = (upEvent: PointerEvent): void => finish(upEvent, true);

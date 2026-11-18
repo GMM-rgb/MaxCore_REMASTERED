@@ -76,29 +76,29 @@ CMakeFiles/lua_runner.dir/lua-5.7.2/src/lua.c.o: CMakeFiles/lua_runner.dir/flags
 CMakeFiles/lua_runner.dir/lua-5.7.2/src/lua.c.o: /Users/maximus.farvour/Documents/MaxCore_REMASTERED/lua-5.7.2/src/lua.c
 CMakeFiles/lua_runner.dir/lua-5.7.2/src/lua.c.o: CMakeFiles/lua_runner.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/lua_runner.dir/lua-5.7.2/src/lua.c.o"
-	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/lua_runner.dir/lua-5.7.2/src/lua.c.o -MF CMakeFiles/lua_runner.dir/lua-5.7.2/src/lua.c.o.d -o CMakeFiles/lua_runner.dir/lua-5.7.2/src/lua.c.o -c /Users/maximus.farvour/Documents/MaxCore_REMASTERED/lua-5.7.2/src/lua.c
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/lua_runner.dir/lua-5.7.2/src/lua.c.o -MF CMakeFiles/lua_runner.dir/lua-5.7.2/src/lua.c.o.d -o CMakeFiles/lua_runner.dir/lua-5.7.2/src/lua.c.o -c /Users/maximus.farvour/Documents/MaxCore_REMASTERED/lua-5.7.2/src/lua.c
 
 CMakeFiles/lua_runner.dir/lua-5.7.2/src/lua.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/lua_runner.dir/lua-5.7.2/src/lua.c.i"
-	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/maximus.farvour/Documents/MaxCore_REMASTERED/lua-5.7.2/src/lua.c > CMakeFiles/lua_runner.dir/lua-5.7.2/src/lua.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/maximus.farvour/Documents/MaxCore_REMASTERED/lua-5.7.2/src/lua.c > CMakeFiles/lua_runner.dir/lua-5.7.2/src/lua.c.i
 
 CMakeFiles/lua_runner.dir/lua-5.7.2/src/lua.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/lua_runner.dir/lua-5.7.2/src/lua.c.s"
-	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/maximus.farvour/Documents/MaxCore_REMASTERED/lua-5.7.2/src/lua.c -o CMakeFiles/lua_runner.dir/lua-5.7.2/src/lua.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/maximus.farvour/Documents/MaxCore_REMASTERED/lua-5.7.2/src/lua.c -o CMakeFiles/lua_runner.dir/lua-5.7.2/src/lua.c.s
 
 CMakeFiles/lua_runner.dir/lua-5.7.2/src/maxcore_bootstrap.c.o: CMakeFiles/lua_runner.dir/flags.make
 CMakeFiles/lua_runner.dir/lua-5.7.2/src/maxcore_bootstrap.c.o: /Users/maximus.farvour/Documents/MaxCore_REMASTERED/lua-5.7.2/src/maxcore_bootstrap.c
 CMakeFiles/lua_runner.dir/lua-5.7.2/src/maxcore_bootstrap.c.o: CMakeFiles/lua_runner.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/maximus.farvour/Documents/MaxCore_REMASTERED/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/lua_runner.dir/lua-5.7.2/src/maxcore_bootstrap.c.o"
-	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/lua_runner.dir/lua-5.7.2/src/maxcore_bootstrap.c.o -MF CMakeFiles/lua_runner.dir/lua-5.7.2/src/maxcore_bootstrap.c.o.d -o CMakeFiles/lua_runner.dir/lua-5.7.2/src/maxcore_bootstrap.c.o -c /Users/maximus.farvour/Documents/MaxCore_REMASTERED/lua-5.7.2/src/maxcore_bootstrap.c
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/lua_runner.dir/lua-5.7.2/src/maxcore_bootstrap.c.o -MF CMakeFiles/lua_runner.dir/lua-5.7.2/src/maxcore_bootstrap.c.o.d -o CMakeFiles/lua_runner.dir/lua-5.7.2/src/maxcore_bootstrap.c.o -c /Users/maximus.farvour/Documents/MaxCore_REMASTERED/lua-5.7.2/src/maxcore_bootstrap.c
 
 CMakeFiles/lua_runner.dir/lua-5.7.2/src/maxcore_bootstrap.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/lua_runner.dir/lua-5.7.2/src/maxcore_bootstrap.c.i"
-	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/maximus.farvour/Documents/MaxCore_REMASTERED/lua-5.7.2/src/maxcore_bootstrap.c > CMakeFiles/lua_runner.dir/lua-5.7.2/src/maxcore_bootstrap.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/maximus.farvour/Documents/MaxCore_REMASTERED/lua-5.7.2/src/maxcore_bootstrap.c > CMakeFiles/lua_runner.dir/lua-5.7.2/src/maxcore_bootstrap.c.i
 
 CMakeFiles/lua_runner.dir/lua-5.7.2/src/maxcore_bootstrap.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/lua_runner.dir/lua-5.7.2/src/maxcore_bootstrap.c.s"
-	/usr/bin/clang $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/maximus.farvour/Documents/MaxCore_REMASTERED/lua-5.7.2/src/maxcore_bootstrap.c -o CMakeFiles/lua_runner.dir/lua-5.7.2/src/maxcore_bootstrap.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/maximus.farvour/Documents/MaxCore_REMASTERED/lua-5.7.2/src/maxcore_bootstrap.c -o CMakeFiles/lua_runner.dir/lua-5.7.2/src/maxcore_bootstrap.c.s
 
 # Object files for target lua_runner
 lua_runner_OBJECTS = \

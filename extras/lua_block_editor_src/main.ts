@@ -33,7 +33,7 @@ const ToolboxPalette: Array<{config: BlockBuilderMachine.BlockConfig, op?: Funct
             fill: "#fcbe03",
             font: "12px Arial, monospace",
             geometry: CommandGeometry,
-            lua_code: `loadstring([[{0}]])`,
+            lua_code: `loadstring({0})`,
             template: true,
         },
         options: {
@@ -48,7 +48,13 @@ const ToolboxPalette: Array<{config: BlockBuilderMachine.BlockConfig, op?: Funct
         },
     },
     {
-        config: { fill: "#505eb0", font: "12px Arial, monospace", geometry: CommandGeometry, template: true },
+        config: {
+            fill: "#505eb0",
+            font: "12px Arial, monospace",
+            lua_code: "print({0})",
+            geometry: CommandGeometry,
+            template: true,
+        },
         options: {
             type: BlockBuilderMachine.CommandBlocks.COM,
             text: "<em>{func}</em><strong>print</strong>",
@@ -61,7 +67,13 @@ const ToolboxPalette: Array<{config: BlockBuilderMachine.BlockConfig, op?: Funct
         },
     },
     {
-        config: { fill: "#30c646", font: "12px Arial, monospace", geometry: ReporterGeometry, template: true },
+        config: {
+            fill: "#30c646",
+            font: "12px Arial, monospace",
+            geometry: ReporterGeometry,
+            lua_code: "string.format({0}, {1})",
+            template: true,
+        },
         options: {
             type: BlockBuilderMachine.CommandBlocks.REP,
             text: "<em>{lfunc}</em><strong>string.format</strong>",
@@ -104,7 +116,13 @@ const ToolboxPalette: Array<{config: BlockBuilderMachine.BlockConfig, op?: Funct
         options: { text: "<em>{bool}</em><strong>EngineCore Online?</strong>", type: BlockBuilderMachine.CommandBlocks.REP },
     },
     {
-        config: { fill: "#5486e2", font: "12px Arial, monospace", geometry: ReporterGeometry, template: true },
+        config: {
+            fill: "#5486e2",
+            font: "12px Arial, monospace",
+            geometry: ReporterGeometry,
+            lua_code: "_G.EngineCore",
+            template: true,
+        },
         options: { type: BlockBuilderMachine.CommandBlocks.REP, text: "<em>{global}</em><strong>EngineCore</strong>" },
     },
 ];
@@ -123,6 +141,7 @@ async function setup_toolbox(): Promise<BlockBuilderMachine.Block[]> {
             }
 
             BlockBuilderMachine.VM.inject_block(block);
+            block.remove_connectors();
             blocks.push(block);
         }
 
@@ -137,3 +156,11 @@ async function setup_toolbox(): Promise<BlockBuilderMachine.Block[]> {
     const ToolboxBlocks = await setup_toolbox();
     console.debug(ToolboxBlocks);
 })();
+
+Object.assign(window, {
+    debug_blocks: function(): void { 
+        BlockBuilderMachine.VM.get_blocks().forEach((block: VirtualMachine.BlockDefinition) => {
+            console.debug(block);
+        });
+    },
+});
