@@ -1,5 +1,9 @@
 import { BlockBuilderMachine } from "./block_constructor.js";
 
+/**
+     $id: Block Lua Builder - Virtual Machine $
+*/
+
 type Block = BlockBuilderMachine.Block;
 type BlockInput = BlockBuilderMachine.BlockInput;
 
