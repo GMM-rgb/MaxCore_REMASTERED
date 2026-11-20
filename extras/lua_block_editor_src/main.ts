@@ -160,7 +160,7 @@ async function setup_toolbox(): Promise<BlockBuilderMachine.Block[]> {
 Object.assign(window, {
     debug_blocks: function(): void { 
         BlockBuilderMachine.VM.get_blocks().forEach((block: VirtualMachine.BlockDefinition) => {
-            console.debug(block);
+            console.debug("BLOCK DEBUG:\t" + block);
         });
     },
 });

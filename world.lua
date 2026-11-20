@@ -11,12 +11,18 @@ local renderer = GameWindow:GetRenderer() or {}
 local wdx, wdy = GameWindow:GetDimensions()
 local toolbar_padding = 10
 
-GameWindow:SetAliasingQuality("2d", 3)
+GameWindow:SetAliasingQuality("2d", 4)
 EngineCore.ColorPrint("INFO", renderer.description, "NAME:\t" .. renderer.name:upper())
 
-local TestVector = Vector3.new(2, 2, 2)
-local i = TestVector * Vector3.new(5, 4, 7)
-EngineCore.ColorPrint("DEBUG", i.x, i.y, i.z, "MAG:", i.Magnitude)
+-- GameWindow:LoadImage("")
+-- local MyText = GameWindow:CreateText("i'm alive!\n - Virtual Machine", 50, 50, 8, 255, 255, 255, 128)
+-- MyText:SetStroke(255, 255, 255, 0.125)
+-- MyText:SetAlign("center")
+-- MyText:Render(GameWindow)
+
+-- for i, v in pairs(getmetatable(MyText)) do
+--     print(i, v)
+-- end
 
 local ToolbarInterface = GameWindow:CreateRect(0, 0, 200, 50, 210, 210, 210)
 ToolbarInterface = ToolbarInterface:ApplyStyle(ToolbarBorder)
@@ -26,7 +32,7 @@ local InventoryButton = GameWindow:CreateRect(0, 0)
 
 local function update_inventory_button()
     local ToolbarX, ToolbarY = ToolbarInterface:GetPosition()
-    InventoryButton:SetPosition(ToolbarX + toolbar_padding, ToolbarY + toolbar_padding)
+    InventoryButton:SetPosition(Vector2.new(ToolbarX + toolbar_padding, ToolbarY + toolbar_padding))
     InventoryButton.Size.h = ToolbarInterface.Size.h - toolbar_padding * 2
     InventoryButton.Size.w = 50 % ToolbarInterface.Size.w
 end
@@ -34,7 +40,7 @@ end
 ---@return nil
 local function update_toolbar_position()
     local toolbar_pos_x = (wdx / 2) - (ToolbarInterface.Size.w / 2) -- calculate based on width and window x dimension
-    ToolbarInterface:SetPosition(toolbar_pos_x, wdy - ToolbarInterface.Size.h - 10)
+    ToolbarInterface:SetPosition(Vector2.new(toolbar_pos_x, wdy - ToolbarInterface.Size.h - 10))
     ToolbarInterface.Size.w = wdx - 20
     update_inventory_button()
 end

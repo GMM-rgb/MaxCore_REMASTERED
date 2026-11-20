@@ -2,7 +2,7 @@
 -- services/sub_modules/game_object.lua
 -- =========================================================================
 local InstanceTyping = require("instance_type")
-local PseudoStyles = require("sub_modules.pseudo_styles") --- @diagnostic disable-line
+local PseudoStyles = require("sub_modules.pseudo_styles")
 
 -- Pulls the SAME Event class every other service uses (Connect/Fire/etc,
 -- see max_core.lua) so GameObject.Collided behaves identically to every
@@ -20,17 +20,17 @@ local PseudoStyles = require("sub_modules.pseudo_styles") --- @diagnostic disabl
 -- constructed guarantees max_core.lua has long since finished loading.
 local _EventClass = nil
 local function NewCollidedEvent()
-    if not _EventClass then _EventClass = EngineCore.Event end
+    if not _EventClass then
+        _EventClass = require("max_core").call().Event
+    end
     return _EventClass.new("Collided")
 end
-
-local RuntimeService = EngineCore:LoadService("RunnerService")
 
 -- Minimal structural type for the `window` argument every Render method
 -- receives. WindowObject itself is declared in window_service.lua, which
 -- requires THIS file, so naming it here would be a require cycle; this
 -- interface lists only the drawing calls objects actually use, and
--- WindowObject satisfies it structurally. (WIP)
+-- WindowObject satisfies it structurally.
 ---@class RenderSurface
 ---@field DrawRectangle fun(self: RenderSurface, x: number, y: number, w: number, h: number, r: integer, g: integer, b: integer)
 ---@field DrawLine fun(self: RenderSurface, x0: number, y0: number, x1: number, y1: number, r: integer, g: integer, b: integer)
@@ -42,31 +42,42 @@ local RuntimeService = EngineCore:LoadService("RunnerService")
 ---@field CreateTextureSet fun(self: RenderSurface): integer?
 ---@field BindTexture fun(self: RenderSurface, setId: integer, slot: integer, imageId: integer, options: TextureOptions?): boolean
 ---@field DestroyTextureSet fun(self: RenderSurface, setId: integer?): boolean
+---@field RenderText fun(self: RenderSurface, text: string, options: TextOptions?): integer?, integer|string?, integer?
 ---@field RenderTextToImage fun(self: RenderSurface, existingImgId: integer?, text: string, scale: integer, r: integer, g: integer, b: integer, quality: integer?, strokeR: integer?, strokeG: integer?, strokeB: integer?, strokeWidth: integer?): integer?, integer?, integer?
 ---@field DrawCube fun(self: RenderSurface, px: number, py: number, pz: number, rx: number, ry: number, rz: number, sx: number, sy: number, sz: number, r: integer, g: integer, b: integer, fillMode: any, textureSetId: integer?)
 ---@field DrawMesh fun(self: RenderSurface, vertices: table, faces: table, px: number, py: number, pz: number, rx: number, ry: number, rz: number, sx: number, sy: number, sz: number, r: integer, g: integer, b: integer, fillMode: any, textureSetId: integer?, uvs: table?)
 
+
 ---@class GameObject
----@field Position Vector3 # World position offset
----@field Rotation Vector3 # Euler rotations (radians)
----@field Scale Vector3 # Object scale multipliers
----@field Color { r: integer, g: integer, b: integer } # RGB rendering color (0-255)
----@field Visible boolean # Lifecycle visibility toggle
----@field public _prev GameObject
----@field private _updateThread RunnerConnection # ...
----@field private _childEvents table<Event, EventConnection> # ...
----@field _physicsBody PhysicsBody? # Set by WindowObject:BindPhysics; nil until this object is bound to physics
----@field Collided Event # Fires (self:Fire(otherGameObject)) every Step for as long as this object's PhysicsBody stays touching another's -- only meaningful once BindPhysics has been called; see WindowObject:StepPhysics
----@field Vertices Vertex3[]? # Only present on MeshObject (declared here, nilable, so code that takes a plain GameObject -- e.g. WindowObject:BindPhysics's {shape="hull"} path -- can check gameObject.Vertices without the language server complaining); see MeshObject's own (non-nilable) override below
----@field Faces MeshFace[]? # Only present on MeshObject, same reasoning as Vertices above
----@field Styles table<string, PseudoStyle> # Attached style elements, one per kind (see PseudoStyles)
----@field TypeName string # Class name, used to check which styles an object accepts
----@field Children GameObject[] | { AppendElement: fun(self: table, target: GameObject, element: GameObject): nil }
----@field Changed Event
+---@field Position Vector3 World position offset
+---@field Rotation Vector3 Euler rotations (radians)
+---@field Scale Vector3 Object scale multipliers
+---@field Color { r: integer, g: integer, b: integer } RGB rendering color (0-255)
+---@field Visible boolean Lifecycle visibility toggle
+---@field Children GameObject[] Child objects
+---@field Changed Event Fires when supported setters change object properties
+---@field _physicsBody PhysicsBody? Set by WindowObject:BindPhysics; nil until this object is bound to physics
+---@field Collided Event Fires (self:Fire(otherGameObject)) every Step for as long as this object's PhysicsBody stays touching another's -- only meaningful once BindPhysics has been called; see WindowObject:StepPhysics
+---@field Vertices Vertex3[]? Only present on MeshObject (declared here, nilable, so code that takes a plain GameObject -- e.g. WindowObject:BindPhysics's {shape="hull"} path -- can check gameObject.Vertices without the language server complaining); see MeshObject's own (non-nilable) override below
+---@field Faces MeshFace[]? Only present on MeshObject, same reasoning as Vertices above
+---@field Styles table<string, PseudoStyle> Attached style elements, one per kind (see PseudoStyles)
+---@field TypeName string Class name, used to check which styles an object accepts
+---@field AppendChild fun(target: GameObject, element: GameObject): integer Appends a child and returns its index
 local GameObject = {}
 GameObject.__index = GameObject
 InstanceTyping.SetType(GameObject, "GameObject")
-GameObject.Children = {}
+
+---Appends a GameObject to another object's Children list and returns the inserted index.
+---@param target GameObject
+---@param element GameObject
+---@return integer index
+function GameObject.AppendChild(target, element)
+    assert(type(target) == "table" and target.Children, "target must be a GameObject with Children")
+    assert(type(element) == "table", "element must be a GameObject")
+    local index = #target.Children + 1
+    table.insert(target.Children, element)
+    return index
+end
 
 -- Forward-declared: ImageObject is defined further down in this file,
 -- but TextObject.new (defined before it) needs to reference it to
@@ -92,27 +103,12 @@ function GameObject.new()
     self.Position = Vector3.new(0.0, 0.0, 0.0)
     self.Rotation = Vector3.new(0.0, 0.0, 0.0)
     self.Scale = Vector3.new(1.0, 1.0, 1.0)
+    ---@type GameObject[]
+    self.Children = {}
     self.Color = { r = 255, g = 255, b = 255 }
     self.Visible = true
     self.Collided = NewCollidedEvent()
     self.Styles = {}
-    self._prev = self
-
-    self._updateThread = RuntimeService.Stepped:Connect(function(dt)
-        for key, value in pairs(getmetatable(self)) do
-            if type(key) == "string" then
-                if self._prev[key] ~= value then
-                    self.Changed:Fire(key, value)
-                    io.stdout:write(key .. "\n")
-                end
-            end
-        end
-
-        if self._prev ~= self then
-            self._prev = self
-        end
-    end, { yieldable = true, reentrant = false })
-
     return self
 end
 
@@ -161,7 +157,9 @@ end
 ---@param options TextureOptions?
 ---@return T
 function GameObject:SetTexture(imageId, face, options)
-    if imageId == nil then return self:RemoveStyle("texture") end
+    if imageId == nil then
+        return self:RemoveStyle("texture")
+    end
     local fresh = PseudoStyles.new("texture", imageId, face, options)
     local old = self.Styles.texture --[[@as TextureStyle?]]
     if old then
@@ -171,21 +169,6 @@ function GameObject:SetTexture(imageId, face, options)
         end
     end
     return self:ApplyStyle(fresh)
-end
-
----@param target GameObject
----@param element GameObject
----@return integer # the appeneded element index
-function GameObject.Children:AppendElement(target, element)
-    assert(element, "element is required to apply a new child!")
-
-    for _, obj in ipairs(self) do
-        if obj == element then
-            break
-        end
-    end
-
-    return table.insert(target.Children, element)
 end
 
 ---Detaches the style of this kind, if any, and frees anything it owned.
@@ -211,13 +194,11 @@ function GameObject:GetStyle(kind)
     return self.Styles[kind]
 end
 
----Sets position coordinates.
----@param x number?
----@param y number?
----@param z number?
-function GameObject:SetPosition(x, y, z)
-    self.Position.x, self.Position.y, self.Position.z = x or 0.0, y or 0.0, z or 0.0
-    self.Changed:Fire("Position", { x = x, y = y, z = z })
+---Sets position from a Vector2 or Vector3. Vector2 positions default z to zero.
+---@param position Vector3|Vector2
+function GameObject:SetPosition(position)
+    self.Position = Vector3.new(position.x, position.y, position.z or 0)
+    self.Changed:Fire("Position", self.Position)
 end
 
 ---Sets euler rotation angles in radians.
@@ -226,7 +207,7 @@ end
 ---@param rz number?
 function GameObject:SetRotation(rx, ry, rz)
     self.Rotation.x, self.Rotation.y, self.Rotation.z = rx or 0.0, ry or 0.0, rz or 0.0
-    self.Changed:Fire("Rotation", { x = rx, y = ry, z = rz })
+    self.Changed:Fire("Rotation", self.Rotation)
 end
 
 ---Sets scale components.
@@ -235,6 +216,7 @@ end
 ---@param sz number?
 function GameObject:SetScale(sx, sy, sz)
     self.Scale.x, self.Scale.y, self.Scale.z = sx or 1.0, sy or 1.0, sz or 1.0
+    self.Changed:Fire("Scale", self.Scale)
 end
 
 ---Sets RGB color values.
@@ -243,6 +225,7 @@ end
 ---@param b integer?
 function GameObject:SetColor(r, g, b)
     self.Color.r, self.Color.g, self.Color.b = r or 255, g or 255, b or 255
+    self.Changed:Fire("Color", self.Color)
 end
 
 ---Gets world position coordinates as a tuple.
@@ -288,16 +271,16 @@ function GameObject:Destroy() end
 ---@param window RenderSurface
 function GameObject:Render(window) end
 
----Fetches the applied GameObjects on this element.
----@param self GameObject
+---Returns a copy of the current child list.
+---@return GameObject[]
 function GameObject:GetChildren()
     local children = {}
-
-    for event, _ in pairs(self._childEvents) do event:Fire() end -- ensure update before fetch
-    for _, child in ipairs(self.Children) do if child then table.insert(children, child) end end
-
-    return {}
+    for _, child in ipairs(self.Children or {}) do
+        if child then table.insert(children, child) end
+    end
+    return children
 end
+
 
 ---Objects that can draw an outline (RectObject, CircleObject, PolygonObject).
 ---Declared once so the border hooks below are typed against the fields they set.
@@ -360,7 +343,7 @@ InstallBorderHooks(RectObject)
 ---@return RectObject
 function RectObject.new(x, y, w, h, r, g, b)
     local self = setmetatable(GameObject.new(), RectObject) --[[@as RectObject]]
-    self:SetPosition(x or 0, y or 0, 0)
+    self:SetPosition(Vector2.new(x or 0, y or 0))
     self.Size = { w = w or 100, h = h or 100 }
     self:SetColor(r or 255, g or 255, b or 255)
     self.BorderColor = nil
@@ -465,7 +448,7 @@ InstallBorderHooks(CircleObject)
 ---@return CircleObject
 function CircleObject.new(cx, cy, radius, fill, r, g, b)
     local self = setmetatable(GameObject.new(), CircleObject) --[[@as CircleObject]]
-    self:SetPosition(cx or 0, cy or 0, 0)
+    self:SetPosition(Vector2.new(cx or 0, cy or 0))
     self.Radius = radius or 50
     self.Fill = fill or false
     self:SetColor(r or 255, g or 255, b or 255)
@@ -517,7 +500,7 @@ LineObject.TypeName = "LineObject"
 ---@return LineObject
 function LineObject.new(x0, y0, x1, y1, r, g, b)
     local self = setmetatable(GameObject.new(), LineObject) --[[@as LineObject]]
-    self:SetPosition(x0 or 0, y0 or 0, 0)
+    self:SetPosition(Vector2.new(x0 or 0, y0 or 0))
     self.EndPosition = { x = x1 or 100, y = y1 or 100 }
     self:SetColor(r or 255, g or 255, b or 255)
     return self
@@ -571,10 +554,16 @@ TextObject.TypeName = "TextObject"
 function TextObject.new(text, x, y, scale, r, g, b, quality)
     local self = setmetatable(GameObject.new(), TextObject) --[[@as TextObject]]
     self.Text = text or ""
-    self:SetPosition(x or 0, y or 0, 0)
+    self:SetPosition(Vector2.new(x or 0, y or 0))
     self.TextScale = scale or 1
     self.Quality = quality or 0
     self.Resolution = 4
+    -- Text is drawn with a TrueType font by default. "blocky" selects the old 8x8 bitmap font, which is also what
+    -- the object falls back to if the TrueType renderer is unavailable or fails.
+    self.Font = nil              -- a font id from WindowObject:LoadFont, or "blocky"; nil = the built-in TrueType font
+    self.FontSize = nil          -- text height in pixels per unit of TextScale; nil = TEXT_PIXELS_PER_SCALE
+    self.Align = "left"
+    self.WrapWidth = nil         -- wrap lines at this many pixels (before TextScale); nil = no wrapping
     self.StrokeColor = nil
     self.StrokeWidth = 1
     self:SetColor(r or 255, g or 255, b or 255)
@@ -601,6 +590,40 @@ function TextObject.new(text, x, y, scale, r, g, b, quality)
     self._cachedHeight = 0
     self._dirty = true
     return self
+end
+
+---How many pixels tall one unit of TextScale makes TrueType text. Chosen so an "H" is the same height as the old 8x8
+---bitmap font at the same scale (7 px at scale 1). Proportional fonts are narrower than the fixed 8x8 grid, so the same
+---string is about 40% narrower; change FontSize on an object if you want to match widths instead.
+local TEXT_PIXELS_PER_SCALE = 10
+
+---Chooses the font. Pass a font id from WindowObject:LoadFont, "blocky" for the old bitmap font, or nil for the
+---built-in TrueType font.
+---@param font (integer | "blocky")?
+function TextObject:SetFont(font)
+    self.Font = font
+    self._dirty = true
+end
+
+---Sets the TrueType text height, in pixels per unit of TextScale (nil restores the default).
+---@param size number?
+function TextObject:SetFontSize(size)
+    self.FontSize = size
+    self._dirty = true
+end
+
+---Sets how wrapped lines line up against each other.
+---@param align TextAlign
+function TextObject:SetAlign(align)
+    self.Align = align or "left"
+    self._dirty = true
+end
+
+---Wraps the text to this many pixels wide (nil = never wrap).
+---@param width number?
+function TextObject:SetWrapWidth(width)
+    self.WrapWidth = width
+    self._dirty = true
 end
 
 ---Sets string content for the text object.
@@ -685,16 +708,39 @@ function TextObject:Render(window)
     self._ownerWindow = window
 
     if self._dirty or not self._imageId then
-        local strokeR, strokeG, strokeB, strokeWidth
-        if self.StrokeColor then
-            strokeR, strokeG, strokeB = self.StrokeColor.r, self.StrokeColor.g, self.StrokeColor.b
-            strokeWidth = self.StrokeWidth
+        local imgId, w, h
+        if self.Font ~= "blocky" then
+            -- TrueType. The bitmap is built at Resolution x the on-screen size and scaled down for the screen,
+            -- the same trick the blocky path uses, so TextScale stays a cheap blit and sizes stay comparable.
+            local pixels = (self.FontSize or TEXT_PIXELS_PER_SCALE) * self.Resolution
+            local options = { ---@type TextOptions
+                font = self.Font --[[@as integer?]],
+                size = pixels,
+                color = { self.Color.r, self.Color.g, self.Color.b },
+                align = self.Align,
+                width = self.WrapWidth and self.WrapWidth * self.Resolution or nil,
+                image = self._imageId,
+            }
+            if self.StrokeColor then
+                options.stroke = { color = { self.StrokeColor.r, self.StrokeColor.g, self.StrokeColor.b }, width = self.StrokeWidth * self.Resolution }
+            end
+            local result, a, b = window:RenderText(self.Text, options)
+            if result then imgId, w, h = result, a --[[@as integer]], b
+            else self._lastFontError = a --[[@as string?]] end        -- fall through to the bitmap font below
         end
-        local imgId, w, h = window:RenderTextToImage(
-            self._imageId, self.Text, self.Resolution,
-            self.Color.r, self.Color.g, self.Color.b, self.Quality,
-            strokeR, strokeG, strokeB, strokeWidth
-        )
+        if not imgId then
+            -- Blocky bitmap font: asked for with Font = "blocky", or the fallback when TrueType could not draw this text.
+            local strokeR, strokeG, strokeB, strokeWidth
+            if self.StrokeColor then
+                strokeR, strokeG, strokeB = self.StrokeColor.r, self.StrokeColor.g, self.StrokeColor.b
+                strokeWidth = self.StrokeWidth
+            end
+            imgId, w, h = window:RenderTextToImage(
+                self._imageId, self.Text, self.Resolution,
+                self.Color.r, self.Color.g, self.Color.b, self.Quality,
+                strokeR, strokeG, strokeB, strokeWidth
+            )
+        end
         self._imageId = imgId
         self._cachedWidth = w or 0
         self._cachedHeight = h or 0
@@ -707,7 +753,7 @@ function TextObject:Render(window)
     local destW = self._cachedWidth * (self.TextScale * self.Scale.x) / self.Resolution
     local destH = self._cachedHeight * (self.TextScale * self.Scale.y) / self.Resolution
 
-    self._image:SetPosition(self.Position.x, self.Position.y, self.Position.z)
+    self._image:SetPosition(Vector3.new(self.Position.x, self.Position.y, self.Position.z))
     self._image.Visible = self.Visible
     if math.floor(destW + 0.5) == self._cachedWidth and math.floor(destH + 0.5) == self._cachedHeight then
         self._image:ClearSize() -- exact native size -- cheap 1:1 blit, no resample needed
@@ -852,7 +898,7 @@ ImageObject.TypeName = "ImageObject"
 function ImageObject.new(imageId, x, y)
     local self = setmetatable(GameObject.new(), ImageObject) --[[@as ImageObject]]
     self.ImageId = imageId
-    self:SetPosition(x or 0, y or 0, 0)
+    self:SetPosition(Vector2.new(x or 0, y or 0))
     self._destWidth = nil
     self._destHeight = nil
     return self
@@ -995,7 +1041,7 @@ function CubeObject.new(px, py, pz, size, r, g, b, fillMode)
     -- Preserves the original default (plain `true` -> wireframe) when no
     -- fillMode is given, while accepting the richer string/int modes too.
     self.Wireframe = (fillMode == nil and true or fillMode) --[[@as CubeFillMode|boolean|integer]]
-    self:SetPosition(px or 0.0, py or 0.0, pz or 3.0)
+    self:SetPosition(Vector3.new(px or 0.0, py or 0.0, pz or 3.0))
     local s = size or 1.0
     self:SetScale(s, s, s)
     self:SetColor(r or 0, g or 255, b or 0)

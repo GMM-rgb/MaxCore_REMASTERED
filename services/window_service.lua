@@ -40,6 +40,38 @@ local PhysicsModule = require("sub_modules.physics_object")
 ---| '"2d"' # 2D primitives: lines, circles, filled polygons
 ---| '"3d"' # 3D primitives: cube/mesh wireframe edges, points, and solid faces
 
+---@alias TextAlign
+---| '"left"'
+---| '"center"'
+---| '"right"'
+
+---@class TextColor : integer[]
+---@field [1] integer red 0-255
+---@field [2] integer green 0-255
+---@field [3] integer blue 0-255
+---@field [4] integer? alpha 0-255 (default 255)
+
+---@class TextStroke
+---@field color (TextColor | integer)? Outline colour, {r, g, b[, a]} (default black)
+---@field width number? Outline thickness in pixels, above 0 and at most 32 (default 1)
+
+---@class TextOptions
+---@field font integer? A font id from LoadFont. Default 0, the built-in Arial-compatible font.
+---@field size number? Text height in pixels, 1 to 1024 (default 16)
+---@field color (TextColor | integer)? Fill colour, {r, g, b[, a]} or one 0xAARRGGBB number (default white)
+---@field stroke TextStroke? Outline around the letters
+---@field align TextAlign? How lines sit against each other when wrapped (default "left")
+---@field width number? Wrap lines at this many pixels (default: no wrapping)
+---@field spacing number? Line height multiplier (default 1)
+---@field image integer? An existing image id to REPLACE in place instead of making a new one
+
+---@class FontInfo
+---@field name string
+---@field glyphs integer How many characters the font contains
+---@field ascent number Height above the baseline, as a fraction of the text size
+---@field descent number Depth below the baseline (negative), as a fraction of the text size
+---@field lineHeight number Distance between lines, as a fraction of the text size
+
 ---@class NativeWindowInterface
 ---@field create_window fun(title: string, width: integer, height: integer, renderer: RendererName?): integer?, string?
 ---@field set_renderer fun(id: integer, name: RendererName): boolean?, string?
@@ -58,7 +90,7 @@ local PhysicsModule = require("sub_modules.physics_object")
 ---@field focus fun(id: integer): nil
 ---@field get_mouse_position fun(id: integer): number?, number? Cursor position inside the window's client area, top-left origin; nil, nil if unavailable
 ---@field set_window_icon fun(id: integer, path: string|string[], ...: string|boolean): boolean?, string? true on success; nil plus a reason on failure. With a table of paths, a trailing true means "this window only"
----@field show_alert fun(title: string, message: string, style: string?, buttons: string?, parentWinId: integer?): string result "ok"|"cancel"|"yes"|"no"
+---@field show_alert fun(title: string, message: string, style: AlertStyle?, buttons: AlertButtons?, parentWinId: integer?): AlertResult
 ---@field should_close fun(id: integer): boolean
 ---@field clear_canvas fun(id: integer, r: integer, g: integer, b: integer): nil
 ---@field draw_rect fun(id: integer, x: integer, y: integer, w: integer, h: integer, r: integer, g: integer, b: integer): nil
@@ -66,21 +98,29 @@ local PhysicsModule = require("sub_modules.physics_object")
 ---@field draw_circle fun(id: integer, cx: integer, cy: integer, r: integer, fill: boolean, red: integer, green: integer, blue: integer): nil
 ---@field draw_text fun(id: integer, text: string, x: integer, y: integer, scale: integer?, r: integer?, g: integer?, b: integer?, quality: integer?): integer effectiveQuality
 ---@field get_max_text_quality fun(): integer
----@field set_aliasing_quality fun(id: integer, mode: string, quality: integer?): integer effectiveQuality
----@field get_aliasing_quality fun(id: integer, mode: string): integer
+---@field set_aliasing_quality fun(id: integer, mode: AliasingMode, quality: integer?): integer effectiveQuality
+---@field get_aliasing_quality fun(id: integer, mode: AliasingMode): integer
 ---@field get_max_alias_quality fun(): integer
----@field draw_polygon fun(id: integer, pointsOrFill: table|boolean, ...): nil
----@field create_image fun(width: integer, height: integer, pixelArray: table?, format: PixelFormat?, onColor: integer?): integer?, string? Returns nil plus a message when the size is invalid or too large
+---@field draw_polygon fun(id: integer, pointsOrFill: table|boolean, ...: any): nil
+---@field create_image fun(width: integer, height: integer, pixelArray: PixelValue[]?, format: PixelFormat?, onColor: integer?): integer?, string? Returns nil plus a message when the size is invalid or too large
 ---@field set_pixel fun(imageId: integer, x: integer, y: integer, value: PixelValue, onColor: integer?): boolean 0-based x,y; false for an unknown image or out-of-range pixel
----@field fill_pixels fun(imageId: integer, x: integer, y: integer, w: integer, h: integer, pixelArray: table, format: PixelFormat?, onColor: integer?): boolean
+---@field fill_pixels fun(imageId: integer, x: integer, y: integer, w: integer, h: integer, pixelArray: PixelValue[], format: PixelFormat?, onColor: integer?): boolean
 ---@field destroy_image fun(imageId: integer): boolean
 ---@field image_stats fun(): integer, integer How many images exist, and how many bytes of pixel storage they hold
 ---@field create_texture_set fun(): integer
----@field texture_set_bind fun(setId: integer, faceSlot: integer, imageId: integer, options: TextureOptions?): boolean
----@field texture_set_unbind fun(setId: integer, faceSlot: integer): boolean
+---@field texture_set_bind fun(setId: integer, faceSlot: integer, imageId: integer, options: TextureOptions?): boolean?, string?
+---@field texture_set_unbind fun(setId: integer, faceSlot: integer): boolean?, string?
 ---@field destroy_texture_set fun(setId: integer): boolean Frees the set only; the images it referenced are untouched
 ---@field draw_image fun(id: integer, imgId: integer, x: integer, y: integer): nil
 ---@field draw_image_scaled fun(id: integer, imgId: integer, x: integer, y: integer, destW: integer, destH: integer): nil
+---@field render_text fun(text: string, options: TextOptions?): integer?, integer|string?, integer?
+---@field measure_text fun(text: string, options: TextOptions?): number|nil, number|string?, integer?
+---@field load_font fun(path: string): integer?, string?
+---@field load_font_data fun(bytes: string): integer?, string?
+---@field destroy_font fun(fontId: integer): boolean
+---@field font_info fun(fontId: integer?): FontInfo|nil, string?
+---@field load_image fun(path: string, options: { flip: boolean? }?): integer?, integer|string?, integer?
+---@field image_info fun(imageId: integer): integer|nil, integer|string?
 ---@field render_text_to_image fun(existingImgId: integer?, text: string, scale: integer?, r: integer?, g: integer?, b: integer?, quality: integer?, strokeR: integer?, strokeG: integer?, strokeB: integer?, strokeWidth: integer?): integer?, integer?, integer?
 ---@field draw_cube fun(id: integer, px: number, py: number, pz: number, rx: number, ry: number, rz: number, sx: number, sy: number, sz: number, r: integer, g: integer, b: integer, fillMode: CubeFillMode|boolean|integer?, textureSetId: integer?): nil
 ---@field draw_mesh fun(id: integer, vertices: Vertex3[], faces: MeshFace[], px: number, py: number, pz: number, rx: number, ry: number, rz: number, sx: number, sy: number, sz: number, r: integer, g: integer, b: integer, fillMode: CubeFillMode|boolean|integer?, textureSetId: integer?, uvs: table?): nil
@@ -107,6 +147,7 @@ local PhysicsModule = require("sub_modules.physics_object")
 ---@field get_active_light fun(winId: integer): integer?
 ---@field swap_buffers fun(id: integer): nil
 ---@field destroy fun(id: integer): nil
+
 
 ---@type boolean, NativeWindowInterface|string
 local native_ok, window_interface = pcall(require, "window_management")
@@ -355,7 +396,7 @@ local openWindows = setmetatable({}, { __mode = "v" })
 local defaultIconPaths = nil
 
 ---@class WindowIconOptions
----@field scope ('"window"'|'"all"')? "window" = only the window you call it on (default). "all" = every window that is open right now.
+---@field scope ('"window"' | '"all"')? "window" = only the window you call it on (default). "all" = every window that is open right now.
 ---@field all boolean? Shorthand: true is the same as scope = "all", false the same as "window". scope wins if both are given.
 ---@field default boolean? With scope "all": windows created AFTER this call also start with this icon. Default false.
 
@@ -397,9 +438,9 @@ WindowService.PhysicsGroups = PhysicsModule.PhysicsGroups
 ---@param title string? Title text displayed on window titlebar
 ---@param width integer? Framebuffer width in pixels
 ---@param height integer? Framebuffer height in pixels
----@param renderer RendererName? Renderer to initialize with
+---@param renderer RendererName? Renderer to request when creating the native window (default "auto")
 ---@return WindowObject? window
----@return string? error
+---@return string? error Native creation failure or renderer-selection error
 function WindowObject.new(title, width, height, renderer)
     if not native_ok or type(window_interface) == "string" then return nil end
 
@@ -459,7 +500,7 @@ end
 ---Whether this window currently has keyboard focus (is the active
 ---window). Windows/macOS answer live from the OS; on X11 this is kept up
 ---to date by the FocusIn/FocusOut events handled in PollEvents, so call
----PollEvents every frame (does for input/close handling).
+---PollEvents every frame (you already do for input/close handling).
 ---@return boolean focused
 function WindowObject:IsFocused()
     if native_ok and type(window_interface) ~= "string" and self._isOpen then
@@ -627,13 +668,23 @@ function WindowObject:ShowAlert(title, message, style, buttons)
     return "ok"
 end
 
+---Toggles borderless fullscreen mode.
+---@param enable boolean Fullscreen enable status
+---@return nil
+function WindowObject:SetFullscreen(enable)
+    if native_ok and type(window_interface) ~= "string" then
+        window_interface.set_fullscreen(self._id, enable)
+        self:GetDimensions()
+    end
+end
+
 ---Switches the 3D renderer of this window.
 ---"software", "vulkan" and "cpu" can be switched freely. "opengl" needs an OpenGL-capable window: on Linux that must
 ---be chosen when the window is created, and on Windows a window that has used OpenGL cannot go back. In those cases
 ---this returns nil and says why, and the window keeps working with its current renderer.
 ---@param name RendererName
 ---@return boolean? ok
----@return string? reasonOrNote Why it failed, or (on success) a note if a fallback was used
+---@return string? reasonOrNote  why it failed, or (on success) a note if a fallback was used
 function WindowObject:SetRenderer(name)
     if not self._isOpen then return nil, "window is closed" end
     if not (native_ok and type(window_interface) ~= "string") then return nil, "native window module is not available" end
@@ -649,16 +700,6 @@ function WindowObject:GetRenderer()
     local name, description = window_interface.get_renderer(self._id)
     if not name then return nil end
     return { name = name --[[@as RendererName]], description = description, note = self._rendererNote }
-end
-
----Toggles borderless fullscreen mode.
----@param enable boolean Fullscreen enable status
----@return nil
-function WindowObject:SetFullscreen(enable)
-    if native_ok and type(window_interface) ~= "string" then
-        window_interface.set_fullscreen(self._id, enable)
-        self:GetDimensions()
-    end
 end
 
 ---Gets the window's current screen position (top-left corner on
@@ -819,10 +860,11 @@ end
 ---@return integer? imageId Handle identifier, nil if the size is invalid
 ---@return string? err
 function WindowObject:CreateImage(width, height, pixelArray, format, onColor)
-    if native_ok and type(window_interface) ~= "string" then
-        return window_interface.create_image(width, height, pixelArray, format, onColor)
+    if not (native_ok and type(window_interface) ~= "string") then return nil, "native window module is not available" end
+    if math.type(width) ~= "integer" or math.type(height) ~= "integer" then
+        return nil, "CreateImage: width and height must be whole numbers, got " .. tostring(width) .. " x " .. tostring(height)
     end
-    return nil
+    return window_interface.create_image(width, height, pixelArray, format, onColor)
 end
 
 ---Turns one pixel of an image on or off, or sets its color.
@@ -943,6 +985,100 @@ function WindowObject:RenderTextToImage(existingImgId, text, scale, r, g, b, qua
     return nil
 end
 
+---Renders text with a TrueType font into an image and returns the image id. Draw it with DrawImage, or use it as a
+---texture. The built-in font ("MaxCore Sans", metric-compatible with Arial) is used unless `font` names one you loaded
+---with LoadFont. Letters are anti-aliased at any size.
+---
+---    local id, w, h = window:RenderText("Score: 120", { size = 32, color = { 255, 220, 40 }, stroke = { width = 2 } })
+---    window:DrawImage(id, 20, 20)
+---
+---Pass `image = oldId` to rebuild an existing image in place instead of creating another one (no slot is leaked when text
+---changes every frame). Free it with DestroyImage when you are done.
+---@param text string
+---@param options TextOptions?
+---@return integer? imageId nil on failure, see `reason`
+---@return integer|string? widthOrReason width in pixels on success, otherwise the reason it failed
+---@return integer? height
+function WindowObject:RenderText(text, options)
+    if not (native_ok and type(window_interface) ~= "string") then return nil, "native window module is not available" end
+    if type(text) ~= "string" then return nil, "RenderText: text must be a string, got " .. type(text) end
+    return window_interface.render_text(text, options)
+end
+
+---How big RenderText would make some text, without drawing it. Takes the same options (font, size, width, spacing).
+---@param text string
+---@param options TextOptions?
+---@return number? width
+---@return number|string? heightOrReason
+---@return integer? lineCount
+function WindowObject:MeasureText(text, options)
+    if not (native_ok and type(window_interface) ~= "string") then return nil, "native window module is not available" end
+    if type(text) ~= "string" then return nil, "MeasureText: text must be a string, got " .. type(text) end
+    return window_interface.measure_text(text, options)
+end
+
+---Loads a TrueType font (.ttf) from a file and returns its id for use as `font` in RenderText / TextObject:SetFont.
+---OpenType fonts with PostScript outlines (.otf), font collections (.ttc) and colour/emoji fonts are not supported;
+---the reason says so. The file is treated as untrusted, so a damaged font returns a reason instead of crashing.
+---@param path string
+---@return integer? fontId
+---@return string? reason
+function WindowObject:LoadFont(path)
+    if not (native_ok and type(window_interface) ~= "string") then return nil, "native window module is not available" end
+    if type(path) ~= "string" then return nil, "LoadFont: path must be a string, got " .. type(path) end
+    return window_interface.load_font(path)
+end
+
+---Loads a TrueType font from bytes you already have (read from a custom archive, embedded in a script, ...).
+---@param bytes string The raw contents of a .ttf file
+---@return integer? fontId
+---@return string? reason
+function WindowObject:LoadFontData(bytes)
+    if not (native_ok and type(window_interface) ~= "string") then return nil, "native window module is not available" end
+    if type(bytes) ~= "string" then return nil, "LoadFontData: bytes must be a string, got " .. type(bytes) end
+    return window_interface.load_font_data(bytes)
+end
+
+---Unloads a font. The built-in font (id 0) cannot be unloaded. Text already rendered stays as it is.
+---@param fontId integer
+---@return boolean freed
+function WindowObject:DestroyFont(fontId)
+    if type(fontId) ~= "number" or not (native_ok and type(window_interface) ~= "string") then return false end
+    return window_interface.destroy_font(fontId) and true or false
+end
+
+---Describes a loaded font. Without an id, describes the built-in one.
+---@param fontId integer?
+---@return FontInfo? info
+---@return string? reason
+function WindowObject:GetFontInfo(fontId)
+    if not (native_ok and type(window_interface) ~= "string") then return nil, "native window module is not available" end
+    return window_interface.font_info(fontId or 0)
+end
+
+---Loads a PNG file as an image and returns its id, ready for DrawImage or BindTexture. Any PNG colour type and bit depth
+---works, including transparency. Pass `flip = true` for a vertically flipped copy.
+---@param path string
+---@param options { flip: boolean? }?
+---@return integer? imageId nil on failure, see the second value
+---@return integer|string? widthOrReason width on success, otherwise why it failed ("could not open ...", "not a PNG", ...)
+---@return integer? height
+function WindowObject:LoadImage(path, options)
+    if not (native_ok and type(window_interface) ~= "string") then return nil, "native window module is not available" end
+    if type(path) ~= "string" then return nil, "LoadImage: path must be a string, got " .. type(path) end
+    return window_interface.load_image(path, options)
+end
+
+---Checks that an image id is still alive and returns its size. Use it to find out whether a nil or stale id is the problem.
+---@param imageId integer
+---@return integer? width
+---@return integer|string? heightOrReason
+function WindowObject:GetImageInfo(imageId)
+    if not (native_ok and type(window_interface) ~= "string") then return nil, "native window module is not available" end
+    if type(imageId) ~= "number" then return nil, "GetImageInfo: imageId is " .. type(imageId) .. ", expected a number" end
+    return window_interface.image_info(imageId)
+end
+
 ---Draws raw 3D cube primitive directly to buffer, rendered through this
 ---window's active camera (see CreateCamera / SetActiveCamera) and shaded
 ---by its active light if one is bound (see CreateLight / SetActiveLight).
@@ -1028,23 +1164,30 @@ end
 ---@param slot integer
 ---@param imageId integer
 ---@param options TextureOptions?
----@return boolean ok false if the set or image doesn't exist
+---@return boolean ok false if it could not be bound
+---@return string? reason Why not, e.g. "image 9 does not exist (destroyed or never created)". nil on success.
 function WindowObject:BindTexture(setId, slot, imageId, options)
-    if native_ok and type(window_interface) ~= "string" then
-        return window_interface.texture_set_bind(setId, slot, imageId, options) and true or false
-    end
-    return false
+    if not (native_ok and type(window_interface) ~= "string") then return false, "native window module is not available" end
+    -- A nil id (an earlier CreateImage / LoadImage that failed) must not blow up inside native code: say what happened.
+    if type(setId) ~= "number" then return false, "BindTexture: setId is " .. type(setId) .. ", expected a texture set id" end
+    if type(slot) ~= "number" then return false, "BindTexture: slot is " .. type(slot) .. ", expected a number (0 = every face)" end
+    if type(imageId) ~= "number" then return false, "BindTexture: imageId is " .. type(imageId) .. " (did the image fail to load? check its second return value)" end
+    local ok, reason = window_interface.texture_set_bind(setId, slot, imageId, options)
+    if ok then return true, nil end
+    return false, reason or "texture_set_bind failed"
 end
 
 ---Removes the binding on a slot.
 ---@param setId integer
 ---@param slot integer
 ---@return boolean removed
+---@return string? reason Why nothing was removed (no such set, or that slot had no texture)
 function WindowObject:UnbindTexture(setId, slot)
-    if native_ok and type(window_interface) ~= "string" then
-        return window_interface.texture_set_unbind(setId, slot) and true or false
-    end
-    return false
+    if not (native_ok and type(window_interface) ~= "string") then return false, "native window module is not available" end
+    if type(setId) ~= "number" or type(slot) ~= "number" then return false, "UnbindTexture: setId and slot must be numbers" end
+    local ok, reason = window_interface.texture_set_unbind(setId, slot)
+    if ok then return true, nil end
+    return false, reason
 end
 
 ---Frees a texture set. Images it referenced are NOT freed (DestroyImage does that).
@@ -1290,6 +1433,7 @@ end
 ---the link. The object goes back to being purely visual, staying wherever
 ---it last was.
 ---@param gameObject GameObject
+---@return nil
 function WindowObject:UnbindPhysics(gameObject)
     if not gameObject or not gameObject._physicsBody then return end
 
@@ -1319,6 +1463,7 @@ end
 ---touch lasts, not just once when it starts. A no-op if no physics world
 ---exists yet (nothing has called BindPhysics or CreatePhysicsWorld).
 ---@param dt number
+---@return nil
 function WindowObject:StepPhysics(dt)
     if not self._physicsWorld then return end
 
@@ -1378,6 +1523,7 @@ end
 ---Re-enables (true) or disables (false) automatic dynamic physics quality
 ---shifting for this window's world. No-op if no physics world exists yet.
 ---@param enabled boolean
+---@return nil
 function WindowObject:SetPhysicsAutoQuality(enabled)
     if self._physicsWorld then
         self._physicsWorld:SetAutoQuality(enabled)
@@ -1579,7 +1725,7 @@ end
 -- =========================================================================
 
 ---Constructs the main WindowService instance.
----@return WindowService
+---@return WindowService service
 function WindowService.new()
     ---@type WindowService
     local self = setmetatable({}, WindowService)
@@ -1588,8 +1734,7 @@ function WindowService.new()
     return self
 end
 
----Returns the renderers this machine can actually start, in the order "auto" tries them.
----"software" and "cpu" are always available.
+---The renderers this machine can actually start, in the order "auto" tries them. "software" and "cpu" are always there.
 ---@return RendererName[] renderers
 function WindowService:GetAvailableRenderers()
     if not (native_ok and type(window_interface) ~= "string") then return { "cpu" } end
@@ -1597,8 +1742,6 @@ function WindowService:GetAvailableRenderers()
 end
 
 ---Creates and tracks a new managed window object.
----The fourth argument picks the renderer: a name ("opengl", "vulkan", "software", "cpu", "auto")
----or a WindowOptions table. Leave it out for the default ("auto", or the MAXCORE_RENDERER environment variable).
 ---@param title string? Window title
 ---@param width integer? Framebuffer width
 ---@param height integer? Framebuffer height
@@ -1606,9 +1749,7 @@ end
 ---@return WindowObject? window
 ---@return string? error Unknown renderer name or window initialization failure
 function WindowService:CreateWindow(title, width, height, renderer)
-    ---@type RendererName?
     local name = nil
-
     if type(renderer) == "string" then
         name = renderer
     elseif type(renderer) == "table" then
@@ -1616,10 +1757,9 @@ function WindowService:CreateWindow(title, width, height, renderer)
     end
 
     local win, createError = WindowObject.new(title, width, height, name)
-    if win == nil then return nil, createError end; self._windows[win:GetId()] = win
+    if win == nil then return nil, createError end
+    self._windows[win:GetId()] = win
     if not self._activeWindow then self._activeWindow = win end
-    if win:GetRenderer() == nil then win:SetRenderer("auto") end
-
     return win
 end
 
@@ -1627,7 +1767,9 @@ end
 ---@param id integer? Target window identifier handle
 ---@return WindowObject?
 function WindowService:GetWindow(id)
-    if id then return self._windows[id] end
+    if id then
+        return self._windows[id]
+    end
     return self._activeWindow
 end
 
@@ -1691,7 +1833,7 @@ function WindowService:CloseAll()
     for id, win in pairs(self._windows) do
         win:Close()
         self._windows[id] = nil
-    end
+    end 
     self._activeWindow = nil
 end
 

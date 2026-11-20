@@ -114,7 +114,7 @@ DemoGraphics:SetActiveLight(SceneLight)
 
 local DemoSphere = create_icosphere(0.75, 3)
 DemoSphere:SetFillMode("solid")
-DemoSphere:SetPosition(0, 1, 0)
+DemoSphere:SetPosition(Vector3.new(0, 1, 0))
 
 local SliderFrameWidth, SliderFrameHeight = 150, 65
 local SliderTrackWidth, SliderTrackHeight = SliderFrameWidth - 50, SliderFrameHeight - 50

@@ -53,7 +53,6 @@ void luaT_init (lua_State *L) {
   }
 }
 
-
 /*
 ** function to be used with macro "fasttm": optimized for absence of
 ** tag methods

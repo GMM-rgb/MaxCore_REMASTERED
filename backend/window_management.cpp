@@ -20,8 +20,12 @@
 #include "inline_headers/graphics/gl_draw_backend.hpp"
 #include "inline_headers/graphics/soft_backend.hpp"
 #include "inline_headers/graphics/vk_draw_backend.hpp"
+#include "inline_headers/graphics/ttf_font.hpp"
+#include "inline_headers/graphics/text_layout.hpp"
+#include "inline_headers/graphics/default_font.hpp"
 #include "engine_configuration/info.hpp"
 #include <cstdlib>
+#include <unordered_set>
 #include <memory>
 
 static auto EngineName = info::get_info<info::EngineNameType>();
@@ -73,6 +77,7 @@ static std::string FixedDebugName = info::to_string(EngineDebugName);
     #define EXPORT_FN
     #include <X11/Xlib.h>
     #include <X11/Xutil.h>
+    #include <unistd.h>   // usleep, for the short retry when the X server refuses a connection
 
     // TryInitX11Gpu (below) takes a NativeWindow*, but the struct is defined
     // much later in the file. Without this forward declaration the Linux
@@ -1270,6 +1275,30 @@ static Graphics::TextureFilter ParseFilter(lua_State* L, int idx) {
 }
 
 // create_texture_set() -> setId
+// Strict versions for texture_set_bind: a value that is present but not a recognised word is an ERROR, because
+// silently falling back to a default hid typos like filter = "bilnear". A missing value still means "default".
+static bool ParseWrapStrict(lua_State* L, int idx, Graphics::TextureWrap& out, std::string& err) {
+    idx = lua_absindex(L, idx);
+    if (lua_isnil(L, idx)) return true;
+    if (!lua_isstring(L, idx) || lua_isnumber(L, idx)) { err = "wrap must be a string: 'clamp', 'repeat' or 'mirror'"; return false; }
+    const char* w = lua_tostring(L, idx);
+    if (EqualsIgnoreCase(w, "clamp") || EqualsIgnoreCase(w, "edge")) { out = Graphics::TextureWrap::Clamp; return true; }
+    if (EqualsIgnoreCase(w, "repeat") || EqualsIgnoreCase(w, "tile")) { out = Graphics::TextureWrap::Repeat; return true; }
+    if (EqualsIgnoreCase(w, "mirror")) { out = Graphics::TextureWrap::Mirror; return true; }
+    err = std::string("unknown wrap '") + w + "' (use 'clamp', 'repeat' or 'mirror')";
+    return false;
+}
+static bool ParseFilterStrict(lua_State* L, int idx, Graphics::TextureFilter& out, std::string& err) {
+    idx = lua_absindex(L, idx);
+    if (lua_isnil(L, idx)) return true;
+    if (!lua_isstring(L, idx) || lua_isnumber(L, idx)) { err = "filter must be a string: 'nearest' or 'bilinear'"; return false; }
+    const char* f = lua_tostring(L, idx);
+    if (EqualsIgnoreCase(f, "nearest") || EqualsIgnoreCase(f, "point")) { out = Graphics::TextureFilter::Nearest; return true; }
+    if (EqualsIgnoreCase(f, "bilinear") || EqualsIgnoreCase(f, "linear")) { out = Graphics::TextureFilter::Bilinear; return true; }
+    err = std::string("unknown filter '") + f + "' (use 'nearest' or 'bilinear')";
+    return false;
+}
+
 static int texture_set_create(lua_State* L) {
     int id = g_next_texture_set_id++;
     g_textureSets[id] = Graphics::TextureSet{};
@@ -1280,38 +1309,54 @@ static int texture_set_create(lua_State* L) {
 // texture_set_bind(setId, faceSlot, imageId, opts?) -> boolean
 // opts (all optional): { uOffset, vOffset, uScale, vScale, wrap, filter }
 // Rebinding a slot replaces it. Returns false for an unknown set or image.
+// texture_set_bind(set, faceSlot, imageId [, options]) -> true | nil, reason
+// options: uOffset, vOffset, uScale, vScale (numbers), wrap = 'clamp'|'repeat'|'mirror', filter = 'nearest'|'bilinear'
+// Every failure says why, so a nil can be traced: unknown set, bad slot, image missing/destroyed, bad option.
 static int texture_set_bind(lua_State* L) {
-    int setId = static_cast<int>(luaL_checkinteger(L, 1));
-    int faceSlot = static_cast<int>(luaL_checkinteger(L, 2));
-    int imageId = static_cast<int>(luaL_checkinteger(L, 3));
+    auto fail = [&](const std::string& why) { lua_pushnil(L); lua_pushstring(L, ("texture_set_bind: " + why).c_str()); return 2; };
+    if (!lua_isnumber(L, 1)) return fail("the first argument must be a texture set id (from create_texture_set)");
+    if (!lua_isnumber(L, 2)) return fail("the second argument must be a face slot number (0 = every face)");
+    if (!lua_isnumber(L, 3)) return fail("the third argument must be an image id; got " + std::string(luaL_typename(L, 3)) + " (did the image fail to load?)");
+    const int setId = static_cast<int>(lua_tointeger(L, 1));
+    const int faceSlot = static_cast<int>(lua_tointeger(L, 2));
+    const int imageId = static_cast<int>(lua_tointeger(L, 3));
 
     auto it = g_textureSets.find(setId);
-    if (it == g_textureSets.end() || faceSlot < 0 || !g_images.Contains(imageId)) {
-        lua_pushboolean(L, 0);
-        return 1;
-    }
+    if (it == g_textureSets.end()) return fail("texture set " + std::to_string(setId) + " does not exist (destroyed or never created)");
+    if (faceSlot < 0) return fail("face slot must be 0 or more (0 = every face), got " + std::to_string(faceSlot));
+    if (!g_images.Contains(imageId)) return fail("image " + std::to_string(imageId) + " does not exist (destroyed or never created)");
 
     Graphics::TextureBinding b;
     b.imageId = imageId;
     if (lua_istable(L, 4)) {
-        lua_getfield(L, 4, "uOffset"); if (lua_isnumber(L, -1)) b.uOffset = (float)lua_tonumber(L, -1); lua_pop(L, 1);
-        lua_getfield(L, 4, "vOffset"); if (lua_isnumber(L, -1)) b.vOffset = (float)lua_tonumber(L, -1); lua_pop(L, 1);
-        lua_getfield(L, 4, "uScale");  if (lua_isnumber(L, -1)) b.uScale  = (float)lua_tonumber(L, -1); lua_pop(L, 1);
-        lua_getfield(L, 4, "vScale");  if (lua_isnumber(L, -1)) b.vScale  = (float)lua_tonumber(L, -1); lua_pop(L, 1);
-        lua_getfield(L, 4, "wrap");    b.wrap   = ParseWrap(L, -1);   lua_pop(L, 1);
-        lua_getfield(L, 4, "filter");  b.filter = ParseFilter(L, -1); lua_pop(L, 1);
+        std::string err;
+        const char* numFields[] = {"uOffset", "vOffset", "uScale", "vScale"};
+        float* numDest[] = {&b.uOffset, &b.vOffset, &b.uScale, &b.vScale};
+        for (int i = 0; i < 4; ++i) {
+            lua_getfield(L, 4, numFields[i]);
+            if (!lua_isnil(L, -1)) {
+                if (!lua_isnumber(L, -1)) { lua_pop(L, 1); return fail(std::string(numFields[i]) + " must be a number"); }
+                *numDest[i] = static_cast<float>(lua_tonumber(L, -1));
+                if (!std::isfinite(*numDest[i])) { lua_pop(L, 1); return fail(std::string(numFields[i]) + " must be a finite number"); }
+            }
+            lua_pop(L, 1);
+        }
+        lua_getfield(L, 4, "wrap");   bool okW = ParseWrapStrict(L, -1, b.wrap, err);     lua_pop(L, 1); if (!okW) return fail(err);
+        lua_getfield(L, 4, "filter"); bool okF = ParseFilterStrict(L, -1, b.filter, err); lua_pop(L, 1); if (!okF) return fail(err);
+    } else if (!lua_isnoneornil(L, 4)) {
+        return fail("the options argument must be a table, got " + std::string(luaL_typename(L, 4)));
     }
     it->second.bindings[faceSlot] = b;
     lua_pushboolean(L, 1);
     return 1;
 }
-
-// texture_set_unbind(setId, faceSlot) -> boolean (true if a binding was removed)
 static int texture_set_unbind(lua_State* L) {
-    int setId = static_cast<int>(luaL_checkinteger(L, 1));
-    int faceSlot = static_cast<int>(luaL_checkinteger(L, 2));
+    const int setId = static_cast<int>(luaL_checkinteger(L, 1));
+    const int faceSlot = static_cast<int>(luaL_checkinteger(L, 2));
     auto it = g_textureSets.find(setId);
-    lua_pushboolean(L, (it != g_textureSets.end() && it->second.bindings.erase(faceSlot) > 0) ? 1 : 0);
+    if (it == g_textureSets.end()) { lua_pushnil(L); lua_pushstring(L, ("texture_set_unbind: texture set " + std::to_string(setId) + " does not exist").c_str()); return 2; }
+    if (it->second.bindings.erase(faceSlot) == 0) { lua_pushnil(L); lua_pushstring(L, ("texture_set_unbind: face slot " + std::to_string(faceSlot) + " has no texture bound").c_str()); return 2; }
+    lua_pushboolean(L, 1);
     return 1;
 }
 
@@ -1348,7 +1393,15 @@ static FaceTexture ResolveFaceTexture(const Graphics::TextureSet* set, int faceS
     const Graphics::TextureBinding* b = set->Resolve(faceSlot);
     if (!b) return ft;
     auto img = g_images.Acquire(b->imageId);
-    if (!img) return ft; // dangling id -> caller draws the flat color instead
+    if (!img) {
+        // A bound image was destroyed. The face falls back to its flat colour (never a crash), but say so ONCE per
+        // image id, otherwise "my texture vanished" has no visible cause and a per-frame message would flood the console.
+        static std::unordered_set<int> warned;
+        if (warned.insert(b->imageId).second)
+            std::fprintf(stderr, "[window_management] a texture set still points at image %d, which no longer exists (destroyed?); "
+                                 "faces using it are drawn in their flat colour. Rebind the set or recreate the image.\n", b->imageId);
+        return ft;
+    }
     ft.image = std::move(img);
     ft.binding = b;
     return ft;
@@ -2046,11 +2099,18 @@ static int window_create(lua_State* L) {
     msgSend<void>(win->platform.window, sel_registerName("makeKeyAndOrderFront:"), static_cast<id>(nullptr));
 
 #else
-    win->platform.display = XOpenDisplay(NULL);
+    // An X server that is busy, or still closing the previous connection, can refuse one attempt and accept the next, so try
+    // a few times (at most about 50 ms) before giving up.
+    for (int attempt = 0; attempt < 5 && !win->platform.display; ++attempt) {
+        win->platform.display = XOpenDisplay(NULL);
+        if (!win->platform.display && attempt < 4) usleep(10000);
+    }
     if (!win->platform.display) {
+        const char* disp = std::getenv("DISPLAY");
         delete win;
         lua_pushnil(L);
-        lua_pushstring(L, "Failed to connect to X Server");
+        lua_pushstring(L, (std::string("Failed to connect to the X server (DISPLAY is ") +
+                           ((disp && *disp) ? std::string("'") + disp + "'" : std::string("not set")) + ")").c_str());
         return 2;
     }
     int screen = DefaultScreen(win->platform.display);
@@ -2759,6 +2819,192 @@ static int get_max_text_quality(lua_State* L) {
 // walk would need, so the destination image buffer is sized correctly
 // with no wasted or clipped rows/columns. Mirrors that function's
 // newline/tab handling exactly.
+// =========================================================================
+// FONTS
+// =========================================================================
+// A registry of loaded TrueType fonts, owned here and handed to Lua as integer ids (the same model as images).
+// Id 0 is the built-in default ("MaxCore Sans", an Arial-compatible Latin font) and always exists; it cannot be
+// destroyed. Fonts load from a file or from a string of bytes, and every file is treated as untrusted input.
+class FontRegistry {
+public:
+    FontRegistry() {
+        auto def = std::make_unique<Ttf::Font>();
+        std::string err;
+        if (def->Load(DefaultFont::kData, DefaultFont::kSize, err)) fonts_[0] = std::move(def);
+        else std::fprintf(stderr, "[window_management] the built-in font failed to load (%s); text will use the blocky font\n", err.c_str());
+    }
+    // Returns the new id, or 0 with `err` set. (0 is the default font's id, so a return of 0 means failure here.)
+    int Add(const uint8_t* data, size_t size, std::string& err) {
+        auto f = std::make_unique<Ttf::Font>();
+        if (!f->Load(data, size, err)) return 0;
+        if (fonts_.size() > 256) { err = "too many fonts are loaded; destroy some with destroy_font"; return 0; }
+        const int id = nextId_++;
+        fonts_[id] = std::move(f);
+        return id;
+    }
+    Ttf::Font* Get(int id) { auto it = fonts_.find(id); return it == fonts_.end() ? nullptr : it->second.get(); }
+    bool Destroy(int id) { return id != 0 && fonts_.erase(id) > 0; }
+    size_t Count() const { return fonts_.size(); }
+    bool HasDefault() const { return fonts_.count(0) > 0; }
+private:
+    std::unordered_map<int, std::unique_ptr<Ttf::Font>> fonts_;
+    int nextId_ = 1;
+};
+static FontRegistry g_fonts;
+
+// Reads a whole file, capped, without trusting its size. Returns false with `err` set on any problem.
+static bool ReadWholeFile(const char* path, std::vector<uint8_t>& out, size_t maxBytes, std::string& err) {
+    FILE* f = std::fopen(path, "rb");
+    if (!f) { err = std::string("could not open '") + path + "'"; return false; }
+    out.clear();
+    uint8_t buf[65536]; size_t n;
+    while ((n = std::fread(buf, 1, sizeof buf, f)) > 0) {
+        if (out.size() + n > maxBytes) { std::fclose(f); err = "file is too large"; return false; }
+        out.insert(out.end(), buf, buf + n);
+    }
+    const bool bad = std::ferror(f) != 0;
+    std::fclose(f);
+    if (bad) { err = "error while reading the file"; return false; }
+    if (out.empty()) { err = "file is empty"; return false; }
+    return true;
+}
+
+// load_font(path) -> fontId | nil, reason
+static int font_load(lua_State* L) {
+    const char* path = luaL_checkstring(L, 1);
+    std::vector<uint8_t> bytes; std::string err;
+    if (!ReadWholeFile(path, bytes, Ttf::kMaxFileBytes, err)) { lua_pushnil(L); lua_pushstring(L, ("load_font: " + err).c_str()); return 2; }
+    const int id = g_fonts.Add(bytes.data(), bytes.size(), err);
+    if (!id) { lua_pushnil(L); lua_pushstring(L, ("load_font: " + err).c_str()); return 2; }
+    lua_pushinteger(L, id);
+    return 1;
+}
+// load_font_data(bytes) -> fontId | nil, reason      (for fonts embedded in a script or fetched some other way)
+static int font_load_data(lua_State* L) {
+    size_t len = 0; const char* data = luaL_checklstring(L, 1, &len);
+    std::string err;
+    const int id = g_fonts.Add(reinterpret_cast<const uint8_t*>(data), len, err);
+    if (!id) { lua_pushnil(L); lua_pushstring(L, ("load_font_data: " + err).c_str()); return 2; }
+    lua_pushinteger(L, id);
+    return 1;
+}
+static int font_destroy(lua_State* L) {
+    const int id = static_cast<int>(luaL_checkinteger(L, 1));
+    lua_pushboolean(L, g_fonts.Destroy(id) ? 1 : 0);
+    return 1;
+}
+// ---- reading a colour from a Lua value: { r, g, b [, a] } with 0..255, or one AARRGGBB integer ----
+static bool ReadColorArg(lua_State* L, int idx, uint32_t& out, std::string& err, const char* what) {
+    idx = lua_absindex(L, idx);
+    if (lua_isnumber(L, idx)) { out = static_cast<uint32_t>(lua_tointeger(L, idx)); if ((out >> 24) == 0) out |= 0xFF000000u; return true; }
+    if (!lua_istable(L, idx)) { err = std::string(what) + " must be a table {r, g, b[, a]} or a colour number"; return false; }
+    int c[4] = {255, 255, 255, 255};
+    for (int i = 1; i <= 4; ++i) {
+        lua_rawgeti(L, idx, i);
+        if (lua_isnil(L, -1)) { lua_pop(L, 1); if (i <= 3) { err = std::string(what) + " needs r, g and b"; return false; } break; }
+        if (!lua_isnumber(L, -1)) { lua_pop(L, 1); err = std::string(what) + ": entry " + std::to_string(i) + " is not a number"; return false; }
+        c[i - 1] = static_cast<int>(lua_tonumber(L, -1)); lua_pop(L, 1);
+        if (c[i - 1] < 0 || c[i - 1] > 255) { err = std::string(what) + ": entry " + std::to_string(i) + " is outside 0..255"; return false; }
+    }
+    out = ((uint32_t)c[3] << 24) | ((uint32_t)c[0] << 16) | ((uint32_t)c[1] << 8) | (uint32_t)c[2];
+    return true;
+}
+
+// draw_text_ttf-style rendering into the image registry:
+//   render_text(text, options) -> imageId, width, height | nil, reason
+//   options (all optional): font = fontId (default 0, the built-in font), size = pixels (default 16),
+//     color = {r,g,b[,a]}, stroke = {color = {...}, width = px}, align = "left"|"center"|"right",
+//     width = wrap to this many pixels, spacing = line height multiplier, image = an existing image id to REUSE
+//     (the same "catch the pointer" idea as render_text_to_image: no new slot, the old pixels are replaced)
+static int text_render_ttf(lua_State* L) {
+    const char* text = luaL_checkstring(L, 1);
+    TextLayout::Options opt;
+    int fontId = 0, reuseId = 0;
+    std::string err;
+    if (lua_istable(L, 2)) {
+        lua_getfield(L, 2, "font"); if (!lua_isnil(L, -1)) { if (!lua_isnumber(L, -1)) { lua_pop(L, 1); lua_pushnil(L); lua_pushstring(L, "render_text: font must be a font id (from load_font)"); return 2; } fontId = static_cast<int>(lua_tointeger(L, -1)); } lua_pop(L, 1);
+        lua_getfield(L, 2, "size"); if (!lua_isnil(L, -1)) { if (!lua_isnumber(L, -1)) { lua_pop(L, 1); lua_pushnil(L); lua_pushstring(L, "render_text: size must be a number of pixels"); return 2; } opt.size = static_cast<float>(lua_tonumber(L, -1)); } lua_pop(L, 1);
+        lua_getfield(L, 2, "color"); if (!lua_isnil(L, -1) && !ReadColorArg(L, -1, opt.color, err, "render_text: color")) { lua_pop(L, 1); lua_pushnil(L); lua_pushstring(L, err.c_str()); return 2; } lua_pop(L, 1);
+        lua_getfield(L, 2, "stroke");
+        if (lua_istable(L, -1)) {
+            opt.stroke = true;
+            lua_getfield(L, -1, "color"); if (!lua_isnil(L, -1) && !ReadColorArg(L, -1, opt.strokeColor, err, "render_text: stroke.color")) { lua_pop(L, 2); lua_pushnil(L); lua_pushstring(L, err.c_str()); return 2; } lua_pop(L, 1);
+            lua_getfield(L, -1, "width"); if (lua_isnumber(L, -1)) opt.strokeWidth = static_cast<float>(lua_tonumber(L, -1)); lua_pop(L, 1);
+            if (!(opt.strokeWidth > 0.0f) || opt.strokeWidth > 32.0f) { lua_pop(L, 1); lua_pushnil(L); lua_pushstring(L, "render_text: stroke.width must be between 0 and 32 pixels"); return 2; }
+        } else if (!lua_isnil(L, -1)) { lua_pop(L, 1); lua_pushnil(L); lua_pushstring(L, "render_text: stroke must be a table {color = {...}, width = n}"); return 2; }
+        lua_pop(L, 1);
+        lua_getfield(L, 2, "align");
+        if (lua_isstring(L, -1)) {
+            const char* a = lua_tostring(L, -1);
+            if (EqualsIgnoreCase(a, "left")) opt.align = TextLayout::Align::Left;
+            else if (EqualsIgnoreCase(a, "center") || EqualsIgnoreCase(a, "centre")) opt.align = TextLayout::Align::Center;
+            else if (EqualsIgnoreCase(a, "right")) opt.align = TextLayout::Align::Right;
+            else { lua_pop(L, 1); lua_pushnil(L); lua_pushstring(L, "render_text: align must be 'left', 'center' or 'right'"); return 2; }
+        } else if (!lua_isnil(L, -1)) { lua_pop(L, 1); lua_pushnil(L); lua_pushstring(L, "render_text: align must be a string"); return 2; }
+        lua_pop(L, 1);
+        lua_getfield(L, 2, "width"); if (lua_isnumber(L, -1)) opt.maxWidth = static_cast<float>(lua_tonumber(L, -1)); lua_pop(L, 1);
+        lua_getfield(L, 2, "spacing"); if (lua_isnumber(L, -1)) opt.lineSpacing = static_cast<float>(lua_tonumber(L, -1)); lua_pop(L, 1);
+        lua_getfield(L, 2, "image"); if (lua_isnumber(L, -1)) reuseId = static_cast<int>(lua_tointeger(L, -1)); lua_pop(L, 1);
+    } else if (!lua_isnoneornil(L, 2)) { lua_pushnil(L); lua_pushstring(L, "render_text: the second argument must be an options table"); return 2; }
+
+    if (!(opt.size >= 1.0f) || opt.size > 1024.0f) { lua_pushnil(L); lua_pushstring(L, "render_text: size must be between 1 and 1024 pixels"); return 2; }
+    if (opt.maxWidth < 0.0f || !std::isfinite(opt.maxWidth)) { lua_pushnil(L); lua_pushstring(L, "render_text: width must be a positive number"); return 2; }
+    if (!(opt.lineSpacing > 0.0f) || opt.lineSpacing > 10.0f) { lua_pushnil(L); lua_pushstring(L, "render_text: spacing must be between 0 and 10"); return 2; }
+    Ttf::Font* font = g_fonts.Get(fontId);
+    if (!font) {
+        lua_pushnil(L);
+        lua_pushstring(L, fontId == 0 ? "render_text: the built-in font is unavailable" : ("render_text: font " + std::to_string(fontId) + " does not exist (destroyed or never loaded)").c_str());
+        return 2;
+    }
+
+    std::vector<uint32_t> pixels; int w = 0, h = 0;
+    if (!TextLayout::Render(*font, text, opt, pixels, w, h)) {
+        // Nothing to draw (empty text) or too large. Release a reused image so it is not pinned forever.
+        if (reuseId > 0) g_images.Destroy(reuseId);
+        if (text[0] == '\0') { lua_pushnil(L); lua_pushstring(L, "render_text: the text is empty"); return 2; }
+        lua_pushnil(L); lua_pushstring(L, "render_text: the text is too large to render at this size"); return 2;
+    }
+    Graphics::ImageBuffer img; img.width = w; img.height = h; img.pixels = std::move(pixels);
+    int imgId;
+    if (reuseId > 0 && g_images.Contains(reuseId)) { imgId = reuseId; g_images.Replace(imgId, std::move(img)); }
+    else imgId = g_images.Add(std::move(img));
+    lua_pushinteger(L, imgId); lua_pushinteger(L, w); lua_pushinteger(L, h);
+    return 3;
+}
+
+// measure_text(text, options) -> width, height, lineCount | nil, reason     (same options as render_text; draws nothing)
+static int text_measure_ttf(lua_State* L) {
+    const char* text = luaL_checkstring(L, 1);
+    TextLayout::Options opt; int fontId = 0;
+    if (lua_istable(L, 2)) {
+        lua_getfield(L, 2, "font"); if (lua_isnumber(L, -1)) fontId = static_cast<int>(lua_tointeger(L, -1)); lua_pop(L, 1);
+        lua_getfield(L, 2, "size"); if (lua_isnumber(L, -1)) opt.size = static_cast<float>(lua_tonumber(L, -1)); lua_pop(L, 1);
+        lua_getfield(L, 2, "width"); if (lua_isnumber(L, -1)) opt.maxWidth = static_cast<float>(lua_tonumber(L, -1)); lua_pop(L, 1);
+        lua_getfield(L, 2, "spacing"); if (lua_isnumber(L, -1)) opt.lineSpacing = static_cast<float>(lua_tonumber(L, -1)); lua_pop(L, 1);
+    }
+    if (!(opt.size >= 1.0f) || opt.size > 1024.0f) { lua_pushnil(L); lua_pushstring(L, "measure_text: size must be between 1 and 1024 pixels"); return 2; }
+    Ttf::Font* font = g_fonts.Get(fontId);
+    if (!font) { lua_pushnil(L); lua_pushstring(L, "measure_text: no such font"); return 2; }
+    const TextLayout::Layout lay = TextLayout::Measure(*font, text, opt);
+    lua_pushnumber(L, lay.width); lua_pushnumber(L, lay.height); lua_pushinteger(L, (lua_Integer)lay.lines.size());
+    return 3;
+}
+
+// font_info(fontId) -> { name, glyphs, ascent, descent, lineHeight } at size 1 em = 100 px | nil, reason
+static int font_info(lua_State* L) {
+    const int id = static_cast<int>(luaL_optinteger(L, 1, 0));
+    Ttf::Font* f = g_fonts.Get(id);
+    if (!f) { lua_pushnil(L); lua_pushstring(L, "font_info: no such font"); return 2; }
+    const Ttf::Metrics m = f->GetMetrics(100.0f);
+    lua_newtable(L);
+    lua_pushstring(L, f->Name().c_str()); lua_setfield(L, -2, "name");
+    lua_pushinteger(L, f->GlyphCount()); lua_setfield(L, -2, "glyphs");
+    lua_pushnumber(L, m.ascent / 100.0); lua_setfield(L, -2, "ascent");
+    lua_pushnumber(L, m.descent / 100.0); lua_setfield(L, -2, "descent");
+    lua_pushnumber(L, m.lineHeight / 100.0); lua_setfield(L, -2, "lineHeight");
+    return 1;
+}
+
 static void MeasureText(const char* text, int scale, int& outWidth, int& outHeight) {
     int fontDim = 8 * scale;
     int tabSpaces = 4;
@@ -3351,11 +3597,24 @@ static int image_create(lua_State* L) {
         size_t count = (std::min)(total, len);
         for (size_t i = 1; i <= count; ++i) {
             lua_rawgeti(L, 3, (lua_Integer)i);
-            if (bitFormat) img.pixels[i - 1] = ReadBitPixel(L, lua_gettop(L), onColor);
-            else           img.pixels[i - 1] = static_cast<uint32_t>(lua_tointeger(L, -1));
+            if (!bitFormat) {
+                // A pixel must be a number. A string ("#FF0000"), a nil hole or a boolean used to become 0 =
+                // fully transparent with no warning, which is how textures ended up silently invisible.
+                if (!lua_isnumber(L, -1)) {
+                    const std::string why = "create_image: pixel " + std::to_string(i) + " is a " + luaL_typename(L, -1) +
+                        ", not a number (pixels are AARRGGBB integers such as 0xFFFF0000)";
+                    lua_pop(L, 1);
+                    lua_pushnil(L); lua_pushstring(L, why.c_str());
+                    return 2;
+                }
+                img.pixels[i - 1] = static_cast<uint32_t>(lua_tointeger(L, -1));
+            } else img.pixels[i - 1] = ReadBitPixel(L, lua_gettop(L), onColor);
             lua_pop(L, 1);
         }
         if (!bitFormat) Graphics::PromoteAlphaLessPixels(img.pixels);
+    } else if (!lua_isnoneornil(L, 3)) {
+        lua_pushnil(L); lua_pushstring(L, (std::string("create_image: the pixels argument must be a table, got ") + luaL_typename(L, 3)).c_str());
+        return 2;
     }
 
     int imgId = g_images.Add(std::move(img));
@@ -3436,6 +3695,47 @@ static int image_fill_pixels(lua_State* L) {
 // Frees an image's pixels now. Safe on unknown/already-destroyed ids.
 // Any texture binding that still names this id resolves to "no texture"
 // (flat face color) on the next draw -- it never dangles.
+// load_image(path [, options]) -> imageId, width, height | nil, reason
+// Decodes a PNG file (any colour type and bit depth, interlaced or not, with transparency) into a texture-ready
+// image. The file is untrusted: sizes are capped (16384 px an edge) and a damaged file returns a reason instead of
+// crashing. options: { flip = true } flips it vertically, for sources whose rows run bottom to top.
+static int image_load(lua_State* L) {
+    const char* path = luaL_checkstring(L, 1);
+    bool flip = false;
+    if (lua_istable(L, 2)) { lua_getfield(L, 2, "flip"); flip = lua_toboolean(L, -1) != 0; lua_pop(L, 1); }
+    std::vector<uint8_t> bytes; std::string err;
+    if (!ReadWholeFile(path, bytes, 256u * 1024u * 1024u, err)) { lua_pushnil(L); lua_pushstring(L, ("load_image: " + err).c_str()); return 2; }
+    if (!IconDecode::IsPng(bytes.data(), bytes.size())) {
+        lua_pushnil(L); lua_pushstring(L, "load_image: only PNG files are supported (this file is not a PNG)");
+        return 2;
+    }
+    IconDecode::Rgba rgba;
+    if (!IconDecode::DecodePng(bytes.data(), bytes.size(), rgba, err)) { lua_pushnil(L); lua_pushstring(L, ("load_image: " + err).c_str()); return 2; }
+    if ((long long)rgba.width * rgba.height > (1LL << 28)) { lua_pushnil(L); lua_pushstring(L, "load_image: the image is too large"); return 2; }
+    Graphics::ImageBuffer img; img.width = rgba.width; img.height = rgba.height;
+    img.pixels.resize((size_t)rgba.width * (size_t)rgba.height);
+    for (int y = 0; y < rgba.height; ++y) {
+        const int srcY = flip ? rgba.height - 1 - y : y;
+        for (int x = 0; x < rgba.width; ++x) {
+            const uint8_t* p = &rgba.pixels[((size_t)srcY * rgba.width + x) * 4];
+            img.pixels[(size_t)y * rgba.width + x] = ((uint32_t)p[3] << 24) | ((uint32_t)p[0] << 16) | ((uint32_t)p[1] << 8) | (uint32_t)p[2];
+        }
+    }
+    const int w = img.width, h = img.height;
+    const int id = g_images.Add(std::move(img));
+    lua_pushinteger(L, id); lua_pushinteger(L, w); lua_pushinteger(L, h);
+    return 3;
+}
+
+// image_info(imageId) -> width, height | nil, reason     (lets a script check an id is still alive)
+static int image_info(lua_State* L) {
+    const int id = static_cast<int>(luaL_checkinteger(L, 1));
+    auto img = g_images.Acquire(id);
+    if (!img) { lua_pushnil(L); lua_pushstring(L, ("image_info: image " + std::to_string(id) + " does not exist (destroyed or never created)").c_str()); return 2; }
+    lua_pushinteger(L, img->width); lua_pushinteger(L, img->height);
+    return 2;
+}
+
 static int image_destroy(lua_State* L) {
     int imgId = static_cast<int>(luaL_checkinteger(L, 1));
     BackendForgetImage(imgId); // give back video memory now, not at window close
@@ -4552,6 +4852,8 @@ static int window_destroy(lua_State* L) {
             gpu.glXDestroyContext(win->platform.display, win->platform.glxContext);
             XFreeColormap(win->platform.display, win->platform.colormap);
         }
+        // The graphics context made in window_create (used by ShowPixels) belongs to this display and window.
+        if (win->platform.gc) { XFreeGC(win->platform.display, win->platform.gc); win->platform.gc = nullptr; }
         XDestroyWindow(win->platform.display, win->platform.window);
         XCloseDisplay(win->platform.display);
         // libGL registers close hooks on the Display the first time GLX is
@@ -4598,6 +4900,8 @@ extern "C" EXPORT_FN int luaopen_window_management(lua_State* L) {
         {"get_max_alias_quality", get_max_alias_quality},
         {"draw_polygon", window_draw_polygon},
         {"create_image", image_create},
+        {"load_image", image_load},
+        {"image_info", image_info},
         {"set_pixel", image_set_pixel},
         {"fill_pixels", image_fill_pixels},
         {"destroy_image", image_destroy},
@@ -4609,6 +4913,12 @@ extern "C" EXPORT_FN int luaopen_window_management(lua_State* L) {
         {"draw_image", window_draw_image},
         {"draw_image_scaled", image_draw_scaled},
         {"render_text_to_image", text_render_to_image},
+        {"render_text", text_render_ttf},
+        {"measure_text", text_measure_ttf},
+        {"load_font", font_load},
+        {"load_font_data", font_load_data},
+        {"destroy_font", font_destroy},
+        {"font_info", font_info},
         {"draw_cube", window_draw_cube},
         {"draw_mesh", window_draw_mesh},
         {"create_camera", camera_create},
