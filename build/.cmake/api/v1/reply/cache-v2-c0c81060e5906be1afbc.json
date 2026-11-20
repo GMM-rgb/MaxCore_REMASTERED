@@ -15,7 +15,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang/w64devkit/bin/addr2line.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/addr2line.exe"
 		},
 		{
 			"name" : "CMAKE_AR",
@@ -31,7 +31,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang/w64devkit/bin/ar.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/ar.exe"
 		},
 		{
 			"name" : "CMAKE_BUILD_TYPE",
@@ -43,7 +43,7 @@
 				}
 			],
 			"type" : "STRING",
-			"value" : "Dev"
+			"value" : ""
 		},
 		{
 			"name" : "CMAKE_CACHEFILE_DIR",
@@ -91,7 +91,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "4"
+			"value" : "0"
 		},
 		{
 			"name" : "CMAKE_COMMAND",
@@ -103,7 +103,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/6041464/_c_lang/w64devkit/bin/cmake.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/cmake.exe"
 		},
 		{
 			"name" : "CMAKE_CPACK_COMMAND",
@@ -115,7 +115,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/6041464/_c_lang/w64devkit/bin/cpack.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/cpack.exe"
 		},
 		{
 			"name" : "CMAKE_CTEST_COMMAND",
@@ -127,7 +127,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/6041464/_c_lang/w64devkit/bin/ctest.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/ctest.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER",
@@ -142,8 +142,8 @@
 					"value" : "CXX compiler"
 				}
 			],
-			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang/w64devkit/bin/c++.exe"
+			"type" : "STRING",
+			"value" : "C:/Users/6041464/_c_lang/bin/ccache-g++.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER_AR",
@@ -159,7 +159,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang/w64devkit/bin/gcc-ar.exe"
+			"value" : "CMAKE_CXX_COMPILER_AR-NOTFOUND"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER_RANLIB",
@@ -175,7 +175,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang/w64devkit/bin/gcc-ranlib.exe"
+			"value" : "CMAKE_CXX_COMPILER_RANLIB-NOTFOUND"
 		},
 		{
 			"name" : "CMAKE_CXX_FLAGS",
@@ -208,22 +208,6 @@
 			],
 			"type" : "STRING",
 			"value" : "-g"
-		},
-		{
-			"name" : "CMAKE_CXX_FLAGS_DEV",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Flags used by the CXX compiler during DEV builds."
-				}
-			],
-			"type" : "STRING",
-			"value" : ""
 		},
 		{
 			"name" : "CMAKE_CXX_FLAGS_MINSIZEREL",
@@ -302,8 +286,8 @@
 					"value" : "C compiler"
 				}
 			],
-			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang/w64devkit/bin/cc.exe"
+			"type" : "STRING",
+			"value" : "C:/Users/6041464/_c_lang/bin/ccache-gcc.exe"
 		},
 		{
 			"name" : "CMAKE_C_COMPILER_AR",
@@ -319,7 +303,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang/w64devkit/bin/gcc-ar.exe"
+			"value" : "CMAKE_C_COMPILER_AR-NOTFOUND"
 		},
 		{
 			"name" : "CMAKE_C_COMPILER_RANLIB",
@@ -335,7 +319,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang/w64devkit/bin/gcc-ranlib.exe"
+			"value" : "CMAKE_C_COMPILER_RANLIB-NOTFOUND"
 		},
 		{
 			"name" : "CMAKE_C_FLAGS",
@@ -368,22 +352,6 @@
 			],
 			"type" : "STRING",
 			"value" : "-g"
-		},
-		{
-			"name" : "CMAKE_C_FLAGS_DEV",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Flags used by the C compiler during DEV builds."
-				}
-			],
-			"type" : "STRING",
-			"value" : ""
 		},
 		{
 			"name" : "CMAKE_C_FLAGS_MINSIZEREL",
@@ -459,7 +427,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "CMD_AUTHOR=WARN;CMD_DEPRECATED=WARN;CMD_EXPERIMENTAL=WARN;CMD_INSTALL_ABSOLUTE_DESTINATION=IGNORE;CMD_POLICY=WARN;CMD_UNINITIALIZED=IGNORE;CMD_UNUSED_CLI=WARN"
+			"value" : "CMD_AUTHOR=WARN;CMD_DEPRECATED=WARN;CMD_EXPERIMENTAL=WARN;CMD_INSTALL_ABSOLUTE_DESTINATION=IGNORE;CMD_POLICY=WARN;CMD_UNINITIALIZED=IGNORE;CMD_UNUSED_CLI=IGNORE"
 		},
 		{
 			"name" : "CMAKE_DLLTOOL",
@@ -475,7 +443,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang/w64devkit/bin/dlltool.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/dlltool.exe"
 		},
 		{
 			"name" : "CMAKE_EDIT_COMMAND",
@@ -487,7 +455,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/6041464/_c_lang/w64devkit/bin/ccmake.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/ccmake.exe"
 		},
 		{
 			"name" : "CMAKE_ERROR_DEPRECATED",
@@ -540,22 +508,6 @@
 				{
 					"name" : "HELPSTRING",
 					"value" : "Flags used by the linker during DEBUG builds."
-				}
-			],
-			"type" : "STRING",
-			"value" : ""
-		},
-		{
-			"name" : "CMAKE_EXE_LINKER_FLAGS_DEV",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Flags used by the linker during DEV builds."
 				}
 			],
 			"type" : "STRING",
@@ -775,7 +727,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang/w64devkit/bin/ld.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/ld.exe"
 		},
 		{
 			"name" : "CMAKE_LIST_FILE_NAME",
@@ -803,7 +755,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang/w64devkit/bin/ninja.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/ninja.exe"
 		},
 		{
 			"name" : "CMAKE_MODULE_LINKER_FLAGS",
@@ -832,22 +784,6 @@
 				{
 					"name" : "HELPSTRING",
 					"value" : "Flags used by the linker during the creation of modules during DEBUG builds."
-				}
-			],
-			"type" : "STRING",
-			"value" : ""
-		},
-		{
-			"name" : "CMAKE_MODULE_LINKER_FLAGS_DEV",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Flags used by the linker during the creation of modules during DEV builds."
 				}
 			],
 			"type" : "STRING",
@@ -915,7 +851,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang/w64devkit/bin/nm.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/nm.exe"
 		},
 		{
 			"name" : "CMAKE_NUMBER_OF_MAKEFILES",
@@ -943,7 +879,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang/w64devkit/bin/objcopy.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/objcopy.exe"
 		},
 		{
 			"name" : "CMAKE_OBJDUMP",
@@ -959,7 +895,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang/w64devkit/bin/objdump.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/objdump.exe"
 		},
 		{
 			"name" : "CMAKE_PLATFORM_INFO_INITIALIZED",
@@ -1047,7 +983,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang/w64devkit/bin/ranlib.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/ranlib.exe"
 		},
 		{
 			"name" : "CMAKE_RC_COMPILER",
@@ -1063,7 +999,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang/w64devkit/bin/windres.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/windres.exe"
 		},
 		{
 			"name" : "CMAKE_RC_COMPILER_WORKS",
@@ -1104,22 +1040,6 @@
 				{
 					"name" : "HELPSTRING",
 					"value" : "Flags for Windows Resource Compiler during DEBUG builds."
-				}
-			],
-			"type" : "STRING",
-			"value" : ""
-		},
-		{
-			"name" : "CMAKE_RC_FLAGS_DEV",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Flags for Windows Resource Compiler during DEV builds."
 				}
 			],
 			"type" : "STRING",
@@ -1187,7 +1107,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/AppData/Local/Microsoft/WinGet/Packages/MartinStorsjo.LLVM-MinGW.UCRT_Microsoft.Winget.Source_8wekyb3d8bbwe/llvm-mingw-20260908-ucrt-x86_64/bin/readelf.exe"
+			"value" : "CMAKE_READELF-NOTFOUND"
 		},
 		{
 			"name" : "CMAKE_ROOT",
@@ -1199,7 +1119,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/6041464/_c_lang/w64devkit/share/cmake-4.4"
+			"value" : "C:/Users/6041464/_c_lang/share/cmake-4.4"
 		},
 		{
 			"name" : "CMAKE_SHARED_LINKER_FLAGS",
@@ -1228,22 +1148,6 @@
 				{
 					"name" : "HELPSTRING",
 					"value" : "Flags used by the linker during the creation of shared libraries during DEBUG builds."
-				}
-			],
-			"type" : "STRING",
-			"value" : ""
-		},
-		{
-			"name" : "CMAKE_SHARED_LINKER_FLAGS_DEV",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Flags used by the linker during the creation of shared libraries during DEV builds."
 				}
 			],
 			"type" : "STRING",
@@ -1362,22 +1266,6 @@
 			"value" : ""
 		},
 		{
-			"name" : "CMAKE_STATIC_LINKER_FLAGS_DEV",
-			"properties" : 
-			[
-				{
-					"name" : "ADVANCED",
-					"value" : "1"
-				},
-				{
-					"name" : "HELPSTRING",
-					"value" : "Flags used by the archiver during the creation of static libraries during DEV builds."
-				}
-			],
-			"type" : "STRING",
-			"value" : ""
-		},
-		{
 			"name" : "CMAKE_STATIC_LINKER_FLAGS_MINSIZEREL",
 			"properties" : 
 			[
@@ -1439,7 +1327,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/Users/6041464/_c_lang/w64devkit/bin/strip.exe"
+			"value" : "C:/Users/6041464/_c_lang/bin/strip.exe"
 		},
 		{
 			"name" : "CMAKE_TAPI",

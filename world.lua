@@ -23,8 +23,13 @@ assert(CambriaFontData, "couldn't fetch font data!")
 assert(id, "image unavailable!"); assert(height)
 assert(type(width_reason) == "number", width_reason)
 
-local MainCamera = GameWindow:CreateCamera(0, 1, -4, 90, 0.1, 100)
+local SceneLight = GameWindow:CreateLight(10, -10, 10, 0.45, 0.9)
+local MainCamera = GameWindow:CreateCamera(0, 0.75, -4, 90, 0.1, 100)
+
+assert(SceneLight, "game light isn't available!")
 assert(MainCamera, "main camera wasn't created correctly!")
+
+GameWindow:SetActiveLight(SceneLight)
 GameWindow:SetActiveCamera(MainCamera)
 
 local Terrain = GameWindow:CreateMesh()
@@ -88,23 +93,46 @@ local MovementConfiguration = {
     ["d"] = Vector3.new(1, 0, 0)
 }
 
-local movementSpeed = 15
+local MOVEMENT_SPEED = 2 -- Adjust this value to set your actual movement speed
+local TURN_SPEED = 1.57
+
+local function turn_camera(direction)
+    MainCamera:SetRotation(direction.x, direction.y, direction.z)
+end
 
 RuntimeService.Stepped:Connect(function(dt)
     local moveDirection = Vector3.new(0, 0, 0)
 
     for key, vector in pairs(MovementConfiguration) do
-        if InputService and InputService:IsKeyPressed(key) then
+        if InputService and InputService:IsKeyDown(key) then
             moveDirection = moveDirection + vector
         end
     end
 
-    if moveDirection.Magnitude and moveDirection.Magnitude > 0 then
-        local currentPos = Vector3.new(MainCamera:GetPosition())
-        local scalar = movementSpeed * dt
-        local displacement = Vector3.new(moveDirection.x * scalar, moveDirection.y * scalar, moveDirection.z * scalar)
-        local newPosition = currentPos + displacement
+    local currentRotation = Vector3.new(MainCamera:GetRotation())
+    local rotationChange = Vector3.new(0, 0, 0)
 
+    if InputService:IsKeyDown("left") then
+        rotationChange = rotationChange + Vector3.new(0, TURN_SPEED * dt, 0)
+    elseif InputService:IsKeyDown("right") then
+        rotationChange = rotationChange - Vector3.new(0, TURN_SPEED * dt, 0)
+    end
+
+    local newRotation = currentRotation + rotationChange
+    turn_camera(newRotation)
+
+    if moveDirection.Magnitude and moveDirection.Magnitude > 0 then
+        moveDirection = moveDirection.Unit
+        local yaw = newRotation.y
+
+        local rotatedX = moveDirection.x * math.cos(yaw) - moveDirection.z * math.sin(yaw)
+        local rotatedZ = moveDirection.x * math.sin(yaw) + moveDirection.z * math.cos(yaw)
+        local worldMove = Vector3.new(rotatedX, moveDirection.y, rotatedZ)
+
+        local scalar = (MOVEMENT_SPEED * dt) --- @as number
+        local currentPos = Vector3.new(MainCamera:GetPosition())
+        local displacement = Vector3.new(worldMove.x * scalar, worldMove.y * scalar, worldMove.z * scalar)
+        local newPosition = currentPos + displacement
         MainCamera:SetPosition(newPosition.x, newPosition.y, newPosition.z)
     end
 end)
