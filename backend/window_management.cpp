@@ -3134,8 +3134,14 @@ static int text_render_to_image(lua_State* L) {
     uint8_t sr = static_cast<uint8_t>(luaL_optinteger(L, 8, 0));
     uint8_t sg = static_cast<uint8_t>(luaL_optinteger(L, 9, 0));
     uint8_t sb = static_cast<uint8_t>(luaL_optinteger(L, 10, 0));
-    int strokeWidth = static_cast<int>(luaL_optinteger(L, 11, 0));
+    auto strokeWidth = static_cast<int>(luaL_optinteger(L, 11, 0));
     bool hasStroke = !lua_isnoneornil(L, 8) && strokeWidth > 0; // stroke only if a color was actually given AND width > 0
+
+    try {
+        std::cout << "WIDTH:\t" << strokeWidth << std::endl;
+    } catch (std::exception e) {
+        std::printf("%s", e.what());
+    }
 
     int width = 0, height = 0;
     MeasureText(text, scale, width, height);

@@ -1,7 +1,8 @@
 ---@alias ChildrenEventDictionary { ["event"]: Event, ["connection"]: EventConnection }
 local GraphicService = EngineCore:LoadService("WindowService")
 local RuntimeService = EngineCore:LoadService("RunnerService")
-local <const> GameWindow = GraphicService:CreateWindow("my world", 500, 400, { renderer = "auto" })
+local StorageService = EngineCore:LoadService("StorageService")
+local <const> GameWindow = GraphicService:CreateWindow("my world", 500, 400, { renderer = "software" })
 assert(GameWindow, "game window failed to be instanced, insufficent perms!")
 assert(RuntimeService:HasNative(), "native runtime scheduler is not available!")
 local ToolbarBorder = EngineCore.PseudoStylesClass.new("border", 150, 150, 150, 3)
@@ -11,18 +12,27 @@ local renderer = GameWindow:GetRenderer() or {}
 local wdx, wdy = GameWindow:GetDimensions()
 local toolbar_padding = 10
 
+for key, value in pairs(_G.arg) do
+    print(key, value)
+end
+
 GameWindow:SetAliasingQuality("2d", 4)
 EngineCore.ColorPrint("INFO", renderer.description, "NAME:\t" .. renderer.name:upper())
+local CambriaFontData = StorageService:GetFile("./fonts/cambria.ttf"):Read()
+local id, width_reason, height = GameWindow:LoadImage("./resources/app_default.png")
 
--- GameWindow:LoadImage("")
--- local MyText = GameWindow:CreateText("i'm alive!\n - Virtual Machine", 50, 50, 8, 255, 255, 255, 128)
--- MyText:SetStroke(255, 255, 255, 0.125)
--- MyText:SetAlign("center")
--- MyText:Render(GameWindow)
+assert(CambriaFontData, "couldn't fetch font data!")
+assert(id, "image unavailable!"); assert(height)
+assert(type(width_reason) == "number", width_reason)
 
--- for i, v in pairs(getmetatable(MyText)) do
---     print(i, v)
--- end
+local fid, reason = GameWindow:LoadFontData(CambriaFontData)
+local BackgroundText = GameWindow:CreateText(nil, 20, 20, 5, 255, 255, 255, GraphicService:GetMaxTextQuality())
+BackgroundText:SetText(BackgroundText.Text .. " i'm a <" .. BackgroundText.TypeName .. ">")
+BackgroundText:SetStroke(140, 140, 140, 0.25)
+BackgroundText:SetFont(fid)
+
+local i = Vector2.new(0, 100) - Vector2.new(22, 78)
+print(i)
 
 local ToolbarInterface = GameWindow:CreateRect(0, 0, 200, 50, 210, 210, 210)
 ToolbarInterface = ToolbarInterface:ApplyStyle(ToolbarBorder)
@@ -60,5 +70,6 @@ end, { key = "main-rendering", whenRunning = "skip", yieldable = true, safe = tr
 
 ShutdownEvent:Connect(function()
     RuntimeService._native:shutdown()
+    os.execute("clear")
     io:flush(); os.exit(true)
 end); RuntimeService:KeepAlive()

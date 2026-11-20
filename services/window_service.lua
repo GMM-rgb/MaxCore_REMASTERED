@@ -979,7 +979,7 @@ function WindowObject:RenderTextToImage(existingImgId, text, scale, r, g, b, qua
             existingImgId or 0, tostring(text or ""), scale or 1,
             r or 255, g or 255, b or 255, quality or 0,
             strokeR, strokeG, strokeB,
-            hasStroke and (strokeWidth or 1) or 0
+            hasStroke and (math.tointeger(strokeWidth) or 1) or 0
         )
     end
     return nil
