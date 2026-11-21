@@ -1,7 +1,7 @@
 
 cmake_minimum_required(VERSION 3.15)
 
-project(lua_native_engine C CXX)
+project(lua_native_engine C CXX ASM_NASM)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -218,8 +218,8 @@ elseif(APPLE)
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     message(STATUS "[Engine] Enabling LUA_USE_LINUX for io.popen support")
 
-    target_compile_definitions(lua_shared PRIVATE LUA_USE_LINUX)
-    target_compile_definitions(lua_runner PRIVATE LUA_USE_LINUX)
+    target_compile_definitions(lua_shared PRIVATE LUA_USE_LINUX _GNU_SOURCE)
+    target_compile_definitions(lua_runner PRIVATE LUA_USE_LINUX _GNU_SOURCE)
 endif()
 
 # =========================================================================
@@ -250,6 +250,15 @@ foreach(SOURCE_FILE IN LISTS NATIVE_SOURCES)
 
     target_include_directories("${TARGET_NAME}" PRIVATE "${LUA_SRC_DIR}")
     target_link_libraries("${TARGET_NAME}" PRIVATE ${PLATFORM_LIBS})
+
+    # Linux-specific window management dependencies
+    if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND TARGET_NAME STREQUAL "window_management")
+        target_link_libraries("${TARGET_NAME}" PRIVATE X11::X11)
+
+        if(XTST_LIB)
+            target_link_libraries("${TARGET_NAME}" PRIVATE "${XTST_LIB}")
+        endif()
+    endif()
 
     # Native modules import Lua API symbols from lua_shared.
     if(WIN32)

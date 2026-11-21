@@ -619,7 +619,6 @@ static int l_simulate_mouse_move(lua_State* L) {
         } else {
             XTestFakeRelativeMotionEvent(
                 display,
-                -1,
                 static_cast<int>(x),
                 static_cast<int>(y),
                 CurrentTime

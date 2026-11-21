@@ -329,10 +329,10 @@ inline bool VulkanDrawBackend::Init(int w, int h, std::string& err) {
     const char* instanceExtensions[] = { "VK_KHR_portability_enumeration" };
     auto createInstance = reinterpret_cast<VkResult (*)(const VkInstanceCreateInfo*, const void*, VkInstance*)>(getInstProc_(nullptr, "vkCreateInstance"));
     if (!createInstance) { err = "vkCreateInstance missing"; return false; }
-    VkApplicationInfo app = {ST_APPLICATION_INFO, nullptr, "MaxCore", 1, "MaxCore", 1, (1u << 22) | (1u << 12)};
-    VkInstanceCreateInfo ci = {ST_INSTANCE_CREATE_INFO, nullptr, 0x00000001u, &app, 0, nullptr, 1, instanceExtensions};
-
+    VkApplicationInfo app = { ST_APPLICATION_INFO, nullptr, "MaxCore", 1, "MaxCore", 1, (1u << 22) | (1u << 12) };
+    VkInstanceCreateInfo ci = { ST_INSTANCE_CREATE_INFO, nullptr, 0, &app, 0, nullptr, 0, nullptr};
     VkResult instanceResult = createInstance(&ci, nullptr, &inst_);
+
     if (instanceResult != VK_SUCCESS) {
         err = "vkCreateInstance failed (VkResult " + std::to_string(instanceResult) + ")";
         return false;

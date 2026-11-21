@@ -517,9 +517,9 @@ static int os_native_execute (lua_State *L) {
       err = posix_spawn_file_actions_addchdir(&actions, options.cwd);
       if (err != 0) goto spawn_error;
 #elif defined(__GLIBC__)
-      /* glibc exposes this extension with the _np suffix. */
-      err = posix_spawn_file_actions_addchdir_np(&actions, options.cwd);
-      if (err != 0) goto spawn_error;
+    /* glibc exposes this extension with the _np suffix. */
+    err = posix_spawn_file_actions_addchdir_np(&actions, options.cwd);
+    if (err != 0) goto spawn_error;
 #else
       err = ENOTSUP;
       goto spawn_error;

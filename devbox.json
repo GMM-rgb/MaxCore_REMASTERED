@@ -1,17 +1,32 @@
 {
   "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.12.0/.schema/devbox.schema.json",
-  "packages": [
-    "gcc@latest",
-    "cmake@latest",
-    "gnumake@latest",
-    "pkg-config@latest",
-    "xorg.libX11@latest",
-    "xorg.libXtst@latest",
-    "xorg.xorgproto@latest"
-  ],
+  "packages": {
+    "gcc":        "latest",
+    "cmake":      "latest",
+    "gnumake":    "latest",
+    "pkg-config": "latest",
+    "libx11": {
+      "version": "latest",
+      "outputs": ["out", "dev"]
+    },
+    "libxi": {
+      "version": "latest",
+      "outputs": ["out", "dev"]
+    },
+    "xorg.libXtst":   "latest",
+    "xorg.xorgproto": "latest",
+    "meson":          "latest",
+    "ninja":          "latest",
+    "git":            "latest",
+    "libdrm":         "latest",
+    "glslang":        "latest",
+    "xorg.libX11":    "latest",
+    "libglvnd":       "latest",
+    "vulkan-loader":  "latest"
+  },
   "env": {
-    "CMAKE_PREFIX_PATH": "$DEVBOX_PROJECT_DIR/.devbox/nix/profile/default",
-    "CPATH": "$DEVBOX_PROJECT_DIR/.devbox/nix/profile/default/include",
-    "LIBRARY_PATH": "$DEVBOX_PROJECT_DIR/.devbox/nix/profile/default/lib"
+    "CMAKE_PREFIX_PATH": "$DEVBOX_PROJECT_ROOT/.devbox/nix/profile/default",
+    "CPATH":             "$DEVBOX_PROJECT_ROOT/.devbox/nix/profile/default/include",
+    "LIBRARY_PATH":      "$DEVBOX_PROJECT_ROOT/.devbox/nix/profile/default/lib"
   }
 }
