@@ -1,1 +1,0 @@
-/mnt/d/MaxCore_REMASTERED/.devbox/nix/profile/default/bin/gcc -Wl,--dependency-file=CMakeFiles/lua_runner.dir/link.d "CMakeFiles/lua_runner.dir/lua-5.7.2/src/lua.c.o" "CMakeFiles/lua_runner.dir/lua-5.7.2/src/maxcore_bootstrap.c.o" -o max-core-lua  -Wl,-rpath,/mnt/d/MaxCore_REMASTERED/build lua55.so

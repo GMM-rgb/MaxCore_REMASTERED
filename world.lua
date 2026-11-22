@@ -16,12 +16,8 @@ local toolbar_padding = 10
 GameWindow:SetAliasingQuality("2d", 4)
 GameWindow:SetIcon("./resources/app_default.png", { scope ="window" })
 EngineCore.ColorPrint("INFO", renderer.description, "NAME:\t" .. renderer.name:upper())
-local CambriaFontData = StorageService:GetFile("./fonts/cambria.ttf"):Read()
-local id, width_reason, height = GameWindow:LoadImage("./resources/app_default.png")
-
-assert(CambriaFontData, "couldn't fetch font data!")
-assert(id, "image unavailable!"); assert(height)
-assert(type(width_reason) == "number", width_reason)
+local CambriaFontData = StorageService:GetFile("./fonts/cambria_math.ttf"):Read()
+local CambiraFont = GameWindow:LoadFontData(CambriaFontData or utf8.char(0))
 
 local SceneLight = GameWindow:CreateLight(10, -10, 10, 0.45, 0.9)
 local MainCamera = GameWindow:CreateCamera(0, 0.75, -4, 90, 0.1, 100)
@@ -57,6 +53,8 @@ ToolbarInterface = ToolbarInterface:ApplyStyle(ToolbarRound)
 ToolbarInterface["items"] = {} --- @type RectObject[]
 local InventoryButton = GameWindow:CreateRect(0, 0)
 
+local ControlsText = GameWindow:CreateText("W A S D - MOVE, left / right - LOOK", nil, nil, 5)
+
 local function update_inventory_button()
     local ToolbarX, ToolbarY = ToolbarInterface:GetPosition()
     InventoryButton:SetPosition(Vector2.new(ToolbarX + toolbar_padding, ToolbarY + toolbar_padding))
@@ -74,7 +72,24 @@ end
 
 local InterfaceConnection, InterfaceJob = RuntimeService.RenderStepped:Connect(function(dt)
     if not GameWindow:IsRunning() then ShutdownEvent:Fire(); return end
+
     wdx, wdy = GameWindow:GetDimensions()
+
+    local paddingX, paddingY = 15, 15
+    local maxAllowedWidth = wdx - (paddingX * 2)
+
+    local baseWidth, baseHeight = GameWindow:MeasureText(ControlsText.Text, { font = CambiraFont })
+    local scale = math.min(5, maxAllowedWidth / baseWidth)
+
+    local twidth = baseWidth * scale
+    local theight = baseHeight * scale
+
+    local finalX = wdx - twidth - paddingX
+    -- Stick it to the top by using paddingY directly
+    local finalY = paddingY
+
+    ControlsText:SetPosition(Vector2.new(finalX, finalY))
+
     GameWindow:RenderScene2D()
     GameWindow:RenderScene3D()
     update_toolbar_position()
@@ -93,7 +108,7 @@ local MovementConfiguration = {
     ["d"] = Vector3.new(1, 0, 0)
 }
 
-local MOVEMENT_SPEED = 2 -- Adjust this value to set your actual movement speed
+local MOVEMENT_SPEED = 2
 local TURN_SPEED = 1.57
 
 local function turn_camera(direction)
