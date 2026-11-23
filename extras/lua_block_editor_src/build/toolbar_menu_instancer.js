@@ -84,8 +84,6 @@ export class EditorToolbarMenu {
         this.MenuElement.style.left = `anchor(${AnchorName} left)`;
         const ButtonRect = this.TargetButton.getBoundingClientRect();
         const MenuRect = this.MenuElement.getBoundingClientRect();
-        console.debug(`${this.TargetButton.name.toUpperCase()} MENU LEFT:`, this.MenuElement.style.left);
-        console.debug(`VALID:\t%c${this.TargetButton instanceof HTMLElement}`, "color: violet;");
         this.MenuElement.style.setProperty("--menu-entrance-offset", `${ButtonRect.top - MenuRect.top}px`);
         const MenuName = String(this.TargetButton.name);
         this.TargetButton.setAttribute("data-menu", MenuName);
@@ -142,6 +140,5 @@ export class EditorToolbarMenu {
         this.MenuElement = null;
         this.initialize_menu();
         ToolbarMenus.push(this);
-        console.debug(`INSTANCING NEW TOOLBAR MENU...`);
     }
 }

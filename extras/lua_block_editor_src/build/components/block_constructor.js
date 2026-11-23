@@ -3,6 +3,67 @@ export var BlockBuilderMachine;
 (function (BlockBuilderMachine) {
     BlockBuilderMachine.VM = new VirtualMachine.Machine({});
     BlockBuilderMachine.CreatedBlocks = [];
+    class EventEmitter {
+        listeners = new Map();
+        on(event, callback) {
+            let eventListeners = this.listeners.get(event);
+            if (!eventListeners) {
+                eventListeners = new Set();
+                this.listeners.set(event, eventListeners);
+            }
+            eventListeners.add(callback);
+            return () => this.off(event, callback);
+        }
+        once(event, callback) {
+            let unsubscribe;
+            unsubscribe = this.on(event, payload => {
+                unsubscribe();
+                callback(payload);
+            });
+            return unsubscribe;
+        }
+        off(event, callback) {
+            this.listeners.get(event)?.delete(callback);
+        }
+        emit(event, payload) {
+            for (const callback of [...(this.listeners.get(event) ?? [])]) {
+                callback(payload);
+            }
+        }
+    }
+    BlockBuilderMachine.EventEmitter = EventEmitter;
+    BlockBuilderMachine.WorkspaceEvents = new EventEmitter();
+    let compile_queued = false;
+    function request_compile() {
+        if (compile_queued)
+            return;
+        compile_queued = true;
+        queueMicrotask(() => {
+            compile_queued = false;
+            compile_workspace();
+        });
+    }
+    BlockBuilderMachine.request_compile = request_compile;
+    function compile_workspace() {
+        const blocks = BlockBuilderMachine.CreatedBlocks.filter(block => block.element?.isConnected && !block.is_template);
+        for (const block of blocks) {
+            let virtual_block = BlockBuilderMachine.VM.get_block(block.id);
+            if (!virtual_block)
+                virtual_block = BlockBuilderMachine.VM.inject_block(block);
+            VirtualMachineParser.parse_generation(virtual_block);
+        }
+        for (const block of blocks) {
+            if (block.type === CommandBlocks.REP || block.type === OutputBlocks.STRING || block.type === OutputBlocks.BOOL)
+                continue;
+            if (block.get_parent_block())
+                continue;
+            VirtualMachineParser.compile_stack(block);
+        }
+        BlockBuilderMachine.WorkspaceEvents.emit("compile", { blocks });
+    }
+    BlockBuilderMachine.compile_workspace = compile_workspace;
+    BlockBuilderMachine.WorkspaceEvents.on("change", () => request_compile());
+    BlockBuilderMachine.WorkspaceEvents.on("position", () => request_compile());
     let CommandBlocks;
     (function (CommandBlocks) {
         CommandBlocks[CommandBlocks["COM"] = 0] = "COM";
@@ -26,6 +87,7 @@ export var BlockBuilderMachine;
     class Block {
         params;
         type;
+        Events = new EventEmitter();
         lua_op;
         connecting;
         block_notches;
@@ -666,16 +728,19 @@ export var BlockBuilderMachine;
                 if (!(Number.isFinite(rendered_width) && Math.abs(rendered_width - required_width) < 0.5)) {
                     this.refresh_input_layout(element, element.value);
                 }
-                console.debug("Refreshing Block...", this);
-                let VirtualBlock = BlockBuilderMachine.VM.get_block(this.id);
-                if (!VirtualBlock)
-                    VirtualBlock = BlockBuilderMachine.VM.inject_block(this);
-                VirtualMachineParser.parse_generation(VirtualBlock);
+                this.Events.emit("input", { block: this, input, index, value: input.content });
+                BlockBuilderMachine.WorkspaceEvents.emit("input", { block: this, input, index, value: input.content });
+                this.Events.emit("change", { block: this, reason: "input" });
+                BlockBuilderMachine.WorkspaceEvents.emit("change", { block: this, reason: "input" });
                 BlockWorkspaceEditor.refresh_content_bounds();
             });
             element.addEventListener("change", () => {
                 if (input.type === InputTypes.BOOL) {
                     input.content = element.checked;
+                    this.Events.emit("input", { block: this, input, index, value: input.content });
+                    BlockBuilderMachine.WorkspaceEvents.emit("input", { block: this, input, index, value: input.content });
+                    this.Events.emit("change", { block: this, reason: "input" });
+                    BlockBuilderMachine.WorkspaceEvents.emit("change", { block: this, reason: "input" });
                 }
                 BlockWorkspaceEditor.refresh_content_bounds();
             });
@@ -810,6 +875,12 @@ export var BlockBuilderMachine;
             this.element = svg;
             if (!BlockBuilderMachine.CreatedBlocks.includes(this)) {
                 BlockBuilderMachine.CreatedBlocks.push(this);
+                if (!this.is_template) {
+                    this.Events.emit("create", { block: this });
+                    BlockBuilderMachine.WorkspaceEvents.emit("create", { block: this });
+                    this.Events.emit("change", { block: this, reason: "create" });
+                    BlockBuilderMachine.WorkspaceEvents.emit("change", { block: this, reason: "create" });
+                }
             }
             this.disable_text_selection();
             this.apply_drag();
@@ -832,6 +903,12 @@ export var BlockBuilderMachine;
             this.remove_connectors();
             BlockBuilderMachine.VM.remove_block(this.id);
             BlockBuilderMachine.CreatedBlocks = BlockBuilderMachine.CreatedBlocks.filter((block) => block !== this);
+            if (!this.is_template) {
+                this.Events.emit("destroy", { block: this });
+                BlockBuilderMachine.WorkspaceEvents.emit("destroy", { block: this });
+                this.Events.emit("change", { block: this, reason: "destroy" });
+                BlockBuilderMachine.WorkspaceEvents.emit("change", { block: this, reason: "destroy" });
+            }
             this.element?.remove();
             this.measurement_svg?.remove();
             this.measurement_svg = null;
@@ -940,6 +1017,11 @@ export var BlockBuilderMachine;
             };
             this.connections.push(connector);
             lower_block.parent_connection = this;
+            this.Events.emit("connect", { upper: this, lower: lower_block, kind: "stack" });
+            BlockBuilderMachine.WorkspaceEvents.emit("connect", { upper: this, lower: lower_block, kind: "stack" });
+            this.Events.emit("change", { block: this, reason: "connect" });
+            lower_block.Events.emit("change", { block: lower_block, reason: "connect" });
+            BlockBuilderMachine.WorkspaceEvents.emit("change", { block: this, reason: "connect" });
             return connector;
         }
         remove_connectors(connection) {
@@ -947,6 +1029,10 @@ export var BlockBuilderMachine;
             for (const item of outgoing) {
                 if (item.connection.parent_connection === this) {
                     item.connection.parent_connection = null;
+                    this.Events.emit("disconnect", { block: this, detached: item.connection, kind: "stack" });
+                    BlockBuilderMachine.WorkspaceEvents.emit("disconnect", { block: this, detached: item.connection, kind: "stack" });
+                    this.Events.emit("change", { block: this, reason: "disconnect" });
+                    BlockBuilderMachine.WorkspaceEvents.emit("change", { block: this, reason: "disconnect" });
                 }
             }
             this.connections = this.connections.filter((item) => connection ? item.connection !== connection : false);
@@ -1062,6 +1148,10 @@ export var BlockBuilderMachine;
             }
             parentInput.block.input_connections.delete(parentInput.index);
             this.parent_input = null;
+            parentInput.block.Events.emit("disconnect", { block: parentInput.block, detached: this, kind: "reporter", input_index: parentInput.index });
+            BlockBuilderMachine.WorkspaceEvents.emit("disconnect", { block: parentInput.block, detached: this, kind: "reporter", input_index: parentInput.index });
+            parentInput.block.Events.emit("change", { block: parentInput.block, reason: "disconnect" });
+            BlockBuilderMachine.WorkspaceEvents.emit("change", { block: parentInput.block, reason: "disconnect" });
             element.remove();
             workspace.appendChild(element);
             element.style.position = "absolute";
@@ -1166,9 +1256,15 @@ export var BlockBuilderMachine;
                 }
                 previous.parent_input = null;
                 target.input_connections.delete(index);
+                target.Events.emit("disconnect", { block: target, detached: previous, kind: "reporter", input_index: index });
+                BlockBuilderMachine.WorkspaceEvents.emit("disconnect", { block: target, detached: previous, kind: "reporter", input_index: index });
             }
             target.input_connections.set(index, reporter);
             reporter.parent_input = { block: target, index };
+            target.Events.emit("connect", { upper: target, lower: reporter, kind: "reporter", input_index: index });
+            BlockBuilderMachine.WorkspaceEvents.emit("connect", { upper: target, lower: reporter, kind: "reporter", input_index: index });
+            target.Events.emit("change", { block: target, reason: "connect" });
+            BlockBuilderMachine.WorkspaceEvents.emit("change", { block: target, reason: "connect" });
             target.refresh_render_preserving_position();
             return true;
         }
@@ -1473,10 +1569,18 @@ export var BlockBuilderMachine;
                         continue;
                     snapshot.element.style.zIndex = snapshot.originalZIndex;
                     snapshot.element.style.cursor = "grab";
+                    if (moved) {
+                        const finalLeft = Number.parseFloat(snapshot.element.style.left) || 0;
+                        const finalTop = Number.parseFloat(snapshot.element.style.top) || 0;
+                        const positionPayload = { block: snapshot.block, x: finalLeft, y: finalTop, phase: "drop" };
+                        snapshot.block.Events.emit("position", positionPayload);
+                        BlockBuilderMachine.WorkspaceEvents.emit("position", positionPayload);
+                        snapshot.block.Events.emit("change", { block: snapshot.block, reason: "position" });
+                        BlockBuilderMachine.WorkspaceEvents.emit("change", { block: snapshot.block, reason: "position" });
+                    }
                 }
                 if (stack_connected) {
-                    const generated = VirtualMachineParser.compile_stack(root);
-                    console.debug("RECOMPILED CONNECTED STACK:", generated);
+                    BlockBuilderMachine.request_compile();
                 }
             };
             const onPointerUp = (upEvent) => finish(upEvent, true);

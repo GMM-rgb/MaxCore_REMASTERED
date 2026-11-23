@@ -5,6 +5,86 @@ export namespace BlockBuilderMachine {
     export type OutputBlockTypes = CommandBlocks | OutputBlocks;
     export let CreatedBlocks: Block[] = [];
 
+    export type BlockBuilderEventMap = {
+        input: { block: Block; input: BlockInput; index: number; value: string | number | boolean };
+        change: { block: Block; reason: "input" | "connect" | "disconnect" | "create" | "destroy" | "position" };
+        position: { block: Block; x: number; y: number; phase: "drop" };
+        connect: { upper: Block; lower: Block; kind: "stack" | "reporter"; input_index?: number };
+        disconnect: { block: Block; detached: Block; kind: "stack" | "reporter"; input_index?: number };
+        create: { block: Block };
+        destroy: { block: Block };
+        compile: { blocks: Block[] };
+    };
+
+    /** Small typed event emitter. on() returns an unsubscribe function. */
+    export class EventEmitter<Events extends { [K in keyof Events]: unknown }> {
+        private readonly listeners = new Map<keyof Events, Set<(payload: Events[keyof Events]) => void>>();
+
+        public on<K extends keyof Events>(event: K, callback: (payload: Events[K]) => void): () => void {
+            let eventListeners = this.listeners.get(event);
+            if (!eventListeners) {
+                eventListeners = new Set();
+                this.listeners.set(event, eventListeners);
+            }
+            eventListeners.add(callback as (payload: Events[keyof Events]) => void);
+            return () => this.off(event, callback);
+        }
+
+        public once<K extends keyof Events>(event: K, callback: (payload: Events[K]) => void): () => void {
+            let unsubscribe: () => void;
+            unsubscribe = this.on(event, payload => {
+                unsubscribe();
+                callback(payload);
+            });
+            return unsubscribe;
+        }
+
+        public off<K extends keyof Events>(event: K, callback: (payload: Events[K]) => void): void {
+            this.listeners.get(event)?.delete(callback as (payload: Events[keyof Events]) => void);
+        }
+
+        public emit<K extends keyof Events>(event: K, payload: Events[K]): void {
+            for (const callback of [...(this.listeners.get(event) ?? [])]) {
+                callback(payload);
+            }
+        }
+    }
+
+    export const WorkspaceEvents = new EventEmitter<BlockBuilderEventMap>();
+    let compile_queued = false;
+
+    /** Compile the live workspace after the current burst of edits settles. */
+    export function request_compile(): void {
+        if (compile_queued) return;
+        compile_queued = true;
+        queueMicrotask(() => {
+            compile_queued = false;
+            compile_workspace();
+        });
+    }
+
+    export function compile_workspace(): void {
+        const blocks = CreatedBlocks.filter(block => block.element?.isConnected && !block.is_template);
+        for (const block of blocks) {
+            let virtual_block = VM.get_block(block.id);
+            if (!virtual_block) virtual_block = VM.inject_block(block);
+            VirtualMachineParser.parse_generation(virtual_block);
+        }
+
+        // Compile command stacks from their root blocks; reporters are parsed above
+        // as values and must not be treated as independent command stacks.
+        for (const block of blocks) {
+            if (block.type === CommandBlocks.REP || block.type === OutputBlocks.STRING || block.type === OutputBlocks.BOOL) continue;
+            if (block.get_parent_block()) continue;
+            VirtualMachineParser.compile_stack(block);
+        }
+
+        WorkspaceEvents.emit("compile", { blocks });
+    }
+
+    WorkspaceEvents.on("change", () => request_compile());
+    WorkspaceEvents.on("position", () => request_compile());
+
     export enum CommandBlocks {
         COM = 0,
         HAT = 1,
@@ -126,6 +206,7 @@ export namespace BlockBuilderMachine {
     }
 
     export class Block {
+        public readonly Events = new EventEmitter<BlockBuilderEventMap>();
         public lua_op: string;
         public connecting: boolean;
         public block_notches: BlockNotch[];
@@ -993,11 +1074,10 @@ export namespace BlockBuilderMachine {
                     this.refresh_input_layout(element, element.value);
                 }
 
-                console.debug("Refreshing Block...", this);
-
-                let VirtualBlock = VM.get_block(this.id); 
-                if (!VirtualBlock) VirtualBlock = VM.inject_block(this);
-                VirtualMachineParser.parse_generation(VirtualBlock);
+                this.Events.emit("input", { block: this, input, index, value: input.content });
+                WorkspaceEvents.emit("input", { block: this, input, index, value: input.content });
+                this.Events.emit("change", { block: this, reason: "input" });
+                WorkspaceEvents.emit("change", { block: this, reason: "input" });
 
                 // Typing changes the block's own size, so the content readout has to
                 // follow instead of waiting for the next drag to re-measure it.
@@ -1007,6 +1087,10 @@ export namespace BlockBuilderMachine {
             element.addEventListener("change", () => {
                 if (input.type === InputTypes.BOOL) {
                     input.content = element.checked;
+                    this.Events.emit("input", { block: this, input, index, value: input.content });
+                    WorkspaceEvents.emit("input", { block: this, input, index, value: input.content });
+                    this.Events.emit("change", { block: this, reason: "input" });
+                    WorkspaceEvents.emit("change", { block: this, reason: "input" });
                 }
 
                 BlockWorkspaceEditor.refresh_content_bounds();
@@ -1199,6 +1283,12 @@ export namespace BlockBuilderMachine {
             // the same Block more than once in the workspace.
             if (!BlockBuilderMachine.CreatedBlocks.includes(this)) {
                 BlockBuilderMachine.CreatedBlocks.push(this);
+                if (!this.is_template) {
+                    this.Events.emit("create", { block: this });
+                    WorkspaceEvents.emit("create", { block: this });
+                    this.Events.emit("change", { block: this, reason: "create" });
+                    WorkspaceEvents.emit("change", { block: this, reason: "create" });
+                }
             }
 
             this.disable_text_selection();
@@ -1235,6 +1325,13 @@ export namespace BlockBuilderMachine {
             BlockBuilderMachine.CreatedBlocks = BlockBuilderMachine.CreatedBlocks.filter(
                 (block: Block) => block !== this,
             );
+
+            if (!this.is_template) {
+                this.Events.emit("destroy", { block: this });
+                WorkspaceEvents.emit("destroy", { block: this });
+                this.Events.emit("change", { block: this, reason: "destroy" });
+                WorkspaceEvents.emit("change", { block: this, reason: "destroy" });
+            }
 
             this.element?.remove();
             this.measurement_svg?.remove();
@@ -1383,6 +1480,12 @@ export namespace BlockBuilderMachine {
             this.connections.push(connector);
             lower_block.parent_connection = this;
 
+            this.Events.emit("connect", { upper: this, lower: lower_block, kind: "stack" });
+            WorkspaceEvents.emit("connect", { upper: this, lower: lower_block, kind: "stack" });
+            this.Events.emit("change", { block: this, reason: "connect" });
+            lower_block.Events.emit("change", { block: lower_block, reason: "connect" });
+            WorkspaceEvents.emit("change", { block: this, reason: "connect" });
+
             return connector;
         }
 
@@ -1395,6 +1498,10 @@ export namespace BlockBuilderMachine {
             for (const item of outgoing) {
                 if (item.connection.parent_connection === this) {
                     item.connection.parent_connection = null;
+                    this.Events.emit("disconnect", { block: this, detached: item.connection, kind: "stack" });
+                    WorkspaceEvents.emit("disconnect", { block: this, detached: item.connection, kind: "stack" });
+                    this.Events.emit("change", { block: this, reason: "disconnect" });
+                    WorkspaceEvents.emit("change", { block: this, reason: "disconnect" });
                 }
             }
 
@@ -1567,6 +1674,10 @@ export namespace BlockBuilderMachine {
 
             parentInput.block.input_connections.delete(parentInput.index);
             this.parent_input = null;
+            parentInput.block.Events.emit("disconnect", { block: parentInput.block, detached: this, kind: "reporter", input_index: parentInput.index });
+            WorkspaceEvents.emit("disconnect", { block: parentInput.block, detached: this, kind: "reporter", input_index: parentInput.index });
+            parentInput.block.Events.emit("change", { block: parentInput.block, reason: "disconnect" });
+            WorkspaceEvents.emit("change", { block: parentInput.block, reason: "disconnect" });
             element.remove();
             workspace.appendChild(element);
 
@@ -1732,10 +1843,16 @@ export namespace BlockBuilderMachine {
 
                 previous.parent_input = null;
                 target.input_connections.delete(index);
+                target.Events.emit("disconnect", { block: target, detached: previous, kind: "reporter", input_index: index });
+                WorkspaceEvents.emit("disconnect", { block: target, detached: previous, kind: "reporter", input_index: index });
             }
 
             target.input_connections.set(index, reporter);
             reporter.parent_input = { block: target, index };
+            target.Events.emit("connect", { upper: target, lower: reporter, kind: "reporter", input_index: index });
+            WorkspaceEvents.emit("connect", { upper: target, lower: reporter, kind: "reporter", input_index: index });
+            target.Events.emit("change", { block: target, reason: "connect" });
+            WorkspaceEvents.emit("change", { block: target, reason: "connect" });
             target.refresh_render_preserving_position();
             return true;
         }
@@ -2157,14 +2274,24 @@ export namespace BlockBuilderMachine {
 
                     snapshot.element.style.zIndex = snapshot.originalZIndex;
                     snapshot.element.style.cursor = "grab";
+
+                    // Emit final workspace coordinates once the drag has ended,
+                    // not on every pointermove (which would spam compilation).
+                    if (moved) {
+                        const finalLeft = Number.parseFloat(snapshot.element.style.left) || 0;
+                        const finalTop = Number.parseFloat(snapshot.element.style.top) || 0;
+                        const positionPayload = { block: snapshot.block, x: finalLeft, y: finalTop, phase: "drop" as const };
+                        snapshot.block.Events.emit("position", positionPayload);
+                        WorkspaceEvents.emit("position", positionPayload);
+                        snapshot.block.Events.emit("change", { block: snapshot.block, reason: "position" });
+                        WorkspaceEvents.emit("change", { block: snapshot.block, reason: "position" });
+                    }
                 }
 
                 if (stack_connected) {
-                    // `root` is the top of the dragged segment. It may now have a
-                    // parent if it was dropped UNDER an existing stack. The parser
-                    // resolves the actual top-most stack root before generating Lua.
-                    const generated = VirtualMachineParser.compile_stack(root);
-                    console.debug("RECOMPILED CONNECTED STACK:", generated);
+                    // Workspace change events schedule a coalesced live compile.
+                    // Keep an explicit request here for this completed connection.
+                    BlockBuilderMachine.request_compile();
                 }
             };
 
